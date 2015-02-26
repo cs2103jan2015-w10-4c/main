@@ -40,7 +40,7 @@ void TextBuddy::main(int argc, char* argv[]) {
 	return;
 }
 
-// check the corectness of the initial command line input, i.e., should have @@@.exe and filename.txt
+// check the corectness of the initial command line input, i.e., should have appname.exe and filename.txt
 void TextBuddy::checkCommandLineInput(int argc) {
 	
 	if (argc != CORRECT_ARGUMENT) {
