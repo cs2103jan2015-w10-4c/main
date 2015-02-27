@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include "Textbuddy.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -7,10 +8,10 @@ namespace TextBuddyTests
 {		
 	TEST_CLASS(TextBuddyTest)
 	{
-	public:
+	public:	
 		TEST_METHOD(isValidInputTest) {
-			Assert::IsTrue(TextBuddy::isValidInput(""));
-			Assert::IsTrue(TextBuddy::isValidInput(" "));
+			Assert::IsFalse(TextBuddy::isValidInput(""));
+			Assert::IsFalse(TextBuddy::isValidInput(" "));
 
 			Assert::IsFalse(TextBuddy::isValidInput("sample text"));
 		}
