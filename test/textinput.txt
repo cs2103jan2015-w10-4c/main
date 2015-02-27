@@ -1,11 +1,5 @@
-add little brown fox
-display
+add little brown the fox
 add jumped over the moon
 display
-sort
-delete 1
-search moon
-display
-add 
-delete 
+search noob
 exit
