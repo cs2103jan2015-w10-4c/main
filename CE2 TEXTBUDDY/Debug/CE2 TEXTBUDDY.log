@@ -1,4 +1,4 @@
-﻿Build started 2015/2/27 22:44:15.
+﻿Build started 2015/2/27 23:23:23.
      1>Project "C:\Users\Derek\Desktop\CE2 TEXTBUDDY\CE2 TEXTBUDDY\CE2 TEXTBUDDY.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          E:\visual studio\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.0\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /analyze- /errorReport:prompt /clr:nostdlib Textbuddy.cpp
@@ -11,4 +11,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:11.50
+Time Elapsed 00:00:10.73
