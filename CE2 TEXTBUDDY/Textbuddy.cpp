@@ -1,4 +1,7 @@
-// Liao Dianze.cpp
+// Student: Liao Dianze
+// Matriculation Card: A0115365J
+// Tutorial Group: w10
+
 #include "Textbuddy.h"
 using namespace std;
 
@@ -10,7 +13,8 @@ const string TextBuddy::MESSAGE_EMPTY = "%s is empty";
 const string TextBuddy::MESSAGE_ADDED = "Added to %s: \"%s\"";
 const string TextBuddy::MESSAGE_DELETED = "Deleted from %s: \"%s\"";
 const string TextBuddy::MESSAGE_CLEARED = "All messages are deleted from %s";
-const string TextBuddy::MESSAGE_SORTED= "All messages in %s are sorted alphabetically";
+const string TextBuddy::MESSAGE_SORTED = "All messages in %s are sorted alphabetically";
+const string TextBuddy::MESSAGE_SORTING_ERROR = "The file is empty and cannot be sorted"; 
 const string TextBuddy::MESSAGE_CAN_FIND = "Message is found at %d in %s";
 const string TextBuddy::MESSAGE_CANNOT_FIND = "Message cannot be found in %s";
 const string TextBuddy::MESSAGE_PROMPT_COMMAND = "command: ";
@@ -53,7 +57,7 @@ void TextBuddy::checkCommandLineInput(int argc) {
 	}
 }
 
-// find out userCommand and pass it to desinated function
+// pass userCommand got to designated function
 // and to show the requested feedback if execution is successful
 void TextBuddy::getUserInput(string fileName) {
 	
@@ -188,7 +192,7 @@ TextBuddy::CommandType TextBuddy::determineCommandType(string userCommand) {
 string TextBuddy::addLine(string fileName, string message) {
 	string userCommand="add";
 
-	//only add to the file if there is messages after "add", i.e, to add "" or " " is impossible
+	//only add to the file if there is message after "add", i.e, to add "" or " " is impossible
 	if (!isValidInput(message)) {
 		sprintf_s(buffer, MESSAGE_WRONG_FORMAT.c_str(), getFirstWord(userCommand).c_str());
 	} else {
@@ -247,9 +251,14 @@ string TextBuddy::displayAll(string fileName) {
 
 // sort all the messages in alphabetical order
 string TextBuddy::sortLineAlphabetically(string fileName) {
-	stable_sort(storage.begin(), storage.end());
+	
+	if (!storage.empty()) {
+	    stable_sort(storage.begin(), storage.end());
+		sprintf_s(buffer, MESSAGE_SORTED.c_str(), fileName.c_str());
 
-	sprintf_s(buffer, MESSAGE_SORTED.c_str(), fileName.c_str());
+	} else {
+		sprintf_s(buffer, MESSAGE_SORTING_ERROR.c_str(), fileName.c_str());	
+	}
 
 	return buffer;
 }
@@ -354,7 +363,7 @@ void TextBuddy::initialStorage(string fileName) {
 	return;
 }
 
-//  only for test purpose, to check if the commands are correct
+//  only for test purpose, to check if the commands returned are correct
 string TextBuddy::checkCommandType(TextBuddy::CommandType command) {
 
 	switch (command){

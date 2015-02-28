@@ -1,10 +1,8 @@
-Welcome to Textbuddy++. myfirst.txt is ready for use
-command: Added to myfirst.txt: "little brown the fox"
-command: Added to myfirst.txt: "jumped over the moon"
+Welcome to Textbuddy++. filename.txt is ready for use
+command: Added to filename.txt: "little brown the fox"
+command: Added to filename.txt: "jumped over the moon"
 command: 1. little brown the fox
 2. jumped over the moon
-3. little brown the fox
-4. jumped over the moon
 
-command: Message cannot be found in myfirst.txt
+command: Message cannot be found in filename.txt
 command: 
