@@ -1,2 +1,5 @@
 *.suo
 *.opensdf
+*.vcxproj
+*.filters
+*.sdf
