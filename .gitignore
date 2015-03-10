@@ -1,0 +1,7 @@
+*.suo
+*.vcxproj
+TaskHub/Debug/
+*.pdb
+*.ilk
+*.filters
+Debug/
