@@ -3,5 +3,4 @@
 *.vcxproj
 *.filters
 *.sdf
-*.sln
 Debug/
