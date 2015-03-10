@@ -365,7 +365,7 @@ void TextBuddy::initialStorage(string fileName) {
 	return;
 }
 
-//  only for test purpose, to check if the commands returned are correct
+//  only for test purpose, to check if 
 string TextBuddy::checkCommandType(TextBuddy::CommandType command) {
 
 	switch (command){
