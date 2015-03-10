@@ -64,30 +64,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="THCommandParser.h" />
-    <ClInclude Include="THDateParser.h" />
-    <ClInclude Include="THDateTimeSetter.h" />
-    <ClInclude Include="THInputDateCheck.h" />
-    <ClInclude Include="THMainParser.h" />
-    <ClInclude Include="THParser.h" />
-    <ClInclude Include="THTimeParser.h" />
-    <ClInclude Include="THUtility.h" />
-    <ClInclude Include="THUtilityMonth.h" />
-    <ClInclude Include="THUtilityTime.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="THCommandParser.cpp" />
-    <ClCompile Include="THDateParser.cpp" />
-    <ClCompile Include="THDateTimeSetter.cpp" />
-    <ClCompile Include="THInputDateCheck.cpp" />
-    <ClCompile Include="THMainParser.cpp" />
-    <ClCompile Include="THParser.cpp" />
-    <ClCompile Include="THTimeParser.cpp" />
-    <ClCompile Include="THUtility.cpp" />
-    <ClCompile Include="THUtilityMonth.cpp" />
-    <ClCompile Include="THUtilityTime.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
