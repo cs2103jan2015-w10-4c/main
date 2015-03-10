@@ -1,5 +1,0 @@
-add little brown the fox
-add jumped over the moon
-display
-search noob
-exit

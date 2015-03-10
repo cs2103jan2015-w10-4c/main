@@ -1,8 +1,0 @@
-Welcome to Textbuddy++. filename.txt is ready for use
-command: Added to filename.txt: "little brown the fox"
-command: Added to filename.txt: "jumped over the moon"
-command: 1. little brown the fox
-2. jumped over the moon
-
-command: Message cannot be found in filename.txt
-command: 
