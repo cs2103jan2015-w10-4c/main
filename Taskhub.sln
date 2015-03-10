@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHub", "TaskHub\TaskHub.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "THLOGIC", "THLOGIC\THLOGIC.vcxproj", "{E8E86543-7788-43C8-B3D6-9FC3284072BE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Parser", "Parser\Paser.vcxproj", "{D85FF2B8-1B7F-470C-829F-45F2813000DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,6 +21,10 @@ Global
 		{E8E86543-7788-43C8-B3D6-9FC3284072BE}.Debug|Win32.Build.0 = Debug|Win32
 		{E8E86543-7788-43C8-B3D6-9FC3284072BE}.Release|Win32.ActiveCfg = Release|Win32
 		{E8E86543-7788-43C8-B3D6-9FC3284072BE}.Release|Win32.Build.0 = Release|Win32
+		{D85FF2B8-1B7F-470C-829F-45F2813000DF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D85FF2B8-1B7F-470C-829F-45F2813000DF}.Debug|Win32.Build.0 = Debug|Win32
+		{D85FF2B8-1B7F-470C-829F-45F2813000DF}.Release|Win32.ActiveCfg = Release|Win32
+		{D85FF2B8-1B7F-470C-829F-45F2813000DF}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
