@@ -12,7 +12,7 @@ public:
 
 	THCommand();
 
-	void setCommand(THUtilities::CommandType);
+	void setCommand(THUtility::CommandType);
 	void setDescription(string);
 	void setStartingDate(string);
 	void setStartingTime(string);
@@ -26,7 +26,7 @@ public:
 	bool haveEndingDate();
 	bool haveEndingTime();
 
-	THUtilities::CommandType getCommand();
+	THUtility::CommandType getCommand();
 	string getDescription();
 	string getStartingDate();
 	string getStartingTime();
@@ -37,7 +37,7 @@ public:
 
 private:
 
-	THUtilities::CommandType _commandType;
+	THUtility::CommandType _commandType;
 	bool _haveCommand;
 	string _description;
 	string _StartingDate;

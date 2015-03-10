@@ -4,7 +4,7 @@
 
 #include <string>
 #include "THTaskDueSoon.h"
-#include "THUtilities.h"
+#include "THUtility.h"
 
 //THTask is used to encapsulate the details of a task.
 //By encapsulating the task details, THTask is able to provide relevant information through the public methods
@@ -35,7 +35,7 @@ public:
 	bool        getStatus();
 	bool        checkOverdue();
 	bool        checkToday();
-	THUtilities::TaskType getTaskType();
+	THUtility::TaskType getTaskType();
 	
 private:
 
@@ -48,7 +48,7 @@ private:
 	bool        _isOverdue;
 	bool        _isToday;
 
-	THUtilities::TaskType _taskType;
+	THUtility::TaskType _taskType;
 	THTaskDueSoon _taskTime;
 
 	void refresh();

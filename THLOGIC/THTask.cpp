@@ -2,7 +2,7 @@
 #include <cassert>
 #include "THTask.h"
 #include "THTaskDueSoon.h"
-#include "THUtilities.h"
+#include "THUtility.h"
 
 using namespace std;
 
@@ -90,7 +90,7 @@ bool THTask::checkToday() {
 	return _isToday;
 }
 
-THUtilities::TaskType THTask::getTaskType() {
+THUtility::TaskType THTask::getTaskType() {
 	refresh();
 	return _taskType;
 }
@@ -100,11 +100,11 @@ THUtilities::TaskType THTask::getTaskType() {
 void THTask::refresh() {
 	updateTaskType();
 
-	if(_taskType == THUtilities::TIMED) {
+	if(_taskType == THUtility::TIMED) {
 		rearrangeDateTime();
 	}
 
-	if(_taskType != THUtilities::FLOATING) {
+	if(_taskType != THUtility::FLOATING) {
 		_isOverdue = _taskTime.isOverdue(_StartingDate, _StartingTime);
 		_isToday = _taskTime.isToday(_StartingDate);
 	}
@@ -114,15 +114,15 @@ void THTask::refresh() {
 //i.e. a THTask object without a Start date and an End date will be classified as a FLOATING task
 void THTask::updateTaskType() {
 	if(!haveStartingDate() && !haveStartingTime() && !haveEndingDate() && !haveEndingTime()) {
-		_taskType = THUtilities:: FLOATING;
+		_taskType = THUtility:: FLOATING;
 	}
 
 	if(haveStartingDate() && !haveEndingDate()) {
-		_taskType = THUtilities:: DEADLINE;   //we store the deadline date in _StartingDate, deadline time in _StartingTime
+		_taskType = THUtility:: DEADLINE;   //we store the deadline date in _StartingDate, deadline time in _StartingTime
 	}
 
 	if(haveStartingDate() && haveEndingDate()) {
-		_taskType = THUtilities:: TIMED;
+		_taskType = THUtility:: TIMED;
 	}
 }
 

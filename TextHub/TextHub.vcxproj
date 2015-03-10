@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E8E86543-7788-43C8-B3D6-9FC3284072BE}</ProjectGuid>
+    <ProjectGuid>{D85B6A45-1B38-4FF4-9C8E-A3CE6F299B34}</ProjectGuid>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>THLOGIC</RootNamespace>
+    <RootNamespace>TextHub</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -68,6 +68,24 @@
       <AdditionalDependencies />
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\THLOGIC\THCommand.h" />
+    <ClInclude Include="..\THLOGIC\THCommandInterpreter.h" />
+    <ClInclude Include="..\THLOGIC\THConverter.h" />
+    <ClInclude Include="..\THLOGIC\THLogging.h" />
+    <ClInclude Include="..\THLOGIC\THLogic.h" />
+    <ClInclude Include="..\THLOGIC\THTask.h" />
+    <ClInclude Include="..\THLOGIC\THTaskDueSoon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\THLOGIC\Logic.cpp" />
+    <ClCompile Include="..\THLOGIC\THCommand.cpp" />
+    <ClCompile Include="..\THLOGIC\THCommandInterpreter.cpp" />
+    <ClCompile Include="..\THLOGIC\THConverter.cpp" />
+    <ClCompile Include="..\THLOGIC\THLogging.cpp" />
+    <ClCompile Include="..\THLOGIC\THTask.cpp" />
+    <ClCompile Include="..\THLOGIC\THTaskDueSoon.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
