@@ -1,5 +1,4 @@
 *.suo
-*.vcxproj
 TaskHub/Debug/
 *.pdb
 *.ilk
