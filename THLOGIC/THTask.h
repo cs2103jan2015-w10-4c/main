@@ -35,7 +35,7 @@ public:
 	bool        getStatus();
 	bool        checkOverdue();
 	bool        checkToday();
-	THUtilities::TaskType getTaskType();
+	THUtility::TaskType getTaskType();
 	
 private:
 
@@ -48,7 +48,7 @@ private:
 	bool        _isOverdue;
 	bool        _isToday;
 
-	THUtilities::TaskType _taskType;
+	THUtility::TaskType _taskType;
 	THTaskDueSoon _taskTime;
 
 	void refresh();

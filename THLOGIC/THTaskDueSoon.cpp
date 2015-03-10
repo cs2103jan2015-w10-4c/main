@@ -1,6 +1,6 @@
 #include "THTaskDueSoon.h"
 
-#include "THUtilities.h"
+#include "THUtility.h"
 #include "THConverter.h"
 #include <string>
 #include <cassert>
@@ -23,7 +23,7 @@ bool THTaskDueSoon::isOverdue(string StartingDate, string StartingTime) {
 
 	assert(!StartingDate.empty());  //StartingDate must not be empty
 
-	THUtilities& Time = THUtilities::getInstance();  //retrieving system date and time
+	THUtility& Time = THUtility::getInstance();  //retrieving system date and time
 
 	// extract the components needed from system date and time
 	int curMin  = Time.getCurrentMinute();
@@ -63,7 +63,7 @@ bool THTaskDueSoon::isToday(string StartingDate) {
 
 	assert(!StartingDate.empty());  //StartingDate must not be empty
 
-	THUtilities& Time = THUtilities::getInstance();  //retrieving system date and time
+	THUtility& Time = THUtility::getInstance();  //retrieving system date and time
 
 	// extract the components needed from system date and time
 	int curMin  = Time.getCurrentMinute();

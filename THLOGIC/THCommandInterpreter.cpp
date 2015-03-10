@@ -26,7 +26,7 @@ THCommandInterpreter::THCommandInterpreter(){
 // postcondition: task details of the new task is stored into taskToBeAdded
 void THCommandInterpreter::interpretAdd(THCommand addCommand, THTask& taskToBeAdded) {
 	// the commandtype must be ADD in order for the method to function correctly
-	//assert (addCommand.getCommand() == THUtilities::CommandType::ADD);
+	//assert (addCommand.getCommand() == THUtility::CommandType::ADD);
 	
 	THLogging& logAdd = THLogging::getInstance();
 	logAdd.addLog(INTERPRET_ADD_LOG);
@@ -73,7 +73,7 @@ void THCommandInterpreter::interpretAdd(THCommand addCommand, THTask& taskToBeAd
 //                  target task are stored separatedy in the taskToBeEdited.
 //                2.editIndex is adjusted to the index of the target task to be edited.
 void THCommandInterpreter::interpretEdit(THCommand editCommand, int& editIndex, THTask& taskToBeEdited) {
-	//assert (editCommand.getCommand() == THUtilities::CommandType::EDIT);
+	//assert (editCommand.getCommand() == THUtility::CommandType::EDIT);
 	
 	THLogging& logEdit = THLogging::getInstance();
 	logEdit.addLog(INTERPRET_EDIT_LOG);
@@ -129,7 +129,7 @@ void THCommandInterpreter::interpretEdit(THCommand editCommand, int& editIndex, 
 //                stored into keywordStorage separately. The vector stores a maximum of 
 //                5 strings. 
 void THCommandInterpreter::interpretSearch(THCommand searchCommand, vector<string>& keywordStorage) {
-	//assert (searchCommand.getCommand() == THUtilities::CommandType::SEARCH);
+	//assert (searchCommand.getCommand() == THUtility::CommandType::SEARCH);
 	
 	THLogging& logSearch = THLogging::getInstance();
 	logSearch.addLog(INTERPRET_SEARCH_LOG);
@@ -173,7 +173,7 @@ void THCommandInterpreter::interpretSearch(THCommand searchCommand, vector<strin
 // postcondition: 1. deleteIndex is adjusted to the index of the task to be deleted
 //                   if the index exists, otherwise, an exception is thrown
 void THCommandInterpreter::interpretDelete(THCommand deleteCommand, int& deleteIndex) {
-	//assert (deleteCommand.getCommand() == THUtilities::CommandType::DELETE);
+	//assert (deleteCommand.getCommand() == THUtility::CommandType::DELETE);
 	
 	THLogging& logDelete = THLogging::getInstance();
 	logDelete.addLog(INTERPRET_DELETE_LOG);
@@ -191,7 +191,7 @@ void THCommandInterpreter::interpretDelete(THCommand deleteCommand, int& deleteI
 // postcondition: doneIndex is adjusted to the index of the task to be marked done
 //                if the index exists, otherwise, an exception is thrown
 void THCommandInterpreter::interpretDone(THCommand doneCommand, int& doneIndex) {
-	//assert (doneCommand.getCommand() == THUtilities::CommandType::DONE);
+	//assert (doneCommand.getCommand() == THUtility::CommandType::DONE);
 
 	THLogging& logDone = THLogging::getInstance();
 	logDone.addLog(INTERPRET_DONE_LOG);
@@ -210,7 +210,7 @@ void THCommandInterpreter::interpretDone(THCommand doneCommand, int& doneIndex) 
 // postcondition: undoneIndex is adjusted to the index of the task to be marked undone.
 //                if the index exists, otherwise, an exception is thrown
 void THCommandInterpreter::interpretUndone(THCommand undoneCommand, int& undoneIndex) {
-	//assert (undoneCommand.getCommand() == THUtilities::CommandType::UNDONE);
+	//assert (undoneCommand.getCommand() == THUtility::CommandType::UNDONE);
 
 	THLogging& logUndone = THLogging::getInstance();
 	logUndone.addLog(INTERPRET_UNDONE_LOG);

@@ -7,7 +7,7 @@
 #include "THTask.h"
 #include "THExecutor.h"
 #include "THDisplay.h"
-#include "THUtilities.h"
+#include "THUtility.h"
 #include "THCommandInterpreter.h"
 #include "THLogging.h"
 
@@ -22,7 +22,7 @@ public:
 
 	THLogic();
 
-	void      runInput  (std::string, THUtilities::PageType);
+	void      runInput  (std::string, THUtility::PageType);
 	THDisplay getDisplay();
 
 private:
@@ -32,7 +32,7 @@ private:
 	THDisplay            _display;
 	THCommandInterpreter _commandInterpreter;
 	
-	void executeCommand(THCommand, THUtilities::PageType);
+	void executeCommand(THCommand, THUtility::PageType);
 	
 	static const int         ERROR_INDEX;
 	static const std::string ADD_LOG;         
