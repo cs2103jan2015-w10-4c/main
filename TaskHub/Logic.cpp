@@ -5,6 +5,7 @@
 #include "DeletingMessage.h"
 #include "Search.h"
 #include "DisplayMessage.h"
+#include "MarkMessageDone.h"
 
 vector<Textbody> Logic::list;
 string Logic::lastCommandType;
@@ -25,7 +26,6 @@ void Logic::getStorage(){
 string Logic::addTextbody(string input){
 	
 	 return AddingMessage::addMessage(input);
-
 }
 
 string Logic::updateTextbody(string input){
@@ -49,16 +49,8 @@ string Logic::display(){
 }
 
 string Logic::MarkDone(string input){
-	int index;
-	istringstream in(input);
-	in >> index;
-
-	lastCommandType = "done";
-	lastChangedTextbodyIndex = index-1;
-
-	list[index-1].MarkDone();
-	string output = "Textbody " + input + " marked as done";
-	return output;
+	
+	return markingDoneMessage::markMessageDone(input);
 }
 
 string Logic::undo(){
