@@ -3,6 +3,8 @@
 #include "AddingMessage.h"
 #include "UpdatingMessage.h"
 #include "DeletingMessage.h"
+#include "Search.h"
+#include "DisplayMessage.h"
 
 vector<Textbody> Logic::list;
 string Logic::lastCommandType;
@@ -37,46 +39,13 @@ string Logic::deleteTextbody(string input){
 }
 
 string Logic::search(string input){	
-	if (list.empty()){
-		return "Empty list";
-	}
-	else{
-		vector<string> output;
-		for (unsigned int i = 0; i < list.size(); i++){
-			string _Textbodyname = (list[i]).get_TextbodyName();
-			vector<string> contents = splitText(_Textbodyname);
-
-			for (unsigned int j = 0; j < contents.size(); j++){
-				if (input == contents[j]){
-					ostringstream oss;
-					oss << i + 1 << "." << list[i].ToString() << endl;
-					string TextbodyDisplay = oss.str();
-					output.push_back(TextbodyDisplay);
-				}
-			}
-		}
-
-		return printVector(output);
-	}
+	
+	return searchingMessage::searchMessage (input);
 }
 
 string Logic::display(){
-	if (list.empty()){
-		return "Empty list";
-	}
-	else{
-		ostringstream overallOss;
-		for (unsigned int i = 0; i < list.size() - 1; i++){
-			ostringstream oss;
-			oss << i + 1 << ". " << list[i].ToString() << endl;
-			string TextbodyDisplay = oss.str();
-			overallOss << TextbodyDisplay;
-		}
-
-		int size = list.size();
-		overallOss << size << ". " << list[size - 1].ToString();
-		return overallOss.str();
-	}
+	
+	return displayingMessage::displayMessage();
 }
 
 string Logic::MarkDone(string input){
