@@ -69,17 +69,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AddingMessage.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Storage.h" />
     <ClInclude Include="Ui.h" />
+    <ClInclude Include="UpdatingMessage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddingMessage.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Storage.cpp" />
     <ClCompile Include="Ui.cpp" />
+    <ClCompile Include="UpdatingMessage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -27,6 +27,12 @@
     <ClInclude Include="Storage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UpdatingMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddingMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logic.cpp">
@@ -42,6 +48,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdatingMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddingMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,5 +1,7 @@
 #include <sstream>
 #include "Logic.h"
+#include "AddingMessage.h"
+#include "UpdatingMessage.h"
 
 vector<Textbody> Logic::list;
 string Logic::lastCommandType;
@@ -18,42 +20,14 @@ void Logic::getStorage(){
 }
 
 string Logic::addTextbody(string input){
-	lastCommandType = "add";
+	
+	 return AddingMessage::addMessage(input);
 
-	Textbody newTextbody(input);
-	list.push_back(newTextbody);
-	string output = "Textbody added";
-
-	lastChangedTextbody = newTextbody;
-
-	return output;
 }
 
 string Logic::updateTextbody(string input){
-	string TextbodyIndex = getFirstWord(input);
-	string TextbodyInfo = removeFirstWord(input);
-
-	unsigned int index;
-	istringstream in(TextbodyIndex);
-	in >> index;
-
-	string output;
-	if (index > list.size() || index <= 0){
-		output = "Textbody " + TextbodyIndex + " does not exit";
-		return output;
-	}
-	else{
-		lastCommandType = "update";
-		lastChangedTextbodyIndex = index - 1;
-		lastUnchangedTextbody = list[index - 1];
-
-		list[index-1].UpdateTextbody(TextbodyInfo);
-
-		lastChangedTextbody = list[index - 1];
-
-		output = "Textbody " + TextbodyIndex + " updated";
-		return output;
-	}
+	
+	return UpdatingMessage::updateMessage(input); 
 }
 
 string Logic::deleteTextbody(string input){
