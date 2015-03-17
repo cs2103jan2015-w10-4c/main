@@ -2,6 +2,7 @@
 #include "Logic.h"
 #include "AddingMessage.h"
 #include "UpdatingMessage.h"
+#include "DeletingMessage.h"
 
 vector<Textbody> Logic::list;
 string Logic::lastCommandType;
@@ -31,24 +32,8 @@ string Logic::updateTextbody(string input){
 }
 
 string Logic::deleteTextbody(string input){
-	unsigned int index;
-	istringstream in(input);
-	in >> index;
-
-	string output;
-	if (index > list.size() || index <= 0){
-		output = "Textbody " + input + " does not exit";
-		return output;
-	}
-	else{
-		lastCommandType = "delete";
-		lastChangedTextbodyIndex = index-1;
-		lastUnchangedTextbody = list[index - 1];
-
-		list.erase(list.begin() + index - 1);
-		string output = "Textbody " + input + " deleted";
-		return output;
-	}
+	
+	return deleingMessage::deleteMessage(input);
 }
 
 string Logic::search(string input){	
