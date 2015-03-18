@@ -100,6 +100,7 @@ Textbody::Textbody(string Textbody, string input){
 				_deadlineTime = "";
 				_scheduledDate = temp_date;
 				_deadlineDate = "";
+				_dateParser.parseDate(_startTime,_endTime);
 			}
 			else if (find_time != string::npos){
 				_TextbodyType = DEADLINE_Textbody_LABEL;

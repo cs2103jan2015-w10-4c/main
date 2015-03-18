@@ -70,6 +70,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AddingMessage.h" />
+    <ClInclude Include="DateParser.h" />
+    <ClInclude Include="TimeParser.h" />
     <ClInclude Include="DeletingMessage.h" />
     <ClInclude Include="DisplayMessage.h" />
     <ClInclude Include="Logic.h" />
@@ -82,6 +84,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddingMessage.cpp" />
+    <ClCompile Include="DateParser.cpp" />
+    <ClCompile Include="TimeParser.cpp" />
     <ClCompile Include="DeletingMessage.cpp" />
     <ClCompile Include="DisplayMessage.cpp" />
     <ClCompile Include="Logic.cpp" />

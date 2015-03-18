@@ -13,12 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Parser">
+      <UniqueIdentifier>{54449630-76d6-423d-91af-56e22424eff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Parser">
+      <UniqueIdentifier>{9bed85b7-9c7c-4ddf-be49-cc5c866ec644}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ui.h">
@@ -45,12 +48,18 @@
     <ClInclude Include="Search.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="DateParser.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeParser.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Ui.cpp">
@@ -79,6 +88,15 @@
     </ClCompile>
     <ClCompile Include="Search.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DateParser.cpp">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser.cpp">
+      <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeParser.cpp">
+      <Filter>Source Files\Parser</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
