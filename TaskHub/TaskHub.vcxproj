@@ -72,6 +72,7 @@
     <ClInclude Include="CommandAdd.h" />
     <ClInclude Include="CommandDelete.h" />
     <ClInclude Include="CommandDisplay.h" />
+    <ClInclude Include="DateParser.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="MarkMessageDone.h" />
     <ClInclude Include="Parser.h" />
@@ -84,6 +85,7 @@
     <ClCompile Include="CommandAdd.cpp" />
     <ClCompile Include="CommandDelete.cpp" />
     <ClCompile Include="CommandDisplay.cpp" />
+    <ClCompile Include="DateParser.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarkMessageDone.cpp" />
