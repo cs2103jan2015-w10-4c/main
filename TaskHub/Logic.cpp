@@ -1,5 +1,11 @@
 #include <sstream>
 #include "Logic.h"
+#include "AddingMessage.h"
+#include "UpdatingMessage.h"
+#include "DeletingMessage.h"
+#include "Search.h"
+#include "DisplayMessage.h"
+#include "MarkMessageDone.h"
 
 vector<Textbody> Logic::list;
 string Logic::lastCommandType;
@@ -18,119 +24,33 @@ void Logic::getStorage(){
 }
 
 string Logic::addTextbody(string input){
-	lastCommandType = "add";
-
-	Textbody newTextbody(input);
-	list.push_back(newTextbody);
-	string output = "Textbody added";
-
-	lastChangedTextbody = newTextbody;
-
-	return output;
+	
+	 return AddingMessage::addMessage(input);
 }
 
 string Logic::updateTextbody(string input){
-	string TextbodyIndex = getFirstWord(input);
-	string TextbodyInfo = removeFirstWord(input);
-
-	unsigned int index;
-	istringstream in(TextbodyIndex);
-	in >> index;
-
-	string output;
-	if (index > list.size() || index <= 0){
-		output = "Textbody " + TextbodyIndex + " does not exit";
-		return output;
-	}
-	else{
-		lastCommandType = "update";
-		lastChangedTextbodyIndex = index - 1;
-		lastUnchangedTextbody = list[index - 1];
-
-		list[index-1].UpdateTextbody(TextbodyInfo);
-
-		lastChangedTextbody = list[index - 1];
-
-		output = "Textbody " + TextbodyIndex + " updated";
-		return output;
-	}
+	
+	return UpdatingMessage::updateMessage(input); 
 }
 
 string Logic::deleteTextbody(string input){
-	unsigned int index;
-	istringstream in(input);
-	in >> index;
-
-	string output;
-	if (index > list.size() || index <= 0){
-		output = "Textbody " + input + " does not exit";
-		return output;
-	}
-	else{
-		lastCommandType = "delete";
-		lastChangedTextbodyIndex = index-1;
-		lastUnchangedTextbody = list[index - 1];
-
-		list.erase(list.begin() + index - 1);
-		string output = "Textbody " + input + " deleted";
-		return output;
-	}
+	
+	return deletingMessage::deleteMessage(input);
 }
 
 string Logic::search(string input){	
-	if (list.empty()){
-		return "Empty list";
-	}
-	else{
-		vector<string> output;
-		for (unsigned int i = 0; i < list.size(); i++){
-			string _Textbodyname = (list[i]).get_TextbodyName();
-			vector<string> contents = splitText(_Textbodyname);
-
-			for (unsigned int j = 0; j < contents.size(); j++){
-				if (input == contents[j]){
-					ostringstream oss;
-					oss << i + 1 << "." << list[i].ToString() << endl;
-					string TextbodyDisplay = oss.str();
-					output.push_back(TextbodyDisplay);
-				}
-			}
-		}
-
-		return printVector(output);
-	}
+	
+	return searchingMessage::searchMessage (input);
 }
 
 string Logic::display(){
-	if (list.empty()){
-		return "Empty list";
-	}
-	else{
-		ostringstream overallOss;
-		for (unsigned int i = 0; i < list.size() - 1; i++){
-			ostringstream oss;
-			oss << i + 1 << ". " << list[i].ToString() << endl;
-			string TextbodyDisplay = oss.str();
-			overallOss << TextbodyDisplay;
-		}
-
-		int size = list.size();
-		overallOss << size << ". " << list[size - 1].ToString();
-		return overallOss.str();
-	}
+	
+	return displayingMessage::displayMessage();
 }
 
 string Logic::MarkDone(string input){
-	int index;
-	istringstream in(input);
-	in >> index;
-
-	lastCommandType = "done";
-	lastChangedTextbodyIndex = index-1;
-
-	list[index-1].MarkDone();
-	string output = "Textbody " + input + " marked as done";
-	return output;
+	
+	return markingDoneMessage::markMessageDone(input);
 }
 
 string Logic::undo(){

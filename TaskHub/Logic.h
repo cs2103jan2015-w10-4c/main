@@ -9,19 +9,8 @@ using namespace std;
 
 class Logic
 {
-private:
-	static vector<Textbody> list;
-	static string lastCommandType;
-	static int lastChangedTextbodyIndex;
-	static Textbody lastUnchangedTextbody;
-	static Textbody lastChangedTextbody;
-
-	static string getFirstWord(string input);
-	static string removeFirstWord(string input);
-	static vector<string> splitText(string text);
-	static string printVector(vector<string> output);
-
 public:
+	
 	static void getStorage();
 
 	static string addTextbody(string input);
@@ -33,6 +22,17 @@ public:
 	
 	static string undo();
 	static string redo();
+
+	static string getFirstWord(string input);
+	static string removeFirstWord(string input);
+	static vector<string> splitText(string text);
+	static string printVector(vector<string> output);
+	
+	static vector<Textbody> list;
+	static string lastCommandType;
+	static int lastChangedTextbodyIndex;
+	static Textbody lastUnchangedTextbody;
+	static Textbody lastChangedTextbody;
 };
 
 #endif
