@@ -20,18 +20,18 @@ using namespace std;
 class UI {
 public:
 	enum COMMAND_TYPE {
-		HELP, ADD_Textbody, UPDATE, DELETE_Textbody, SEARCH, DISPLAY_TextbodyS, MARK_DONE, UNDO, REDO, EXIT, INVALID
+		HELP, ADD_Task, UPDATE, DELETE_Task, SEARCH, DISPLAY_TaskS, MARK_DONE, UNDO, REDO, EXIT, INVALID
 	};
 
 private:
 	static const string MESSAGE_WELCOME;
 	static const string MESSAGE_TERMINATION;
 	static const string MESSAGE_ERROR;
-	static COMMAND_TYPE determineCommandType(string commandTypeString, string TextbodyString);
+	static COMMAND_TYPE determineCommandType(string commandTypeString, string TaskString);
 
 	static string getFirstWord(string userCommand);
 	static string removeFirstWord(string userCommand);
-	static string getMessage(string TextbodyString);
+	static string getMessage(string TaskString);
 
 	static string help();
 

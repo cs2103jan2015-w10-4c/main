@@ -14,8 +14,8 @@ string CommandDisplay::display() {
 		for (unsigned int i = 0; i < Logic::textStorage.size() - 1; i++){
 			ostringstream oss;
 			oss << i + 1 << ". " << Logic::textStorage[i].ToString() << endl;
-			string TextbodyDisplay = oss.str();
-			overallOss << TextbodyDisplay;
+			string TaskDisplay = oss.str();
+			overallOss << TaskDisplay;
 		}
 
 		int size = Logic::textStorage.size();

@@ -29,31 +29,31 @@ string UI::getUserCommand() {
 
 string UI::executeUserCommand(string userCommand) {
 	string commandTypeString;
-	string TextbodyString;
+	string TaskString;
 
 	commandTypeString = getFirstWord(userCommand);
-	TextbodyString = removeFirstWord(userCommand);
+	TaskString = removeFirstWord(userCommand);
 
 	transform(commandTypeString.begin(), commandTypeString.end(), commandTypeString.begin(), ::tolower);
 	
 	COMMAND_TYPE commandType;
-	commandType = determineCommandType(commandTypeString, TextbodyString);
+	commandType = determineCommandType(commandTypeString, TaskString);
 
 	switch (commandType) {
 	case HELP:
 		return help();
-	case ADD_Textbody:
-		return Logic::addTextbody(TextbodyString);
+	case ADD_Task:
+		return Logic::addTask(TaskString);
 	case SEARCH:
-		return Logic::search(TextbodyString);
+		return Logic::search(TaskString);
 	case UPDATE:
-		return Logic::updateTextbody(TextbodyString);
-	case DELETE_Textbody:
-		return Logic::deleteTextbody(TextbodyString);
-	case DISPLAY_TextbodyS:
+		return Logic::updateTask(TaskString);
+	case DELETE_Task:
+		return Logic::deleteTask(TaskString);
+	case DISPLAY_TaskS:
 		return Logic::display();
 	case MARK_DONE:
-		return Logic::MarkDone(TextbodyString);
+		return Logic::MarkDone(TaskString);
 	case UNDO:
 		return Logic::undo();
 	case REDO:
@@ -68,24 +68,24 @@ string UI::executeUserCommand(string userCommand) {
 	}
 }
 
-UI::COMMAND_TYPE UI::determineCommandType(string commandTypeString, string TextbodyString) {
+UI::COMMAND_TYPE UI::determineCommandType(string commandTypeString, string TaskString) {
 	if (commandTypeString == "help") {
 		return COMMAND_TYPE::HELP;
 	}
 	else if (commandTypeString == "add") {
-		return COMMAND_TYPE::ADD_Textbody;
+		return COMMAND_TYPE::ADD_Task;
 	}
 	else if (commandTypeString == "update") {
 		return COMMAND_TYPE::UPDATE;
 	}
 	else if (commandTypeString == "delete") {
-		return COMMAND_TYPE::DELETE_Textbody;
+		return COMMAND_TYPE::DELETE_Task;
 	}
 	else if (commandTypeString == "search") {
 		return COMMAND_TYPE::SEARCH;
 	}
 	else if (commandTypeString == "display") {
-		return COMMAND_TYPE::DISPLAY_TextbodyS;
+		return COMMAND_TYPE::DISPLAY_TaskS;
 	}
 	else if (commandTypeString == "done") {
 		return COMMAND_TYPE::MARK_DONE;
@@ -117,11 +117,11 @@ string UI::help() {
 
 	cout << "Add: add meeting -from 1200 -to 1400 25/12\n";
 	cout << "Display all: display \n";
-	cout << "Display Static Textbodys: display static\n";
-	cout << "Display Deadline Textbodys: display deadline\n";
-	cout << "Display Unfinished Textbodys: display unfinished\n";
-	cout << "Display Finished Textbodys: display finished\n";
-	cout << "Display Floating Textbodys: display floating\n";
+	cout << "Display Static Tasks: display static\n";
+	cout << "Display Deadline Tasks: display deadline\n";
+	cout << "Display Unfinished Tasks: display unfinished\n";
+	cout << "Display Finished Tasks: display finished\n";
+	cout << "Display Floating Tasks: display floating\n";
 	
 	cout << "Update: Update 1 -from 1400 -to 1500 23/12\n";
 	cout << "Search: search meeting\n";

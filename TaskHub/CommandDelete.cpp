@@ -20,15 +20,15 @@ string CommandDelete::deleteMessage(string input) {
 
 	//string output;
 	//if (index > Logic::textStorage.size() || index <= 0){
-	//	output = "Textbody " + input + " does not exit";
+	//	output = "Task " + input + " does not exit";
 	//}
 	//else{        
 		Logic::lastCommandType = MESSAGE_COMMAND_TYPE;
-		Logic::lastChangedTextbodyIndex = index-1;
-		Logic::lastUnchangedTextbody = Logic::textStorage[index - 1];
+		Logic::lastChangedTaskIndex = index-1;
+		Logic::lastUnchangedTask = Logic::textStorage[index - 1];
 
 		Logic::textStorage.erase(Logic::textStorage.begin() + index - 1);
-		string output = "Textbody " + input + " deleted";
+		string output = "Task " + input + " deleted";
 		
 	//}
 

@@ -6,28 +6,28 @@ const string UpdatingMessage::MESSAGE_COMMAND_TYPE="update";
 
 string UpdatingMessage::updateMessage(string input) {
 
-	string TextbodyIndex = Logic::getFirstWord(input);
-	string TextbodyInfo = Logic::removeFirstWord(input);
+	string TaskIndex = Logic::getFirstWord(input);
+	string TaskInfo = Logic::removeFirstWord(input);
 
 	unsigned int index;
-	istringstream in(TextbodyIndex);
+	istringstream in(TaskIndex);
 	in >> index;
 
 	string output;
 	if (index > Logic::textStorage.size() || index <= 0){
-		output = "Textbody " + TextbodyIndex + " does not exit";
+		output = "Task " + TaskIndex + " does not exit";
 		
 	}
 	else{
 		Logic::lastCommandType = MESSAGE_COMMAND_TYPE;
-		Logic::lastChangedTextbodyIndex = index - 1;
-		Logic::lastUnchangedTextbody = Logic::textStorage[index - 1];
+		Logic::lastChangedTaskIndex = index - 1;
+		Logic::lastUnchangedTask = Logic::textStorage[index - 1];
 
-		Logic::textStorage[index-1].UpdateTextbody(TextbodyInfo);
+		Logic::textStorage[index-1].UpdateTask(TaskInfo);
 
-		Logic::lastChangedTextbody = Logic::textStorage[index - 1];
+		Logic::lastChangedTask = Logic::textStorage[index - 1];
 
-		output = "Textbody " + TextbodyIndex + " updated";
+		output = "Task " + TaskIndex + " updated";
 		
 	}
 

@@ -12,15 +12,15 @@ string CommandSearch::searchMessage (string input) {
 	else{
 		vector<string> output;
 		for (unsigned int i = 0; i < Logic::textStorage.size(); i++){
-			string _Textbodyname = (Logic::textStorage[i]).get_TextbodyName();
-			vector<string> description = Logic::splitText(_Textbodyname);
+			string _Taskname = (Logic::textStorage[i]).get_TaskName();
+			vector<string> description = Logic::splitText(_Taskname);
 
 			for (unsigned int j = 0; j < description.size(); j++){
 				if (input == description[j]){
 					ostringstream oss;
 					oss << i + 1 << "." << Logic::textStorage[i].ToString() << endl;
-					string TextbodyDisplay = oss.str();
-					output.push_back(TextbodyDisplay);
+					string TaskDisplay = oss.str();
+					output.push_back(TaskDisplay);
 				}
 			}
 		}
