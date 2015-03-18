@@ -1,13 +1,13 @@
 #include <sstream>
 #include "Logic.h"
-#include "AddingMessage.h"
+#include "CommandAdd.h"
 #include "UpdatingMessage.h"
-#include "DeletingMessage.h"
-#include "Search.h"
-#include "DisplayMessage.h"
+#include "CommandDelete.h"
+#include "CommandSearch.h"
+#include "CommandDisplay.h"
 #include "MarkMessageDone.h"
 
-vector<Textbody> Logic::list;
+vector<Textbody> Logic::textStorage;
 string Logic::lastCommandType;
 int Logic::lastChangedTextbodyIndex;
 Textbody Logic::lastChangedTextbody;
@@ -19,13 +19,13 @@ void Logic::getStorage(){
 	for (unsigned int i = 0; i < Logic.size(); i++){
 		string textbody = removeFirstWord(Logic[i]);
 		Textbody newTextbody(textbody, "copy");
-		list.push_back(newTextbody);
+		textStorage.push_back(newTextbody);
 	}
 }
 
 string Logic::addTextbody(string input){
 	
-	 return AddingMessage::addMessage(input);
+	 return CommandAdd::addMessage(input);
 }
 
 string Logic::updateTextbody(string input){
@@ -35,17 +35,17 @@ string Logic::updateTextbody(string input){
 
 string Logic::deleteTextbody(string input){
 	
-	return deletingMessage::deleteMessage(input);
+	return CommandDelete::deleteMessage(input);
 }
 
 string Logic::search(string input){	
 	
-	return searchingMessage::searchMessage (input);
+	return CommandSearch::searchMessage (input);
 }
 
 string Logic::display(){
 	
-	return displayingMessage::displayMessage();
+	return CommandDisplay::display();
 }
 
 string Logic::MarkDone(string input){
@@ -55,19 +55,19 @@ string Logic::MarkDone(string input){
 
 string Logic::undo(){
 	if (lastCommandType == "add"){
-		list.pop_back();
+		textStorage.pop_back();
 		return "Adding command is undone";
 	}
 	else if (lastCommandType == "update"){
-		list[lastChangedTextbodyIndex] = lastUnchangedTextbody;
+		textStorage[lastChangedTextbodyIndex] = lastUnchangedTextbody;
 		return "Updating command is undone";
 	}
 	else if (lastCommandType == "delete"){
-		list.insert(list.begin() + lastChangedTextbodyIndex, lastUnchangedTextbody);
+		textStorage.insert(textStorage.begin() + lastChangedTextbodyIndex, lastUnchangedTextbody);
 		return "Deleting command is undone";
 	}
 	else if (lastCommandType == "done"){
-		list[lastChangedTextbodyIndex].MarkUndone();
+		textStorage[lastChangedTextbodyIndex].MarkUndone();
 		return "MarkDone command is undone";
 	}
 	else{
@@ -77,19 +77,19 @@ string Logic::undo(){
 
 string Logic::redo(){
 	if (lastCommandType == "add"){
-		list.push_back(lastChangedTextbody);
+		textStorage.push_back(lastChangedTextbody);
 		return "Adding command is redone";
 	}
 	else if (lastCommandType == "update"){
-		list[lastChangedTextbodyIndex] = lastChangedTextbody;
+		textStorage[lastChangedTextbodyIndex] = lastChangedTextbody;
 		return "Updating command is redone";
 	}
 	else if (lastCommandType == "delete"){
-		list.erase(list.begin() + lastChangedTextbodyIndex);
+		textStorage.erase(textStorage.begin() + lastChangedTextbodyIndex);
 		return "Deleting command is redone";
 	}
 	else if (lastCommandType == "done"){
-		list[lastChangedTextbodyIndex].MarkDone();
+		textStorage[lastChangedTextbodyIndex].MarkDone();
 		return "MarkDone command is redone";
 	}
 	else{

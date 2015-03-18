@@ -28,7 +28,7 @@ public:
 	static vector<string> splitText(string text);
 	static string printVector(vector<string> output);
 	
-	static vector<Textbody> list;
+	static vector<Textbody> textStorage;
 	static string lastCommandType;
 	static int lastChangedTextbodyIndex;
 	static Textbody lastUnchangedTextbody;
