@@ -1,4 +1,4 @@
 Debug/
-TaskHub.sdf
+*.sdf
 *.suo
 TaskHub.opensdf
