@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include <assert.h>
 
 const int Textbody_LEN = 250;
 const string SCHEDULED_Textbody_LABEL = "timed";
@@ -12,6 +13,8 @@ const string INVALID_TIME_MSG = "invalid time, provide valid time";
 Textbody::Textbody(){}
 
 Textbody::Textbody(string input){
+	assert(input.empty() == false);
+
 	if (!input.empty()){
 		size_t timed_Textbody = input.find("-from");
 		size_t deadlined_Textbody = input.find("-by");
@@ -56,6 +59,9 @@ Textbody::Textbody(string input){
 Textbody::~Textbody(){}
 
 Textbody::Textbody(string Textbody, string input){
+	assert(Textbody.empty() == false);
+	assert(input.empty() == false);
+
 	if (!Textbody.empty()){
 
 		//store _status
@@ -151,6 +157,8 @@ string Textbody::get_TextbodyName(){
 }
 
 void Textbody::UpdateTextbody(string input){
+	assert(input.empty() == false);
+
 	if (!input.empty()){
 		size_t timed_Textbody = input.find("-from");
 		size_t deadlined_Textbody = input.find("-by");
