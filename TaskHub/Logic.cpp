@@ -35,7 +35,7 @@ string Logic::updateTextbody(string input){
 
 string Logic::deleteTextbody(string input){
 	
-	return deleingMessage::deleteMessage(input);
+	return deletingMessage::deleteMessage(input);
 }
 
 string Logic::search(string input){	

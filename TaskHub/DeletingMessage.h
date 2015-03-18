@@ -5,9 +5,10 @@
 #include<string>
 using namespace std;
 
-class deleingMessage {
+class deletingMessage {
 public:
 	static string deleteMessage(string input);
+
 private:
 	static const string MESSAGE_COMMAND_TYPE;
 };
