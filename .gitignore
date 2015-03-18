@@ -1,9 +1,4 @@
-*.suo
-*.vcxproj
-TaskHub/Debug/
-*.pdb
-*.ilk
-*.filters
 Debug/
-*.opensdf
-*.sdf
+TaskHub.sdf
+*.suo
+TaskHub.opensdf
