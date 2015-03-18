@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\THLOGIC\Logic.cpp" />
+    <ClCompile Include="..\THLOGIC\THCommand.cpp" />
+    <ClCompile Include="..\THLOGIC\THCommandInterpreter.cpp" />
+    <ClCompile Include="..\THLOGIC\THConverter.cpp" />
+    <ClCompile Include="..\THLOGIC\THLogging.cpp" />
+    <ClCompile Include="..\THLOGIC\THTask.cpp" />
+    <ClCompile Include="..\THLOGIC\THTaskDueSoon.cpp" />
+    <ClCompile Include="..\Parser\THDateParser.cpp">
+      <Filter>Source Files\THParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Parser\THCommandParser.cpp">
+      <Filter>Source Files\THParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Parser\THDateTimeSetter.cpp">
+      <Filter>Source Files\THParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Parser\THInputDateCheck.cpp">
+      <Filter>Source Files\THParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Parser\THMainParser.cpp">
+      <Filter>Source Files\THParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Parser\THParser.cpp">
+      <Filter>Source Files\THParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Parser\THTimeParser.cpp">
+      <Filter>Source Files\THParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Parser\THUtilityMonth.cpp">
+      <Filter>Source Files\THUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Parser\THUtility.cpp">
+      <Filter>Source Files\THUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Parser\THUtilityTime.cpp">
+      <Filter>Source Files\THUtility</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\THLOGIC\THCommand.h" />
+    <ClInclude Include="..\THLOGIC\THCommandInterpreter.h" />
+    <ClInclude Include="..\THLOGIC\THConverter.h" />
+    <ClInclude Include="..\THLOGIC\THLogging.h" />
+    <ClInclude Include="..\THLOGIC\THLogic.h" />
+    <ClInclude Include="..\THLOGIC\THTask.h" />
+    <ClInclude Include="..\THLOGIC\THTaskDueSoon.h" />
+    <ClInclude Include="..\Parser\THCommandParser.h">
+      <Filter>Header Files\THParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Parser\THDateParser.h">
+      <Filter>Header Files\THParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Parser\THDateTimeSetter.h">
+      <Filter>Header Files\THParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Parser\THInputDateCheck.h">
+      <Filter>Header Files\THParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Parser\THMainParser.h">
+      <Filter>Header Files\THParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Parser\THParser.h">
+      <Filter>Header Files\THParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Parser\THTimeParser.h">
+      <Filter>Header Files\THParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Parser\THUtilityTime.h">
+      <Filter>Header Files\THUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Parser\THUtilityMonth.h">
+      <Filter>Header Files\THUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Parser\THUtility.h">
+      <Filter>Header Files\THUtility</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2d4c872c-5f1e-4a58-a570-51bb6702616e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{a86c5a8c-cca4-4598-b3c9-01fa0c2b56bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{bde38ae5-43b0-4205-9229-5fdd4c545f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\THParser">
+      <UniqueIdentifier>{4551b8f6-696c-4e55-a62b-c07ba8236b41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\THUtility">
+      <UniqueIdentifier>{c8407176-c356-4ee9-8675-795d2c18e49e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\THParser">
+      <UniqueIdentifier>{1929af82-2ec0-4054-b82f-b35201345078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\THUtility">
+      <UniqueIdentifier>{1820e83c-41fa-4e1e-b0a9-9b9f6ebb2234}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
