@@ -3,7 +3,7 @@
 #include "CommandAdd.h"
 #include "UpdatingMessage.h"
 #include "CommandDelete.h"
-#include "Search.h"
+#include "CommandSearch.h"
 #include "CommandDisplay.h"
 #include "MarkMessageDone.h"
 
@@ -40,7 +40,7 @@ string Logic::deleteTextbody(string input){
 
 string Logic::search(string input){	
 	
-	return searchingMessage::searchMessage (input);
+	return CommandSearch::searchMessage (input);
 }
 
 string Logic::display(){

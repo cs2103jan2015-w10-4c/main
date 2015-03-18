@@ -1,10 +1,10 @@
 #include "Logic.h"
 #include "Parser.h"
-#include "Search.h"
+#include "CommandSearch.h"
 
-const string searchingMessage::MESSAGE_COMMAND_TYPE="search";
+const string CommandSearch::MESSAGE_COMMAND_TYPE="search";
 
-string searchingMessage::searchMessage (string input) {
+string CommandSearch::searchMessage (string input) {
 
 	if (Logic::textStorage.empty()){
 		return "Empty file";

@@ -1,11 +1,11 @@
-#ifndef SEARCH_H_
-#define SEARCH_H_
+#ifndef COMMANDSEARCH_H_
+#define COMMANDSEARCH_H_
 
 #include<iostream>
 #include<string>
 using namespace std;
 
-class searchingMessage {
+class CommandSearch {
 public:
 	static string searchMessage(string input);
 private:
