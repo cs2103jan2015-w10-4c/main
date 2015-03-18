@@ -1,11 +1,11 @@
 #include "Logic.h"
 #include "Parser.h"
-#include "DeletingMessage.h"
+#include "CommandDelete.h"
 #include <assert.h>							//for assertions
 
-const string deletingMessage::MESSAGE_COMMAND_TYPE="delete";
+const string CommandDelete::MESSAGE_COMMAND_TYPE="delete";
 
-string deletingMessage::deleteMessage(string input) {
+string CommandDelete::deleteMessage(string input) {
 
 	unsigned int index;
 	istringstream in(input);

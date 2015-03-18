@@ -1,11 +1,11 @@
-#ifndef DELETINGMESSAGE_H_
-#define DELETINGMESSAGE_H_
+#ifndef COMMANDDELETE_H_
+#define COMMANDDELETE_H_
 
 #include<iostream>
 #include<string>
 using namespace std;
 
-class deletingMessage {
+class CommandDelete {
 public:
 	static string deleteMessage(string input);
 

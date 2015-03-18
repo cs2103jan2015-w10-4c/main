@@ -69,9 +69,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AddingMessage.h" />
-    <ClInclude Include="DeletingMessage.h" />
-    <ClInclude Include="DisplayMessage.h" />
+    <ClInclude Include="CommandAdd.h" />
+    <ClInclude Include="CommandDelete.h" />
+    <ClInclude Include="CommandDisplay.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="MarkMessageDone.h" />
     <ClInclude Include="Parser.h" />
@@ -81,9 +81,9 @@
     <ClInclude Include="UpdatingMessage.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AddingMessage.cpp" />
-    <ClCompile Include="DeletingMessage.cpp" />
-    <ClCompile Include="DisplayMessage.cpp" />
+    <ClCompile Include="CommandAdd.cpp" />
+    <ClCompile Include="CommandDelete.cpp" />
+    <ClCompile Include="CommandDisplay.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarkMessageDone.cpp" />

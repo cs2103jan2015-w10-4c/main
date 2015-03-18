@@ -1,10 +1,10 @@
 #include "Logic.h"
 #include "Parser.h"
-#include "DisplayMessage.h"
+#include "CommandDisplay.h"
 
-const string displayingMessage::MESSAGE_COMMAND_TYPE="display";
+const string CommandDisplay::MESSAGE_COMMAND_TYPE="display";
 
-string displayingMessage::displayMessage() {
+string CommandDisplay::display() {
 
 	if (Logic::textStorage.empty()){
 		return "Empty file";

@@ -1,10 +1,10 @@
 #include <sstream>
 #include "Logic.h"
-#include "AddingMessage.h"
+#include "CommandAdd.h"
 #include "UpdatingMessage.h"
-#include "DeletingMessage.h"
+#include "CommandDelete.h"
 #include "Search.h"
-#include "DisplayMessage.h"
+#include "CommandDisplay.h"
 #include "MarkMessageDone.h"
 
 vector<Textbody> Logic::textStorage;
@@ -25,7 +25,7 @@ void Logic::getStorage(){
 
 string Logic::addTextbody(string input){
 	
-	 return AddingMessage::addMessage(input);
+	 return CommandAdd::addMessage(input);
 }
 
 string Logic::updateTextbody(string input){
@@ -35,7 +35,7 @@ string Logic::updateTextbody(string input){
 
 string Logic::deleteTextbody(string input){
 	
-	return deletingMessage::deleteMessage(input);
+	return CommandDelete::deleteMessage(input);
 }
 
 string Logic::search(string input){	
@@ -45,7 +45,7 @@ string Logic::search(string input){
 
 string Logic::display(){
 	
-	return displayingMessage::displayMessage();
+	return CommandDisplay::display();
 }
 
 string Logic::MarkDone(string input){

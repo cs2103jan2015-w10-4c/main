@@ -1,11 +1,11 @@
-#ifndef ADDINGMESSAGE_H_
-#define ADDINGMESSAGE_H_
+#ifndef COMMANDADD_H_
+#define COMMANDADD_H_
 
 #include<iostream>
 #include<string>
 using namespace std;
 
-class AddingMessage {
+class CommandAdd {
 public:
 	static string addMessage(string input);
 private:

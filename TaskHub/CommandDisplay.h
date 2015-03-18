@@ -1,13 +1,13 @@
-#ifndef DISPLAYMESSAGE_H_
-#define DISPLAYMESSAGE_H_
+#ifndef COMMANDDISPLAY_H_
+#define COMMANDDISPLAY_H_
 
 #include<iostream>
 #include<string>
 using namespace std;
 
-class displayingMessage {
+class CommandDisplay {
 public:
-	static string displayMessage();
+	static string display();
 private:
 	static const string MESSAGE_COMMAND_TYPE;
 };
