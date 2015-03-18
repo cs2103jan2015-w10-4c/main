@@ -12,7 +12,7 @@ string markingDoneMessage::markMessageDone(string input) {
 	Logic::lastCommandType = "done";
 	Logic::lastChangedTextbodyIndex = index-1;
 
-	Logic::list[index-1].MarkDone();
+	Logic::textStorage[index-1].MarkDone();
 	string output = "Textbody " + input + " marked as done";
 	return output;
 

@@ -11,7 +11,7 @@ string deletingMessage::deleteMessage(string input) {
 	istringstream in(input);
 	in >> index;
 	//Assertion
-	assert(index > 0 && index <= Logic::list.size());
+	assert(index > 0 && index <= Logic::textStorage.size());
 
 	//Exception
 	if (index <= 0){
@@ -19,15 +19,15 @@ string deletingMessage::deleteMessage(string input) {
 	}
 
 	//string output;
-	//if (index > Logic::list.size() || index <= 0){
+	//if (index > Logic::textStorage.size() || index <= 0){
 	//	output = "Textbody " + input + " does not exit";
 	//}
 	//else{        
 		Logic::lastCommandType = MESSAGE_COMMAND_TYPE;
 		Logic::lastChangedTextbodyIndex = index-1;
-		Logic::lastUnchangedTextbody = Logic::list[index - 1];
+		Logic::lastUnchangedTextbody = Logic::textStorage[index - 1];
 
-		Logic::list.erase(Logic::list.begin() + index - 1);
+		Logic::textStorage.erase(Logic::textStorage.begin() + index - 1);
 		string output = "Textbody " + input + " deleted";
 		
 	//}

@@ -14,18 +14,18 @@ string UpdatingMessage::updateMessage(string input) {
 	in >> index;
 
 	string output;
-	if (index > Logic::list.size() || index <= 0){
+	if (index > Logic::textStorage.size() || index <= 0){
 		output = "Textbody " + TextbodyIndex + " does not exit";
 		
 	}
 	else{
 		Logic::lastCommandType = MESSAGE_COMMAND_TYPE;
 		Logic::lastChangedTextbodyIndex = index - 1;
-		Logic::lastUnchangedTextbody = Logic::list[index - 1];
+		Logic::lastUnchangedTextbody = Logic::textStorage[index - 1];
 
-		Logic::list[index-1].UpdateTextbody(TextbodyInfo);
+		Logic::textStorage[index-1].UpdateTextbody(TextbodyInfo);
 
-		Logic::lastChangedTextbody = Logic::list[index - 1];
+		Logic::lastChangedTextbody = Logic::textStorage[index - 1];
 
 		output = "Textbody " + TextbodyIndex + " updated";
 		

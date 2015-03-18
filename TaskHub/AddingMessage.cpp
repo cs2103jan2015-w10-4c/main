@@ -10,7 +10,7 @@ string AddingMessage::addMessage(string input) {
 	Logic::lastCommandType = MESSAGE_COMMAND_TYPE;
 
 	Textbody newTextbody(input);
-	Logic::list.push_back(newTextbody);
+	Logic::textStorage.push_back(newTextbody);
 	string output = MESSAGE_ADDED;
 
 	Logic::lastChangedTextbody = newTextbody;
