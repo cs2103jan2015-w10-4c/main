@@ -13,9 +13,9 @@ public:
 	
 	static void getStorage();
 
-	static string addTask(string input);
-	static string updateTask(string input);
-	static string deleteTask(string input);
+	static string addTextbody(string input);
+	static string updateTextbody(string input);
+	static string deleteTextbody(string input);
 	static string search(string input);
 	static string display();
 	static string MarkDone(string input);
@@ -28,11 +28,11 @@ public:
 	static vector<string> splitText(string text);
 	static string printVector(vector<string> output);
 	
-	static vector<Task> textStorage;
+	static vector<Textbody> textStorage;
 	static string lastCommandType;
-	static int lastChangedTaskIndex;
-	static Task lastUnchangedTask;
-	static Task lastChangedTask;
+	static int lastChangedTextbodyIndex;
+	static Textbody lastUnchangedTextbody;
+	static Textbody lastChangedTextbody;
 };
 
 #endif
