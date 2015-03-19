@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+#include "DateParser.h"
+#include "TimeParser.h"
 using namespace std;
 
 class Task
@@ -29,6 +31,11 @@ private:
 	string _scheduledDate;
 	string _deadlineDate;
 	string _status;
+	DateParser _dateParser;
+	TimeParser _timeParser;
+
+	void parseDate();
+	void parseTime();
 };
 
 #endif
