@@ -7,33 +7,33 @@
 #include "CommandDisplay.h"
 #include "MarkMessageDone.h"
 
-vector<Textbody> Logic::textStorage;
+vector<Task> Logic::textStorage;
 string Logic::lastCommandType;
-int Logic::lastChangedTextbodyIndex;
-Textbody Logic::lastChangedTextbody;
-Textbody Logic::lastUnchangedTextbody;
+int Logic::lastChangedTaskIndex;
+Task Logic::lastChangedTask;
+Task Logic::lastUnchangedTask;
 
 void Logic::getStorage(){
-	vector<string> Logic = storage::returnTextbody();
+	vector<string> Logic = storage::returnTask();
 
 	for (unsigned int i = 0; i < Logic.size(); i++){
-		string textbody = removeFirstWord(Logic[i]);
-		Textbody newTextbody(textbody, "copy");
-		textStorage.push_back(newTextbody);
+		string TaskString = removeFirstWord(Logic[i]);
+		Task newTask(TaskString, "copy");
+		textStorage.push_back(newTask);
 	}
 }
 
-string Logic::addTextbody(string input){
+string Logic::addTask(string input){
 	
 	 return CommandAdd::addMessage(input);
 }
 
-string Logic::updateTextbody(string input){
+string Logic::updateTask(string input){
 	
 	return UpdatingMessage::updateMessage(input); 
 }
 
-string Logic::deleteTextbody(string input){
+string Logic::deleteTask(string input){
 	
 	return CommandDelete::deleteMessage(input);
 }
@@ -59,15 +59,15 @@ string Logic::undo(){
 		return "Adding command is undone";
 	}
 	else if (lastCommandType == "update"){
-		textStorage[lastChangedTextbodyIndex] = lastUnchangedTextbody;
+		textStorage[lastChangedTaskIndex] = lastUnchangedTask;
 		return "Updating command is undone";
 	}
 	else if (lastCommandType == "delete"){
-		textStorage.insert(textStorage.begin() + lastChangedTextbodyIndex, lastUnchangedTextbody);
+		textStorage.insert(textStorage.begin() + lastChangedTaskIndex, lastUnchangedTask);
 		return "Deleting command is undone";
 	}
 	else if (lastCommandType == "done"){
-		textStorage[lastChangedTextbodyIndex].MarkUndone();
+		textStorage[lastChangedTaskIndex].MarkUndone();
 		return "MarkDone command is undone";
 	}
 	else{
@@ -77,19 +77,19 @@ string Logic::undo(){
 
 string Logic::redo(){
 	if (lastCommandType == "add"){
-		textStorage.push_back(lastChangedTextbody);
+		textStorage.push_back(lastChangedTask);
 		return "Adding command is redone";
 	}
 	else if (lastCommandType == "update"){
-		textStorage[lastChangedTextbodyIndex] = lastChangedTextbody;
+		textStorage[lastChangedTaskIndex] = lastChangedTask;
 		return "Updating command is redone";
 	}
 	else if (lastCommandType == "delete"){
-		textStorage.erase(textStorage.begin() + lastChangedTextbodyIndex);
+		textStorage.erase(textStorage.begin() + lastChangedTaskIndex);
 		return "Deleting command is redone";
 	}
 	else if (lastCommandType == "done"){
-		textStorage[lastChangedTextbodyIndex].MarkDone();
+		textStorage[lastChangedTaskIndex].MarkDone();
 		return "MarkDone command is redone";
 	}
 	else{

@@ -14,13 +14,13 @@ using namespace std;
 
 class storage{
 private:
-	static vector<string> Textbody;
+	static vector<string> Task;
 	static const string fileName;
 
 public:
 	static void programmeInitialising();
 	static void programmeTerminating();
-	static vector<string> returnTextbody();
+	static vector<string> returnTask();
 };
 
 #endif
