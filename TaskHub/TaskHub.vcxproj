@@ -69,9 +69,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< HEAD
+    <ClInclude Include="AddingMessage.h" />
+    <ClInclude Include="DateParser.h" />
+    <ClInclude Include="TimeParser.h" />
+    <ClInclude Include="DeletingMessage.h" />
+    <ClInclude Include="DisplayMessage.h" />
+=======
     <ClInclude Include="CommandAdd.h" />
     <ClInclude Include="CommandDelete.h" />
     <ClInclude Include="CommandDisplay.h" />
+>>>>>>> 3738fedf8ae1732236c008b7af54ff7f2b59ac2f
     <ClInclude Include="Logic.h" />
     <ClInclude Include="MarkMessageDone.h" />
     <ClInclude Include="Parser.h" />
@@ -81,9 +89,17 @@
     <ClInclude Include="UpdatingMessage.h" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+    <ClCompile Include="AddingMessage.cpp" />
+    <ClCompile Include="DateParser.cpp" />
+    <ClCompile Include="TimeParser.cpp" />
+    <ClCompile Include="DeletingMessage.cpp" />
+    <ClCompile Include="DisplayMessage.cpp" />
+=======
     <ClCompile Include="CommandAdd.cpp" />
     <ClCompile Include="CommandDelete.cpp" />
     <ClCompile Include="CommandDisplay.cpp" />
+>>>>>>> 3738fedf8ae1732236c008b7af54ff7f2b59ac2f
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarkMessageDone.cpp" />
