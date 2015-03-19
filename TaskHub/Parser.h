@@ -1,5 +1,5 @@
-#ifndef PARSER_H_
-#define PARSER_H_
+#ifndef PASER_H_
+#define PASER_H_
 
 #include <iostream>
 #include <string>
@@ -7,24 +7,24 @@
 #include "TimeParser.h"
 using namespace std;
 
-class Task
+class Textbody
 {
 public:
-	//vector<string> Task;
-	Task();
-	Task(string input);
-	~Task();
-	Task(string Task, string input);
+	//vector<string> Textbody;
+	Textbody();
+	Textbody(string input);
+	~Textbody();
+	Textbody(string Textbody, string input);
 	string ToString();
-	string get_TaskName();
-	void UpdateTask(string input);
+	string get_TextbodyName();
+	void UpdateTextbody(string input);
 	void MarkDone();
 	void MarkUndone();
 	void checkInputValidation();
 	
 private:
-	string _TaskName;
-	string _TaskType;
+	string _TextbodyName;
+	string _TextbodyType;
 	string _startTime;
 	string _endTime;
 	string _deadlineTime;

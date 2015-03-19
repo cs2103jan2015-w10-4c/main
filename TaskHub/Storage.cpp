@@ -1,6 +1,6 @@
 #include "storage.h"
 
-vector<string> storage::Task;
+vector<string> storage::Textbody;
 const string storage::fileName = "storage.txt";
 
 void storage::programmeTerminating() {
@@ -19,15 +19,15 @@ void storage::programmeInitialising() {
 	ifstream file;
 	string currentLine;
 
-	Task.clear();
+	Textbody.clear();
 	file.open(fileName);
 
 	while(getline(file,currentLine)) {
-		Task.push_back(currentLine);
+		Textbody.push_back(currentLine);
 	}
 	file.close();
 }
 
-vector<string> storage::returnTask() {
-	return Task;
+vector<string> storage::returnTextbody() {
+	return Textbody;
 }

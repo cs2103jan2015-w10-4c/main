@@ -10,10 +10,10 @@ string markingDoneMessage::markMessageDone(string input) {
 	in >> index;
 
 	Logic::lastCommandType = "done";
-	Logic::lastChangedTaskIndex = index-1;
+	Logic::lastChangedTextbodyIndex = index-1;
 
 	Logic::textStorage[index-1].MarkDone();
-	string output = "Task " + input + " marked as done";
+	string output = "Textbody " + input + " marked as done";
 	return output;
 
 }
