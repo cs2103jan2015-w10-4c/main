@@ -1,6 +1,5 @@
 #include "TimeParser.h"
 
 
-TimeParser::TimeParser(void)
-{
+TimeParser::TimeParser(void){
 }
