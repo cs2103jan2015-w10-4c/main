@@ -1,15 +1,16 @@
-#ifndef UPDATINGMESSAGE_H_
-#define UPDATINGMESSAGE_H_
+#ifndef COMMANDMARKDONE_H_
+#define COMMANDMARKDONE_H_
 
 #include<iostream>
 #include<string>
 using namespace std;
 
-class UpdatingMessage {
+class markingDoneMessage {
 public:
-	static string updateMessage(string input);
+	static string markMessageDone(string input);
 private:
 	static const string MESSAGE_COMMAND_TYPE;
 };
+
 
 #endif

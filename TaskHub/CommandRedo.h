@@ -1,16 +1,15 @@
-#ifndef MARKDONEMESSAGE_H_
-#define MARKDONEMESSAGE_H_
+#ifndef COMMANDREDO_H_
+#define COMMANDREDO_H_
 
 #include<iostream>
 #include<string>
 using namespace std;
 
-class markingDoneMessage {
+class redoChange {
 public:
-	static string markMessageDone(string input);
+	static string redo();
 private:
 	static const string MESSAGE_COMMAND_TYPE;
 };
-
 
 #endif

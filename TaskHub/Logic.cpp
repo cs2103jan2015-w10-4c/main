@@ -1,11 +1,13 @@
 #include <sstream>
 #include "Logic.h"
 #include "CommandAdd.h"
-#include "UpdatingMessage.h"
+#include "CommandUpdate.h"
 #include "CommandDelete.h"
 #include "CommandSearch.h"
 #include "CommandDisplay.h"
-#include "MarkMessageDone.h"
+#include "CommandMarkDone.h"
+#include "CommandUndo.h"
+#include "CommandRedo.h"
 
 vector<Task> Logic::textStorage;
 string Logic::lastCommandType;
@@ -54,47 +56,13 @@ string Logic::MarkDone(string input){
 }
 
 string Logic::undo(){
-	if (lastCommandType == "add"){
-		textStorage.pop_back();
-		return "Adding command is undone";
-	}
-	else if (lastCommandType == "update"){
-		textStorage[lastChangedTaskIndex] = lastUnchangedTask;
-		return "Updating command is undone";
-	}
-	else if (lastCommandType == "delete"){
-		textStorage.insert(textStorage.begin() + lastChangedTaskIndex, lastUnchangedTask);
-		return "Deleting command is undone";
-	}
-	else if (lastCommandType == "done"){
-		textStorage[lastChangedTaskIndex].MarkUndone();
-		return "MarkDone command is undone";
-	}
-	else{
-		return "Previous action cannot be undo";
-	}
+	
+	return undoChange::undo();
 }
 
 string Logic::redo(){
-	if (lastCommandType == "add"){
-		textStorage.push_back(lastChangedTask);
-		return "Adding command is redone";
-	}
-	else if (lastCommandType == "update"){
-		textStorage[lastChangedTaskIndex] = lastChangedTask;
-		return "Updating command is redone";
-	}
-	else if (lastCommandType == "delete"){
-		textStorage.erase(textStorage.begin() + lastChangedTaskIndex);
-		return "Deleting command is redone";
-	}
-	else if (lastCommandType == "done"){
-		textStorage[lastChangedTaskIndex].MarkDone();
-		return "MarkDone command is redone";
-	}
-	else{
-		return "previous action cannot be redo";
-	}
+	
+	return redoChange::redo();
 }
 
 string Logic::getFirstWord(string input)
