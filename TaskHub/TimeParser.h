@@ -1,9 +1,12 @@
 #ifndef TIMEPARSER_H
 #define TIMEPARSER_H
+#include <string>
+using namespace std;
 
 class TimeParser
 {
 public:
-	TimeParser(void);
+	TimeParser();
+	TimeParser(string input);
 };
 #endif

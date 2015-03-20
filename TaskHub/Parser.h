@@ -34,8 +34,6 @@ private:
 	DateParser _dateParser;
 	TimeParser _timeParser;
 
-	void parseDate();
-	void parseTime();
 };
 
 #endif

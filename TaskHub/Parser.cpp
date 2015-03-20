@@ -1,4 +1,6 @@
 #include "Parser.h"
+#include "TimeParser.h"
+#include "DateParser.h"
 
 const int Task_LEN = 250;
 const string SCHEDULED_Task_LABEL = "timed";
@@ -12,31 +14,35 @@ const string INVALID_TIME_MSG = "invalid time, provide valid time";
 Task::Task(){}
 
 Task::Task(string input){
+	
 	if (!input.empty()){
+		DateParser parseDate(input);
+		
+
 		size_t timed_Task = input.find("-from");
 		size_t deadlined_Task = input.find("-by");
 
 		if (timed_Task != string::npos){
 			size_t ending_time = input.find("-to");
-			size_t get_date = input.find("/");
+	
 			_TaskType = SCHEDULED_Task_LABEL;
 
 			_TaskName = input.substr(0, timed_Task - 1);
 			_startTime = input.substr(timed_Task + 6, 5);
 			_endTime = input.substr(ending_time + 4, 5);
 			_deadlineTime = "";
-			_scheduledDate = input.substr(get_date - 2, 5);
+			_scheduledDate = parseDate.getDate();
 			_deadlineDate = "";
 		}
 		else if (deadlined_Task != string::npos){
-			size_t get_date = input.find("/");
+			
 			_TaskType = DEADLINE_Task_LABEL;
 			_TaskName = input.substr(0, deadlined_Task - 1);
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = input.substr(deadlined_Task + 4, 5);
 			_scheduledDate = "";
-			_deadlineDate = input.substr(get_date - 2, 5);
+			_deadlineDate = parseDate.getDate();
 		}
 		else{
 			_TaskType = FLOATING_Task_LABEL;
@@ -269,3 +275,4 @@ void Task::checkInputValidation(){
 		}
 	}
 }
+
