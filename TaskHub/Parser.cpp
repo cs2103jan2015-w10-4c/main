@@ -17,19 +17,18 @@ Task::Task(string input){
 	
 	if (!input.empty()){
 		DateParser parseDate(input);
-		
+		TimeParser parseTime(input);
 
 		size_t timed_Task = input.find("-from");
 		size_t deadlined_Task = input.find("-by");
 
 		if (timed_Task != string::npos){
-			size_t ending_time = input.find("-to");
+			
 	
 			_TaskType = SCHEDULED_Task_LABEL;
-
 			_TaskName = input.substr(0, timed_Task - 1);
-			_startTime = input.substr(timed_Task + 6, 5);
-			_endTime = input.substr(ending_time + 4, 5);
+			_startTime = parseTime.getStartTime();
+			_endTime = parseTime.getEndTime();
 			_deadlineTime = "";
 			_scheduledDate = parseDate.getDate();
 			_deadlineDate = "";

@@ -8,5 +8,10 @@ class TimeParser
 public:
 	TimeParser();
 	TimeParser(string input);
+	string getStartTime();
+	string getEndTime();
+private:
+	string _startTime;
+	string _endTime;
 };
 #endif
