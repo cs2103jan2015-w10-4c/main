@@ -14,18 +14,22 @@ string UpdatingMessage::updateMessage(string input) {
 	in >> index;
 
 	string output;
-	if (index > Logic::textStorage.size() || index <= 0){
+	if (index > Logic::history.getVectorTextStorage().size() || index <= 0){
 		output = "Task " + TaskIndex + " does not exit";
 		
 	}
 	else{
-		Logic::lastCommandType = MESSAGE_COMMAND_TYPE;
-		Logic::lastChangedTaskIndex = index - 1;
-		Logic::lastUnchangedTask = Logic::textStorage[index - 1];
+		Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		Logic::history.setLastChangedTaskIndex ( index - 1);
+		vector<Task> temp=Logic::history.getVectorTextStorage();
 
-		Logic::textStorage[index-1].UpdateTask(TaskInfo);
+		Logic::history.setLastUnchangedTask (temp[index - 1]);
 
-		Logic::lastChangedTask = Logic::textStorage[index - 1];
+		temp[index -1].UpdateTask(TaskInfo);
+
+		Logic::history.setLastChangedTask(temp[index - 1]);
+
+		Logic::history.setVectorTextStorage(temp);
 
 		output = "Task " + TaskIndex + " updated";
 		

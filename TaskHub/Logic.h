@@ -5,6 +5,7 @@
 #include <string>
 #include "Parser.h"
 #include "Storage.h"
+#include "History.h"
 using namespace std;
 
 class Logic
@@ -19,7 +20,6 @@ public:
 	static string search(string input);
 	static string display();
 	static string MarkDone(string input);
-	
 	static string undo();
 	static string redo();
 
@@ -33,6 +33,8 @@ public:
 	static int lastChangedTaskIndex;
 	static Task lastUnchangedTask;
 	static Task lastChangedTask;
+
+	static History history;
 };
 
 #endif

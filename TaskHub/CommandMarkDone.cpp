@@ -9,10 +9,10 @@ string markingDoneMessage::markMessageDone(string input) {
 	istringstream in(input);
 	in >> index;
 
-	Logic::lastCommandType = "done";
-	Logic::lastChangedTaskIndex = index-1;
+	Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);
+	Logic::history.setLastChangedTaskIndex (index-1);
 
-	Logic::textStorage[index-1].MarkDone();
+	Logic::history.getVectorTextStorage()[index-1].MarkDone();
 	string output = "Task " + input + " marked as done";
 	return output;
 

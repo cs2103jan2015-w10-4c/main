@@ -15,14 +15,16 @@ int Logic::lastChangedTaskIndex;
 Task Logic::lastChangedTask;
 Task Logic::lastUnchangedTask;
 
+History Logic::history;
+
 void Logic::getStorage(){
 	vector<string> Logic = storage::returnTask();
-
 	for (unsigned int i = 0; i < Logic.size(); i++){
 		string TaskString = removeFirstWord(Logic[i]);
 		Task newTask(TaskString, "copy");
-		textStorage.push_back(newTask);
+		Logic::history.setVectorTextStorage(newTask);
 	}
+	
 }
 
 string Logic::addTask(string input){

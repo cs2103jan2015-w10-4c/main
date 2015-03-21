@@ -71,6 +71,7 @@
     <ClCompile Include="CommandUndo.cpp" />
     <ClCompile Include="CommandUpdate.cpp" />
     <ClCompile Include="DateParser.cpp" />
+    <ClCompile Include="History.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="CommandUndo.h" />
     <ClInclude Include="CommandUpdate.h" />
     <ClInclude Include="DateParser.h" />
+    <ClInclude Include="History.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Storage.h" />
