@@ -78,6 +78,7 @@
     <ClCompile Include="Storage.cpp" />
     <ClCompile Include="StorageDeadlineTask.cpp" />
     <ClCompile Include="StorageFloatingTask.cpp" />
+    <ClCompile Include="StorageRecurringTask.cpp" />
     <ClCompile Include="StorageTimedTask.cpp" />
     <ClCompile Include="TaskStorage.cpp" />
     <ClCompile Include="TimeParser.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="Storage.h" />
     <ClInclude Include="StorageDeadlineTask.h" />
     <ClInclude Include="StorageFloatingTask.h" />
+    <ClInclude Include="StorageRecurringTask.h" />
     <ClInclude Include="StorageTimedTask.h" />
     <ClInclude Include="TaskStorage.h" />
     <ClInclude Include="TimeParser.h" />
