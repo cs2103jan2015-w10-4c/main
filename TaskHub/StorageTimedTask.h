@@ -1,5 +1,8 @@
 #pragma once
-class StorageTimedTask{
+
+#include "TaskStorage.h"
+
+class StorageTimedTask : public TaskStorage{
 
 public:
 	StorageTimedTask();

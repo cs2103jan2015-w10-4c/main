@@ -1,5 +1,8 @@
 #pragma once
-class StorageDeadlineTask{
+
+#include "TaskStorage.h"
+
+class StorageDeadlineTask : public TaskStorage{
 
 public:
 	StorageDeadlineTask();

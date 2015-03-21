@@ -1,5 +1,8 @@
 #pragma once
-class StorageFloatingTask{
+
+#include "TaskStorage.h"
+
+class StorageFloatingTask : public TaskStorage{
 
 public:
 	StorageFloatingTask();
