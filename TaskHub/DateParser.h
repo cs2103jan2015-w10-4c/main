@@ -2,8 +2,8 @@
 #define DATEPARSER_H
 #include <string>
 using namespace std;
-class DateParser
-{
+class DateParser{
+
 public:
 	DateParser();
 	DateParser(string input);

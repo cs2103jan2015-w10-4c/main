@@ -3,8 +3,8 @@
 #include <string>
 using namespace std;
 
-class TimeParser
-{
+class TimeParser{
+
 public:
 	TimeParser();
 	TimeParser(string input);
