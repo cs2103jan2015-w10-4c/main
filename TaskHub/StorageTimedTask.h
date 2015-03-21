@@ -1,3 +1,12 @@
+//@author A0111322E
+
+/*
+	Timed tasks could either:
+	a)	occur for the entire day, or
+	b)	occur for a specific time period within a day, or
+	c)	occur from day to day.
+*/
+
 #pragma once
 
 #include "TaskStorage.h"
