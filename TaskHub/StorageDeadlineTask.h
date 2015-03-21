@@ -7,5 +7,8 @@ class StorageDeadlineTask : public TaskStorage{
 public:
 	StorageDeadlineTask();
 	~StorageDeadlineTask();
+
+protected:
+
 };
 
