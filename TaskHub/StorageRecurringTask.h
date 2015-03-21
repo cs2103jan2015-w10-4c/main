@@ -6,6 +6,7 @@
 */
 
 #pragma once
+
 #include "TaskStorage.h"
 
 class StorageRecurringTask : public TaskStorage{
