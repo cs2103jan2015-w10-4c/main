@@ -19,7 +19,8 @@ public:
 
 protected:
 	std::string _taskTitle;
+	std::string _venue;
 	bool isCompleted;
-
+	
 };
 

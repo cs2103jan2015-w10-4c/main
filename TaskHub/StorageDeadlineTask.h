@@ -16,6 +16,9 @@ public:
 	~StorageDeadlineTask();
 
 protected:
-
+	int _month;
+	int _day;
+	std::string _startTime;
+	std::string _endTime;
 };
 
