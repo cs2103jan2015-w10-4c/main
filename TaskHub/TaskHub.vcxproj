@@ -75,7 +75,7 @@
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="Storage.cpp" />
+    <ClCompile Include="StorageController.cpp" />
     <ClCompile Include="StorageDeadlineTask.cpp" />
     <ClCompile Include="StorageFloatingTask.cpp" />
     <ClCompile Include="StorageRecurringTask.cpp" />
@@ -97,7 +97,7 @@
     <ClInclude Include="History.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="Parser.h" />
-    <ClInclude Include="Storage.h" />
+    <ClInclude Include="StorageController.h" />
     <ClInclude Include="StorageDeadlineTask.h" />
     <ClInclude Include="StorageFloatingTask.h" />
     <ClInclude Include="StorageRecurringTask.h" />

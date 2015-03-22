@@ -8,7 +8,7 @@ const string UI::MESSAGE_ERROR = "Invalid command.";
 
 
 string UI::displayWelcomeMessage() {
-	storage::programmeInitialising();
+	StorageController::programmeInitialising();
 	Logic::getStorage();
 
 	return MESSAGE_WELCOME;
@@ -59,7 +59,7 @@ string UI::executeUserCommand(string userCommand) {
 	case REDO:
 		return Logic::redo();
 	case EXIT:
-		storage::programmeTerminating();
+		StorageController::programmeTerminating();
 		cout << MESSAGE_TERMINATION << endl;;
 		exit(0);
 	case INVALID:

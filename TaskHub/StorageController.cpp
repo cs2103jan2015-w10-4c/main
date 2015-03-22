@@ -1,9 +1,9 @@
-#include "storage.h"
+#include "StorageController.h"
 
-vector<string> storage::Task;
-const string storage::fileName = "storage.txt";
+vector<string> StorageController::Task;
+const string StorageController::fileName = "storage.txt";
 
-void storage::programmeTerminating() {
+void StorageController::programmeTerminating() {
 	ofstream file;
 	string currentLine;
 
@@ -15,7 +15,7 @@ void storage::programmeTerminating() {
 	file.close();
 }
 
-void storage::programmeInitialising() {
+void StorageController::programmeInitialising() {
 	ifstream file;
 	string currentLine;
 
@@ -28,6 +28,6 @@ void storage::programmeInitialising() {
 	file.close();
 }
 
-vector<string> storage::returnTask() {
+vector<string> StorageController::returnTask() {
 	return Task;
 }
