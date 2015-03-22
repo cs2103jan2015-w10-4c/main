@@ -10,6 +10,7 @@
 
 #pragma once
 #include <iostream>
+#include <vector>
 
 class TaskStorage{
 
@@ -26,6 +27,7 @@ protected:
 	std::string _venue;
 	bool _isCompleted;
 	int _taskType;
+	std::vector <std::string> taskNotes;
 	
 };
 
