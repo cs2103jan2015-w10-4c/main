@@ -17,10 +17,15 @@ public:
 	TaskStorage();
 	~TaskStorage();
 
+	enum TaskType{
+		FLOATING, DEADLINE, TIMED, RECURRING
+	};
+
 protected:
 	std::string _taskTitle;
 	std::string _venue;
-	bool isCompleted;
+	bool _isCompleted;
+	int _taskType;
 	
 };
 

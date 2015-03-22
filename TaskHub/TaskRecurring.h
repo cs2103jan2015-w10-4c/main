@@ -9,10 +9,10 @@
 
 #include "TaskStorage.h"
 
-class StorageRecurringTask : public TaskStorage{
+class TaskRecurring : public TaskStorage{
 public:
-	StorageRecurringTask();
-	~StorageRecurringTask();
+	TaskRecurring();
+	~TaskRecurring();
 
 protected:
 	int _month;

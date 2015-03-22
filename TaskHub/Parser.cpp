@@ -151,7 +151,7 @@ string Task::ToString(){
 	return Task;
 }
 
-string Task::get_TaskName(){
+string Task::getTaskName(){
 	return _TaskName;
 }
 

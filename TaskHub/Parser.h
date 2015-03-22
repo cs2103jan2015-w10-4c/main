@@ -16,7 +16,7 @@ public:
 	~Task();
 	Task(string Task, string input);
 	string ToString();
-	string get_TaskName();
+	string getTaskName();
 	void UpdateTask(string input);
 	void MarkDone();
 	void MarkUndone();

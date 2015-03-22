@@ -11,11 +11,11 @@
 
 #include "TaskStorage.h"
 
-class StorageTimedTask : public TaskStorage{
+class TaskTimed : public TaskStorage{
 
 public:
-	StorageTimedTask();
-	~StorageTimedTask();
+	TaskTimed();
+	~TaskTimed();
 
 protected:
 	int _month;

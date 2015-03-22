@@ -9,11 +9,11 @@
 
 #include "TaskStorage.h"
 
-class StorageDeadlineTask : public TaskStorage{
+class TaskDeadline : public TaskStorage{
 
 public:
-	StorageDeadlineTask();
-	~StorageDeadlineTask();
+	TaskDeadline();
+	~TaskDeadline();
 
 protected:
 	int _month;

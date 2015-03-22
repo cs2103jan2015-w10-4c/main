@@ -8,11 +8,11 @@
 
 #include "TaskStorage.h"
 
-class StorageFloatingTask : public TaskStorage{
+class TaskFloating : public TaskStorage{
 
 public:
-	StorageFloatingTask();
-	~StorageFloatingTask();
+	TaskFloating();
+	~TaskFloating();
 
 protected:
 
