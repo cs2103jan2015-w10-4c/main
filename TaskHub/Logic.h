@@ -12,7 +12,9 @@ class Logic
 {
 public:
 	
-	static void getStorage();
+	static string getFirstWord(string input);
+	static string removeFirstWord(string input);
+	
 
 	static string addTask(string input);
 	static string updateTask(string input);
@@ -24,8 +26,6 @@ public:
 	static string redo();
 	static string help();
 
-	static string getFirstWord(string input);
-	static string removeFirstWord(string input);
 	static vector<string> splitText(string text);
 	static string printVector(vector<string> output);
 	
@@ -35,6 +35,7 @@ public:
 	static Task lastUnchangedTask;
 	static Task lastChangedTask;
 
+	static void getStorage();
 	static History history;
 };
 

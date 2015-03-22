@@ -65,6 +65,7 @@
     <ClCompile Include="CommandAdd.cpp" />
     <ClCompile Include="CommandDelete.cpp" />
     <ClCompile Include="CommandDisplay.cpp" />
+    <ClCompile Include="CommandInterpreter.cpp" />
     <ClCompile Include="CommandMarkDone.cpp" />
     <ClCompile Include="CommandRedo.cpp" />
     <ClCompile Include="CommandSearch.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="CommandAdd.h" />
     <ClInclude Include="CommandDelete.h" />
     <ClInclude Include="CommandDisplay.h" />
+    <ClInclude Include="CommandInterpreter.h" />
     <ClInclude Include="CommandMarkDone.h" />
     <ClInclude Include="CommandRedo.h" />
     <ClInclude Include="CommandSearch.h" />

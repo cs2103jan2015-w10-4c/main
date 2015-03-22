@@ -14,7 +14,7 @@ string CommandSearch::searchMessage (string input) {
 		vector<Task> temp=Logic::history.getVectorTextStorage();
 
 		for (unsigned int i = 0; i < temp.size(); i++){
-			string _Taskname = (temp[i]).getTaskName();
+			string _Taskname = (temp[i]).get_TaskName();
 			vector<string> description = Logic::splitText(_Taskname);
 
 			for (unsigned int j = 0; j < description.size(); j++){

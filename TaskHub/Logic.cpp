@@ -9,11 +9,6 @@
 #include "CommandUndo.h"
 #include "CommandRedo.h"
 
-vector<Task> Logic::textStorage;
-string Logic::lastCommandType;
-int Logic::lastChangedTaskIndex;
-Task Logic::lastChangedTask;
-Task Logic::lastUnchangedTask;
 
 History Logic::history;
 

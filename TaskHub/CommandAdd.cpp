@@ -13,7 +13,7 @@ string CommandAdd::addMessage(string input) {
 	Logic::history.setVectorTextStorage(newTask);
 	string output = MESSAGE_ADDED;
 
-	Logic::lastChangedTask = newTask;
+	Logic::history.setLastChangedTask(newTask);
 
 	return output;
 
