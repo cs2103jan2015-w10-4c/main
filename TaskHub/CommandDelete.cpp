@@ -24,7 +24,7 @@ string CommandDelete::deleteMessage(string input) {
 	//}
 	//else{        
 		Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);
-		Logic::history.setLastChangedTaskIndex(index-1);
+		Logic::history.setLastChangedTaskIndex(index);
 		Logic::history.setLastUnchangedTask (Logic::history.getVectorTextStorage()[index - 1]);
 		vector<Task> temporary=Logic::history.getVectorTextStorage();
 		temporary.erase(temporary.begin() + index - 1);

@@ -13,16 +13,16 @@ string undoChange::undo() {
 		Logic::history.setVectorTextStorage(temporary);
 		return "Adding command is undone";
 	}
+
 	else if (Logic::history.getLastCommandType() == "update"){
 		temporary[Logic::history.getLastChangedTaskIndex()] = Logic::history.getLastUnchangedTask();
+		
 		Logic::history.setVectorTextStorage(temporary);
 		return "Updating command is undone";
 	}
 	else if (Logic::history.getLastCommandType() == "delete"){
 		
-		cout<<"1\n";
-		temporary.insert(Logic::history.getVectorTextStorage().begin() + Logic::history.getLastChangedTaskIndex(), Logic::history.getLastUnchangedTask());
-		cout<<"2\n";
+		temporary.insert(temporary.begin() + Logic::history.getLastChangedTaskIndex(), Logic::history.getLastUnchangedTask());
 		Logic::history.setVectorTextStorage(temporary);
 		return "Deleting command is undone";
 	}

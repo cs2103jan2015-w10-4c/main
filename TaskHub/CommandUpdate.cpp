@@ -20,7 +20,7 @@ string UpdatingMessage::updateMessage(string input) {
 	}
 	else{
 		Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);
-		Logic::history.setLastChangedTaskIndex ( index - 1);
+		Logic::history.setLastChangedTaskIndex ( index);
 		vector<Task> temp=Logic::history.getVectorTextStorage();
 
 		Logic::history.setLastUnchangedTask (temp[index - 1]);
