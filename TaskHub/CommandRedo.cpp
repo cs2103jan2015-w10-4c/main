@@ -6,20 +6,28 @@ const string redoChange::MESSAGE_COMMAND_TYPE="redo";
 
 string redoChange::redo() {
 
-	if (Logic::lastCommandType == "add"){
-		Logic::textStorage.push_back(Logic::lastChangedTask);
+	vector<Task> temporary=Logic::history.getVectorTextStorage();
+
+	if (Logic::history.getLastCommandType() == "add"){
+		
+		temporary.push_back(Logic::history.getLastChangedTask());
+		Logic::history.setVectorTextStorage(temporary);
+
 		return "Adding command is redone";
 	}
-	else if (Logic::lastCommandType == "update"){
-		Logic::textStorage[Logic::lastChangedTaskIndex] = Logic::lastChangedTask;
+	else if (Logic::history.getLastCommandType()  == "update"){
+		temporary[Logic::history.getLastChangedTaskIndex()] = Logic::history.getLastChangedTask();
+		Logic::history.setVectorTextStorage(temporary);
 		return "Updating command is redone";
 	}
-	else if (Logic::lastCommandType == "delete"){
-		Logic::textStorage.erase(Logic::textStorage.begin() + Logic::lastChangedTaskIndex);
+	else if (Logic::history.getLastCommandType()  == "delete"){
+		temporary.erase(temporary.begin() + Logic::history.getLastChangedTaskIndex());
+		Logic::history.setVectorTextStorage(temporary);
 		return "Deleting command is redone";
 	}
-	else if (Logic::lastCommandType == "done"){
-		Logic::textStorage[Logic::lastChangedTaskIndex].MarkDone();
+	else if (Logic::history.getLastCommandType()  == "done"){
+		temporary[Logic::history.getLastChangedTaskIndex()].MarkDone();
+		Logic::history.setVectorTextStorage(temporary);
 		return "MarkDone command is redone";
 	}
 	else{
