@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include "Parser.h"
-#include "StorageController.h"
+#include "Storage.h"
 #include "History.h"
 using namespace std;
 
@@ -22,6 +22,7 @@ public:
 	static string MarkDone(string input);
 	static string undo();
 	static string redo();
+	static string help();
 
 	static string getFirstWord(string input);
 	static string removeFirstWord(string input);

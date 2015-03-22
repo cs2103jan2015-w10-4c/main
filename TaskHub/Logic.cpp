@@ -18,7 +18,7 @@ Task Logic::lastUnchangedTask;
 History Logic::history;
 
 void Logic::getStorage(){
-	vector<string> Logic = StorageController::returnTask();
+	vector<string> Logic = storage::returnTask();
 	for (unsigned int i = 0; i < Logic.size(); i++){
 		string TaskString = removeFirstWord(Logic[i]);
 		Task newTask(TaskString, "copy");
@@ -94,4 +94,27 @@ string Logic::printVector(vector<string> output){
 		oss << output[i];
 	}
 	return oss.str();
+}
+
+string Logic::help() {
+
+	cout << "Some examples:\n";
+
+	cout << "Add: add meeting -from 1200 -to 1400 25/12\n";
+	cout << "Display all: display \n";
+	cout << "Display Static Tasks: display static\n";
+	cout << "Display Deadline Tasks: display deadline\n";
+	cout << "Display Unfinished Tasks: display unfinished\n";
+	cout << "Display Finished Tasks: display finished\n";
+	cout << "Display Floating Tasks: display floating\n";
+	
+	cout << "Update: Update 1 -from 1400 -to 1500 23/12\n";
+	cout << "Search: search meeting\n";
+	cout << "Delete: delete 1\n";
+	
+	cout << "Undo: undo\n";
+	cout << "Redo: redo\n";
+	cout << "Exit: exit\n";
+
+	return "";
 }

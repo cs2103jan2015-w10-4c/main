@@ -1,7 +1,5 @@
 #include "UI.h"
-#include "Parser.h"
-#include "StorageController.h"
-#include "Logic.h"
+#include "CommandInterpreter.h"
 
 int main() {
 	UI::showToUser(UI::displayWelcomeMessage());
@@ -9,7 +7,7 @@ int main() {
 	while (true) {
 
 		string userCommand = UI::getUserCommand();
-		string output = UI::executeUserCommand(userCommand);
+		string output = CommandInterpreter::executeUserCommand(userCommand);
 		UI::showToUser(output);
 		cout << "\n===================================="<<endl;;
     }
