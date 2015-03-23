@@ -11,23 +11,24 @@ string CommandDelete::deleteMessage(string input) {
 	istringstream in(input);
 	in >> index;
 	//Assertion
-	assert(index > 0 && index <= Logic::textStorage.size());
+	assert(index > 0 && index <= Logic::history.getVectorTextStorage().size());
 
 	//Exception
-	if (index <= 0){
-		throw std::string("Error: Invalid index input");
-	}
+	//if (index <= 0){
+	//	throw std::string("Error: Invalid index input");
+	//}
 
 	//string output;
 	//if (index > Logic::textStorage.size() || index <= 0){
 	//	output = "Task " + input + " does not exit";
 	//}
 	//else{        
-		Logic::lastCommandType = MESSAGE_COMMAND_TYPE;
-		Logic::lastChangedTaskIndex = index-1;
-		Logic::lastUnchangedTask = Logic::textStorage[index - 1];
-
-		Logic::textStorage.erase(Logic::textStorage.begin() + index - 1);
+		Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		Logic::history.setLastChangedTaskIndex(index);
+		Logic::history.setLastUnchangedTask (Logic::history.getVectorTextStorage()[index - 1]);
+		vector<Task> temporary=Logic::history.getVectorTextStorage();
+		temporary.erase(temporary.begin() + index - 1);
+		Logic::history.setVectorTextStorage(temporary);
 		string output = "Task " + input + " deleted";
 		
 	//}

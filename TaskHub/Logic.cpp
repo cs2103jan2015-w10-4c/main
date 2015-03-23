@@ -1,26 +1,26 @@
 #include <sstream>
 #include "Logic.h"
 #include "CommandAdd.h"
-#include "UpdatingMessage.h"
+#include "CommandUpdate.h"
 #include "CommandDelete.h"
 #include "CommandSearch.h"
 #include "CommandDisplay.h"
-#include "MarkMessageDone.h"
+#include "CommandMarkDone.h"
+#include "CommandUndo.h"
+#include "CommandRedo.h"
+#include "CommandInterpreter.h"
 
-vector<Task> Logic::textStorage;
-string Logic::lastCommandType;
-int Logic::lastChangedTaskIndex;
-Task Logic::lastChangedTask;
-Task Logic::lastUnchangedTask;
+
+History Logic::history;
 
 void Logic::getStorage(){
 	vector<string> Logic = storage::returnTask();
-
 	for (unsigned int i = 0; i < Logic.size(); i++){
-		string TaskString = removeFirstWord(Logic[i]);
+		string TaskString = CommandInterpreter::removeFirstWord(Logic[i]);
 		Task newTask(TaskString, "copy");
-		textStorage.push_back(newTask);
+		Logic::history.setVectorTextStorage(newTask);
 	}
+	
 }
 
 string Logic::addTask(string input){
@@ -54,58 +54,16 @@ string Logic::MarkDone(string input){
 }
 
 string Logic::undo(){
-	if (lastCommandType == "add"){
-		textStorage.pop_back();
-		return "Adding command is undone";
-	}
-	else if (lastCommandType == "update"){
-		textStorage[lastChangedTaskIndex] = lastUnchangedTask;
-		return "Updating command is undone";
-	}
-	else if (lastCommandType == "delete"){
-		textStorage.insert(textStorage.begin() + lastChangedTaskIndex, lastUnchangedTask);
-		return "Deleting command is undone";
-	}
-	else if (lastCommandType == "done"){
-		textStorage[lastChangedTaskIndex].MarkUndone();
-		return "MarkDone command is undone";
-	}
-	else{
-		return "Previous action cannot be undo";
-	}
+	
+	return undoChange::undo();
 }
 
 string Logic::redo(){
-	if (lastCommandType == "add"){
-		textStorage.push_back(lastChangedTask);
-		return "Adding command is redone";
-	}
-	else if (lastCommandType == "update"){
-		textStorage[lastChangedTaskIndex] = lastChangedTask;
-		return "Updating command is redone";
-	}
-	else if (lastCommandType == "delete"){
-		textStorage.erase(textStorage.begin() + lastChangedTaskIndex);
-		return "Deleting command is redone";
-	}
-	else if (lastCommandType == "done"){
-		textStorage[lastChangedTaskIndex].MarkDone();
-		return "MarkDone command is redone";
-	}
-	else{
-		return "previous action cannot be redo";
-	}
+	
+	return redoChange::redo();
 }
 
-string Logic::getFirstWord(string input)
-{
-	return input.substr(0, input.find(' '));
-}
 
-string Logic::removeFirstWord(string input)
-{
-	return input.substr(input.find_first_of(" ") + 1);
-}
 
 vector<string> Logic::splitText(string text){
 	vector<string> words;
@@ -124,4 +82,27 @@ string Logic::printVector(vector<string> output){
 		oss << output[i];
 	}
 	return oss.str();
+}
+
+string Logic::help() {
+
+	cout << "Some examples:\n";
+
+	cout << "Add: add meeting -from 1200 -to 1400 25/12\n";
+	cout << "Display all: display \n";
+	cout << "Display Static Tasks: display static\n";
+	cout << "Display Deadline Tasks: display deadline\n";
+	cout << "Display Unfinished Tasks: display unfinished\n";
+	cout << "Display Finished Tasks: display finished\n";
+	cout << "Display Floating Tasks: display floating\n";
+	
+	cout << "Update: Update 1 -from 1400 -to 1500 23/12\n";
+	cout << "Search: search meeting\n";
+	cout << "Delete: delete 1\n";
+	
+	cout << "Undo: undo\n";
+	cout << "Redo: redo\n";
+	cout << "Exit: exit\n";
+
+	return "";
 }
