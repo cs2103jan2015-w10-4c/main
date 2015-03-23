@@ -8,15 +8,14 @@
 #include "CommandMarkDone.h"
 #include "CommandUndo.h"
 #include "CommandRedo.h"
-#include "CommandInterpreter.h"
 
 
 History Logic::history;
 
 void Logic::getStorage(){
-	vector<string> Logic = storage::returnTask();
+	vector<string> Logic = StorageController::returnTask();
 	for (unsigned int i = 0; i < Logic.size(); i++){
-		string TaskString = CommandInterpreter::removeFirstWord(Logic[i]);
+		string TaskString = removeFirstWord(Logic[i]);
 		Task newTask(TaskString, "copy");
 		Logic::history.setVectorTextStorage(newTask);
 	}
@@ -63,7 +62,15 @@ string Logic::redo(){
 	return redoChange::redo();
 }
 
+string Logic::getFirstWord(string input)
+{
+	return input.substr(0, input.find(' '));
+}
 
+string Logic::removeFirstWord(string input)
+{
+	return input.substr(input.find_first_of(" ") + 1);
+}
 
 vector<string> Logic::splitText(string text){
 	vector<string> words;

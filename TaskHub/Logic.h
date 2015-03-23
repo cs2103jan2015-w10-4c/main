@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include "Parser.h"
-#include "Storage.h"
+#include "StorageController.h"
 #include "History.h"
 using namespace std;
 
@@ -12,11 +12,10 @@ class Logic
 {
 public:
 	
-	static void getStorage();
-	static History history;
-	static vector<string> splitText(string text);
+	static string getFirstWord(string input);
+	static string removeFirstWord(string input);
+	
 
-	static string printVector(vector<string> output);
 	static string addTask(string input);
 	static string updateTask(string input);
 	static string deleteTask(string input);
@@ -27,8 +26,17 @@ public:
 	static string redo();
 	static string help();
 
-
+	static vector<string> splitText(string text);
+	static string printVector(vector<string> output);
 	
+	static vector<Task> textStorage;
+	static string lastCommandType;
+	static int lastChangedTaskIndex;
+	static Task lastUnchangedTask;
+	static Task lastChangedTask;
+
+	static void getStorage();
+	static History history;
 };
 
 #endif

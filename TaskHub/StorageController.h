@@ -1,5 +1,5 @@
-#ifndef STORAGE_H_
-#define STORAGE_H_
+#ifndef STORAGECONTROLLER_H_
+#define STORAGECONTROLLER_H_
 
 #include <iostream>
 #include <sstream>
@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class storage{
+class StorageController {
 private:
 	static vector<string> Task;
 	static const string fileName;

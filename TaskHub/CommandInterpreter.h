@@ -15,12 +15,13 @@ class CommandInterpreter {
 private:
 	static const string MESSAGE_ERROR;
 	static const string MESSAGE_TERMINATION;
+	static string getFirstWord(string userCommand);
+	static string removeFirstWord(string userCommand);
+	static string getMessage(string TaskString);
 	static COMMAND_TYPE determineCommandType(string commandTypeString, string TaskString);
 
 public:
 	static string executeUserCommand(string userCommand);
-	static string getFirstWord(string userCommand);
-	static string removeFirstWord(string userCommand);
 
 
 };

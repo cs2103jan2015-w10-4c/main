@@ -5,7 +5,6 @@
 #include <string>
 #include "DateParser.h"
 #include "TimeParser.h"
-
 using namespace std;
 
 class Task
@@ -17,7 +16,7 @@ public:
 	~Task();
 	Task(string Task, string input);
 	string ToString();
-	string get_TaskName();
+	string getTaskName();
 	void UpdateTask(string input);
 	void MarkDone();
 	void MarkUndone();
@@ -32,6 +31,9 @@ private:
 	string _scheduledDate;
 	string _deadlineDate;
 	string _status;
+	DateParser _dateParser;
+	TimeParser _timeParser;
+
 };
 
 #endif

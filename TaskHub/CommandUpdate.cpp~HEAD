@@ -1,13 +1,14 @@
 #include "CommandUpdate.h"
 #include "Logic.h"
 #include "Parser.h"
-
+#include "CommandInterpreter.h"
 const string UpdatingMessage::MESSAGE_COMMAND_TYPE="update";
 
 string UpdatingMessage::updateMessage(string input) {
 
-	string TaskIndex = Logic::getFirstWord(input);
-	string TaskInfo = Logic::removeFirstWord(input);
+	
+	string TaskIndex =CommandInterpreter::getFirstWord(input);
+	string TaskInfo = CommandInterpreter::removeFirstWord(input);
 
 	unsigned int index;
 	istringstream in(TaskIndex);

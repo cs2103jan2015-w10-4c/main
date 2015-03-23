@@ -11,25 +11,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{20B7F2BB-0301-4A7D-9C20-75833E17E20F}</ProjectGuid>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>newTry</RootNamespace>
+    <ProjectGuid>{FC89A13F-E483-4D83-82A7-6CBC88AEC6B5}</ProjectGuid>
+    <RootNamespace>TaskHub</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CLRSupport>true</CLRSupport>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CLRSupport>true</CLRSupport>
-    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -41,61 +38,75 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies />
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies />
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="CommandAdd.h" />
-    <ClInclude Include="CommandDelete.h" />
-    <ClInclude Include="CommandDisplay.h" />
-    <ClInclude Include="DateParser.h" />
-    <ClInclude Include="Logic.h" />
-    <ClInclude Include="MarkMessageDone.h" />
-    <ClInclude Include="Parser.h" />
-    <ClInclude Include="CommandSearch.h" />
-    <ClInclude Include="Storage.h" />
-    <ClInclude Include="TimeParser.h" />
-    <ClInclude Include="Ui.h" />
-    <ClInclude Include="UpdatingMessage.h" />
-  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CommandAdd.cpp" />
     <ClCompile Include="CommandDelete.cpp" />
     <ClCompile Include="CommandDisplay.cpp" />
+    <ClCompile Include="CommandInterpreter.cpp" />
+    <ClCompile Include="CommandMarkDone.cpp" />
+    <ClCompile Include="CommandRedo.cpp" />
+    <ClCompile Include="CommandSearch.cpp" />
+    <ClCompile Include="CommandUndo.cpp" />
+    <ClCompile Include="CommandUpdate.cpp" />
     <ClCompile Include="DateParser.cpp" />
+    <ClCompile Include="History.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MarkMessageDone.cpp" />
     <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="CommandSearch.cpp" />
-    <ClCompile Include="Storage.cpp" />
+    <ClCompile Include="StorageController.cpp" />
+    <ClCompile Include="TaskDeadline.cpp" />
+    <ClCompile Include="TaskFloating.cpp" />
+    <ClCompile Include="TaskRecurring.cpp" />
+    <ClCompile Include="TaskTimed.cpp" />
+    <ClCompile Include="TaskStorage.cpp" />
     <ClCompile Include="TimeParser.cpp" />
     <ClCompile Include="Ui.cpp" />
-    <ClCompile Include="UpdatingMessage.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CommandAdd.h" />
+    <ClInclude Include="CommandDelete.h" />
+    <ClInclude Include="CommandDisplay.h" />
+    <ClInclude Include="CommandInterpreter.h" />
+    <ClInclude Include="CommandMarkDone.h" />
+    <ClInclude Include="CommandRedo.h" />
+    <ClInclude Include="CommandSearch.h" />
+    <ClInclude Include="CommandUndo.h" />
+    <ClInclude Include="CommandUpdate.h" />
+    <ClInclude Include="DateParser.h" />
+    <ClInclude Include="History.h" />
+    <ClInclude Include="Logic.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="StorageController.h" />
+    <ClInclude Include="TaskDeadline.h" />
+    <ClInclude Include="TaskFloating.h" />
+    <ClInclude Include="TaskRecurring.h" />
+    <ClInclude Include="TaskTimed.h" />
+    <ClInclude Include="TaskStorage.h" />
+    <ClInclude Include="TimeParser.h" />
+    <ClInclude Include="Ui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

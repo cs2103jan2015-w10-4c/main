@@ -4,7 +4,7 @@
 const string UI::MESSAGE_WELCOME = "Welcome to Taskhub";
 
 string UI::displayWelcomeMessage() {
-	storage::programmeInitialising();
+	StorageController::programmeInitialising();
 	Logic::getStorage();
 
 	return MESSAGE_WELCOME;
