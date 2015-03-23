@@ -13,7 +13,7 @@
 #include <sstream>
 #include <time.h>
 #include "Logic.h"
-#include "Storage.h"
+#include "StorageController.h"
 #include "CommandInterpreter.h"
 
 using namespace std;

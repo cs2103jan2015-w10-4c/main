@@ -13,7 +13,7 @@
 History Logic::history;
 
 void Logic::getStorage(){
-	vector<string> Logic = storage::returnTask();
+	vector<string> Logic = StorageController::returnTask();
 	for (unsigned int i = 0; i < Logic.size(); i++){
 		string TaskString = removeFirstWord(Logic[i]);
 		Task newTask(TaskString, "copy");

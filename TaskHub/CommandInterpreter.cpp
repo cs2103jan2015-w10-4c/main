@@ -36,7 +36,7 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 	case REDO:
 		return Logic::redo();
 	case EXIT:
-		storage::programmeTerminating();
+		StorageController::programmeTerminating();
 		cout << MESSAGE_TERMINATION << endl;;
 		exit(0);
 	case INVALID:
