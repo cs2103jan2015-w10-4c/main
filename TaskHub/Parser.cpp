@@ -16,15 +16,13 @@ Task::Task(){}
 Task::Task(string input){
 	
 	if (!input.empty()){
-		DateParser parseDate(input);
-		TimeParser parseTime(input);
-
 		size_t timed_Task = input.find("-from");
 		size_t deadlined_Task = input.find("-by");
 
 		if (timed_Task != string::npos){
-			
-	
+			DateParser parseDate(input);
+		    TimeParser parseTime(input);
+
 			_TaskType = SCHEDULED_Task_LABEL;
 			_TaskName = input.substr(0, timed_Task - 1);
 			_startTime = parseTime.getStartTime();
@@ -34,7 +32,8 @@ Task::Task(string input){
 			_deadlineDate = "";
 		}
 		else if (deadlined_Task != string::npos){
-			
+			DateParser parseDate(input);
+		    TimeParser parseTime(input);
 			_TaskType = DEADLINE_Task_LABEL;
 			_TaskName = input.substr(0, deadlined_Task - 1);
 			_startTime = "";
