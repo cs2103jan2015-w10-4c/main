@@ -194,6 +194,10 @@ void Task::MarkUndone(){
 	_status = "processing";
 }
 
+void Task::markUncompleted(){
+	_status = "uncompleted";
+}
+
 void Task::checkInputValidation(){
 	//check for valid time frame
 	bool valid_time = false;
