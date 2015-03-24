@@ -38,6 +38,13 @@ namespace TaskHubTest
 			std::string actualResult1("is due");
 			Assert::AreEqual(testResult1, actualResult1);
 			
+			//test case 2 : empty string
+			std::string testSentence2("project is due");
+			std::string testResult2 = Logic::removeFirstWord(testSentence2);
+			std::string actualResult2("is due");
+			Assert::AreEqual(testResult2, actualResult2);
+
+
 		}
 	};
 

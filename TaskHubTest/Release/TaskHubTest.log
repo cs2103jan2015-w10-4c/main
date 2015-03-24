@@ -1,0 +1,22 @@
+﻿Build started 25/3/2015 12:27:56 AM.
+     1>Project "C:\Users\USER\Documents\Visual Studio 2013\Projects\TryThis\TaskHubTest\TaskHubTest.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\UnitTest\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Release\TaskHubTest.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /FC /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\UnitTest\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\TaskHubTest.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /FC /errorReport:prompt TaskHubTest.cpp
+         TaskHubTest.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\USER\Documents\Visual Studio 2013\Projects\TryThis\Release\TaskHubTest.dll" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\UnitTest\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\USER\Documents\Visual Studio 2013\Projects\TryThis\Release\TaskHubTest.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\USER\Documents\Visual Studio 2013\Projects\TryThis\Release\TaskHubTest.lib" /MACHINE:X86 /SAFESEH /DLL Release\stdafx.obj
+         Release\TaskHubTest.obj
+     1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+            Creating library C:\Users\USER\Documents\Visual Studio 2013\Projects\TryThis\Release\TaskHubTest.lib and object C:\Users\USER\Documents\Visual Studio 2013\Projects\TryThis\Release\TaskHubTest.exp
+     1>TaskHubTest.obj : error LNK2001: unresolved external symbol "public: static class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl Logic::getFirstWord(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?getFirstWord@Logic@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V23@@Z)
+     1>TaskHubTest.obj : error LNK2001: unresolved external symbol "public: static class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl Logic::removeFirstWord(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?removeFirstWord@Logic@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V23@@Z)
+     1>TaskHubTest.obj : error LNK2001: unresolved external symbol "public: __thiscall VenueParser::VenueParser(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (??0VenueParser@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+     1>TaskHubTest.obj : error LNK2001: unresolved external symbol "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall VenueParser::getVenue(void)" (?getVenue@VenueParser@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+     1>C:\Users\USER\Documents\Visual Studio 2013\Projects\TryThis\Release\TaskHubTest.dll : fatal error LNK1120: 4 unresolved externals
+     1>Done Building Project "C:\Users\USER\Documents\Visual Studio 2013\Projects\TryThis\TaskHubTest\TaskHubTest.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.97

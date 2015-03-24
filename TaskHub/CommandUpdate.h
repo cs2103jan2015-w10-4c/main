@@ -5,7 +5,7 @@
 #include<string>
 using namespace std;
 
-class UpdatingMessage {
+class CommandUpdate {
 public:
 	static string updateMessage(string input);
 private:

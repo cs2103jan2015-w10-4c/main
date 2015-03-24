@@ -2,9 +2,9 @@
 #include "Logic.h"
 #include "Parser.h"
 
-const string UpdatingMessage::MESSAGE_COMMAND_TYPE="update";
+const string CommandUpdate::MESSAGE_COMMAND_TYPE="update";
 
-string UpdatingMessage::updateMessage(string input) {
+string CommandUpdate::updateMessage(string input) {
 
 	string TaskIndex = Logic::getFirstWord(input);
 	string TaskInfo = Logic::removeFirstWord(input);
@@ -15,7 +15,7 @@ string UpdatingMessage::updateMessage(string input) {
 
 	string output;
 	if (index > Logic::history.getVectorTextStorage().size() || index <= 0){
-		output = "Task " + TaskIndex + " does not exit";
+		output = "Task " + TaskIndex + " does not exist";
 		
 	}
 	else{

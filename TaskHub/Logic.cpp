@@ -29,7 +29,7 @@ string Logic::addTask(string input){
 
 string Logic::updateTask(string input){
 	
-	return UpdatingMessage::updateMessage(input); 
+	return CommandUpdate::updateMessage(input); 
 }
 
 string Logic::deleteTask(string input){
