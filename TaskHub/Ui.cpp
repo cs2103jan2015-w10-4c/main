@@ -13,7 +13,7 @@ string UI::displayWelcomeMessage() {
 void UI::showToUser(string text) {
 	cout << text << endl;
 }
-
+//testing 
 string UI::getUserCommand() {
 	string userCommand;
 
