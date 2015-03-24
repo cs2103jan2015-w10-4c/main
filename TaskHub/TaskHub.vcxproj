@@ -84,6 +84,7 @@
     <ClCompile Include="TaskStorage.cpp" />
     <ClCompile Include="TimeParser.cpp" />
     <ClCompile Include="Ui.cpp" />
+    <ClCompile Include="VenueParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandAdd.h" />
@@ -107,6 +108,7 @@
     <ClInclude Include="TaskStorage.h" />
     <ClInclude Include="TimeParser.h" />
     <ClInclude Include="Ui.h" />
+    <ClInclude Include="VenueParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

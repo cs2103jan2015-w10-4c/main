@@ -18,11 +18,12 @@ Task::Task(string input){
 	if (!input.empty()){
 		size_t timed_Task = input.find("-from");
 		size_t deadlined_Task = input.find("-by");
+		size_t venue_Task = input.find("@");
 
 		if (timed_Task != string::npos){
 			DateParser parseDate(input);
 		    TimeParser parseTime(input);
-
+		
 			_TaskType = SCHEDULED_Task_LABEL;
 			_TaskName = input.substr(0, timed_Task - 1);
 			_startTime = parseTime.getStartTime();
@@ -30,6 +31,7 @@ Task::Task(string input){
 			_deadlineTime = "";
 			_scheduledDate = parseDate.getDate();
 			_deadlineDate = "";
+			
 		}
 		else if (deadlined_Task != string::npos){
 			DateParser parseDate(input);
@@ -53,6 +55,10 @@ Task::Task(string input){
 			
 		}
 		_status = "progressing";
+	}
+	if (venue_Task != string::npos){
+		VenueParser parseVenue(input);
+		_venue = parseVenue.getVenue();
 	}
 	checkInputValidation();
 }
