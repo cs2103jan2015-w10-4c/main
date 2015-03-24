@@ -18,10 +18,17 @@ namespace TaskHubTest
     public:
 
 		TEST_METHOD(TestGetFirstWord){
-			std::string testSentence = "cs2103 is difficult";
-			std::string testResult = Logic::getFirstWord(testSentence);
-			std::string actualResult("cs2103");
-			Assert::AreEqual(actualResult, testResult);
+			//test case 1
+			std::string testSentence1 = "cs2103 is difficult";
+			std::string testResult1 = Logic::getFirstWord(testSentence1);
+			std::string actualResult1("cs2103");
+			Assert::AreEqual(actualResult1, testResult1);
+
+			//test case 2 : empty string
+			std::string testSentence2 = "";
+			std::string testResult2 = Logic::getFirstWord(testSentence2);
+			std::string actualResult2("");
+			Assert::AreEqual(actualResult2, testResult2);
 		}
 	};
 
