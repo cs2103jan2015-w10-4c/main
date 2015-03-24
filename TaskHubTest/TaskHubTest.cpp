@@ -43,8 +43,14 @@ namespace TaskHubTest
 			std::string testResult2 = Logic::removeFirstWord(testSentence2);
 			std::string actualResult2("is due");
 			Assert::AreEqual(testResult2, actualResult2);
+		}
 
+		TEST_METHOD(TestSetLastChangedIndex){
+			History* test = new History();
 
+			test->setLastChangedTaskIndex(1);
+			int testResult = test->getLastChangedTaskIndex();
+			Assert::AreEqual(testResult, 1);
 		}
 	};
 
