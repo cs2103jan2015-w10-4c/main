@@ -30,6 +30,15 @@ namespace TaskHubTest
 			std::string actualResult2("");
 			Assert::AreEqual(actualResult2, testResult2);
 		}
+
+		TEST_METHOD(TestRemoveFirstWord){
+			//test case 1
+			std::string testSentence1("project is due");
+			std::string testResult1 = Logic::removeFirstWord(testSentence1);
+			std::string actualResult1("is due");
+			Assert::AreEqual(testResult1, actualResult1);
+			
+		}
 	};
 
 	TEST_CLASS(ParserTest){
