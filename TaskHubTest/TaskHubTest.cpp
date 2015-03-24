@@ -43,7 +43,7 @@ namespace TaskHubTest
 
 	TEST_CLASS(ParserTest){
 	public:
-
+		//test on funtionality of VenueParser class
 		TEST_METHOD(TestVenueParser){
 			std::string testInput = "Write code @NUS";
 			VenueParser parseVenue(testInput);
