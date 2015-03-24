@@ -1,5 +1,6 @@
 #include "Parser.h"
-
+#include "TimeParser.h"
+#include "DateParser.h"
 
 const int Task_LEN = 250;
 const string SCHEDULED_Task_LABEL = "timed";
@@ -54,12 +55,11 @@ Task::Task(string input){
 			
 		}
 		_status = "progressing";
-		if (venue_Task != string::npos){
-			VenueParser parseVenue(input);
-		    _venue = parseVenue.getVenue();
-		}
 	}
-	
+	if (venue_Task != string::npos){
+		VenueParser parseVenue(input);
+		_venue = parseVenue.getVenue();
+	}
 	checkInputValidation();
 }
 
@@ -192,10 +192,6 @@ void Task::MarkDone(){
 
 void Task::MarkUndone(){
 	_status = "processing";
-}
-
-void Task::markUncompleted(){
-	_status = "uncompleted";
 }
 
 void Task::checkInputValidation(){

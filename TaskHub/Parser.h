@@ -5,7 +5,6 @@
 #include <string>
 #include "DateParser.h"
 #include "TimeParser.h"
-#include "VenueParser.h"
 using namespace std;
 
 class Task
@@ -22,7 +21,6 @@ public:
 	void MarkDone();
 	void MarkUndone();
 	void checkInputValidation();
-	void markUncompleted();
 	
 private:
 	string _TaskName;
