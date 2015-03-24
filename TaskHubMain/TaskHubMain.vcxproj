@@ -11,12 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{FC89A13F-E483-4D83-82A7-6CBC88AEC6B5}</ProjectGuid>
-    <RootNamespace>TaskHub</RootNamespace>
+    <ProjectGuid>{9D27379B-2DFF-46F9-A368-55B8A974B5EA}</ProjectGuid>
+    <RootNamespace>TaskHubMain</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -43,6 +43,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -54,6 +55,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -62,52 +64,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CommandAdd.cpp" />
-    <ClCompile Include="CommandDelete.cpp" />
-    <ClCompile Include="CommandDisplay.cpp" />
-    <ClCompile Include="CommandInterpreter.cpp" />
-    <ClCompile Include="CommandMarkDone.cpp" />
-    <ClCompile Include="CommandRedo.cpp" />
-    <ClCompile Include="CommandSearch.cpp" />
-    <ClCompile Include="CommandUndo.cpp" />
-    <ClCompile Include="CommandUpdate.cpp" />
-    <ClCompile Include="DateParser.cpp" />
-    <ClCompile Include="History.cpp" />
-    <ClCompile Include="Logic.cpp" />
-    <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="StorageController.cpp" />
-    <ClCompile Include="TaskDeadline.cpp" />
-    <ClCompile Include="TaskFloating.cpp" />
-    <ClCompile Include="TaskRecurring.cpp" />
-    <ClCompile Include="TaskTimed.cpp" />
-    <ClCompile Include="TaskStorage.cpp" />
-    <ClCompile Include="TimeParser.cpp" />
-    <ClCompile Include="Ui.cpp" />
-    <ClCompile Include="VenueParser.cpp" />
+    <ClCompile Include="TaskHubMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommandAdd.h" />
-    <ClInclude Include="CommandDelete.h" />
-    <ClInclude Include="CommandDisplay.h" />
-    <ClInclude Include="CommandInterpreter.h" />
-    <ClInclude Include="CommandMarkDone.h" />
-    <ClInclude Include="CommandRedo.h" />
-    <ClInclude Include="CommandSearch.h" />
-    <ClInclude Include="CommandUndo.h" />
-    <ClInclude Include="CommandUpdate.h" />
-    <ClInclude Include="DateParser.h" />
-    <ClInclude Include="History.h" />
-    <ClInclude Include="Logic.h" />
-    <ClInclude Include="Parser.h" />
-    <ClInclude Include="StorageController.h" />
-    <ClInclude Include="TaskDeadline.h" />
-    <ClInclude Include="TaskFloating.h" />
-    <ClInclude Include="TaskRecurring.h" />
-    <ClInclude Include="TaskTimed.h" />
-    <ClInclude Include="TaskStorage.h" />
-    <ClInclude Include="TimeParser.h" />
-    <ClInclude Include="Ui.h" />
-    <ClInclude Include="VenueParser.h" />
+    <ProjectReference Include="..\TaskHub\TaskHub.vcxproj">
+      <Project>{fc89a13f-e483-4d83-82a7-6cbc88aec6b5}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

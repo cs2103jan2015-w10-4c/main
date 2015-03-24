@@ -17,8 +17,11 @@ namespace TaskHubTest
 	TEST_CLASS(LogicTest){
     public:
 
-		TEST_METHOD(LogicTestMethod1){
-
+		TEST_METHOD(TestGetFirstWord){
+			std::string testSentence = "cs2103 is difficult";
+			std::string testResult = Logic::getFirstWord(testSentence);
+			std::string actualResult("cs2103");
+			Assert::AreEqual(actualResult, testResult);
 		}
 	};
 

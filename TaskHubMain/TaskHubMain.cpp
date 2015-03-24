@@ -1,17 +1,17 @@
-#include "UI.h"
-#include "CommandInterpreter.h"
+#include "..\TaskHub\UI.h"
+#include "..\TaskHub\CommandInterpreter.h"
 
 int main() {
 	UI::showToUser(UI::displayWelcomeMessage());
-	cout << "=========================================="<<endl;
+	cout << "==========================================" << endl;
 	while (true) {
 
 		string userCommand = UI::getUserCommand();
 		string output = CommandInterpreter::executeUserCommand(userCommand);
 		UI::showToUser(output);
-		cout << "\n===================================="<<endl;;
-    }
+		cout << "\n====================================" << endl;;
+	}
 
-//	system("pause");
+	//	system("pause");
 	return 0;
 }
