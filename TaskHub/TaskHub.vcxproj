@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{FC89A13F-E483-4D83-82A7-6CBC88AEC6B5}</ProjectGuid>
+    <ProjectGuid>{DC8DE0F0-F351-440B-BF48-9B15915A3E18}</ProjectGuid>
     <RootNamespace>TaskHub</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -43,6 +43,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -54,6 +55,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -75,12 +77,13 @@
     <ClCompile Include="History.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Storage.cpp" />
     <ClCompile Include="StorageController.cpp" />
     <ClCompile Include="TaskDeadline.cpp" />
     <ClCompile Include="TaskFloating.cpp" />
     <ClCompile Include="TaskRecurring.cpp" />
-    <ClCompile Include="TaskTimed.cpp" />
     <ClCompile Include="TaskStorage.cpp" />
+    <ClCompile Include="TaskTimed.cpp" />
     <ClCompile Include="TimeParser.cpp" />
     <ClCompile Include="Ui.cpp" />
     <ClCompile Include="VenueParser.cpp" />
@@ -99,12 +102,13 @@
     <ClInclude Include="History.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="Storage.h" />
     <ClInclude Include="StorageController.h" />
     <ClInclude Include="TaskDeadline.h" />
     <ClInclude Include="TaskFloating.h" />
     <ClInclude Include="TaskRecurring.h" />
-    <ClInclude Include="TaskTimed.h" />
     <ClInclude Include="TaskStorage.h" />
+    <ClInclude Include="TaskTimed.h" />
     <ClInclude Include="TimeParser.h" />
     <ClInclude Include="Ui.h" />
     <ClInclude Include="VenueParser.h" />
