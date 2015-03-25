@@ -6,7 +6,7 @@ VenueParser::VenueParser(void){
 
 
 VenueParser::VenueParser(string input){
-	_venue = input.substr(input.find("@")+1, input.size());
+	_venue = input.substr(input.find("@"), input.size());
 }
 
 string VenueParser::getVenue(){
