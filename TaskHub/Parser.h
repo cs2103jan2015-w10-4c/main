@@ -34,8 +34,6 @@ private:
 	string _deadlineDate;
 	string _status;
 	string _venue;
-	DateParser _dateParser;
-	TimeParser _timeParser;
 
 };
 
