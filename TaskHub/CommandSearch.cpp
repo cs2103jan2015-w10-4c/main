@@ -1,6 +1,7 @@
 #include "Logic.h"
 #include "Parser.h"
 #include "CommandSearch.h"
+#include <algorithm>
 
 const string CommandSearch::MESSAGE_COMMAND_TYPE="search";
 const string CommandSearch::MESSAGE_CANNOT_FIND="Cannot find message";
@@ -14,36 +15,27 @@ string CommandSearch::searchMessage (string input) {
 	else{
 		vector<string> output;
 		vector<Task> temp=Logic::history.getVectorTextStorage();
+		vector<string> description;
 
 		for (unsigned int i = 0; i < temp.size(); i++){
 			string _Taskname = (temp[i]).getTaskName();
-			vector<string> description = CommandSearch::splitText(_Taskname);
+			description.push_back(_Taskname);}
 
-			for (unsigned int j = 0; j < description.size(); j++){
-				if (input == description[j]){
+		for (unsigned int j = 0; j < description.size(); j++){
+			size_t found= description[j].find(input);	
+			if (found!=string::npos){
 					ostringstream oss;
-					oss << i + 1 << "." << temp[i].ToString() << endl;
+					oss << j + 1 << "." << temp[j].ToString() << endl;
 					string TaskDisplay = oss.str();
 					output.push_back(TaskDisplay);
 				}
 			}
-		}
 
 		return CommandSearch::printVector(output);
 	}
 
 }
 
-vector<string> CommandSearch::splitText(string text){
-	vector<string> words;
-	string word;
-	istringstream in(text);
-	copy(istream_iterator<string>(in),
-		istream_iterator<string>(),
-		back_inserter<vector<string>>(words));
-
-	return words;
-}
 
 string CommandSearch::printVector(vector<string> output){
 	ostringstream oss;

@@ -8,7 +8,6 @@ using namespace std;
 class CommandSearch {
 public:
 	static string searchMessage(string input);
-	static vector<string> splitText(string text);
 	static string printVector(vector<string> output);
 private:
 	static const string MESSAGE_COMMAND_TYPE;
