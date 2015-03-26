@@ -138,6 +138,7 @@ string Task::ToString(){
 		strcat_s(Task, _deadlineTime.c_str());
 		strcat_s(Task, " ");
 		strcat_s(Task, _status.c_str());
+		strcat_s(Task,_venue.c_str());
 	}
 	else if (_TaskType == SCHEDULED_Task_LABEL){
 		strcat_s(Task, " ");
@@ -148,10 +149,12 @@ string Task::ToString(){
 		strcat_s(Task, _endTime.c_str());
 		strcat_s(Task, " ");
 		strcat_s(Task, _status.c_str());
+		strcat_s(Task,_venue.c_str());
 	}
 	else if (_TaskType == FLOATING_Task_LABEL){
 		strcat_s(Task, " ");
 		strcat_s(Task, _status.c_str());
+		strcat_s(Task,_venue.c_str());
 	}
 	return Task;
 }
