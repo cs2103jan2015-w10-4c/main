@@ -69,6 +69,7 @@
     <ClCompile Include="CommandDisplay.cpp" />
     <ClCompile Include="CommandInterpreter.cpp" />
     <ClCompile Include="CommandMarkDone.cpp" />
+    <ClCompile Include="CommandMarkUncomplete.cpp" />
     <ClCompile Include="CommandRedo.cpp" />
     <ClCompile Include="CommandSearch.cpp" />
     <ClCompile Include="CommandUndo.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="CommandDisplay.h" />
     <ClInclude Include="CommandInterpreter.h" />
     <ClInclude Include="CommandMarkDone.h" />
+    <ClInclude Include="CommandMarkUncomplete.h" />
     <ClInclude Include="CommandRedo.h" />
     <ClInclude Include="CommandSearch.h" />
     <ClInclude Include="CommandUndo.h" />
