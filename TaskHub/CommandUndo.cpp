@@ -26,6 +26,11 @@ string undoChange::undo() {
 		Logic::history.setVectorTextStorage(temporary);
 		return "Deleting command is undone";
 	}
+	else if (Logic::history.getLastCommandType() == "uncomplete"){
+		temporary[Logic::history.getLastChangedTaskIndex()].MarkUndone();
+		Logic::history.setVectorTextStorage(temporary);
+		return "MarkUncomplete command is undone";
+	}
 	else if (Logic::history.getLastCommandType() == "done"){
 		temporary[Logic::history.getLastChangedTaskIndex()].MarkUndone();
 		Logic::history.setVectorTextStorage(temporary);

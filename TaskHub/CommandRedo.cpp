@@ -25,6 +25,11 @@ string redoChange::redo() {
 		Logic::history.setVectorTextStorage(temporary);
 		return "Deleting command is redone";
 	}
+	else if (Logic::history.getLastCommandType()  == "uncomplete"){
+		temporary[Logic::history.getLastChangedTaskIndex()].markUncompleted();
+		Logic::history.setVectorTextStorage(temporary);
+		return "MarkUncomplete command is redone";
+	}
 	else if (Logic::history.getLastCommandType()  == "done"){
 		temporary[Logic::history.getLastChangedTaskIndex()].MarkDone();
 		Logic::history.setVectorTextStorage(temporary);

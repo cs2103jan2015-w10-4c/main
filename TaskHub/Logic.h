@@ -8,10 +8,12 @@
 #include "History.h"
 using namespace std;
 
+const int MAX_BUFFERRING_CAPACITY=256;
 class Logic
 {
 public:
 	
+	static char messageDisplayed[MAX_BUFFERRING_CAPACITY];
 	static string getFirstWord(string input);
 	static string removeFirstWord(string input);
 	
@@ -22,12 +24,10 @@ public:
 	static string search(string input);
 	static string display();
 	static string MarkDone(string input);
+	static string markUncompleted (string input);
 	static string undo();
 	static string redo();
 	static string help();
-
-	static vector<string> splitText(string text);
-	static string printVector(vector<string> output);
 	
 	static vector<Task> textStorage;
 	static string lastCommandType;
