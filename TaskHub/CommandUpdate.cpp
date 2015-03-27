@@ -3,6 +3,8 @@
 #include "Parser.h"
 
 const string CommandUpdate::MESSAGE_COMMAND_TYPE="update";
+const string CommandUpdate::MESSAGE_INVALID_INDEX="The index is invalid";
+const string CommandUpdate::MESSAGE_UPDATED="Task: %s is updated";
 
 string CommandUpdate::updateMessage(string input) {
 
@@ -13,9 +15,9 @@ string CommandUpdate::updateMessage(string input) {
 	istringstream in(TaskIndex);
 	in >> index;
 
-	string output;
 	if (index > Logic::history.getVectorTextStorage().size() || index <= 0){
-		output = "Task " + TaskIndex + " does not exist";
+		
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
 		
 	}
 	else{
@@ -31,9 +33,9 @@ string CommandUpdate::updateMessage(string input) {
 
 		Logic::history.setVectorTextStorage(temp);
 
-		output = "Task " + TaskIndex + " updated";
+		sprintf_s(Logic::messageDisplayed,MESSAGE_UPDATED.c_str(),temp[index-1].ToString().c_str());
 		
 	}
 
-	return output;
+	return Logic::messageDisplayed;
 }

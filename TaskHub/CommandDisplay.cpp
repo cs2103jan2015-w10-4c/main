@@ -8,7 +8,8 @@ const string CommandDisplay::MESSAGE_EMPTY_FILE="The file is empty";
 string CommandDisplay::display() {
 
 	if (Logic::history.getVectorTextStorage().empty()){
-		return MESSAGE_EMPTY_FILE;
+		sprintf_s(Logic::messageDisplayed,MESSAGE_EMPTY_FILE.c_str());
+		return Logic::messageDisplayed;
 
 	} else {
 		ostringstream totalTask;
