@@ -9,6 +9,7 @@ const string PROCESSING_Task_LABEL = "progressing";
 const string FINISHED_Task_LABEL = "done";
 const string INVALID_DATE_MSG = "invalid date, provide valid date";
 const string INVALID_TIME_MSG = "invalid time, provide valid time";
+const string EMPTY_SPACE =" ";
 
 Task::Task(){}
 
@@ -39,7 +40,7 @@ Task::Task(string input){
 			_TaskName = input.substr(0, deadlined_Task - 1);
 			_startTime = "";
 			_endTime = "";
-			_deadlineTime = input.substr(deadlined_Task + 4, 5);
+			_deadlineTime = input.substr(deadlined_Task + 10, 5);
 			_scheduledDate = "";
 			_deadlineDate = parseDate.getDate();
 		}
@@ -57,6 +58,9 @@ Task::Task(string input){
 		if (venue_Task != string::npos){
 			VenueParser parseVenue(input);
 		    _venue = parseVenue.getVenue();
+		}
+		else{
+			_venue = "";
 		}
 	}
 	
@@ -130,33 +134,18 @@ Task::Task(string Task, string input){
 
 string Task::ToString(){
 	char Task[Task_LEN];
+	string output;
 	strcpy_s(Task, _TaskName.c_str());
 	if (_TaskType == DEADLINE_Task_LABEL){
-		strcat_s(Task, " ");
-		strcat_s(Task, _deadlineDate.c_str());
-		strcat_s(Task, " ");
-		strcat_s(Task, _deadlineTime.c_str());
-		strcat_s(Task, " ");
-		strcat_s(Task, _status.c_str());
-		strcat_s(Task,_venue.c_str());
+		output = Task+EMPTY_SPACE+" [due: "+_deadlineDate.c_str()+" "+_deadlineTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
 	}
 	else if (_TaskType == SCHEDULED_Task_LABEL){
-		strcat_s(Task, " ");
-		strcat_s(Task, _scheduledDate.c_str());
-		strcat_s(Task, " ");
-		strcat_s(Task, _startTime.c_str());
-		strcat_s(Task, " ");
-		strcat_s(Task, _endTime.c_str());
-		strcat_s(Task, " ");
-		strcat_s(Task, _status.c_str());
-		strcat_s(Task,_venue.c_str());
+		output = Task+EMPTY_SPACE+"["+ _scheduledDate.c_str()+" "+_startTime.c_str()+"-"+_endTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
 	}
 	else if (_TaskType == FLOATING_Task_LABEL){
-		strcat_s(Task, " ");
-		strcat_s(Task, _status.c_str());
-		strcat_s(Task,_venue.c_str());
+		output = Task+EMPTY_SPACE+_venue.c_str()+" "+_status.c_str();
 	}
-	return Task;
+	return output;
 }
 
 string Task::getTaskName(){
@@ -287,3 +276,35 @@ void Task::checkInputValidation(){
 	}
 }
 
+
+string Task::getTaskType(){
+	return _TaskType;
+}
+
+string Task::getStartTime(){
+	return _startTime;
+}
+
+string Task::getEndTime(){
+	return _endTime;
+}
+
+string Task::getDeadlineTime(){
+	return _deadlineTime;
+}
+
+string Task::getScheduledDate(){
+	return _scheduledDate;
+}
+
+string Task::getDeadlineDate(){
+	return _deadlineDate;
+}
+
+string Task::getStatus(){
+	return _status;
+}
+
+string Task::getVenue(){
+	return _venue;
+}

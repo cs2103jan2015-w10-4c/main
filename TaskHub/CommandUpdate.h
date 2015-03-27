@@ -10,6 +10,8 @@ public:
 	static string updateMessage(string input);
 private:
 	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_INVALID_INDEX;
+	static const string MESSAGE_UPDATED;
 };
 
 #endif

@@ -1,11 +1,11 @@
 #include "Logic.h"
-#include "CommandMarkDone.h"
+#include "CommandMarkUncomplete.h"
 
-const string markingDoneMessage::MESSAGE_COMMAND_TYPE="done";
-const string markingDoneMessage::MESSAGE_MARK_DONE="Task \" %s \" is completed";
-const string markingDoneMessage::MESSAGE_INVALID_INDEX="Invalid index";
+const string markingMessageUncomplete::MESSAGE_COMMAND_TYPE="uncomplete";
+const string markingMessageUncomplete::MESSAGE_MARK_UNCOMPLETE="Task \" %s \" is marked";
+const string markingMessageUncomplete::MESSAGE_INVALID_INDEX="Invalid index";
 
-string markingDoneMessage::markMessageDone(string input) {
+string markingMessageUncomplete::markMessageUncompleted(string input) {
 
 	unsigned int index;
 	istringstream in(input);
@@ -16,11 +16,11 @@ string markingDoneMessage::markMessageDone(string input) {
 		Logic::history.setLastChangedTaskIndex (index);
 
 		vector<Task> temporary=Logic::history.getVectorTextStorage();
-		temporary[index-1].MarkDone();
+		temporary[index-1].markUncompleted();
 		Logic::history.setVectorTextStorage(temporary);
 		Task taskMarked = temporary[index-1];
 		
-		sprintf_s(Logic::messageDisplayed,MESSAGE_MARK_DONE.c_str(),taskMarked.ToString().c_str());
+		sprintf_s(Logic::messageDisplayed,MESSAGE_MARK_UNCOMPLETE.c_str(),taskMarked.ToString().c_str());
 
 	} else {
 		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());

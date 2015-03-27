@@ -11,6 +11,8 @@ public:
 
 private:
 	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_DELETED;
+	static const string MESSAGE_INVALID_INDEX;
 };
 
 

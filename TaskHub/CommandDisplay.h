@@ -10,6 +10,7 @@ public:
 	static string display();
 private:
 	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_EMPTY_FILE;
 };
 
 

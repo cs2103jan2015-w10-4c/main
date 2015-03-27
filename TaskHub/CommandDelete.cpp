@@ -1,37 +1,33 @@
 #include "Logic.h"
 #include "Parser.h"
 #include "CommandDelete.h"
-#include <assert.h>							//for assertions
+
 
 const string CommandDelete::MESSAGE_COMMAND_TYPE="delete";
+const string CommandDelete::MESSAGE_DELETED="Message \" %s \" is deleted";
+const string CommandDelete::MESSAGE_INVALID_INDEX="Invalid index";
 
 string CommandDelete::deleteMessage(string input) {
 
 	unsigned int index;
 	istringstream in(input);
 	in >> index;
-	//Assertion
-	assert(index > 0 && index <= Logic::history.getVectorTextStorage().size());
-
-	//Exception
-	//if (index <= 0){
-	//	throw std::string("Error: Invalid index input");
-	//}
-
-	//string output;
-	//if (index > Logic::textStorage.size() || index <= 0){
-	//	output = "Task " + input + " does not exit";
-	//}
-	//else{        
+	
+	if (index > 0 && index <= Logic::history.getVectorTextStorage().size()) {
+      
 		Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);
 		Logic::history.setLastChangedTaskIndex(index);
 		Logic::history.setLastUnchangedTask (Logic::history.getVectorTextStorage()[index - 1]);
+		
 		vector<Task> temporary=Logic::history.getVectorTextStorage();
+		Task taskDeleted=temporary[index-1];
 		temporary.erase(temporary.begin() + index - 1);
 		Logic::history.setVectorTextStorage(temporary);
-		string output = "Task " + input + " deleted";
 		
-	//}
+		sprintf_s(Logic::messageDisplayed,MESSAGE_DELETED.c_str(), taskDeleted.ToString().c_str());
 
-	return output;
+	} else {
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+	}
+		return Logic::messageDisplayed;
 }

@@ -1,4 +1,5 @@
 #include <sstream>
+#include <fstream>
 #include "Logic.h"
 #include "CommandAdd.h"
 #include "CommandUpdate.h"
@@ -6,9 +7,11 @@
 #include "CommandSearch.h"
 #include "CommandDisplay.h"
 #include "CommandMarkDone.h"
+#include "CommandMarkUncomplete.h"
 #include "CommandUndo.h"
 #include "CommandRedo.h"
 
+char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY]="";
 
 History Logic::history;
 
@@ -52,6 +55,9 @@ string Logic::MarkDone(string input){
 	return markingDoneMessage::markMessageDone(input);
 }
 
+string Logic::markUncompleted (string input) {
+	return markingMessageUncomplete::markMessageUncompleted (input);
+}
 string Logic::undo(){
 	
 	return undoChange::undo();
@@ -72,24 +78,6 @@ string Logic::removeFirstWord(string input)
 	return input.substr(input.find_first_of(" ") + 1);
 }
 
-vector<string> Logic::splitText(string text){
-	vector<string> words;
-	string word;
-	istringstream in(text);
-	copy(istream_iterator<string>(in),
-		istream_iterator<string>(),
-		back_inserter<vector<string>>(words));
-
-	return words;
-}
-
-string Logic::printVector(vector<string> output){
-	ostringstream oss;
-	for (unsigned int i = 0; i < output.size(); i++){
-		oss << output[i];
-	}
-	return oss.str();
-}
 
 string Logic::help() {
 
