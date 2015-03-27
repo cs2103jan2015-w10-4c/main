@@ -276,3 +276,35 @@ void Task::checkInputValidation(){
 	}
 }
 
+
+string Task::getTaskType(){
+	return _TaskType;
+}
+
+string Task::getStartTime(){
+	return _startTime;
+}
+
+string Task::getEndTime(){
+	return _endTime;
+}
+
+string Task::getDeadlineTime(){
+	return _deadlineTime;
+}
+
+string Task::getScheduledDate(){
+	return _scheduledDate;
+}
+
+string Task::getDeadlineDate(){
+	return _deadlineDate;
+}
+
+string Task::getStatus(){
+	return _status;
+}
+
+string Task::getVenue(){
+	return _venue;
+}

@@ -18,6 +18,14 @@ public:
 	Task(string Task, string input);
 	string ToString();
 	string getTaskName();
+	string getTaskType();
+	string getStartTime();
+	string getEndTime();
+	string getDeadlineTime();
+	string getScheduledDate();
+	string getDeadlineDate();
+	string getStatus();
+	string getVenue();
 	void UpdateTask(string input);
 	void MarkDone();
 	void MarkUndone();
