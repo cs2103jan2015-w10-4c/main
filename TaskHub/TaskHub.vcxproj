@@ -65,6 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CommandAdd.cpp" />
+    <ClCompile Include="CommandAutoSort.cpp" />
     <ClCompile Include="CommandDelete.cpp" />
     <ClCompile Include="CommandDisplay.cpp" />
     <ClCompile Include="CommandInterpreter.cpp" />
@@ -91,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandAdd.h" />
+    <ClInclude Include="CommandAutoSort.h" />
     <ClInclude Include="CommandDelete.h" />
     <ClInclude Include="CommandDisplay.h" />
     <ClInclude Include="CommandInterpreter.h" />
