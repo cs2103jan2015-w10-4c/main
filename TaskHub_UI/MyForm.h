@@ -144,15 +144,6 @@ namespace TaskHub_UI {
 				 textBox1->Clear();
 
 			 }
-	private: System::Void tabPage1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 }
-private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-				
-		 }
-private: System::Void textBox1_Enter(System::Object^  sender, System::EventArgs^  e) {
-		 }
-private: System::Void tabControl1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
-		 }
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
 			 Application::Exit();
 		 }
