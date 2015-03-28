@@ -31,6 +31,8 @@ Task::Task(string input){
 			_deadlineTime = "";
 			_scheduledDate = parseDate.getDate();
 			_deadlineDate = "";
+			_integerDay = parseDate.getDay();
+			_integerMonth = parseDate.getMonth();
 			
 		}
 		else if (deadlined_Task != string::npos){
@@ -307,4 +309,12 @@ string Task::getStatus(){
 
 string Task::getVenue(){
 	return _venue;
+}
+
+int Task::getIntegerDay(){
+	return _integerDay;
+}
+
+int Task::getIntegerMonth(){
+	return _integerMonth;
 }

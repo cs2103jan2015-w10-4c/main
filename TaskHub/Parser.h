@@ -26,6 +26,8 @@ public:
 	string getDeadlineDate();
 	string getStatus();
 	string getVenue();
+	int getIntegerDay();
+	int getIntegerMonth();
 	void UpdateTask(string input);
 	void MarkDone();
 	void MarkUndone();
@@ -42,7 +44,8 @@ private:
 	string _deadlineDate;
 	string _status;
 	string _venue;
-
+	int _integerDay;
+	int _integerMonth;
 };
 
 #endif
