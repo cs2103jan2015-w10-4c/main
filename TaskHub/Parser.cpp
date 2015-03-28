@@ -183,7 +183,14 @@ void Task::UpdateTask(string input){
 			}
 		}
 	}
+
+
 	checkInputValidation();
+
+	/*if(!input.empty()) {
+		size_t _taskNumber = input.find_first_of(EMPTY_SPACE);
+		_taskNumber
+	}*/
 }
 
 void Task::MarkDone(){
