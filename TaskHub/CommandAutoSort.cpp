@@ -1,10 +1,20 @@
 #include "CommandAutoSort.h"
 
-const int MAX_TIME_LENGTH = 14;		//for mmddhhmm
+const int MAX_TIME_LENGTH = 14;		//for yyyymmddhhmm
 
 
 bool compareCriteria(Task firstTask, Task secondTask) {
 
+	//uncompleted tasks sorted after done / undo tasks
+	if((firstTask.getStatus()=="uncompleted") && (secondTask.getStatus()!="uncompleted")){                          
+		return false;
+	} else if ((firstTask.getStatus()!="uncompleted") && (secondTask.getStatus()=="uncompleted")){
+		return true;
+	} else if ((firstTask.getStatus()=="uncompleted") && (secondTask.getStatus())=="uncompleted"){
+		return false;
+	} else if((firstTask.getStatus()!="uncompleted") && (secondTask.getStatus()!="uncompleted")){
+	
+	
 	//done tasks sorted after undone tasks
 	if((firstTask.getStatus()=="done") && (secondTask.getStatus()!="done")){                          
 		return false;
@@ -49,7 +59,8 @@ bool compareCriteria(Task firstTask, Task secondTask) {
 	}
 	return false;
 }
-
+	return false;
+}
 
 
 void CommandAutoSort::autoSort () {
