@@ -1,6 +1,7 @@
 #include "Logic.h"
 #include "Parser.h"
 #include "CommandDisplay.h"
+#include "CommandAutoSort.h"
 
 const string CommandDisplay::MESSAGE_COMMAND_TYPE="display";
 const string CommandDisplay::MESSAGE_EMPTY_FILE="The file is empty";
@@ -12,6 +13,7 @@ string CommandDisplay::display() {
 		return Logic::messageDisplayed;
 
 	} else {
+		CommandAutoSort::autoSort();
 		ostringstream totalTask;
 		for (unsigned int i = 0; i < Logic::history.getVectorTextStorage().size() - 1; i++){
 			ostringstream oss;

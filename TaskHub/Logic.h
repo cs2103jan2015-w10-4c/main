@@ -8,7 +8,7 @@
 #include "History.h"
 using namespace std;
 
-const int MAX_BUFFERRING_CAPACITY=256;
+const int MAX_BUFFERRING_CAPACITY=10086;
 class Logic
 {
 public:
