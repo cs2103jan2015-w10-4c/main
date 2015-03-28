@@ -161,7 +161,7 @@ string Task::getTaskName(){
 }
 
 void Task::UpdateTask(string input){
-	if (!input.empty()){
+	/*if (!input.empty()){
 		size_t timed_Task = input.find("-from");
 		size_t deadlined_Task = input.find("-by");
 		if (timed_Task != string::npos){
@@ -185,12 +185,70 @@ void Task::UpdateTask(string input){
 	}
 
 
-	checkInputValidation();
+	checkInputValidation();*/
 
-	/*if(!input.empty()) {
-		size_t _taskNumber = input.find_first_of(EMPTY_SPACE);
-		_taskNumber
-	}*/
+	if(!input.empty()) {
+		string temp;
+		size_t update_Command = input.find_first_of(EMPTY_SPACE);
+		temp=input.substr(0,update_Command);
+
+		UPDATE_COMMAND updateCommand;
+		updateCommand=determineUpdateCommandType(temp);
+
+		switch (updateCommand) {
+		case VENUE:
+			_venue=input.substr(update_Command+1);
+			break;
+		case TIME: {
+			size_t timed_Task_startTime = input.find("-from");
+			size_t timed_Task_endTime = input.find("-to");
+			size_t deadlined_Task = input.find("-by");
+			if (timed_Task_startTime != string::npos){
+				_startTime = input.substr(timed_Task_startTime + 6, 5);
+				if (timed_Task_endTime != string::npos){
+					_endTime = input.substr(timed_Task_endTime + 4, 5);
+				}
+			}
+			else if (deadlined_Task != string::npos){
+				_deadlineTime = input.substr(deadlined_Task + 4, 5);
+			}
+			else if (timed_Task_endTime != string::npos){
+				_endTime = input.substr(timed_Task_endTime + 4, 5);
+			}
+			break;
+		}
+		case DATE:
+			if(_TaskType==SCHEDULED_Task_LABEL) {
+				_scheduledDate = input.substr(update_Command+1,5);
+			}
+			else if(_TaskType==DEADLINE_Task_LABEL) {
+				_deadlineDate = input.substr(update_Command+1,5);
+			}
+			break;
+		case TASK:
+			_TaskName = input.substr(updateCommand+2);
+			break;
+		}
+	}
+	checkInputValidation();
+}
+
+Task::UPDATE_COMMAND Task::determineUpdateCommandType(string updateCommand){
+	if(updateCommand=="venue") {
+		return UPDATE_COMMAND::VENUE;
+	}
+	else if(updateCommand=="time") {
+		return UPDATE_COMMAND::TIME;
+	}
+	else if(updateCommand=="date") {
+		return UPDATE_COMMAND::DATE;
+	}
+	else if(updateCommand=="task") {
+		return UPDATE_COMMAND::TASK;
+	}
+	else {
+		return UPDATE_COMMAND::INVALID;
+	}
 }
 
 void Task::MarkDone(){
