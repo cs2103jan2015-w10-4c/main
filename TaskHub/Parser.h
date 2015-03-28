@@ -28,6 +28,8 @@ public:
 	string getVenue();
 	int getIntegerDay();
 	int getIntegerMonth();
+	int getHour();
+	int getMinute();
 	void UpdateTask(string input);
 	void MarkDone();
 	void MarkUndone();
@@ -46,6 +48,8 @@ private:
 	string _venue;
 	int _integerDay;
 	int _integerMonth;
+	int _hour;
+	int _minute;
 };
 
 #endif

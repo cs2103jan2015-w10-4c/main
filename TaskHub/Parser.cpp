@@ -33,6 +33,8 @@ Task::Task(string input){
 			_deadlineDate = "";
 			_integerDay = parseDate.getDay();
 			_integerMonth = parseDate.getMonth();
+			_hour = parseTime.getHour();
+			_minute = parseTime.getMinute();
 			
 		}
 		else if (deadlined_Task != string::npos){
@@ -45,6 +47,8 @@ Task::Task(string input){
 			_deadlineTime = input.substr(deadlined_Task + 10, 5);
 			_scheduledDate = "";
 			_deadlineDate = parseDate.getDate();
+			_integerDay = parseDate.getDay();
+			_integerMonth = parseDate.getMonth();
 		}
 		else{
 			_TaskType = FLOATING_Task_LABEL;
@@ -317,4 +321,12 @@ int Task::getIntegerDay(){
 
 int Task::getIntegerMonth(){
 	return _integerMonth;
+}
+
+int Task::getHour(){
+	return _hour;
+}
+
+int Task::getMinute(){
+	return _minute;
 }
