@@ -128,10 +128,13 @@ namespace TaskHub_UI {
 				 string display = Logic::display();
 				 String^ TextBox3Displayed = gcnew String(display.c_str());
 				 textBox3->Text=TextBox3Displayed;
+				 textBox1->Clear();
+
 			 }
 	private: System::Void tabPage1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 }
 private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+				
 		 }
 private: System::Void textBox1_Enter(System::Object^  sender, System::EventArgs^  e) {
 		 }
