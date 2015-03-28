@@ -39,12 +39,14 @@ Task::Task(string input){
 		}
 		else if (deadlined_Task != string::npos){
 			DateParser parseDate(input);
-		    TimeParser parseTime(input);
+
 			_TaskType = DEADLINE_Task_LABEL;
 			_TaskName = input.substr(0, deadlined_Task - 1);
 			_startTime = "";
 			_endTime = "";
-			_deadlineTime = input.substr(deadlined_Task + 10, 5);
+			_deadlineTime = input.substr(deadlined_Task + 4, 5);
+			_hour = atoi(_deadlineTime.substr(0,1).c_str());
+			_minute = atoi(_deadlineTime.substr(3,4).c_str());
 			_scheduledDate = "";
 			_deadlineDate = parseDate.getDate();
 			_integerDay = parseDate.getDay();
