@@ -10,6 +10,7 @@
 #include "CommandMarkUncomplete.h"
 #include "CommandUndo.h"
 #include "CommandRedo.h"
+#include "ShowDailyTask.h"
 
 char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY]="";
 
@@ -67,6 +68,12 @@ string Logic::redo(){
 	
 	return redoChange::redo();
 }
+
+string Logic::show(string input) {
+
+	return ShowDailyTask::showDayTask(input);
+}
+
 
 string Logic::getFirstWord(string input)
 {

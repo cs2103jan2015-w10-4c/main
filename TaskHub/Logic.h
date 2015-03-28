@@ -28,6 +28,7 @@ public:
 	static string undo();
 	static string redo();
 	static string help();
+	static string show(string input);
 	
 	static vector<Task> textStorage;
 	static string lastCommandType;
