@@ -90,7 +90,7 @@ string Logic::help() {
 
 	cout << "Some examples:\n";
 
-	cout << "Add: add meeting -from 1200 -to 1400 25/12\n";
+	cout << "Add: add meeting -from 12:00 -to 14:00 25/12\n";
 	cout << "Display all: display \n";
 	cout << "Display Static Tasks: display static\n";
 	cout << "Display Deadline Tasks: display deadline\n";
@@ -98,7 +98,7 @@ string Logic::help() {
 	cout << "Display Finished Tasks: display finished\n";
 	cout << "Display Floating Tasks: display floating\n";
 	
-	cout << "Update: Update 1 -from 1400 -to 1500 23/12\n";
+	cout << "Update: Update 1 task project meeting\n";
 	cout << "Search: search meeting\n";
 	cout << "Delete: delete 1\n";
 	
