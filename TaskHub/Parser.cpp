@@ -136,6 +136,14 @@ Task::Task(string Task, string input){
 			_scheduledDate = "";
 			_deadlineDate = "";
 		}
+		size_t venue_Task = Task.find("@");
+		if (venue_Task != string::npos){
+			VenueParser parseVenue(input);
+		    _venue = parseVenue.getVenue();
+		}
+		else{
+			_venue = "";
+		}
 	}
 	checkInputValidation();
 }
