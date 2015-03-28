@@ -8,7 +8,11 @@ public:
 	DateParser();
 	DateParser(string input);
 	string getDate();
+	int getDay();
+	int getMonth();
 private:
 	string _date;
+	int _day;
+	int _month;
 };
 #endif
