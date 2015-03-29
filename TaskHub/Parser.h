@@ -10,6 +10,25 @@ using namespace std;
 
 class Task
 {
+private:
+	string _TaskName;
+	string _TaskType;
+	string _startTime;
+	string _endTime;
+	string _deadlineTime;
+	string _scheduledDate;
+	string _deadlineDate;
+	string _status;
+	string _venue;
+	int _integerDay;
+	int _integerMonth;
+	int _hour;
+	int _minute;
+	enum UPDATE_COMMAND
+	{
+		VENUE,TIME,DATE,TASK,INVALID
+	};
+
 public:
 	//vector<string> Task;
 	Task();
@@ -26,23 +45,16 @@ public:
 	string getDeadlineDate();
 	string getStatus();
 	string getVenue();
+	int getIntegerDay();
+	int getIntegerMonth();
+	int getHour();
+	int getMinute();
 	void UpdateTask(string input);
 	void MarkDone();
 	void MarkUndone();
 	void checkInputValidation();
 	void markUncompleted();
-	
-private:
-	string _TaskName;
-	string _TaskType;
-	string _startTime;
-	string _endTime;
-	string _deadlineTime;
-	string _scheduledDate;
-	string _deadlineDate;
-	string _status;
-	string _venue;
-
+	UPDATE_COMMAND determineUpdateCommandType(string updateCommand);
 };
 
 #endif

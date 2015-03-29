@@ -47,6 +47,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EntryPointSymbol>Ui</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,6 +80,7 @@
     <ClCompile Include="History.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="ShowDailyTask.cpp" />
     <ClCompile Include="Storage.cpp" />
     <ClCompile Include="StorageController.cpp" />
     <ClCompile Include="TaskDeadline.cpp" />
@@ -106,6 +108,7 @@
     <ClInclude Include="History.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="ShowDailyTask.h" />
     <ClInclude Include="Storage.h" />
     <ClInclude Include="StorageController.h" />
     <ClInclude Include="TaskDeadline.h" />

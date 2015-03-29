@@ -17,6 +17,8 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 	commandType = determineCommandType(commandTypeString, TaskString);
 
 	switch (commandType) {
+	case SHOW:
+		return Logic::show(TaskString);
 	case HELP:
 		return Logic::help();
 	case ADD_Task:
@@ -26,7 +28,7 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 	case DELETE_Task:
 		return Logic::deleteTask(TaskString);
 	case DISPLAY_TaskS:
-		return Logic::display();
+		return Logic::display(TaskString);
 	case MARK_DONE:
 		return Logic::MarkDone(TaskString);
 	case UNCONPLETE:
@@ -65,6 +67,9 @@ CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string
 	}
 	else if (commandTypeString == "display") {
 		return COMMAND_TYPE::DISPLAY_TaskS;
+	}
+	else if (commandTypeString == "show") {
+		return COMMAND_TYPE::SHOW;
 	}
 	else if (commandTypeString == "done") {
 		return COMMAND_TYPE::MARK_DONE;

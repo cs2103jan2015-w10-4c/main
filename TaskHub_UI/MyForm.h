@@ -42,6 +42,7 @@ namespace TaskHub_UI {
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::TextBox^  textBox2;
 	private: System::Windows::Forms::TextBox^  textBox3;
+	private: System::Windows::Forms::Button^  button2;
 
 
 
@@ -66,6 +67,7 @@ namespace TaskHub_UI {
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
+			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// textBox1
@@ -82,7 +84,7 @@ namespace TaskHub_UI {
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 1;
-			this->button1->Text = L"button1";
+			this->button1->Text = L"Enter";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
@@ -102,11 +104,22 @@ namespace TaskHub_UI {
 			this->textBox3->Size = System::Drawing::Size(300, 356);
 			this->textBox3->TabIndex = 3;
 			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(319, 449);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(75, 23);
+			this->button2->TabIndex = 4;
+			this->button2->Text = L"&Exit";
+			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(325, 482);
+			this->ClientSize = System::Drawing::Size(416, 482);
+			this->Controls->Add(this->button2);
 			this->Controls->Add(this->textBox3);
 			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->button1);
@@ -128,14 +141,11 @@ namespace TaskHub_UI {
 				 string display = Logic::display();
 				 String^ TextBox3Displayed = gcnew String(display.c_str());
 				 textBox3->Text=TextBox3Displayed;
+				 textBox1->Clear();
+
 			 }
-	private: System::Void tabPage1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 }
-private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-		 }
-private: System::Void textBox1_Enter(System::Object^  sender, System::EventArgs^  e) {
-		 }
-private: System::Void tabControl1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+			 Application::Exit();
 		 }
 };
 
