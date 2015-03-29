@@ -46,9 +46,9 @@ string Logic::search(string input){
 	return CommandSearch::searchMessage (input);
 }
 
-string Logic::display(){
+string Logic::display(string input){
 	
-	return CommandDisplay::display();
+	return CommandDisplay::display(input);
 }
 
 string Logic::MarkDone(string input){

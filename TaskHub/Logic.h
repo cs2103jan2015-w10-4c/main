@@ -22,7 +22,7 @@ public:
 	static string updateTask(string input);
 	static string deleteTask(string input);
 	static string search(string input);
-	static string display();
+	static string display(string message);
 	static string MarkDone(string input);
 	static string markUncompleted (string input);
 	static string undo();

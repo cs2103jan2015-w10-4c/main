@@ -28,7 +28,7 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 	case DELETE_Task:
 		return Logic::deleteTask(TaskString);
 	case DISPLAY_TaskS:
-		return Logic::display();
+		return Logic::display(TaskString);
 	case MARK_DONE:
 		return Logic::MarkDone(TaskString);
 	case UNCONPLETE:
