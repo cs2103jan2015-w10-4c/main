@@ -15,7 +15,7 @@ string CommandDisplay::display(string message) {
 	} else {
 		CommandAutoSort::autoSort();
 		ostringstream totalTask;
-		
+		transform(message.begin(),message.end(),message.begin(), ::tolower);
 		if (message=="all"||message=="display") {
 		
 			for (unsigned int i = 0; i < Logic::history.getVectorTextStorage().size() - 1; i++){

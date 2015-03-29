@@ -11,6 +11,7 @@
 #include "CommandUndo.h"
 #include "CommandRedo.h"
 #include "ShowDailyTask.h"
+#include "CommandClear.h"
 
 char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY]="";
 
@@ -74,6 +75,9 @@ string Logic::show(string input) {
 	return ShowDailyTask::showDayTask(input);
 }
 
+string Logic::clearAll(string input) {
+	return CommandClear::clearTask(input);
+}
 
 string Logic::getFirstWord(string input)
 {
