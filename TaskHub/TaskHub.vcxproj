@@ -67,7 +67,11 @@
   <ItemGroup>
     <ClCompile Include="CommandAdd.cpp" />
     <ClCompile Include="CommandAutoSort.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="CommandClash.cpp" />
+=======
+    <ClCompile Include="CommandClear.cpp" />
+>>>>>>> 3705a45a50ce4e7a428240d8911af5fe1f16a3bd
     <ClCompile Include="CommandDelete.cpp" />
     <ClCompile Include="CommandDisplay.cpp" />
     <ClCompile Include="CommandInterpreter.cpp" />
@@ -80,15 +84,11 @@
     <ClCompile Include="DateParser.cpp" />
     <ClCompile Include="History.cpp" />
     <ClCompile Include="Logic.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="ShowDailyTask.cpp" />
-    <ClCompile Include="Storage.cpp" />
     <ClCompile Include="StorageController.cpp" />
-    <ClCompile Include="TaskDeadline.cpp" />
-    <ClCompile Include="TaskFloating.cpp" />
-    <ClCompile Include="TaskRecurring.cpp" />
-    <ClCompile Include="TaskStorage.cpp" />
-    <ClCompile Include="TaskTimed.cpp" />
+    <ClCompile Include="TaskLog.cpp" />
     <ClCompile Include="TimeParser.cpp" />
     <ClCompile Include="Ui.cpp" />
     <ClCompile Include="VenueParser.cpp" />
@@ -96,7 +96,11 @@
   <ItemGroup>
     <ClInclude Include="CommandAdd.h" />
     <ClInclude Include="CommandAutoSort.h" />
+<<<<<<< HEAD
     <ClInclude Include="CommandClash.h" />
+=======
+    <ClInclude Include="CommandClear.h" />
+>>>>>>> 3705a45a50ce4e7a428240d8911af5fe1f16a3bd
     <ClInclude Include="CommandDelete.h" />
     <ClInclude Include="CommandDisplay.h" />
     <ClInclude Include="CommandInterpreter.h" />
@@ -111,13 +115,8 @@
     <ClInclude Include="Logic.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ShowDailyTask.h" />
-    <ClInclude Include="Storage.h" />
     <ClInclude Include="StorageController.h" />
-    <ClInclude Include="TaskDeadline.h" />
-    <ClInclude Include="TaskFloating.h" />
-    <ClInclude Include="TaskRecurring.h" />
-    <ClInclude Include="TaskStorage.h" />
-    <ClInclude Include="TaskTimed.h" />
+    <ClInclude Include="TaskLog.h" />
     <ClInclude Include="TimeParser.h" />
     <ClInclude Include="Ui.h" />
     <ClInclude Include="VenueParser.h" />

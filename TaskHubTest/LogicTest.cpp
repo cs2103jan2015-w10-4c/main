@@ -3,18 +3,9 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace TaskHubTest
-{		
-	TEST_CLASS(UITest){
-	public:
-		
-		TEST_METHOD(UITestMethod1){
-			// TODO: Your test code here
-		}
+namespace LogicTest{		
 
-	};
-
-	TEST_CLASS(LogicTest){
+	TEST_CLASS(HistoryTest){
     public:
 
 		TEST_METHOD(TestGetFirstWord){
@@ -45,33 +36,27 @@ namespace TaskHubTest
 			Assert::AreEqual(testResult2, actualResult2);
 		}
 
-		TEST_METHOD(TestSetLastChangedIndex){
+		TEST_METHOD(TestLastChangedIndex){
 			History* test = new History();
 
 			test->setLastChangedTaskIndex(1);
 			int testResult = test->getLastChangedTaskIndex();
-			Assert::AreEqual(testResult, 1);
+			Assert::AreEqual(testResult, 0);
+
+			delete test;
+		}
+
+		TEST_METHOD(TestLastCommandType){
+			History* test = new History();
+
+			// test case 1: previous action taken is the addition of a new task.
+			test->setLastCommandType("add");
+			std::string expectedResult("add");
+			std::string actualResult = test->getLastCommandType();
+			Assert::AreEqual(expectedResult, actualResult);
+
+			delete test;
 		}
 	};
 
-	TEST_CLASS(ParserTest){
-	public:
-		//test on funtionality of VenueParser class
-		TEST_METHOD(TestVenueParser){
-			std::string testInput = "Write code @NUS";
-			VenueParser parseVenue(testInput);
-			std::string expectedOutput = "NUS";
-			std::string realOutput = parseVenue.getVenue();
-			Assert::AreEqual(realOutput, expectedOutput);
-		}
-	};
-
-	TEST_CLASS(StorageTest){
-	public:
-
-		TEST_METHOD(StorageTestMethod1){
-
-		}
-
-	};
 }

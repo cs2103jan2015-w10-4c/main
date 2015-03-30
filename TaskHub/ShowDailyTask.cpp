@@ -28,7 +28,6 @@ string ShowTask (vector <int> taskIndex) {
 		
 		return totalTask.str();
 
-
 }
 
 
@@ -37,16 +36,20 @@ string ShowDailyTask::showDayTask (string userMessage) {
 
 	transform(userMessage.begin(),userMessage.end(),userMessage.begin(),::tolower);
 	vector<Task> temporary=Logic::history.getVectorTextStorage();
+	vector<int> taskIndex;
+	localTime timeNow;
+	ShowDailyTask::getSystemTime(timeNow);
+	int currentDay=timeNow._day;
+	int currentMonth=timeNow._mon;
+	int currentMinute=timeNow._min;
+	int currentHour=timeNow._hour;
+	int size=temporary.size();
+		
 
 	if (userMessage=="today") {
 		
 		//get into that day and display
-		localTime timeNow;
-		ShowDailyTask::getSystemTime(timeNow);
-		int currentDay=timeNow._day;
-		int currentMonth=timeNow._mon;
-		int size=temporary.size();
-		vector<int> taskIndex;
+		
 		for (int i=0;i<size;i++) {
 			if (currentMonth==temporary[i].getIntegerMonth()) {
 				if (currentDay==temporary[i].getIntegerDay()) {
@@ -56,17 +59,10 @@ string ShowDailyTask::showDayTask (string userMessage) {
 
 		}
 		
-		return ShowTask(taskIndex).c_str();
-
 	} else if (userMessage=="tomorrow") {
 
 		//get into that day and display
-		localTime timeNow;
-		ShowDailyTask::getSystemTime(timeNow);
-		int currentDay=timeNow._day+1;
-		int currentMonth=timeNow._mon;
-		int size=temporary.size();
-		vector<int> taskIndex;
+		currentDay++;
 		for (int i=0;i<size;i++) {
 			if (currentMonth==temporary[i].getIntegerMonth()) {
 				if (currentDay==temporary[i].getIntegerDay()) {
@@ -75,13 +71,81 @@ string ShowDailyTask::showDayTask (string userMessage) {
 			}
 
 		}
+	} else if (userMessage=="now") {
+
+		//get into that day and display
 		
-		return ShowTask(taskIndex).c_str();
+		for (int i=0;i<size;i++) {
+			if (currentMonth==temporary[i].getIntegerMonth()) {
+				if (currentDay==temporary[i].getIntegerDay()) {
+					if (currentHour==temporary[i].getHour()) {
+						//if (currentMinute==temporary[i].getMinute()) {
+							taskIndex.push_back(i);
+						//}
+					}
+				}
+			}
+		} 
+	} else if (userMessage=="free") {
+		//shuyuan's code
+
 	} else {
 		//covert to mmdd
 		//get into
-		return "";
+		size_t get_date=userMessage.find("/");
+		if (get_date!=string::npos) {
+		currentMonth=atoi(userMessage.substr(get_date+1,2).c_str());
+		currentDay=atoi(userMessage.substr(0,get_date).c_str());
+		cout<<"month: "<<currentMonth<<"day: "<<currentDay<<endl;
+		} 
+		size_t get_time=userMessage.find(":");
+		if (get_time !=string::npos) {
+		currentHour=atoi(userMessage.substr(get_time-2,2).c_str());
+		currentMinute=atoi(userMessage.substr(get_time+1,2).c_str());
+		cout<<"hour: "<<currentHour<<"minute: "<<currentMinute<<endl;
+		}
+		
+		if ((get_time==string::npos)&&(get_date!=string::npos)) {
+			for (int i=0;i<size;i++) {
+				if (currentMonth==temporary[i].getIntegerMonth()) {
+					if (currentDay==temporary[i].getIntegerDay()) {
+					taskIndex.push_back(i);
+					}
+				}
+			}
+		
+		} //when no dates are enter, by default it is today	
+		else if ((get_time!=string::npos)&&(get_date==string::npos)) {
 
+			for (int i=0;i<size;i++) {
+				if (currentMonth==temporary[i].getIntegerMonth()) {
+					if (currentDay==temporary[i].getIntegerDay()) {
+						if (currentHour==temporary[i].getHour()) {
+					//if (currentMinute==temporary[i].getMinute()) {
+					taskIndex.push_back(i);
+					//}
+						}
+					}
+				}
+			}
+		} else if ((get_time!=string::npos)&&(get_date!=string::npos)) {
+			for (int i=0;i<size;i++) {
+				if (currentMonth==temporary[i].getIntegerMonth()) {
+					if (currentDay==temporary[i].getIntegerDay()) {
+						if (currentHour==temporary[i].getHour()) {
+					//if (currentMinute==temporary[i].getMinute()) {
+						taskIndex.push_back(i);
+					//}
+						}
+					}
+				}
+			}
+		}
 	}
-	
+
+	if (taskIndex.empty()) {
+			return "Nothing found on that day";
+		} else {
+			return ShowTask(taskIndex).c_str();
+	}
 }

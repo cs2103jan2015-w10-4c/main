@@ -2,7 +2,7 @@
 #include "Parser.h"
 #include "CommandAdd.h"
 #include <algorithm>
-
+#include "CommandAutoSort.h"
 const string CommandAdd::MESSAGE_COMMAND_TYPE= "add";
 const string CommandAdd::MESSAGE_ADDED="Task: \" %s \" added";
 const string CommandAdd::MESSAGE_INDICATING_EMPTY="The input is empty.";
@@ -17,6 +17,7 @@ string CommandAdd::addMessage(string input) {
 	Task newTask(input);
 	Logic::history.setVectorTextStorage(newTask);
 	Logic::history.setLastChangedTask(newTask);
+	CommandAutoSort::autoSort();
 	sprintf_s(Logic::messageDisplayed, MESSAGE_ADDED.c_str(),newTask.ToString().c_str());
 	
 

@@ -21,6 +21,8 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 		return Logic::show(TaskString);
 	case HELP:
 		return Logic::help();
+	case CLEAR:
+		return Logic::clearAll(TaskString);
 	case ADD_Task:
 		return Logic::addTask(TaskString);
 	case UPDATE:
@@ -28,7 +30,7 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 	case DELETE_Task:
 		return Logic::deleteTask(TaskString);
 	case DISPLAY_TaskS:
-		return Logic::display();
+		return Logic::display(TaskString);
 	case MARK_DONE:
 		return Logic::MarkDone(TaskString);
 	case UNCONPLETE:
@@ -55,6 +57,9 @@ CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string
 	}
 	else if (commandTypeString == "add") {
 		return COMMAND_TYPE::ADD_Task;
+	} 
+	else if (commandTypeString == "clear") {
+		return COMMAND_TYPE::CLEAR;
 	}
 	else if (commandTypeString == "update") {
 		return COMMAND_TYPE::UPDATE;

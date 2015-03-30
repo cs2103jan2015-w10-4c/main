@@ -15,6 +15,7 @@ struct localTime{
 class ShowDailyTask {
 public:
 	static string showDayTask(string userMessage);
+private:
 	static void getSystemTime(localTime &time);
 
 };
