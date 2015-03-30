@@ -80,6 +80,7 @@
     <ClCompile Include="DateParser.cpp" />
     <ClCompile Include="History.cpp" />
     <ClCompile Include="Logic.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="ShowDailyTask.cpp" />
     <ClCompile Include="StorageController.cpp" />

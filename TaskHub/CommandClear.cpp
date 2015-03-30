@@ -43,6 +43,7 @@ string CommandClear::clearTask(string input) {
 		if (get_task_index!=string::npos) {
 			unsigned int endIndex=atoi(input.substr(get_task_index+1,2).c_str());
 			unsigned int beginIndex=atoi(input.substr(0,get_task_index).c_str());
+			cout<<"begin: "<<beginIndex<< "  end: "<<endIndex<<endl;
 			if ((beginIndex>=0) && (beginIndex < temporary.size()) && (endIndex>=beginIndex) && (endIndex<temporary.size())) {
 				
 				vector<Task>::iterator itr = temporary.begin()+beginIndex-1;
