@@ -33,10 +33,15 @@ Task::Task(string input){
 			_deadlineDate = "";
 			_integerDay = parseDate.getDay();
 			_integerMonth = parseDate.getMonth();
+<<<<<<< HEAD
 			_startHour = parseTime.getStartHour();
 			_startMinute = parseTime.getStartMinute();
 			_endHour = parseTime.getEndHour();
 			_endMinute = parseTime.getEndMinute();
+=======
+			_hour = parseTime.getHour();
+			_minute = parseTime.getMinute();
+>>>>>>> 406445856a424c95f96b866652307badb6ccb5b3
 			
 		}
 		else if (deadlined_Task != string::npos){
@@ -47,8 +52,13 @@ Task::Task(string input){
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = input.substr(deadlined_Task + 4, 5);
+<<<<<<< HEAD
 			_startHour = atoi(_deadlineTime.substr(0,1).c_str());
 			_startMinute = atoi(_deadlineTime.substr(3,4).c_str());
+=======
+			_hour = atoi(_deadlineTime.substr(0,1).c_str());
+			_minute = atoi(_deadlineTime.substr(3,4).c_str());
+>>>>>>> 406445856a424c95f96b866652307badb6ccb5b3
 			_scheduledDate = "";
 			_deadlineDate = parseDate.getDate();
 			_integerDay = parseDate.getDay();
@@ -400,6 +410,7 @@ int Task::getIntegerMonth(){
 	return _integerMonth;
 }
 
+<<<<<<< HEAD
 int Task::getStartHour(){
 	return _startHour;
 }
@@ -414,4 +425,12 @@ int Task::getEndHour(){
 
 int Task::getEndMinute(){
 	return _endMinute;
+=======
+int Task::getHour(){
+	return _hour;
+}
+
+int Task::getMinute(){
+	return _minute;
+>>>>>>> 406445856a424c95f96b866652307badb6ccb5b3
 }

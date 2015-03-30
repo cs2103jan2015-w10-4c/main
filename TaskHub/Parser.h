@@ -22,10 +22,15 @@ private:
 	string _venue;
 	int _integerDay;
 	int _integerMonth;
+<<<<<<< HEAD
 	int _startHour;
 	int _startMinute;
 	int _endHour;
 	int _endMinute;
+=======
+	int _hour;
+	int _minute;
+>>>>>>> 406445856a424c95f96b866652307badb6ccb5b3
 	enum UPDATE_COMMAND
 	{
 		VENUE,TIME,DATE,TASK,INVALID
@@ -49,10 +54,15 @@ public:
 	string getVenue();
 	int getIntegerDay();
 	int getIntegerMonth();
+<<<<<<< HEAD
 	int getStartHour();
 	int getStartMinute();
 	int getEndHour();
 	int getEndMinute();
+=======
+	int getHour();
+	int getMinute();
+>>>>>>> 406445856a424c95f96b866652307badb6ccb5b3
 	void UpdateTask(string input);
 	void MarkDone();
 	void MarkUndone();
