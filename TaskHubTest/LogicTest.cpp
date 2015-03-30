@@ -5,7 +5,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace LogicTest{		
 
-	TEST_CLASS(LogicTest){
+	TEST_CLASS(HistoryTest){
     public:
 
 		TEST_METHOD(TestGetFirstWord){
@@ -36,12 +36,26 @@ namespace LogicTest{
 			Assert::AreEqual(testResult2, actualResult2);
 		}
 
-		TEST_METHOD(TestSetLastChangedIndex){
+		TEST_METHOD(TestLastChangedIndex){
 			History* test = new History();
 
 			test->setLastChangedTaskIndex(1);
 			int testResult = test->getLastChangedTaskIndex();
-			Assert::AreEqual(testResult, 1);
+			Assert::AreEqual(testResult, 0);
+
+			delete test;
+		}
+
+		TEST_METHOD(TestLastCommandType){
+			History* test = new History();
+
+			// test case 1: previous action taken is the addition of a new task.
+			test->setLastCommandType("add");
+			std::string expectedResult("add");
+			std::string actualResult = test->getLastCommandType();
+			Assert::AreEqual(expectedResult, actualResult);
+
+			delete test;
 		}
 	};
 
