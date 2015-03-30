@@ -84,11 +84,7 @@
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="ShowDailyTask.cpp" />
     <ClCompile Include="StorageController.cpp" />
-    <ClCompile Include="TaskDeadline.cpp" />
-    <ClCompile Include="TaskFloating.cpp" />
-    <ClCompile Include="TaskRecurring.cpp" />
-    <ClCompile Include="TaskStorage.cpp" />
-    <ClCompile Include="TaskTimed.cpp" />
+    <ClCompile Include="TaskLog.cpp" />
     <ClCompile Include="TimeParser.cpp" />
     <ClCompile Include="Ui.cpp" />
     <ClCompile Include="VenueParser.cpp" />
@@ -112,11 +108,7 @@
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ShowDailyTask.h" />
     <ClInclude Include="StorageController.h" />
-    <ClInclude Include="TaskDeadline.h" />
-    <ClInclude Include="TaskFloating.h" />
-    <ClInclude Include="TaskRecurring.h" />
-    <ClInclude Include="TaskStorage.h" />
-    <ClInclude Include="TaskTimed.h" />
+    <ClInclude Include="TaskLog.h" />
     <ClInclude Include="TimeParser.h" />
     <ClInclude Include="Ui.h" />
     <ClInclude Include="VenueParser.h" />
