@@ -8,7 +8,7 @@
 #include "History.h"
 using namespace std;
 
-const int MAX_BUFFERRING_CAPACITY=256;
+const int MAX_BUFFERRING_CAPACITY=10086;
 class Logic
 {
 public:
@@ -22,12 +22,14 @@ public:
 	static string updateTask(string input);
 	static string deleteTask(string input);
 	static string search(string input);
-	static string display();
+	static string clearAll (string input);
+	static string display(string message);
 	static string MarkDone(string input);
 	static string markUncompleted (string input);
 	static string undo();
 	static string redo();
 	static string help();
+	static string show(string input);
 	
 	static vector<Task> textStorage;
 	static string lastCommandType;

@@ -12,7 +12,6 @@ string CommandDelete::deleteMessage(string input) {
 	unsigned int index;
 	istringstream in(input);
 	in >> index;
-	
 	if (index > 0 && index <= Logic::history.getVectorTextStorage().size()) {
       
 		Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);

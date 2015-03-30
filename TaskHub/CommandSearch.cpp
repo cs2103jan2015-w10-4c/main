@@ -41,9 +41,9 @@ string CommandSearch::searchMessage (string input) {
 			return Logic::messageDisplayed;
 		} else {
 		return CommandSearch::printVector(output);
-	}
+		}	
 
-}
+	}
 }
 
 string CommandSearch::printVector(vector<string> output){
