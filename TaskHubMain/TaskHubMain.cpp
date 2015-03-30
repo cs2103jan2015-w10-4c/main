@@ -6,6 +6,7 @@ int main() {
 	cout << "==========================================" << endl;
 	while (true) {
 
+		
 		string userCommand = UI::getUserCommand();
 		string output = CommandInterpreter::executeUserCommand(userCommand);
 		UI::showToUser(output);

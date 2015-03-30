@@ -75,6 +75,9 @@
     <ClCompile Include="ShowDailyTask.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="CommandClash.cpp">
+=======
     <ClCompile Include="CommandClear.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -82,6 +85,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TaskLog.cpp">
+>>>>>>> 3705a45a50ce4e7a428240d8911af5fe1f16a3bd
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,10 +147,14 @@
     <ClInclude Include="ShowDailyTask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="CommandClash.h">
+=======
     <ClInclude Include="CommandClear.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TaskLog.h">
+>>>>>>> 3705a45a50ce4e7a428240d8911af5fe1f16a3bd
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Parser.h">
