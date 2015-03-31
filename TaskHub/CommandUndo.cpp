@@ -19,6 +19,11 @@ string undoChange::undo() {
 		
 		Logic::history.setVectorTextStorage(temporary);
 		return "Updating command is undone";
+	} 
+	else if (Logic::history.getLastCommandType() == "clear"){
+		temporary=Logic::history.getBackUpStorage();
+		Logic::history.setVectorTextStorage(temporary);
+		return "Clear command is undone";
 	}
 	else if (Logic::history.getLastCommandType() == "delete"){
 		

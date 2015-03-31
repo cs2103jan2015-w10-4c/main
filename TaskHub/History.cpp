@@ -1,4 +1,5 @@
 #include "History.h"
+#include "Logic.h"
 
 History::History(void) {
 
@@ -27,8 +28,9 @@ void History::setLastUnchangedTask(Task unChangedTask) {
 }
 
 void History::setVectorTextStorage (Task taskString) {
-
+	backUpStorage=textStorage;
 	textStorage.push_back(taskString);
+	
 }
 
 int History::getLastChangedTaskIndex() {
@@ -54,7 +56,51 @@ string History::getLastCommandType() {
 }
 
 void History::setVectorTextStorage(vector<Task> sample) {
-
+	backUpStorage=textStorage;
 	textStorage=sample;
+	
 
 }
+vector <Task> History::getBackUpStorage() {
+	return backUpStorage;
+}
+/*
+string History::printToString() {
+	ostringstream totalTask;
+	for (unsigned int i=0;i<Logic::history.getVectorTextStorage().size();i++) {
+		ostringstream oss;
+		Task temp=Logic::history.getVectorTextStorage()[i];
+		string taskName=temp.getTaskName();
+		string taskType=temp.getTaskType();
+		
+		if (taskType == "deadline"){
+			string deadlineDate= temp.getDeadlineDate();
+			string deadlineTime= temp.getDeadlineTime();
+			string deadlineVenue=temp.getVenue();
+			string status=temp.getStatus();
+			oss<< taskName <<" "<<deadlineDate<<" "<<deadlineTime<<" "<<deadlineVenue<<" "<<endl;
+			string TaskDisplay = oss.str();
+			totalTask << TaskDisplay;
+	}
+		else if (taskType == "timed"){
+			string scheduledDate=temp.getScheduledDate();
+			string startTime=temp.getStartTime();
+			string endTime=temp.getEndTime();
+			string venue=temp.getVenue();
+			string status=temp.getStatus();
+			oss<< taskName <<" "<< scheduledDate <<" "<<startTime<<" "<<endTime<<" "<<venue<<" "<<status<<endl;
+			string TaskDisplay = oss.str();
+			totalTask << TaskDisplay;
+	}
+		else if (taskType == "floating"){
+			string venue=temp.getVenue();
+			string status=temp.getStatus();
+			oss<< taskName<<" "<<venue<<" "<<status<<endl;
+			string TaskDisplay = oss.str();
+			totalTask << TaskDisplay;
+	}
+	}
+
+	return totalTask.str();
+}
+*/

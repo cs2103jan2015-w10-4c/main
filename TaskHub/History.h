@@ -13,9 +13,11 @@ private:
 	int lastChangedTaskIndex;
 	Task lastChangedTask;
 	Task lastUnchangedTask;
+	vector<Task> backUpStorage;
 public:
 	History();
 	~History();
+	string printToString();
 	void setVectorTextStorage(Task);
 	void setVectorTextStorage(vector<Task>);
 	void setLastCommandType (string);
@@ -25,9 +27,11 @@ public:
 
 	int getLastChangedTaskIndex();
 	vector<Task> getVectorTextStorage();
+	vector<Task> getBackUpStorage();
 	Task getLastChangedTask();
 	Task getLastUnchangedTask();
 	string getLastCommandType();
+
 
 };
 
