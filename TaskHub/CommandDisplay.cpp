@@ -13,7 +13,7 @@ string CommandDisplay::display(string message) {
 		return Logic::messageDisplayed;
 
 	} else {
-		CommandAutoSort::autoSort();
+		
 		ostringstream totalTask;
 		transform(message.begin(),message.end(),message.begin(), ::tolower);
 		if (message=="all"||message=="display") {

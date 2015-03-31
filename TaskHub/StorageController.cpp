@@ -10,7 +10,7 @@ void StorageController::programmeTerminating() {
 	remove(fileName.c_str());
 
 	file.open(fileName);
-	currentLine = Logic::display();
+	currentLine = Logic::display("all");
 	file << currentLine << endl;	
 	file.close();
 }

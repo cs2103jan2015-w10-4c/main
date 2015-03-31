@@ -86,6 +86,9 @@ string ShowDailyTask::showDayTask (string userMessage) {
 				}
 			}
 		} 
+	} else if (userMessage=="free") {
+		//shuyuan's code
+
 	} else {
 		//covert to mmdd
 		//get into

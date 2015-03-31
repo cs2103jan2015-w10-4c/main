@@ -16,6 +16,7 @@ private:
 	static const string MESSAGE_CLEAR_ERROR;
 	static const string MESSAGE_CLEAR_DONE;
 	static const string MESSAGE_CLEAR_UNCOMPLETED;
+	static const string MESSAGE_CLEAR_COMMAND;
 };
 
 

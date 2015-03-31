@@ -6,6 +6,7 @@ const string CommandClear::MESSAGE_CLEAR_FROM_TO="Message with index from %s to 
 const string CommandClear::MESSAGE_CLEAR_ERROR="Invalid Task Index";
 const string CommandClear::MESSAGE_CLEAR_DONE="All the done tasks have been removed";
 const string CommandClear::MESSAGE_CLEAR_UNCOMPLETED="All the uncompleted tasks have been removed";
+const string CommandClear::MESSAGE_CLEAR_COMMAND="clear";
 
 string CommandClear::clearTask(string input) {
 
@@ -43,13 +44,18 @@ string CommandClear::clearTask(string input) {
 		if (get_task_index!=string::npos) {
 			unsigned int endIndex=atoi(input.substr(get_task_index+1,2).c_str());
 			unsigned int beginIndex=atoi(input.substr(0,get_task_index).c_str());
-			if ((beginIndex>=0) && (beginIndex < temporary.size()) && (endIndex>=beginIndex) && (endIndex<temporary.size())) {
-				
+			cout<<endIndex<<endl;
+			cout<<"begin: "<< beginIndex<<endl;
+			if ((beginIndex>=0) && (beginIndex < temporary.size()) && (endIndex>=beginIndex) && (endIndex<=temporary.size())) {
 				vector<Task>::iterator itr = temporary.begin()+beginIndex-1;
-				temporary.erase(itr,itr+endIndex-beginIndex+1);
+				if (endIndex!=temporary.size()) {
+					temporary.erase(itr,itr+endIndex-beginIndex+1);
+					
+				} else {
+					temporary.erase(itr,temporary.end());
+				}
 				Logic::history.setVectorTextStorage(temporary);
 				sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_FROM_TO.c_str(),input.substr(0,get_task_index).c_str(),input.substr(get_task_index+1,2).c_str());
-				
 			} else {
 			
 				sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_ERROR.c_str());
@@ -58,5 +64,6 @@ string CommandClear::clearTask(string input) {
 			sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_ERROR.c_str());
 		}
 	}
+	StorageController::programmeTerminating();
 	return Logic::messageDisplayed;
 }

@@ -33,8 +33,15 @@ Task::Task(string input){
 			_deadlineDate = "";
 			_integerDay = parseDate.getDay();
 			_integerMonth = parseDate.getMonth();
+<<<<<<< HEAD
+			_startHour = parseTime.getStartHour();
+			_startMinute = parseTime.getStartMinute();
+			_endHour = parseTime.getEndHour();
+			_endMinute = parseTime.getEndMinute();
+=======
 			_hour = parseTime.getHour();
 			_minute = parseTime.getMinute();
+>>>>>>> 406445856a424c95f96b866652307badb6ccb5b3
 			
 		}
 		else if (deadlined_Task != string::npos){
@@ -45,8 +52,13 @@ Task::Task(string input){
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = input.substr(deadlined_Task + 4, 5);
+<<<<<<< HEAD
+			_startHour = atoi(_deadlineTime.substr(0,1).c_str());
+			_startMinute = atoi(_deadlineTime.substr(3,4).c_str());
+=======
 			_hour = atoi(_deadlineTime.substr(0,1).c_str());
 			_minute = atoi(_deadlineTime.substr(3,4).c_str());
+>>>>>>> 406445856a424c95f96b866652307badb6ccb5b3
 			_scheduledDate = "";
 			_deadlineDate = parseDate.getDate();
 			_integerDay = parseDate.getDay();
@@ -101,7 +113,7 @@ Task::Task(string Task, string input){
 		string temp;	//to store remaining part of the Task arguement to check whether there is a time included there
 		if (find_date != string::npos){	//date found, Task is either scheduled or deadlined.
 			//assume double digit date
-				_TaskName = Task.substr(0, find_date - 2);
+				
 				temp_date = Task.substr(find_date - 2, 5);
 
 
@@ -116,6 +128,7 @@ Task::Task(string Task, string input){
 				_deadlineTime = "";
 				_scheduledDate = temp_date;
 				_deadlineDate = "";
+				_TaskName = Task.substr(0, find_date - 4);
 			}
 			else if (find_time != string::npos){
 				_TaskType = DEADLINE_Task_LABEL;
@@ -124,12 +137,15 @@ Task::Task(string Task, string input){
 				_deadlineTime = Task.substr(find_time - 2, 5);
 				_scheduledDate = "";
 				_deadlineDate = temp_date;
+				size_t find_mark=Task.find_first_of("[");
+				_TaskName = Task.substr(0, find_mark - 2);
+				_venue = "";
 			}
 
 		}
 		else{
 			_TaskType = FLOATING_Task_LABEL;
-			_TaskName = Task.substr(0, find__status - 1);
+			_TaskName = Task.substr(0, find__status-2);
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = "";
@@ -398,10 +414,27 @@ int Task::getIntegerMonth(){
 	return _integerMonth;
 }
 
+<<<<<<< HEAD
+int Task::getStartHour(){
+	return _startHour;
+}
+
+int Task::getStartMinute(){
+	return _startMinute;
+}
+
+int Task::getEndHour(){
+	return _endHour;
+}
+
+int Task::getEndMinute(){
+	return _endMinute;
+=======
 int Task::getHour(){
 	return _hour;
 }
 
 int Task::getMinute(){
 	return _minute;
+>>>>>>> 406445856a424c95f96b866652307badb6ccb5b3
 }
