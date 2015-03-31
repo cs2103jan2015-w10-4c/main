@@ -55,6 +55,12 @@ namespace LogicTest{
 			std::string actualResult = test->getLastCommandType();
 			Assert::AreEqual(expectedResult, actualResult);
 
+			// test case 2: previous action is a deletion of a new task. 
+			test->setLastCommandType("delete");
+			std::string expectedResult2("delete");
+			std::string actualResult2 = test->getLastCommandType();
+			Assert::AreEqual(expectedResult2, actualResult2);
+
 			delete test;
 		}
 	};
