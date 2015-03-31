@@ -10,7 +10,7 @@ using namespace std;
 class CommandInterpreter {
 	public:
 	enum COMMAND_TYPE {
-		HELP, ADD_Task, CLEAR, UPDATE, DELETE_Task, SEARCH, SORT, DISPLAY_TaskS, MARK_DONE, UNCONPLETE, UNDO, REDO, SHOW, EXIT, INVALID
+		HELP, ADD_Task, CLEAR, UPDATE, RECURRING, DELETE_Task, SEARCH, SORT, DISPLAY_TaskS, MARK_DONE, UNCONPLETE, UNDO, REDO, SHOW, EXIT, INVALID
 	};
 private:
 	static const string MESSAGE_ERROR;

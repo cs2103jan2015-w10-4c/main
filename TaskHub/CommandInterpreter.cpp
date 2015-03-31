@@ -19,6 +19,8 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 	switch (commandType) {
 	case SHOW:
 		return Logic::show(TaskString);
+	case RECURRING:
+		return Logic::recurTask(TaskString);
 	case HELP:
 		return Logic::help();
 	case CLEAR:
@@ -65,6 +67,9 @@ CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string
 	}
 	else if (commandTypeString == "update") {
 		return COMMAND_TYPE::UPDATE;
+	}
+	else if (commandTypeString == "recurring") {
+		return COMMAND_TYPE::RECURRING;
 	}
 	else if (commandTypeString == "delete") {
 		return COMMAND_TYPE::DELETE_Task;

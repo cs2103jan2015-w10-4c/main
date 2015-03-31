@@ -30,6 +30,7 @@ public:
 	static string redo();
 	static string sort();
 	static string help();
+	static string recurTask(string input);
 	static string show(string input);
 	
 	static vector<Task> textStorage;

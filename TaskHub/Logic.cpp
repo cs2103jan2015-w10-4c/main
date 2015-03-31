@@ -13,6 +13,7 @@
 #include "ShowDailyTask.h"
 #include "CommandClear.h"
 #include "CommandAutoSort.h"
+#include "CommandRecurring.h"
 
 char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY]="";
 
@@ -79,7 +80,10 @@ string Logic::show(string input) {
 string Logic::clearAll(string input) {
 	return CommandClear::clearTask(input);
 }
+string Logic::recurTask (string input) {
 
+	return CommandRecurring::setRecurringTask(input);
+}
 string Logic::sort () {
 	return CommandAutoSort::autoSort();
 }
