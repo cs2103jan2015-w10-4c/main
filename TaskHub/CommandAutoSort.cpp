@@ -63,7 +63,7 @@ bool compareCriteria(Task firstTask, Task secondTask) {
 }
 
 
-void CommandAutoSort::autoSort () {
+string CommandAutoSort::autoSort () {
 	
 	vector<Task> temporary=Logic::history.getVectorTextStorage();
 
@@ -71,6 +71,6 @@ void CommandAutoSort::autoSort () {
 
 	Logic::history.setVectorTextStorage(temporary);
 	
-	return;
+	return "sort successful";
 
 }

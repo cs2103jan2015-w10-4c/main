@@ -4,7 +4,7 @@
 #include "CommandAutoSort.h"
 
 const string CommandDisplay::MESSAGE_COMMAND_TYPE="display";
-const string CommandDisplay::MESSAGE_EMPTY_FILE="The file is empty";
+const string CommandDisplay::MESSAGE_EMPTY_FILE="The file is now empty";
 
 string CommandDisplay::display(string message) {
 

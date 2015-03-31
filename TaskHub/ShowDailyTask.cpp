@@ -49,9 +49,12 @@ string ShowDailyTask::showDayTask (string userMessage) {
 	if (userMessage=="today") {
 		
 		//get into that day and display
-		
+		cout<<"1"<<endl;
 		for (int i=0;i<size;i++) {
+			cout<<"a"<<endl;
+			cout<<temporary[i].getIntegerMonth();
 			if (currentMonth==temporary[i].getIntegerMonth()) {
+				
 				if (currentDay==temporary[i].getIntegerDay()) {
 					taskIndex.push_back(i);
 				}

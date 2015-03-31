@@ -28,6 +28,7 @@ public:
 	static string markUncompleted (string input);
 	static string undo();
 	static string redo();
+	static string sort();
 	static string help();
 	static string show(string input);
 	

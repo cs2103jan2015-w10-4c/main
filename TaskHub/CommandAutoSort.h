@@ -14,13 +14,13 @@ class CommandAutoSort {
 private:
 
 public:
-	static CommandAutoSort& getInstance() {
-		static CommandAutoSort instance;
-		return instance;
-	}
+	//static CommandAutoSort& getInstance() {
+		//static CommandAutoSort instance;
+		//return instance;
+	//}
 
 	static void sortTask(std::vector<Task> storage);
-	static void autoSort ();
+	static string autoSort ();
 
 
 };

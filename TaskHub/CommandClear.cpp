@@ -15,13 +15,13 @@ string CommandClear::clearTask(string input) {
 	transform(input.begin(),input.end(),input.begin(),::tolower);
 
 	if (input=="all"||input=="clear") {// when just clear is entered, by default is to clear all
-		
+		Logic::history.setLastCommandType(MESSAGE_CLEAR_COMMAND);
 		temporary.clear();
 		Logic::history.setVectorTextStorage(temporary);
 		sprintf_s(Logic::messageDisplayed, MESSAGE_CLEAR_ALL.c_str());
 
 	} else if (input=="done") {
-		
+		Logic::history.setLastCommandType(MESSAGE_CLEAR_COMMAND);
 		for (unsigned int i=0;i<temporary.size();i++) {
 			if (temporary[i].getStatus()=="done") {
 				string s=to_string(i+1);
@@ -31,7 +31,7 @@ string CommandClear::clearTask(string input) {
 		sprintf_s(Logic::messageDisplayed, MESSAGE_CLEAR_DONE.c_str());
 
 	} else if (input=="uncompleted") {
-		
+		Logic::history.setLastCommandType(MESSAGE_CLEAR_COMMAND);
 		for (unsigned int i=0;i<temporary.size();i++) {
 			if (temporary[i].getStatus()=="uncompleted") {
 				string s=to_string(i+1);
@@ -54,6 +54,7 @@ string CommandClear::clearTask(string input) {
 				} else {
 					temporary.erase(itr,temporary.end());
 				}
+				Logic::history.setLastCommandType(MESSAGE_CLEAR_COMMAND);
 				Logic::history.setVectorTextStorage(temporary);
 				sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_FROM_TO.c_str(),input.substr(0,get_task_index).c_str(),input.substr(get_task_index+1,2).c_str());
 			} else {

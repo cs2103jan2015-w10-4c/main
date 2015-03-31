@@ -15,9 +15,9 @@ string CommandAdd::addMessage(string input) {
 	// this is to make sure if user just key in empty space or nothing except an "add", nothing will be done
 	if (!isWhiteSpace && input != "add" ) {
 	Task newTask(input);
+	//CommandAutoSort::autoSort();
 	Logic::history.setVectorTextStorage(newTask);
 	Logic::history.setLastChangedTask(newTask);
-	CommandAutoSort::autoSort();
 	sprintf_s(Logic::messageDisplayed, MESSAGE_ADDED.c_str(),newTask.ToString().c_str());
 	
 
@@ -25,6 +25,7 @@ string CommandAdd::addMessage(string input) {
 		sprintf_s(Logic::messageDisplayed,MESSAGE_INDICATING_EMPTY.c_str());
 	}
 
+	StorageController::programmeTerminating();
 	return Logic::messageDisplayed;
 
 }

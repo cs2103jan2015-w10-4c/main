@@ -12,6 +12,7 @@
 #include "CommandRedo.h"
 #include "ShowDailyTask.h"
 #include "CommandClear.h"
+#include "CommandAutoSort.h"
 
 char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY]="";
 
@@ -79,6 +80,9 @@ string Logic::clearAll(string input) {
 	return CommandClear::clearTask(input);
 }
 
+string Logic::sort () {
+	return CommandAutoSort::autoSort();
+}
 string Logic::getFirstWord(string input)
 {
 	return input.substr(0, input.find(' '));
@@ -94,15 +98,26 @@ string Logic::help() {
 
 	cout << "Some examples:\n";
 
-	cout << "Add: add meeting -from 1200 -to 1400 25/12\n";
-	cout << "Display all: display \n";
-	cout << "Display Static Tasks: display static\n";
+	cout << "Add: add meeting -from 12:00 -to 14:00 25/12\n";
+	cout << "Display all: display or display all\n";
+	cout << "Display timed Tasks: display timed\n";
 	cout << "Display Deadline Tasks: display deadline\n";
-	cout << "Display Unfinished Tasks: display unfinished\n";
-	cout << "Display Finished Tasks: display finished\n";
+	cout << "Display Unfinished Tasks: display uncompleted\n";
+	cout << "Display Finished Tasks: display done\n";
 	cout << "Display Floating Tasks: display floating\n";
-	
-	cout << "Update: Update 1 -from 1400 -to 1500 23/12\n";
+	cout <<  "Show today task: show today"<<endl;
+	cout << "Show today tomorrow: show tomorrow"<<endl;
+	cout << "Show today now: show now"<<endl;
+	cout << "Show task on a paticular date: show 12/12 (dd/mm)"<<endl;
+	cout << "search task: search cs meeting\n";
+	cout << "mark task completed: done 1\n";
+	cout << "mark task uncompleted: uncomplete 1\n";
+	cout << "clear all tasks: clear all or clear\n";
+	cout << "clear timed tasks: clear timed\n";
+	cout << "clear done: clear done\n";
+	cout << "clear uncompleted tasks: clear uncompleted\n";
+	cout << "clear tasks continuously: clear 1-10\n";
+	cout << "Update: Update 1 -from 14:00 -to 15:00 23/12\n";
 	cout << "Search: search meeting\n";
 	cout << "Delete: delete 1\n";
 	

@@ -9,6 +9,7 @@ string undoChange::undo() {
 	vector<Task> temporary =Logic::history.getVectorTextStorage();
 
 	if (Logic::history.getLastCommandType() == "add"){
+		//temporary=Logic::history.getBackUpStorage();
 		temporary.pop_back();
 		Logic::history.setVectorTextStorage(temporary);
 		return "Adding command is undone";

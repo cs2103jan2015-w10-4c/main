@@ -27,6 +27,8 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 		return Logic::addTask(TaskString);
 	case UPDATE:
 		return Logic::updateTask(TaskString);
+	case SORT:
+		return Logic::sort();
 	case DELETE_Task:
 		return Logic::deleteTask(TaskString);
 	case DISPLAY_TaskS:
@@ -75,6 +77,9 @@ CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string
 	}
 	else if (commandTypeString == "show") {
 		return COMMAND_TYPE::SHOW;
+	}
+	else if (commandTypeString == "sort") {
+		return COMMAND_TYPE::SORT;
 	}
 	else if (commandTypeString == "done") {
 		return COMMAND_TYPE::MARK_DONE;
