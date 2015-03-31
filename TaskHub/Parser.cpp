@@ -113,7 +113,7 @@ Task::Task(string Task, string input){
 		string temp;	//to store remaining part of the Task arguement to check whether there is a time included there
 		if (find_date != string::npos){	//date found, Task is either scheduled or deadlined.
 			//assume double digit date
-				_TaskName = Task.substr(0, find_date - 2);
+				
 				temp_date = Task.substr(find_date - 2, 5);
 
 
@@ -128,6 +128,7 @@ Task::Task(string Task, string input){
 				_deadlineTime = "";
 				_scheduledDate = temp_date;
 				_deadlineDate = "";
+				_TaskName = Task.substr(0, find_date - 4);
 			}
 			else if (find_time != string::npos){
 				_TaskType = DEADLINE_Task_LABEL;
@@ -136,12 +137,15 @@ Task::Task(string Task, string input){
 				_deadlineTime = Task.substr(find_time - 2, 5);
 				_scheduledDate = "";
 				_deadlineDate = temp_date;
+				size_t find_mark=Task.find_first_of("[");
+				_TaskName = Task.substr(0, find_mark - 2);
+				_venue = "";
 			}
 
 		}
 		else{
 			_TaskType = FLOATING_Task_LABEL;
-			_TaskName = Task.substr(0, find__status - 1);
+			_TaskName = Task.substr(0, find__status-2);
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = "";
