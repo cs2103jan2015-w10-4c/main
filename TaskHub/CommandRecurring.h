@@ -5,6 +5,15 @@
 #include<string>
 using namespace std;
 
+struct Time {
+	int _day;
+	int _mon;
+	int _hour;
+	int _min;
+	int _year;
+	int _dayOfWeek;
+};
+
 class CommandRecurring {
 
 public:
