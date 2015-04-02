@@ -4,17 +4,6 @@
 #include <Windows.h>
 #include "Logic.h"
 #include "CommandAdd.h"
-#include "CommandUpdate.h"
-#include "CommandDelete.h"
-#include "CommandSearch.h"
-#include "CommandDisplay.h"
-#include "CommandMarkDone.h"
-#include "CommandMarkUncomplete.h"
-#include "CommandUndo.h"
-#include "CommandRedo.h"
-#include "ShowDailyTask.h"
-#include "CommandClear.h"
-#include "CommandAutoSort.h"
 #include "CommandRecurring.h"
 
 
@@ -155,17 +144,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	string startingTime=input.substr(get_Start_Time-2,5);
 	string endingTime=input.substr(get_End_Time-2,5);
 	
-	int weekday;
 	
-
-	string dayOfWeek=determineDayOfWeek(input.substr(get_day_of_week));
-
-	if( dayOfWeek!="invalid") {
-		weekday=atoi(dayOfWeek.c_str());
-	} else {
-		weekday=currentTimeData._dayOfWeek;
-	}
-
 	int startingYear;
 	int endingYear;
 	if(get_year!=string::npos) {
@@ -208,7 +187,19 @@ string CommandRecurring::setRecurringTask(string input) {
 	
 	
 	string venue="";
+	string dayOfWeek=input.substr(get_day_of_week);
+
+
+	int weekday;
 	
+	if (dayOfWeek.size()==10){
+		dayOfWeek=determineDayOfWeek(input.substr(get_day_of_week));
+	if( dayOfWeek!="invalid") {
+		weekday=atoi(dayOfWeek.c_str());
+	} else {
+		weekday=currentTimeData._dayOfWeek;
+	}
+
 	startingDay=startingDay+weekday-currentTimeData._dayOfWeek;
 	checkWithinRange(startingDay,startingMonth,startingYear);
 
@@ -218,7 +209,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	} else {
 		interval=1;
 	}
-
+	//recur weekly and daily
 	for (int k=startingYear; k<=endingYear; k++) {
 		int monthNumber;
 		if (k!=endingYear) {
@@ -246,6 +237,40 @@ string CommandRecurring::setRecurringTask(string input) {
 		startingMonth=1;
 	}
 	return MESSAGE_RECURRING_TASK_SET;
+	} else if (dayOfWeek.size()==9){
+		int recurringDay=atoi(dayOfWeek.substr(7,2).c_str());
+
+		for (int k=startingYear; k<=endingYear; k++) {
+		int monthNumber;
+		if (k!=endingYear) {
+			monthNumber=12;
+		} else {
+			monthNumber=endingMonth;
+		}
+		for (int j=startingMonth;j<=monthNumber;j++) {
+			int dayNumber;
+			if (j!=endingMonth) {
+			dayNumber=getDayNumberInOneMonth(j,k);
+			} else {
+				dayNumber=endingDay;
+			}
+			startingDay=recurringDay;
+			//for (int i=startingDay;i<=dayNumber;i=i+interval) {
+				char taskname[256];
+				strcpy_s(taskname, taskName.c_str());
+				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(startingDay)+"/"+to_string(j);
+				CommandAdd::addMessage(message);
+	
+			//}
+			//startingDay=1;
+		}
+		startingMonth=1;
+	}
+		return MESSAGE_RECURRING_TASK_SET;
+	}
+	 else {
+		 return "wrong messages";
+	 }
 }
 
 
