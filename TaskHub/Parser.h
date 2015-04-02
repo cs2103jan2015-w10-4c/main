@@ -27,6 +27,7 @@ private:
 	int _startMinute;
 	int _endHour;
 	int _endMinute;
+
 	enum UPDATE_COMMAND
 	{
 		VENUE,TIME,DATE,TASK,INVALID

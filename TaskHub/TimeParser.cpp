@@ -9,11 +9,10 @@ TimeParser::TimeParser(string input){
 	size_t ending_time = input.find("-to");
 	_startTime = input.substr(timed_Task + 6, 5);
 	_endTime = input.substr(ending_time + 4, 5);
-
-	_startHour = atoi(input.substr(timed_Task+6, 2).c_str());
-	_startMinute = atoi(input.substr(timed_Task+9, 2).c_str());
-	_endHour = atoi(input.substr(ending_time+4, 2).c_str());
-	_endMinute = atoi(input.substr(ending_time+7, 2).c_str());
+	_startHour = atoi(_startTime.substr(0, 2).c_str());
+	_startMinute = atoi(_startTime.substr(3, 2).c_str());
+	_endHour = atoi(_endTime.substr(0, 2).c_str());
+	_endMinute = atoi(_endTime.substr(3, 2).c_str());
 }
 
 string TimeParser::getStartTime(){
