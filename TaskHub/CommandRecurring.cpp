@@ -237,7 +237,8 @@ string CommandRecurring::setRecurringTask(string input) {
 		startingMonth=1;
 	}
 	return MESSAGE_RECURRING_TASK_SET;
-	} else if (dayOfWeek.size()==9){
+	} //monthly
+	else if (dayOfWeek.size()==9){
 		int recurringDay=atoi(dayOfWeek.substr(7,2).c_str());
 
 		for (int k=startingYear; k<=endingYear; k++) {
@@ -267,10 +268,42 @@ string CommandRecurring::setRecurringTask(string input) {
 		startingMonth=1;
 	}
 		return MESSAGE_RECURRING_TASK_SET;
+	}//any days as interval, have bugs
+	else if (dayOfWeek.size()==14){
+		int interval; 
+		interval=atoi(dayOfWeek.substr(7,2).c_str());
+
+		for (int k=startingYear; k<=endingYear; k++) {
+		int monthNumber;
+		if (k!=endingYear) {
+			monthNumber=12;
+		} else {
+			monthNumber=endingMonth;
+		}
+		for (int j=startingMonth;j<=monthNumber;j++) {
+			int dayNumber;
+			if (j!=endingMonth) {
+			dayNumber=getDayNumberInOneMonth(j,k);
+			} else {
+				dayNumber=endingDay;
+			}
+
+			//checkWithinRange(startingDay,startingMonth,startingYear);
+			for (int i=startingDay;i<=dayNumber;i=i+interval) {
+				char taskname[256];
+				strcpy_s(taskname, taskName.c_str());
+				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
+				CommandAdd::addMessage(message);
+	
+			}
+			startingDay=1;
+		}
+		startingMonth=1;
 	}
-	 else {
+		return MESSAGE_RECURRING_TASK_SET;
+	 } else {
 		 return "wrong messages";
-	 }
+	}
 }
 
 
