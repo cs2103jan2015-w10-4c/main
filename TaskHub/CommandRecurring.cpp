@@ -21,6 +21,37 @@ const string CommandRecurring::COMMAND_TYPE="recurring";
 const string CommandRecurring::MESSAGE_RECURRING_TASK_SET="Recurring tasks have been set";
 const string EMPTY_SPACE=" ";
 
+bool isLeapYear (int year) {
+	bool isLeapYear=false;
+	if ((year%4==0)&&(year%100 !=0)||(year%400 ==0)) {
+		isLeapYear=true;
+	}
+
+	return isLeapYear;
+}
+
+int getDayNumberInOneMonth (int Month, int year) {
+	int solarMonth=31;
+	int lunarMonth=30;
+	int normalFeburaryDay=28;
+	int leapFeburaryDay=29;
+	if (Month==1||Month==3||Month==5||Month==7||Month==8||Month==10||Month==12) {
+		return solarMonth;
+	} else if (Month==4||Month==6||Month==9||Month==11) {
+		return lunarMonth;
+	} else if (isLeapYear(year)){
+		return leapFeburaryDay;
+	} else {
+		return normalFeburaryDay;
+	}
+}
+
+int countDays(int startingMonth, int startingDay, int endingMonth, int endingDay) {
+
+
+	return 0;
+}
+
 string CommandRecurring::setRecurringTask(string input) {
 
 	size_t get_Start_Time;
@@ -61,12 +92,23 @@ string CommandRecurring::setRecurringTask(string input) {
 	int endingHour=atoi(input.substr(get_End_Time-2,2).c_str());
 	int endingMinute=atoi(input.substr(get_End_Time+1,2).c_str());;
 	string venue="";
-	for (int i=startingDay;i<=endingDay;i++) {
-		char taskname[256];
-		strcpy_s(taskname, taskName.c_str());
-		string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(endingMonth);
-		CommandAdd::addMessage(message);
+	int year=2015;
+	for (int j=startingMonth;j<=endingMonth;j++) {
+		int dayNumber;
+		if (j!=endingMonth) {
+		dayNumber=getDayNumberInOneMonth(j,year);
+		} else {
+			dayNumber=endingDay;
+		}
 
+		for (int i=startingDay;i<=dayNumber;i++) {
+			char taskname[256];
+			strcpy_s(taskname, taskName.c_str());
+			string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
+			CommandAdd::addMessage(message);
+
+		}
+		startingDay=1;
 	}
 	return MESSAGE_RECURRING_TASK_SET;
 }
