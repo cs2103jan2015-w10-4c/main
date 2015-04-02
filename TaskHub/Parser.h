@@ -17,6 +17,7 @@ private:
 	string _endTime;
 	string _deadlineTime;
 	string _scheduledDate;
+	string _scheduledDateReverse;
 	string _deadlineDate;
 	string _status;
 	string _venue;
@@ -44,6 +45,7 @@ public:
 	string getEndTime();
 	string getDeadlineTime();
 	string getScheduledDate();
+	string getScheduledDateReverse();
 	string getDeadlineDate();
 	string getStatus();
 	string getVenue();

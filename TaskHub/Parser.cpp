@@ -30,6 +30,7 @@ Task::Task(string input){
 			_endTime = parseTime.getEndTime();
 			_deadlineTime = "";
 			_scheduledDate = parseDate.getDate();
+			_scheduledDateReverse = parseDate.getDateReverse();
 			_deadlineDate = "";
 			_integerDay = parseDate.getDay();
 			_integerMonth = parseDate.getMonth();
@@ -160,7 +161,7 @@ string Task::ToString(){
 		output = Task+EMPTY_SPACE+" [due: "+_deadlineDate.c_str()+" "+_deadlineTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
 	}
 	else if (_TaskType == SCHEDULED_Task_LABEL){
-		output = Task+EMPTY_SPACE+"["+ _scheduledDate.c_str()+" "+_startTime.c_str()+"-"+_endTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
+		output = Task+EMPTY_SPACE+"[ "+ _scheduledDate.c_str()+" "+_startTime.c_str()+"-"+_endTime.c_str()+" ] "+_venue.c_str()+" "+ _status.c_str();
 	}
 	else if (_TaskType == FLOATING_Task_LABEL){
 		output = Task+EMPTY_SPACE+_venue.c_str()+" "+_status.c_str();
@@ -173,31 +174,6 @@ string Task::getTaskName(){
 }
 
 void Task::UpdateTask(string input){
-	/*if (!input.empty()){
-		size_t timed_Task = input.find("-from");
-		size_t deadlined_Task = input.find("-by");
-		if (timed_Task != string::npos){
-			size_t ending_time = input.find("-to");
-			size_t get_date = input.find("/");
-			_TaskType = SCHEDULED_Task_LABEL;
-			_startTime = input.substr(timed_Task + 6, 5);
-			_endTime = input.substr(ending_time + 4, 5);
-			if (get_date != string::npos){
-				_scheduledDate = input.substr(get_date - 2, 5);
-			}
-		}
-		else if (deadlined_Task != string::npos){
-			size_t get_date = input.find("/");
-			_TaskType = DEADLINE_Task_LABEL;
-			_deadlineTime = input.substr(deadlined_Task + 4, 5);
-			if (get_date != string::npos){
-				_deadlineDate = input.substr(get_date - 2, 5);
-			}
-		}
-	}
-
-
-	checkInputValidation();*/
 
 	if(!input.empty()) {
 		string temp;
@@ -380,6 +356,10 @@ string Task::getDeadlineTime(){
 
 string Task::getScheduledDate(){
 	return _scheduledDate;
+}
+
+string Task::getScheduledDateReverse(){
+	return _scheduledDateReverse;
 }
 
 string Task::getDeadlineDate(){
