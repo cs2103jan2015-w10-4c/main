@@ -165,7 +165,7 @@ Task::Task(string Task, string input){
 			string tempVenue;
 			tempVenue = parseVenue.getVenue();
 			size_t status_mark = tempVenue.find_last_of(" ");
-			_venue = tempVenue.substr(0, status_mark-1);
+			_venue = tempVenue.substr(0, status_mark - venue_task);
 		}
 		else{
 			_venue = "";
