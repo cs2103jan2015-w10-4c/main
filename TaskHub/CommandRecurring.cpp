@@ -183,12 +183,17 @@ string CommandRecurring::setRecurringTask(string input) {
 	int endingDay=atoi(input.substr(get_End_Date-2,2).c_str());
 	int endingMonth=atoi(input.substr(get_End_Date+1,2).c_str());
 	int endingHour=atoi(input.substr(get_End_Time-2,2).c_str());
-	int endingMinute=atoi(input.substr(get_End_Time+1,2).c_str());;
-	
+	int endingMinute=atoi(input.substr(get_End_Time+1,2).c_str());
 	
 	string venue="";
-	string dayOfWeek=input.substr(get_day_of_week);
-	
+	string dayOfWeek;
+	if (get_day_of_week!=string::npos) {
+	dayOfWeek=input.substr(get_day_of_week);
+	}
+	else {
+		dayOfWeek="default";
+	}
+
 	int interval;
 	if (get_day_of_week!=string::npos) {
 		interval=7;
@@ -196,8 +201,8 @@ string CommandRecurring::setRecurringTask(string input) {
 		interval=1;
 	}
 
+	if (get_day_of_week!=string::npos) {
 	int weekday;
-	
 	if (dayOfWeek.size()==10){
 		dayOfWeek=determineDayOfWeek(input.substr(get_day_of_week));
 	if( dayOfWeek!="invalid") {
@@ -271,7 +276,7 @@ string CommandRecurring::setRecurringTask(string input) {
 		startingMonth=1;
 	}
 		return MESSAGE_RECURRING_TASK_SET;
-	}//any days as interval, have bugs
+	}//any days as interval
 	else if (dayOfWeek.size()==14){
 		int i;
 		int j;
@@ -310,6 +315,48 @@ string CommandRecurring::setRecurringTask(string input) {
 	 } else {
 		 return "wrong messages";
 	}
+	}
+	// by default every day
+	else {
+		if (dayOfWeek=="default"){
+		int i;
+		int j;
+		int k;
+		int interval; 
+		interval=atoi(dayOfWeek.substr(7,2).c_str());
+		for ( k=startingYear; k<=endingYear; k++) {
+		int monthNumber;
+		if (k!=endingYear) {
+			monthNumber=12;
+		} else {
+			monthNumber=endingMonth;
+		}
+		for ( j=startingMonth;j<=monthNumber;j++) {
+			int dayNumber;
+			if (j!=endingMonth) {
+			dayNumber=getDayNumberInOneMonth(j,k);
+			} else {
+				dayNumber=endingDay;
+			}
+
+			//checkWithinRange(startingDay,startingMonth,startingYear);
+			for ( i=startingDay;i<=dayNumber;i++) {
+				char taskname[256];
+				strcpy_s(taskname, taskName.c_str());
+				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
+				CommandAdd::addMessage(message);
+	
+			}
+			startingDay=1;
+		}
+		startingMonth=1;
+	}
+		return MESSAGE_RECURRING_TASK_SET;
+	 } else {
+		 return "wrong messages";
+	}
+	}
+	
 }
 
 
