@@ -8,11 +8,14 @@ public:
 	DateParser();
 	DateParser(string input);
 	string getDate();
+	string getDateReverse();
 	int getDay();
 	int getMonth();
 private:
 	string _date;
-	int _day;
-	int _month;
+	string _day;
+	string _month;
+	int _integerDay;
+	int _integerMonth;
 };
 #endif

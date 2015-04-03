@@ -17,6 +17,7 @@ private:
 	string _endTime;
 	string _deadlineTime;
 	string _scheduledDate;
+	string _scheduledDateReverse;
 	string _deadlineDate;
 	string _status;
 	string _venue;
@@ -26,6 +27,7 @@ private:
 	int _startMinute;
 	int _endHour;
 	int _endMinute;
+
 	enum UPDATE_COMMAND
 	{
 		VENUE,TIME,DATE,TASK,INVALID
@@ -44,6 +46,7 @@ public:
 	string getEndTime();
 	string getDeadlineTime();
 	string getScheduledDate();
+	string getScheduledDateReverse();
 	string getDeadlineDate();
 	string getStatus();
 	string getVenue();
