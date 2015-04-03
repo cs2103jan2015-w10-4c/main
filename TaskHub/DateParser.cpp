@@ -7,7 +7,9 @@ DateParser::DateParser(void){
 
 DateParser::DateParser(string input){
 	size_t get_date = input.find("/");
-	if(input.substr(get_date-2,1) != " "){
+	if(get_date != string::npos){
+
+	  if(input.substr(get_date-2,1) != " "){
 		//  format:  dd/mm
 		if(input.substr(get_date+2,1) != " "){
 			_date = input.substr(get_date-2, 5);
@@ -49,6 +51,21 @@ DateParser::DateParser(string input){
 				}
 			}
 		}
+	}
+  }
+	else{
+		SYSTEMTIME lt;
+		GetLocalTime(&lt);
+		_integerDay = lt.wDay;
+		_integerMonth = lt.wMonth;
+		ostringstream oss;
+		oss << _integerDay;
+		_day = oss.str();
+		oss.clear();
+		oss << _integerDay;
+		_month = oss.str();
+		oss.clear();
+		_date = _day + "/" + _month;
 	}
 }
 

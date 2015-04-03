@@ -115,7 +115,7 @@ Task::Task(string Task, string input){
 				DateParser parseDate(Task);
 				TimeParser parseTime(Task);
 				size_t find_bracket = Task.find_first_of("[");
-				_TaskName = Task.substr(0, find_bracket-2);
+				_TaskName = Task.substr(0, find_bracket-1);
 				_TaskType = SCHEDULED_Task_LABEL;
 				_startTime = Task.substr(find_time - 2, 5);
 				_endTime = temp.substr(find_ending_time - 2, 5);
@@ -133,7 +133,7 @@ Task::Task(string Task, string input){
 			else if (find_time != string::npos){
 				DateParser parseDate(Task);
 				size_t find_bracket = Task.find_first_of("[");
-				_TaskName = Task.substr(0, find_bracket-2);
+				_TaskName = Task.substr(0, find_bracket-1);
 				_TaskType = DEADLINE_Task_LABEL;
 				_startTime = "";
 				_endTime = "";
@@ -159,7 +159,10 @@ Task::Task(string Task, string input){
 		size_t venue_Task = Task.find("@");
 		if (venue_Task != string::npos){
 			VenueParser parseVenue(Task);
-		    _venue = parseVenue.getVenue();
+			string tempVenue;
+			tempVenue = parseVenue.getVenue();
+			size_t status_mark = tempVenue.find_last_of(" ");
+			_venue = tempVenue.substr(0, status_mark-1);
 		}
 		else{
 			_venue = "";
@@ -173,7 +176,7 @@ string Task::ToString(){
 	string output;
 	strcpy_s(Task, _TaskName.c_str());
 	if (_TaskType == DEADLINE_Task_LABEL){
-		output = Task+EMPTY_SPACE+" [due: "+_deadlineDate.c_str()+" "+_deadlineTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
+		output = Task+EMPTY_SPACE+" [due "+_deadlineDate.c_str()+" "+_deadlineTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
 	}
 	else if (_TaskType == SCHEDULED_Task_LABEL){
 		output = Task+EMPTY_SPACE+"[ "+ _scheduledDate.c_str()+" "+_startTime.c_str()+" - "+_endTime.c_str()+" ] "+_venue.c_str()+" "+ _status.c_str();
