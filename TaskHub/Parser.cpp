@@ -176,7 +176,7 @@ string Task::ToString(){
 	string output;
 	strcpy_s(Task, _TaskName.c_str());
 	if (_TaskType == DEADLINE_Task_LABEL){
-		output = Task+EMPTY_SPACE+" [due: "+_deadlineDate.c_str()+" "+_deadlineTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
+		output = Task+EMPTY_SPACE+" [due "+_deadlineDate.c_str()+" "+_deadlineTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
 	}
 	else if (_TaskType == SCHEDULED_Task_LABEL){
 		output = Task+EMPTY_SPACE+"[ "+ _scheduledDate.c_str()+" "+_startTime.c_str()+" - "+_endTime.c_str()+" ] "+_venue.c_str()+" "+ _status.c_str();
