@@ -2,6 +2,7 @@
 #define DATEPARSER_H
 #include <string>
 #include <sstream>
+#include <vector>
 #include <Windows.h>
 using namespace std;
 class DateParser{
@@ -11,13 +12,16 @@ public:
 	DateParser(string input);
 	string getDate();
 	string getDateReverse();
+	string getAlphaMonth();
 	int getDay();
 	int getMonth();
 private:
 	string _date;
 	string _day;
 	string _month;
+	string _alphaMonth;
 	int _integerDay;
 	int _integerMonth;
+
 };
 #endif

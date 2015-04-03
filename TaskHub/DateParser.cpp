@@ -84,3 +84,26 @@ int DateParser::getDay(){
 int DateParser::getMonth(){
 	return _integerMonth;
 }
+
+string DateParser::getAlphaMonth(){
+	int i=1;
+	vector<string> months;
+	months.push_back("Jan");
+	months.push_back("Feb");
+	months.push_back("Mar");
+	months.push_back("April");
+	months.push_back("May");
+	months.push_back("Jun");
+	months.push_back("Jul");
+	months.push_back("Aug");
+	months.push_back("Sept");
+	months.push_back("Oct");
+	months.push_back("Nov");
+	months.push_back("Dec");
+	while(i != _integerMonth){
+		i++;
+	}
+	_alphaMonth = months[i-1];
+
+	return _alphaMonth;
+}

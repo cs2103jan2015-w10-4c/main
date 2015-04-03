@@ -38,7 +38,7 @@ Task::Task(string input){
 			_startMinute = parseTime.getStartMinute();
 			_endHour = parseTime.getEndHour();
 			_endMinute = parseTime.getEndMinute();
-			
+			_alphaMonth = parseDate.getAlphaMonth();
 		}
 		else if (deadlined_Task != string::npos){
 			DateParser parseDate(input);
@@ -54,6 +54,7 @@ Task::Task(string input){
 			_startMinute = atoi(_deadlineTime.substr(3,2).c_str());
 			_integerDay = parseDate.getDay();
 			_integerMonth = parseDate.getMonth();
+			_alphaMonth = parseDate.getAlphaMonth();
 		}
 		else{
 			_TaskType = FLOATING_Task_LABEL;
@@ -129,6 +130,7 @@ Task::Task(string Task, string input){
 			    _startMinute = parseTime.getStartMinute();
 			    _endHour = parseTime.getEndHour();
 			    _endMinute = parseTime.getEndMinute();
+				_alphaMonth = parseDate.getAlphaMonth();
 			}
 			else if (find_time != string::npos){
 				DateParser parseDate(Task);
@@ -144,6 +146,7 @@ Task::Task(string Task, string input){
 			    _startMinute = atoi(_deadlineTime.substr(3,2).c_str());
 			    _integerDay = parseDate.getDay();
 			    _integerMonth = parseDate.getMonth();
+				_alphaMonth = parseDate.getAlphaMonth();
 			}
 
 		}
