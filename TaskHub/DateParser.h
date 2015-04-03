@@ -1,6 +1,8 @@
 #ifndef DATEPARSER_H
 #define DATEPARSER_H
 #include <string>
+#include <sstream>
+#include <Windows.h>
 using namespace std;
 class DateParser{
 
