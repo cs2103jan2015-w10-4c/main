@@ -116,6 +116,29 @@ void checkWithinRange (int &startingDay, int &startingMonth,int &year) {
 	return;
 }
 
+
+bool isValidDay (int day, int month, int year) {
+	bool isValid=false;
+	if (month==1||month==3||month==5||month==7||month==8||month==10||month==12) {
+		if(day<=31) {
+			isValid=true;
+		}
+	} else if (month==4||month==6||month==9||month==11) {
+		if (day<=30) {
+			isValid=true;
+		}
+	} else if (isLeapYear(year)){
+		if (day<=29) {
+			isValid=true;
+		}
+	} else if (!isLeapYear(year)){
+		if (day<=28) {
+			isValid=true;
+		}
+	}
+	return isValid;
+}
+
 string CommandRecurring::setRecurringTask(string input) {
 
 	Time currentTimeData;
@@ -264,12 +287,13 @@ string CommandRecurring::setRecurringTask(string input) {
 				dayNumber=endingDay;
 			}
 			startingDay=recurringDay;
+			if (isValidDay(startingDay,j,k)) {
 			//for (int i=startingDay;i<=dayNumber;i=i+interval) {
 				char taskname[256];
 				strcpy_s(taskname, taskName.c_str());
 				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(startingDay)+"/"+to_string(j);
 				CommandAdd::addMessage(message);
-	
+			}
 			//}
 			//startingDay=1;
 		}
@@ -358,7 +382,6 @@ string CommandRecurring::setRecurringTask(string input) {
 	}
 	
 }
-
 
 	/*
 	string startingDayString=input.substr(get_Start_Date-2,2);
