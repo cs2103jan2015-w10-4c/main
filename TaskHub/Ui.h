@@ -15,7 +15,12 @@
 #include "Logic.h"
 #include "StorageController.h"
 #include "CommandInterpreter.h"
+#include "CommandDisplay.h"
 #include "ShowDailyTask.h"
+#include "Parser.h"
+#include <iomanip>
+#include <Windows.h>
+#include <iostream>
 
 using namespace std;
 
@@ -27,6 +32,8 @@ private:
 public:
 	static string displayWelcomeMessage();
 	static string getUserCommand();
-	static void showToUser(string userCommand, string text);
+	static void showToUser(string userCommand);
+	static void systemFeedback(string text);
+	static void dispalyDay(vector<string> task, string heading);
 };
 #endif
