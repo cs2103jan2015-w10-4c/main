@@ -15,6 +15,7 @@
 #include "Logic.h"
 #include "StorageController.h"
 #include "CommandInterpreter.h"
+#include "ShowDailyTask.h"
 
 using namespace std;
 
@@ -26,6 +27,6 @@ private:
 public:
 	static string displayWelcomeMessage();
 	static string getUserCommand();
-	static void showToUser(string text);
+	static void showToUser(string userCommand, string text);
 };
 #endif

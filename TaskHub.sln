@@ -5,7 +5,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHubMain", "TaskHubMain\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHubTest", "TaskHubTest\TaskHubTest.vcxproj", "{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}"
 EndProject
+<<<<<<< HEAD
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHub", "TaskHub\TaskHub.vcxproj", "{7AF1B3E2-1179-40F6-9357-559B13DF9A37}"
+=======
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHub", "TaskHub\TaskHub.vcxproj", "{B84B1F07-1882-4445-9E99-345DA22080BF}"
+>>>>>>> 3983d756235d2488d1c6a3c2364ed47309774302
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +25,17 @@ Global
 		{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}.Debug|Win32.Build.0 = Debug|Win32
 		{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}.Release|Win32.ActiveCfg = Release|Win32
 		{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}.Release|Win32.Build.0 = Release|Win32
+<<<<<<< HEAD
 		{7AF1B3E2-1179-40F6-9357-559B13DF9A37}.Debug|Win32.ActiveCfg = Debug|Win32
 		{7AF1B3E2-1179-40F6-9357-559B13DF9A37}.Debug|Win32.Build.0 = Debug|Win32
 		{7AF1B3E2-1179-40F6-9357-559B13DF9A37}.Release|Win32.ActiveCfg = Release|Win32
 		{7AF1B3E2-1179-40F6-9357-559B13DF9A37}.Release|Win32.Build.0 = Release|Win32
+=======
+		{B84B1F07-1882-4445-9E99-345DA22080BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B84B1F07-1882-4445-9E99-345DA22080BF}.Debug|Win32.Build.0 = Debug|Win32
+		{B84B1F07-1882-4445-9E99-345DA22080BF}.Release|Win32.ActiveCfg = Release|Win32
+		{B84B1F07-1882-4445-9E99-345DA22080BF}.Release|Win32.Build.0 = Release|Win32
+>>>>>>> 3983d756235d2488d1c6a3c2364ed47309774302
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
