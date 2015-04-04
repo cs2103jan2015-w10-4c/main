@@ -25,7 +25,12 @@ string CommandAdd::addMessage(string input) {
 		sprintf_s(Logic::messageDisplayed,MESSAGE_INDICATING_EMPTY.c_str());
 	}
 
-	StorageController::programmeTerminating();
+	//StorageController::updateSaveFile();
 	return Logic::messageDisplayed;
 
+}
+string CommandAdd::addOperation(string input) {
+	string feedback=CommandAdd::addMessage(input);
+	StorageController::updateSaveFile();
+	return feedback;
 }
