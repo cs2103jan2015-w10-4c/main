@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DC8DE0F0-F351-440B-BF48-9B15915A3E18}</ProjectGuid>
+    <ProjectGuid>{7AF1B3E2-1179-40F6-9357-559B13DF9A37}</ProjectGuid>
     <RootNamespace>TaskHub</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -43,11 +43,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EntryPointSymbol>Ui</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -56,7 +54,6 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -67,16 +64,14 @@
   <ItemGroup>
     <ClCompile Include="CommandAdd.cpp" />
     <ClCompile Include="CommandAutoSort.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="CommandClash.cpp" />
-=======
     <ClCompile Include="CommandClear.cpp" />
->>>>>>> 3705a45a50ce4e7a428240d8911af5fe1f16a3bd
     <ClCompile Include="CommandDelete.cpp" />
     <ClCompile Include="CommandDisplay.cpp" />
     <ClCompile Include="CommandInterpreter.cpp" />
     <ClCompile Include="CommandMarkDone.cpp" />
     <ClCompile Include="CommandMarkUncomplete.cpp" />
+    <ClCompile Include="CommandRecurring.cpp" />
     <ClCompile Include="CommandRedo.cpp" />
     <ClCompile Include="CommandSearch.cpp" />
     <ClCompile Include="CommandUndo.cpp" />
@@ -96,16 +91,14 @@
   <ItemGroup>
     <ClInclude Include="CommandAdd.h" />
     <ClInclude Include="CommandAutoSort.h" />
-<<<<<<< HEAD
     <ClInclude Include="CommandClash.h" />
-=======
     <ClInclude Include="CommandClear.h" />
->>>>>>> 3705a45a50ce4e7a428240d8911af5fe1f16a3bd
     <ClInclude Include="CommandDelete.h" />
     <ClInclude Include="CommandDisplay.h" />
     <ClInclude Include="CommandInterpreter.h" />
     <ClInclude Include="CommandMarkDone.h" />
     <ClInclude Include="CommandMarkUncomplete.h" />
+    <ClInclude Include="CommandRecurring.h" />
     <ClInclude Include="CommandRedo.h" />
     <ClInclude Include="CommandSearch.h" />
     <ClInclude Include="CommandUndo.h" />
@@ -120,6 +113,9 @@
     <ClInclude Include="TimeParser.h" />
     <ClInclude Include="Ui.h" />
     <ClInclude Include="VenueParser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="storage.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

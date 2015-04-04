@@ -18,6 +18,15 @@
     <ClCompile Include="CommandAdd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CommandAutoSort.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandClash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandClear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="CommandDelete.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -28,6 +37,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CommandMarkDone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandMarkUncomplete.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandRecurring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CommandRedo.cpp">
@@ -51,10 +66,19 @@
     <ClCompile Include="Logic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ShowDailyTask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="StorageController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskLog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TimeParser.cpp">
@@ -66,31 +90,18 @@
     <ClCompile Include="VenueParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommandMarkUncomplete.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandAutoSort.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShowDailyTask.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="CommandClash.cpp">
-=======
-    <ClCompile Include="CommandClear.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TaskLog.cpp">
->>>>>>> 3705a45a50ce4e7a428240d8911af5fe1f16a3bd
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandAdd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandAutoSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandClash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandClear.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CommandDelete.h">
@@ -103,6 +114,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CommandMarkDone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandMarkUncomplete.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandRecurring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CommandRedo.h">
@@ -126,7 +143,16 @@
     <ClInclude Include="Logic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowDailyTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="StorageController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TimeParser.h">
@@ -138,27 +164,8 @@
     <ClInclude Include="VenueParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommandMarkUncomplete.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandAutoSort.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShowDailyTask.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="CommandClash.h">
-=======
-    <ClInclude Include="CommandClear.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TaskLog.h">
->>>>>>> 3705a45a50ce4e7a428240d8911af5fe1f16a3bd
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="storage.txt" />
   </ItemGroup>
 </Project>
