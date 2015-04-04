@@ -14,7 +14,7 @@
 #include "CommandClear.h"
 #include "CommandAutoSort.h"
 #include "CommandRecurring.h"
-#include "CommandClah.h"
+#include "CommandClash.h"
 
 char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY]="";
 
