@@ -14,6 +14,7 @@
 #include "CommandClear.h"
 #include "CommandAutoSort.h"
 #include "CommandRecurring.h"
+#include "CommandClah.h"
 
 char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY]="";
 
@@ -31,7 +32,7 @@ void Logic::getStorage(){
 
 string Logic::addTask(string input){
 	
-	 return CommandAdd::addMessage(input);
+	 return CommandAdd::addOperation(input);
 }
 
 string Logic::updateTask(string input){
@@ -87,6 +88,11 @@ string Logic::recurTask (string input) {
 string Logic::sort () {
 	return CommandAutoSort::autoSort();
 }
+
+string Logic::checkClash(string input) {
+	return CommandClash::Clash(input);
+}
+
 string Logic::getFirstWord(string input)
 {
 	return input.substr(0, input.find(' '));

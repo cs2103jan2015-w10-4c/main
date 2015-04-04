@@ -41,12 +41,14 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 		return Logic::markUncompleted(TaskString);
 	case SEARCH:
 		return Logic::search(TaskString);
+	case CHECK:
+		return Logic::checkClash(TaskString);
 	case UNDO:
 		return Logic::undo();
 	case REDO:
 		return Logic::redo();
 	case EXIT:
-		StorageController::programmeTerminating();
+		StorageController::updateSaveFile();
 		cout << MESSAGE_TERMINATION << endl;;
 		exit(0);
 	case INVALID:
@@ -91,6 +93,9 @@ CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string
 	}
 	else if (commandTypeString == "undo") {
 		return COMMAND_TYPE::UNDO;
+	} 
+	else if (commandTypeString == "check") {
+		return COMMAND_TYPE::CHECK;
 	}
 	else if (commandTypeString == "redo") {
 		return COMMAND_TYPE::REDO;

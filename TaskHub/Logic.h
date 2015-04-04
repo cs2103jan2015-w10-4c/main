@@ -17,7 +17,7 @@ public:
 	static string getFirstWord(string input);
 	static string removeFirstWord(string input);
 	
-
+	static string checkClash(string input);
 	static string addTask(string input);
 	static string updateTask(string input);
 	static string deleteTask(string input);
