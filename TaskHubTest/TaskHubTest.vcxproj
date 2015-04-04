@@ -95,7 +95,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskHub\TaskHub.vcxproj">
+<<<<<<< HEAD
+      <Project>{7af1b3e2-1179-40f6-9357-559b13df9a37}</Project>
+=======
       <Project>{b84b1f07-1882-4445-9e99-345da22080bf}</Project>
+>>>>>>> 3983d756235d2488d1c6a3c2364ed47309774302
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -11,7 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
+<<<<<<< HEAD
+    <ProjectGuid>{7AF1B3E2-1179-40F6-9357-559B13DF9A37}</ProjectGuid>
+=======
     <ProjectGuid>{B84B1F07-1882-4445-9E99-345DA22080BF}</ProjectGuid>
+>>>>>>> 3983d756235d2488d1c6a3c2364ed47309774302
     <RootNamespace>TaskHub</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
