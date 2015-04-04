@@ -2,6 +2,7 @@
 #define SHOWDAILYTASK_H_
 
 #include <iostream>
+#include <vector>
 #include <string>
 using namespace std;
 
@@ -15,6 +16,7 @@ struct localTime{
 class ShowDailyTask {
 public:
 	static string showDayTask(string userMessage);
+	static vector <string> messageDisplayed;
 private:
 	static void getSystemTime(localTime &time);
 
