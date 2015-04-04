@@ -196,7 +196,93 @@ string Task::getTaskName(){
 }
 
 void Task::UpdateTask(string input){
+	input = " " + input;
+	if(!input.empty()) {
+		size_t timed_Task_startTime = input.find("-from");
+		size_t timed_Task_endTime = input.find("-to");
+		size_t deadlined_Task = input.find("-by");
+		size_t date = input.find("/");
+		size_t venue = input.find("@");
 
+		if(timed_Task_startTime!=string::npos){
+			_startTime = input.substr(timed_Task_startTime + 6, 5);
+		}
+
+		if(timed_Task_endTime!=string::npos){
+			_endTime = input.substr(timed_Task_endTime + 4, 5);
+		}
+
+		if(deadlined_Task!=string::npos){
+				_deadlineTime = input.substr(deadlined_Task + 4, 5);
+		}
+		if(date!=string::npos){
+			if(_TaskType==SCHEDULED_Task_LABEL){
+				DateParser dateParse(input);
+				_scheduledDate = dateParse.getDate();
+			}
+			else if(_TaskType==DEADLINE_Task_LABEL){
+				DateParser dateParse(input);
+				_deadlineDate = dateParse.getDate();
+			}
+		}
+		if(venue!=string::npos){
+			_venue = input.substr(venue);
+		}
+
+		string temp;
+		if(timed_Task_endTime==string::npos){
+			if(timed_Task_startTime==string::npos){
+				if(deadlined_Task==string::npos){
+					if(date==string::npos){
+						if(venue == string::npos){
+							temp = input;
+							_TaskName = temp;
+						}
+					}
+				}
+			}
+		}
+		if(deadlined_Task!=string::npos){
+			temp = input.substr(0,deadlined_Task);
+			if(temp!=" "){
+				_TaskName = temp;
+			}
+		}else if(timed_Task_startTime!=string::npos){
+			temp = input.substr(0,timed_Task_startTime);
+			if(temp!=" "){
+				_TaskName = temp;
+			}
+		}else if(timed_Task_endTime!=string::npos){
+			temp = input.substr(0,timed_Task_endTime);
+			if(temp!=" "){
+				_TaskName = temp;
+			}
+		}else if(date!=string::npos){
+			if(_TaskType==SCHEDULED_Task_LABEL){
+				size_t temparory = input.find_first_of(_scheduledDate);
+				if(temparory!=0){
+					temp = input.substr(0,temparory);
+					_TaskName = temp;
+				}
+				
+			}
+			else if(_TaskType==DEADLINE_Task_LABEL){
+				size_t temparory = input.find_first_of(_deadlineDate);
+				if(temparory!=0){
+					temp = input.substr(0,temparory);
+					_TaskName = temp;
+				}
+				
+			}
+		}else if(venue!=string::npos){
+			temp = input.substr(0,venue);
+			if(temp!=" "){
+				_TaskName = temp;
+			}
+		}
+		
+	}
+	checkInputValidation();
 	
 }
 
