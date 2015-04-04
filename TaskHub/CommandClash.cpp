@@ -15,7 +15,7 @@ vector<Task> getDayTask(vector<Task> allTask,int day, int month){
 	}
 	return dayTask;
 }
-bool CommandClash::isClash(string input){
+string CommandClash::Clash(string input){
 	vector<Task> temporary = Logic::history.getVectorTextStorage();
 	Task temp(input);
 	bool clash=false;
@@ -45,5 +45,9 @@ bool CommandClash::isClash(string input){
 	for (unsigned int i=0;i<temporary.size() && !clash;i++) {
 		clash=isTwoClash(temporary[i].getStartTime(), temporary[i].getEndTime(), _startTime,_endTime);
 	}
-	return clash;
+	
+	if(clash)
+		return input + "clashes with existing tasks";
+	else 
+		return input + "does not clash with existing tasks";
 }

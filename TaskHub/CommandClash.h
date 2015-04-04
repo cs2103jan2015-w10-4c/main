@@ -17,7 +17,7 @@ class CommandClash
 private:
 	bool isTwoClash(string startTime1, string endTime1,string startTime2, string endTime2);
 public:
-	bool isClash(string input);
+	string Clash(string input);
 	vector<Task> getDayTask(vector<Task> allTask, int day, int month);
 };
 #endif
