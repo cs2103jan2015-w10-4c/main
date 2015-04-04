@@ -6,17 +6,10 @@
 #include "CommandAdd.h"
 #include "CommandRecurring.h"
 
-const int DAYSIZE=14;
-const int DAYOFWEEKSIZE=10;
-const int DEFAULT=7;
-const int MONTHLY=9;
-const int MAX_BUFFERING_CAPACITY=256;
 
 const string CommandRecurring::COMMAND_TYPE="recurring";
 const string CommandRecurring::MESSAGE_RECURRING_TASK_SET="Recurring tasks have been set";
-const string MESSAGE_WRONG="Wrong message";
-const string MESSAGE_INVALID="invalid";
-const string MESSAGE_DEFAULT="default";
+
 const string EMPTY_SPACE=" ";
 const string MONDAY="1";
 const string TUESDAY="2";
@@ -174,10 +167,6 @@ string CommandRecurring::setRecurringTask(string input) {
 	string startingTime=input.substr(get_Start_Time-2,5);
 	string endingTime=input.substr(get_End_Time-2,5);
 	
-	int endingDay=atoi(input.substr(get_End_Date-2,2).c_str());
-	int endingMonth=atoi(input.substr(get_End_Date+1,2).c_str());
-	int endingHour=atoi(input.substr(get_End_Time-2,2).c_str());
-	int endingMinute=atoi(input.substr(get_End_Time+1,2).c_str());
 	
 	int startingYear;
 	int endingYear;
@@ -203,8 +192,6 @@ string CommandRecurring::setRecurringTask(string input) {
 		startingMonth=currentTimeData._mon;
 	}
 
-	
-
 	int startingHour;
 	int startingMinute;
 	if ((get_Start_Time!=string::npos)&&(get_Start_Time!=get_End_Time)) {
@@ -215,6 +202,11 @@ string CommandRecurring::setRecurringTask(string input) {
 		startingMinute=currentTimeData._min;
 	}
 
+
+	int endingDay=atoi(input.substr(get_End_Date-2,2).c_str());
+	int endingMonth=atoi(input.substr(get_End_Date+1,2).c_str());
+	int endingHour=atoi(input.substr(get_End_Time-2,2).c_str());
+	int endingMinute=atoi(input.substr(get_End_Time+1,2).c_str());
 	
 	string venue="";
 	string dayOfWeek;
@@ -222,7 +214,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	dayOfWeek=input.substr(get_day_of_week);
 	}
 	else {
-		dayOfWeek=MESSAGE_DEFAULT;
+		dayOfWeek="default";
 	}
 
 	int interval;
@@ -231,81 +223,20 @@ string CommandRecurring::setRecurringTask(string input) {
 	} else {
 		interval=1;
 	}
-	
-	int weekday;
+
 	if (get_day_of_week!=string::npos) {
-	
-	if (dayOfWeek.size()==DAYOFWEEKSIZE){
+	int weekday;
+	if (dayOfWeek.size()==10){
 		dayOfWeek=determineDayOfWeek(input.substr(get_day_of_week));
-		if( dayOfWeek!=MESSAGE_INVALID) {
+	if( dayOfWeek!="invalid") {
 		weekday=atoi(dayOfWeek.c_str());
 	} else {
 		weekday=currentTimeData._dayOfWeek;
 	}
 
-		if (startingDay==currentTimeData._day&&startingMonth==currentTimeData._mon) {
-		startingDay=startingDay+weekday-currentTimeData._dayOfWeek;// get last date with the same day of week
+	startingDay=startingDay+weekday-currentTimeData._dayOfWeek;
+	checkWithinRange(startingDay,startingMonth,startingYear);
 
-		if (weekday<currentTimeData._dayOfWeek) {
-		startingDay+=7;//get next date with the same day of week
-		}
-		checkWithinRange(startingDay,startingMonth,startingYear);
-		} 
-		else {
-		//set to correct day of the week for the starting day, do later
-		int dayAdvanced=0;
-		if ((startingMonth!=currentTimeData._mon)/*&&(startingDay!=currentTimeData._day)*/) {
-			int tempMonth=currentTimeData._mon;
-			while (tempMonth<startingMonth) {
-				dayAdvanced+=getDayNumberInOneMonth(tempMonth,currentTimeData._year);
-				tempMonth++;
-			}
-			dayAdvanced=dayAdvanced+startingDay-currentTimeData._day;
-			cout<<dayAdvanced<<endl;
-			int tempDayOfWeek=currentTimeData._dayOfWeek;
-			currentTimeData._dayOfWeek=(currentTimeData._dayOfWeek+dayAdvanced)%7;
-			cout<<currentTimeData._dayOfWeek<<endl;
-			if (currentTimeData._dayOfWeek==0) {
-				currentTimeData._dayOfWeek=tempDayOfWeek;
-			}
-			startingDay=startingDay+abs(currentTimeData._dayOfWeek-weekday);
-				//startingDay=startingDay+weekday-currentTimeData._dayOfWeek;// get last date with the same day of week
-		//startingDay+=7;//get next date with the same day of week wrong
-
-	} /*else if ((startingMonth!=currentTimeData._mon)&&(startingDay==currentTimeData._day)) {
-		cout<<"111"<<endl;
-		int tempStartingMonth=startingMonth;
-		while (tempStartingMonth<=endingMonth) {
-			dayAdvanced=getDayNumberInOneMonth(startingMonth,startingYear);
-			tempStartingMonth++;
-		}
-		cout<<"222"<<endl;
-		int tempDayOfWeek=currentTimeData._dayOfWeek;
-		dayAdvanced%=7;
-		currentTimeData._dayOfWeek=(currentTimeData._dayOfWeek+dayAdvanced)%7;
-		cout<<"111"<<endl;
-		if (currentTimeData._dayOfWeek==0) {
-			currentTimeData._dayOfWeek=7;
-			cout<<"222"<<endl;
-		}
-		startingDay=startingDay+weekday-currentTimeData._dayOfWeek;// get last date with the same day of week
-	startingDay++;//get next date with the same day of week wrong 
-	cout<<"starting day: "<<startingDay<<endl;
-	cout<<"weekday"<<weekday<<"current data: "<<currentTimeData._dayOfWeek<<endl;
-	cout<<"startingMonth: "<<startingMonth<<" "<<"endingMonth: "<<endingMonth<<endl;
-	} */else if ((startingMonth==currentTimeData._mon)&&(startingDay!=currentTimeData._day)) {
-		
-		dayAdvanced=startingDay-currentTimeData._day;
-		int tempDayOfWeek=currentTimeData._dayOfWeek;
-		currentTimeData._dayOfWeek+=dayAdvanced;
-		currentTimeData._dayOfWeek=currentTimeData._dayOfWeek%7;
-		if (currentTimeData._dayOfWeek==0) {
-			currentTimeData._dayOfWeek=7;
-		}
-		startingDay=startingDay+weekday-currentTimeData._dayOfWeek;// get last date with the same day of week
-		startingDay+=7;//get next date with the same day of week this one correct
-	}
-		}
 	//recur weekly and daily
 	int i;
 	int j;
@@ -326,7 +257,7 @@ string CommandRecurring::setRecurringTask(string input) {
 			}
 			
 			for (i=startingDay;i<=dayNumber;i=i+interval) {
-				char taskname[MAX_BUFFERING_CAPACITY];
+				char taskname[256];
 				strcpy_s(taskname, taskName.c_str());
 				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
 				CommandAdd::addMessage(message);
@@ -338,7 +269,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	}
 	return MESSAGE_RECURRING_TASK_SET;
 	} //monthly
-	else if (dayOfWeek.size()==MONTHLY){
+	else if (dayOfWeek.size()==9){
 		int recurringDay=atoi(dayOfWeek.substr(7,2).c_str());
 
 		for (int k=startingYear; k<=endingYear; k++) {
@@ -358,7 +289,7 @@ string CommandRecurring::setRecurringTask(string input) {
 			startingDay=recurringDay;
 			if (isValidDay(startingDay,j,k)) {
 			//for (int i=startingDay;i<=dayNumber;i=i+interval) {
-				char taskname[MAX_BUFFERING_CAPACITY];
+				char taskname[256];
 				strcpy_s(taskname, taskName.c_str());
 				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(startingDay)+"/"+to_string(j);
 				CommandAdd::addMessage(message);
@@ -370,7 +301,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	}
 		return MESSAGE_RECURRING_TASK_SET;
 	}//any days as interval
-	else if (dayOfWeek.size()==DAYSIZE){
+	else if (dayOfWeek.size()==14){
 		int i;
 		int j;
 		int k;
@@ -394,7 +325,7 @@ string CommandRecurring::setRecurringTask(string input) {
 
 			//checkWithinRange(startingDay,startingMonth,startingYear);
 			for ( i=startingDay;i<=dayNumber;i=i+interval) {
-				char taskname[MAX_BUFFERING_CAPACITY];
+				char taskname[256];
 				strcpy_s(taskname, taskName.c_str());
 				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
 				CommandAdd::addMessage(message);
@@ -406,12 +337,12 @@ string CommandRecurring::setRecurringTask(string input) {
 	}
 		return MESSAGE_RECURRING_TASK_SET;
 	 } else {
-		 return MESSAGE_WRONG;
+		 return "wrong messages";
 	}
 	}
 	// by default every day
 	else {
-		if (dayOfWeek.size()==DEFAULT){
+		if (dayOfWeek=="default"){
 		int i;
 		int j;
 		int k;
@@ -434,7 +365,7 @@ string CommandRecurring::setRecurringTask(string input) {
 
 			//checkWithinRange(startingDay,startingMonth,startingYear);
 			for ( i=startingDay;i<=dayNumber;i++) {
-				char taskname[MAX_BUFFERING_CAPACITY];
+				char taskname[256];
 				strcpy_s(taskname, taskName.c_str());
 				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
 				CommandAdd::addMessage(message);
@@ -446,7 +377,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	}
 		return MESSAGE_RECURRING_TASK_SET;
 	 } else {
-		 return MESSAGE_WRONG;
+		 return "wrong messages";
 	}
 	}
 	
