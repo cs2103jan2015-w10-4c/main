@@ -171,13 +171,31 @@ string CommandRecurring::setRecurringTask(string input) {
 
 	string taskName=input.substr(0,get_TaskName);
 	string startingDate=input.substr(get_Start_Date-2,5);
-	string startingTime=input.substr(get_Start_Time-2,5);
-	string endingTime=input.substr(get_End_Time-2,5);
 	
+	string startingTime;
+	if (get_Start_Time!=string::npos) {
+		startingTime=input.substr(get_Start_Time-2,5);
+	}
+	
+	string endingTime;
+	if (get_End_Time!=string::npos) {
+		endingTime=input.substr(get_End_Time-2,5);
+	}
+
+	int endingHour;
+	int endingMinute;
+	if (get_End_Time!=string::npos) {
+	endingHour=atoi(input.substr(get_End_Time-2,2).c_str());
+	endingMinute=atoi(input.substr(get_End_Time+1,2).c_str());
+	} else {
+		cout<<"!!!"<<endl;
+		endingHour=23;
+		endingMinute=59;
+	}
+
 	int endingDay=atoi(input.substr(get_End_Date-2,2).c_str());
 	int endingMonth=atoi(input.substr(get_End_Date+1,2).c_str());
-	int endingHour=atoi(input.substr(get_End_Time-2,2).c_str());
-	int endingMinute=atoi(input.substr(get_End_Time+1,2).c_str());
+	
 	
 	int startingYear;
 	int endingYear;
@@ -216,6 +234,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	}
 
 	
+	
 	string venue="";
 	string dayOfWeek;
 	if (get_day_of_week!=string::npos) {
@@ -252,7 +271,7 @@ string CommandRecurring::setRecurringTask(string input) {
 		checkWithinRange(startingDay,startingMonth,startingYear);
 		} 
 		else {
-		//set to correct day of the week for the starting day, do later
+		//set to correct day of the week for the starting day, week task only up to this year
 		int dayAdvanced=0;
 		if ((startingMonth!=currentTimeData._mon)/*&&(startingDay!=currentTimeData._day)*/) {
 			int tempMonth=currentTimeData._mon;
@@ -328,8 +347,13 @@ string CommandRecurring::setRecurringTask(string input) {
 			for (i=startingDay;i<=dayNumber;i=i+interval) {
 				char taskname[MAX_BUFFERING_CAPACITY];
 				strcpy_s(taskname, taskName.c_str());
+				if (get_End_Time!=string::npos) {
 				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
 				CommandAdd::addMessage(message);
+				} else {
+				string message=taskname;
+				CommandAdd::addMessage(message);
+				}
 	
 			}
 			startingDay=i-dayNumber;
@@ -360,8 +384,13 @@ string CommandRecurring::setRecurringTask(string input) {
 			//for (int i=startingDay;i<=dayNumber;i=i+interval) {
 				char taskname[MAX_BUFFERING_CAPACITY];
 				strcpy_s(taskname, taskName.c_str());
-				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(startingDay)+"/"+to_string(j);
+				if (get_End_Time!=string::npos) {
+				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+"/"+to_string(j);
 				CommandAdd::addMessage(message);
+				} else {
+				string message=taskname;
+				CommandAdd::addMessage(message);
+				}
 			}
 			//}
 			//startingDay=1;
@@ -396,8 +425,13 @@ string CommandRecurring::setRecurringTask(string input) {
 			for ( i=startingDay;i<=dayNumber;i=i+interval) {
 				char taskname[MAX_BUFFERING_CAPACITY];
 				strcpy_s(taskname, taskName.c_str());
+				if (get_End_Time!=string::npos) {
 				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
 				CommandAdd::addMessage(message);
+				} else {
+				string message=taskname;
+				CommandAdd::addMessage(message);
+				}
 	
 			}
 			startingDay=i-dayNumber;
@@ -436,8 +470,13 @@ string CommandRecurring::setRecurringTask(string input) {
 			for ( i=startingDay;i<=dayNumber;i++) {
 				char taskname[MAX_BUFFERING_CAPACITY];
 				strcpy_s(taskname, taskName.c_str());
+				if (get_End_Time!=string::npos) {
 				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
 				CommandAdd::addMessage(message);
+				} else {
+				string message=taskname;
+				CommandAdd::addMessage(message);
+				}
 	
 			}
 			startingDay=1;
