@@ -81,7 +81,7 @@ string ShowDailyTask::showDayTask (string userMessage) {
 		for (int i=0;i<size;i++) {
 			if (currentMonth==temporary[i].getIntegerMonth()) {
 				if (currentDay==temporary[i].getIntegerDay()) {
-					if (currentHour==temporary[i].getHour()) {
+					if (currentHour==temporary[i].getStartHour()) {
 						//if (currentMinute==temporary[i].getMinute()) {
 							taskIndex.push_back(i);
 						//}
@@ -123,7 +123,7 @@ string ShowDailyTask::showDayTask (string userMessage) {
 			for (int i=0;i<size;i++) {
 				if (currentMonth==temporary[i].getIntegerMonth()) {
 					if (currentDay==temporary[i].getIntegerDay()) {
-						if (currentHour==temporary[i].getHour()) {
+						if (currentHour==temporary[i].getStartHour()) {
 					//if (currentMinute==temporary[i].getMinute()) {
 					taskIndex.push_back(i);
 					//}
@@ -135,7 +135,7 @@ string ShowDailyTask::showDayTask (string userMessage) {
 			for (int i=0;i<size;i++) {
 				if (currentMonth==temporary[i].getIntegerMonth()) {
 					if (currentDay==temporary[i].getIntegerDay()) {
-						if (currentHour==temporary[i].getHour()) {
+						if (currentHour==temporary[i].getStartHour()) {
 					//if (currentMinute==temporary[i].getMinute()) {
 						taskIndex.push_back(i);
 					//}

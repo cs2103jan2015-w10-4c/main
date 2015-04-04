@@ -1,4 +1,4 @@
-#include "UI.h"
+/*#include "UI.h"
 #include "CommandInterpreter.h"
 #include <stdlib.h>
 
@@ -16,7 +16,7 @@ int main() {
     }
 
 //	system("pause");
-*/
+
 		cout<< UI::displayWelcomeMessage()<< endl;
 		cout << "=========================================="<<endl;
 		cout << ShowDailyTask::showDayTask("today")<<endl;
@@ -33,4 +33,4 @@ int main() {
 			cout << "=========================================="<<endl;
 		}
 	return 0;
-}
+}*/
