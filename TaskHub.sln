@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHub", "TaskHub\TaskHub.vcxproj", "{DC8DE0F0-F351-440B-BF48-9B15915A3E18}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHubMain", "TaskHubMain\TaskHubMain.vcxproj", "{C6CDC9D5-48C6-4142-8380-716A3E5FABA7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHubTest", "TaskHubTest\TaskHubTest.vcxproj", "{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHub", "TaskHub\TaskHub.vcxproj", "{B84B1F07-1882-4445-9E99-345DA22080BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +13,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DC8DE0F0-F351-440B-BF48-9B15915A3E18}.Debug|Win32.ActiveCfg = Debug|Win32
-		{DC8DE0F0-F351-440B-BF48-9B15915A3E18}.Debug|Win32.Build.0 = Debug|Win32
-		{DC8DE0F0-F351-440B-BF48-9B15915A3E18}.Release|Win32.ActiveCfg = Release|Win32
-		{DC8DE0F0-F351-440B-BF48-9B15915A3E18}.Release|Win32.Build.0 = Release|Win32
 		{C6CDC9D5-48C6-4142-8380-716A3E5FABA7}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C6CDC9D5-48C6-4142-8380-716A3E5FABA7}.Debug|Win32.Build.0 = Debug|Win32
 		{C6CDC9D5-48C6-4142-8380-716A3E5FABA7}.Release|Win32.ActiveCfg = Release|Win32
@@ -25,6 +21,10 @@ Global
 		{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}.Debug|Win32.Build.0 = Debug|Win32
 		{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}.Release|Win32.ActiveCfg = Release|Win32
 		{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}.Release|Win32.Build.0 = Release|Win32
+		{B84B1F07-1882-4445-9E99-345DA22080BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B84B1F07-1882-4445-9E99-345DA22080BF}.Debug|Win32.Build.0 = Debug|Win32
+		{B84B1F07-1882-4445-9E99-345DA22080BF}.Release|Win32.ActiveCfg = Release|Win32
+		{B84B1F07-1882-4445-9E99-345DA22080BF}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
