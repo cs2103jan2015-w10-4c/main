@@ -29,10 +29,7 @@ private:
 	int _endHour;
 	int _endMinute;
 
-	enum UPDATE_COMMAND
-	{
-		VENUE,TIME,DATE,TASK,INVALID
-	};
+
 
 public:
 	//vector<string> Task;
@@ -63,7 +60,6 @@ public:
 	void MarkUndone();
 	void checkInputValidation();
 	void markUncompleted();
-	UPDATE_COMMAND determineUpdateCommandType(string updateCommand);
 };
 
 #endif

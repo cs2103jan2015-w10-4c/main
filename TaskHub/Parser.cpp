@@ -160,12 +160,13 @@ Task::Task(string Task, string input){
 			_deadlineDate = "";
 		}
 		size_t venue_Task = Task.find("@");
+		size_t status_mark = Task.find(" progressing");
 		if (venue_Task != string::npos){
 			VenueParser parseVenue(Task);
 			string tempVenue;
 			tempVenue = parseVenue.getVenue();
-			size_t status_mark = tempVenue.find_last_of(" ");
-			_venue = tempVenue.substr(0, status_mark - venue_task);
+			
+			_venue = tempVenue.substr(0, status_mark - venue_Task);
 		}
 		else{
 			_venue = "";
@@ -196,69 +197,10 @@ string Task::getTaskName(){
 
 void Task::UpdateTask(string input){
 
-	if(!input.empty()) {
-		string temp;
-		size_t update_Command = input.find_first_of(EMPTY_SPACE);
-		temp=input.substr(0,update_Command);
-
-		UPDATE_COMMAND updateCommand;
-		updateCommand=determineUpdateCommandType(temp);
-
-		switch (updateCommand) {
-		case VENUE:
-			_venue=input.substr(update_Command+1);
-			break;
-		case TIME: {
-			size_t timed_Task_startTime = input.find("-from");
-			size_t timed_Task_endTime = input.find("-to");
-			size_t deadlined_Task = input.find("-by");
-			if (timed_Task_startTime != string::npos){
-				_startTime = input.substr(timed_Task_startTime + 6, 5);
-				if (timed_Task_endTime != string::npos){
-					_endTime = input.substr(timed_Task_endTime + 4, 5);
-				}
-			}
-			else if (deadlined_Task != string::npos){
-				_deadlineTime = input.substr(deadlined_Task + 4, 5);
-			}
-			else if (timed_Task_endTime != string::npos){
-				_endTime = input.substr(timed_Task_endTime + 4, 5);
-			}
-			break;
-		}
-		case DATE:
-			if(_TaskType==SCHEDULED_Task_LABEL) {
-				_scheduledDate = input.substr(update_Command+1,5);
-			}
-			else if(_TaskType==DEADLINE_Task_LABEL) {
-				_deadlineDate = input.substr(update_Command+1,5);
-			}
-			break;
-		case TASK:
-			_TaskName = input.substr(updateCommand+2);
-			break;
-		}
-	}
-	checkInputValidation();
+	
 }
 
-Task::UPDATE_COMMAND Task::determineUpdateCommandType(string updateCommand){
-	if(updateCommand=="venue") {
-		return UPDATE_COMMAND::VENUE;
-	}
-	else if(updateCommand=="time") {
-		return UPDATE_COMMAND::TIME;
-	}
-	else if(updateCommand=="date") {
-		return UPDATE_COMMAND::DATE;
-	}
-	else if(updateCommand=="task") {
-		return UPDATE_COMMAND::TASK;
-	}
-	else {
-		return UPDATE_COMMAND::INVALID;
-	}
-}
+
 
 void Task::MarkDone(){
 	_status = "done";
@@ -295,17 +237,17 @@ void Task::checkInputValidation(){
 			else{
 				cout << INVALID_TIME_MSG << endl;
 				cout << "starting time:";
-				cin >> _startTime;
+				getline (cin, _startTime);
 				cout << "ending time:";
-				cin >> _endTime;
+				getline(cin,_endTime);
 			}
 		}
 		else{
 			cout << INVALID_TIME_MSG << endl;
 			cout << "starting time:";
-			cin >> _startTime;
+			getline (cin, _startTime);
 			cout << "ending time:";
-			cin >> _endTime;
+			getline(cin,_endTime);
 		}
 	}
 
@@ -320,7 +262,7 @@ void Task::checkInputValidation(){
 		else{
 			cout << INVALID_TIME_MSG << endl;
 			cout << "deadline time:";
-			cin >> _deadlineTime;
+			getline (cin ,_deadlineTime);
 		}
 	}
 
@@ -332,28 +274,33 @@ void Task::checkInputValidation(){
 	//check date for deadline Task
 	while ((_TaskType == DEADLINE_Task_LABEL) && (!valid_date)){
 		size_t get_date = _deadlineDate.find("/");
-		date = atoi(_deadlineDate.substr(0, get_date).c_str());
-		month = atoi(_deadlineDate.substr(get_date + 1, 2).c_str());
-		if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
-			valid_date = true;
-		}
-		else{
-			cout << INVALID_DATE_MSG << endl;
-			cin >> _deadlineDate;
+		
+		if (get_date != string::npos){
+			date = atoi(_deadlineDate.substr(0, get_date).c_str());
+		    month = atoi(_deadlineDate.substr(get_date + 1, 2).c_str());
+		    if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
+			    valid_date = true;
+		    }
+		    else{
+			    cout << INVALID_DATE_MSG <<endl;
+			    getline(cin,_deadlineDate);
+		    }
 		}
 	}
 
 	//check date for schedule Task
 	while ((_TaskType == SCHEDULED_Task_LABEL) && (!valid_date)){
 		size_t get_date = _scheduledDate.find("/");
-		date = atoi(_scheduledDate.substr(0, get_date).c_str());
-		month = atoi(_scheduledDate.substr(get_date + 1, 2).c_str());
-		if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
-			valid_date = true;
-		}
-		else{
-			cout << INVALID_DATE_MSG << endl;
-			cin >> _scheduledDate;
+		if(get_date != string::npos){
+			date = atoi(_scheduledDate.substr(0, get_date).c_str());
+		    month = atoi(_scheduledDate.substr(get_date + 1, 2).c_str());
+		    if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
+			    valid_date = true;
+		    }
+		    else{
+			    cout << INVALID_DATE_MSG << endl;
+			    getline(cin, _scheduledDate);
+		    }
 		}
 	}
 }

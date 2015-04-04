@@ -53,7 +53,7 @@ DateParser::DateParser(string input){
 		}
 	}
   }
-	else{
+/*	else{
 		SYSTEMTIME lt;
 		GetLocalTime(&lt);
 		_integerDay = lt.wDay;
@@ -66,7 +66,7 @@ DateParser::DateParser(string input){
 		_month = oss.str();
 		oss.clear();
 		_date = _day + "/" + _month;
-	}
+	}*/
 }
 
 string DateParser::getDate(){
