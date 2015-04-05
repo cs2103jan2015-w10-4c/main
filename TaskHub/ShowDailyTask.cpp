@@ -44,6 +44,7 @@ void printCheckVector (vector <string> freeSlot) {
 
 
 vector <string> checkFreeSlot (vector <int> taskIndex) {
+		ShowDailyTask::freeSlot.clear();
 		cout<<"hahas"<<endl;
 		vector<Task> temp = Logic::history.getVectorTextStorage();
 		vector<string> tempfreeSlot;
@@ -60,17 +61,18 @@ vector <string> checkFreeSlot (vector <int> taskIndex) {
 		int currentEndingMin;
 
 		for (unsigned int i=0;i<taskIndex.size();i++) {
-			currentEndingHour=temp[i].getStartHour();
-			currentEndingMin=temp[i].getStartMinute();
+			currentEndingHour=temp[taskIndex[i]].getStartHour();
+			currentEndingMin=temp[taskIndex[i]].getStartMinute();
 			ostringstream oss;
 			oss<< "free slot: " <<i+1<<". from "<< defaultStartingHour<<":"<<defaultStartingMin;
 			oss<<" to "<< currentEndingHour<<":"<<currentEndingMin<<endl;
 			tempfreeSlot.push_back(oss.str());
-			defaultStartingHour=temp[i].getEndHour();
-			defaultStartingMin=temp[i].getEndMinute();
+			defaultStartingHour=temp[taskIndex[i]].getEndHour();
+			defaultStartingMin=temp[taskIndex[i]].getEndMinute();
 		}
-			currentEndingHour=temp[taskIndex.size()-1].getStartHour();
-			currentEndingMin=temp[taskIndex.size()-1].getStartMinute();
+			currentEndingHour=temp[taskIndex.back()].getEndHour();
+			currentEndingMin=temp[taskIndex.back()].getEndMinute();
+			
 			
 			if ((currentEndingHour==dayEndingHour)&&(currentEndingMin==dayEndingMin)){
 				printCheckVector(tempfreeSlot);
@@ -78,7 +80,7 @@ vector <string> checkFreeSlot (vector <int> taskIndex) {
 			} else {
 
 			ostringstream oss;
-			oss<< "free slot: " <<taskIndex.size()<<". from "<< defaultStartingHour<<":"<<defaultStartingMin;
+			oss<< "free slot: " <<taskIndex.size()+1 <<". from "<< currentEndingHour <<":"<<currentEndingMin;
 			oss<<" to "<< dayEndingHour<<":"<<dayEndingMin<<endl;
 			tempfreeSlot.push_back(oss.str());
 			printCheckVector(tempfreeSlot);
@@ -102,7 +104,7 @@ string ShowDailyTask::showDayTask (string userMessage) {
 	string secondCommand=Logic::getFirstWord(userMessage);
 	cout<<"second: "<<secondCommand<<endl;
 
-	if (userMessage=="today") {
+	if (userMessage=="today"||userMessage=="show") {
 		
 		//get into that day and display
 		for (int i=0;i<size;i++) {
