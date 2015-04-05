@@ -4,8 +4,7 @@
 #include "ShowDailyTask.h"
 #include <algorithm>
 
-vector<string> ShowDailyTask::freeSlot;
-
+vector<string> ShowDailyTask::messageDisplayed;
 void ShowDailyTask::getSystemTime(localTime &timevalue) {
 
 	SYSTEMTIME lt;
@@ -19,32 +18,22 @@ void ShowDailyTask::getSystemTime(localTime &timevalue) {
 }
 
 
-string ShowTask (vector <int> taskIndex) {
-	ostringstream totalTask;
+vector <string> ShowTask (vector <int> taskIndex) {
+	
 		for (unsigned int i = 0; i < taskIndex.size() ; i++){
 			ostringstream oss;
 			oss << i + 1 << ". " << Logic::history.getVectorTextStorage()[taskIndex[i]].ToString() << endl;
 			string TaskDisplay = oss.str();
-			totalTask << TaskDisplay;
+			ShowDailyTask::messageDisplayed.push_back(TaskDisplay);
+			
 		}
 		
-		return totalTask.str();
+		return ShowDailyTask::messageDisplayed;
 
 }
-
-void printCheckVector (vector <string> freeSlot) {
-	for (unsigned int i = 0;i < freeSlot.size() && !freeSlot[i].empty();i++) {
-		cout<< freeSlot[i];
-	}
-
-	return;
-
-}
-
-
 
 vector <string> checkFreeSlot (vector <int> taskIndex) {
-		ShowDailyTask::freeSlot.clear();
+		ShowDailyTask::messageDisplayed.clear();
 		cout<<"hahas"<<endl;
 		vector<Task> temp = Logic::history.getVectorTextStorage();
 		vector<string> tempfreeSlot;
@@ -75,7 +64,6 @@ vector <string> checkFreeSlot (vector <int> taskIndex) {
 			
 			
 			if ((currentEndingHour==dayEndingHour)&&(currentEndingMin==dayEndingMin)){
-				printCheckVector(tempfreeSlot);
 				return tempfreeSlot;
 			} else {
 
@@ -83,10 +71,10 @@ vector <string> checkFreeSlot (vector <int> taskIndex) {
 			oss<< "free slot: " <<taskIndex.size()+1 <<". from "<< currentEndingHour <<":"<<currentEndingMin;
 			oss<<" to "<< dayEndingHour<<":"<<dayEndingMin<<endl;
 			tempfreeSlot.push_back(oss.str());
-			printCheckVector(tempfreeSlot);
 			return tempfreeSlot;
 }
 }
+
 
 
 string ShowDailyTask::showDayTask (string userMessage) {
@@ -102,8 +90,8 @@ string ShowDailyTask::showDayTask (string userMessage) {
 	int currentHour=timeNow._hour;
 	int size=temporary.size();
 	string secondCommand=Logic::getFirstWord(userMessage);
-	cout<<"second: "<<secondCommand<<endl;
 
+	ShowDailyTask::messageDisplayed.clear();
 	if (userMessage=="today"||userMessage=="show") {
 		
 		//get into that day and display
@@ -144,13 +132,13 @@ string ShowDailyTask::showDayTask (string userMessage) {
 				}
 			}
 		} 
-	}  else {
+	} else {
 		//covert to mmdd
 		//get into
 		size_t get_date=userMessage.find("/");
 		if (get_date!=string::npos) {
 		currentMonth=atoi(userMessage.substr(get_date+1,2).c_str());
-		currentDay=atoi(userMessage.substr(get_date-2,2).c_str());
+		currentDay=atoi(userMessage.substr(0,get_date).c_str());
 		cout<<"month: "<<currentMonth<<"day: "<<currentDay<<endl;
 		} 
 		size_t get_time=userMessage.find(":");
@@ -201,13 +189,13 @@ string ShowDailyTask::showDayTask (string userMessage) {
 	}
 
 	if (taskIndex.empty()) {
-			return "That day is a free day";
-	} else if (secondCommand=="free") {
+			return "Nothing found on that day";
+		} else if (secondCommand=="free") {
 		
-		 ShowDailyTask::freeSlot=checkFreeSlot(taskIndex);
+			ShowDailyTask::messageDisplayed=checkFreeSlot(taskIndex);
 		return "free slot shown";
 	}
-	else{
-			return ShowTask(taskIndex).c_str();
+	else {
+			return "Task is shown";
 	}
 }
