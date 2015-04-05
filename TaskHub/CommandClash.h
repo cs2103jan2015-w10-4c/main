@@ -15,9 +15,9 @@ using namespace std;
 class CommandClash
 {
 private:
-	bool isTwoClash(string startTime1, string endTime1,string startTime2, string endTime2);
+	static bool isTwoClash(int startTime1, int endTime1,int startTime2, int endTime2);
 public:
-	string Clash(string input);
-	vector<Task> getDayTask(vector<Task> allTask, int day, int month);
+	static string Clash(string input);
+	static vector<Task> getDayTask(vector<Task> allTask, int day, int month);
 };
 #endif

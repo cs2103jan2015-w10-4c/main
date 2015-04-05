@@ -3,20 +3,19 @@
 #include <stdlib.h>
 
 int main() {
-	/*
-	while (true) {
+	/*while (true) {
 
 		//system("CLS");
-		UI::showToUser("xx",UI::displayWelcomeMessage());
+		UI::showToUser(UI::displayWelcomeMessage());
 		cout << "=========================================="<<endl;
 		string userCommand = UI::getUserCommand();
 		string output = CommandInterpreter::executeUserCommand(userCommand);
-		UI::showToUser(userCommand,output);
+		UI::showToUser(userCommand);
 		cout << "\n===================================="<<endl;;
     }
 
-//	system("pause");
-*/
+//	system("pause"); */
+
 		cout<< UI::displayWelcomeMessage()<< endl;
 		cout << "=========================================="<<endl;
 		cout << ShowDailyTask::showDayTask("today")<<endl;
@@ -25,11 +24,12 @@ int main() {
 		while(!userCommand.empty()){
 
 			string output = CommandInterpreter::executeUserCommand(userCommand);
-			UI::showToUser(userCommand,output);
+			UI::showToUser(userCommand);
+			UI::systemFeedback(output);
 			cout << "\n===================================="<<endl;;
 			userCommand = UI::getUserCommand();
 			system("CLS");
-			cout<< UI::displayWelcomeMessage() << endl;
+			//cout<< UI::displayWelcomeMessage() << endl;
 			cout << "=========================================="<<endl;
 		}
 	return 0;
