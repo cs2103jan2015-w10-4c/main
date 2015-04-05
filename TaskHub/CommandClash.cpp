@@ -4,7 +4,7 @@
 bool CommandClash::isTwoClash(int startTime1, int endTime1,int startTime2, int endTime2 ){
 	return !(startTime2>=endTime1 || startTime1>=endTime2);
 }
-vector<Task> getDayTask(vector<Task> allTask,int day, int month){
+vector<Task> CommandClash::getDayTask(vector<Task> allTask,int day, int month){
 	vector<Task> dayTask;
 	for (unsigned int i=0;i<allTask.size();i++) {
 			if (month==allTask[i].getIntegerMonth()) {
