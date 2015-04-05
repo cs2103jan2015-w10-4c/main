@@ -44,6 +44,7 @@ void printCheckVector (vector <string> freeSlot) {
 
 
 vector <string> checkFreeSlot (vector <int> taskIndex) {
+		ShowDailyTask::freeSlot.clear();
 		cout<<"hahas"<<endl;
 		vector<Task> temp = Logic::history.getVectorTextStorage();
 		vector<string> tempfreeSlot;
@@ -102,7 +103,7 @@ string ShowDailyTask::showDayTask (string userMessage) {
 	string secondCommand=Logic::getFirstWord(userMessage);
 	cout<<"second: "<<secondCommand<<endl;
 
-	if (userMessage=="today") {
+	if (userMessage=="today"||userMessage=="show") {
 		
 		//get into that day and display
 		for (int i=0;i<size;i++) {
