@@ -1,8 +1,9 @@
 #ifndef COMMANDDISPLAY_H_
 #define COMMANDDISPLAY_H_
 
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
+#include <vector>
 using namespace std;
 
 class CommandDisplay {
