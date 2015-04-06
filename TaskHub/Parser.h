@@ -16,8 +16,7 @@ private:
 	string _startTime;
 	string _endTime;
 	string _deadlineTime;
-	string _scheduledStartDate;
-	string _scheduledEndDate;
+	string _scheduledDate;
 	string _scheduledDateReverse;
 	string _deadlineDate;
 	string _status;
