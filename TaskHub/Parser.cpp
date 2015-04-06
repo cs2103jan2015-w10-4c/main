@@ -308,10 +308,12 @@ void Task::UpdateTask(string input){
 			}
 		}else if(date!=string::npos){
 			if(_TaskType==SCHEDULED_Task_LABEL){
-				size_t temparory = input.find_first_of(_scheduledDate);
+				size_t temparory = input.find_first_of(_scheduledStartDate);
 				if(temparory!=0){
 					temp = input.substr(0,temparory);
+					if(temp!=" "){
 					_TaskName = temp;
+					}
 				}
 				
 			}
@@ -319,7 +321,9 @@ void Task::UpdateTask(string input){
 				size_t temparory = input.find_first_of(_deadlineDate);
 				if(temparory!=0){
 					temp = input.substr(0,temparory);
+					if(temp!=" "){
 					_TaskName = temp;
+					}
 				}
 				
 			}
@@ -465,7 +469,7 @@ string Task::getScheduledEndDate(){
 	return _scheduledEndDate;
 }
 
-string Task::getScheduledDateReverse(){
+string Task::getScheduledStartDateReverse(){
 	return _scheduledDateReverse;
 }
 
