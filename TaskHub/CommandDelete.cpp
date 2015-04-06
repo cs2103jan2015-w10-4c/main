@@ -3,9 +3,9 @@
 #include "CommandDelete.h"
 
 
-const string CommandDelete::MESSAGE_COMMAND_TYPE="delete";
-const string CommandDelete::MESSAGE_DELETED="Message \" %s \" is deleted";
-const string CommandDelete::MESSAGE_INVALID_INDEX="Invalid index";
+const string CommandDelete::MESSAGE_COMMAND_TYPE = "delete";
+const string CommandDelete::MESSAGE_DELETED = "Message \" %s \" is deleted";
+const string CommandDelete::MESSAGE_INVALID_INDEX = "Invalid index";
 
 string CommandDelete::deleteMessage(string input) {
 
@@ -19,7 +19,7 @@ string CommandDelete::deleteMessage(string input) {
 		Logic::history.setLastUnchangedTask (Logic::history.getVectorTextStorage()[index - 1]);
 		
 		vector<Task> temporary=Logic::history.getVectorTextStorage();
-		Task taskDeleted=temporary[index-1];
+		Task taskDeleted=temporary[index - 1];
 		temporary.erase(temporary.begin() + index - 1);
 		Logic::history.setVectorTextStorage(temporary);
 		
