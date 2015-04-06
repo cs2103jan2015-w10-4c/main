@@ -322,8 +322,12 @@ string Task::getDeadlineTime(){
 	return _deadlineTime;
 }
 
-string Task::getScheduledDate(){
+string Task::getScheduledStartDate(){
 	return _scheduledStartDate;
+}
+
+string Task::getScheduledEndDate(){
+	return _scheduledEndDate;
 }
 
 string Task::getScheduledDateReverse(){
