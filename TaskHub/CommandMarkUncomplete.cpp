@@ -1,9 +1,9 @@
 #include "Logic.h"
 #include "CommandMarkUncomplete.h"
 
-const string markingMessageUncomplete::MESSAGE_COMMAND_TYPE="uncomplete";
-const string markingMessageUncomplete::MESSAGE_MARK_UNCOMPLETE="Task \" %s \" is marked";
-const string markingMessageUncomplete::MESSAGE_INVALID_INDEX="Invalid index";
+const string markingMessageUncomplete::MESSAGE_COMMAND_TYPE = "uncomplete";
+const string markingMessageUncomplete::MESSAGE_MARK_UNCOMPLETE = "Task \" %s \" is marked";
+const string markingMessageUncomplete::MESSAGE_INVALID_INDEX = "Invalid index";
 
 string markingMessageUncomplete::markMessageUncompleted(string input) {
 
@@ -16,9 +16,9 @@ string markingMessageUncomplete::markMessageUncompleted(string input) {
 		Logic::history.setLastChangedTaskIndex (index);
 
 		vector<Task> temporary=Logic::history.getVectorTextStorage();
-		temporary[index-1].markUncompleted();
+		temporary[index - 1].markUncompleted();
 		Logic::history.setVectorTextStorage(temporary);
-		Task taskMarked = temporary[index-1];
+		Task taskMarked = temporary[index - 1];
 		
 		sprintf_s(Logic::messageDisplayed,MESSAGE_MARK_UNCOMPLETE.c_str(),taskMarked.ToString().c_str());
 
