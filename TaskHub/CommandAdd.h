@@ -7,6 +7,8 @@ using namespace std;
 
 class CommandAdd {
 public:
+	CommandAdd ();
+	~CommandAdd ();
 	static string addMessage(string input);
 	static string addOperation(string input);
 	static const string MESSAGE_INDICATING_EMPTY;

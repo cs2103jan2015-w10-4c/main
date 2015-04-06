@@ -9,6 +9,8 @@ using namespace std;
 class CommandClear {
 
 public:
+	CommandClear ();
+	~CommandClear ();
 	static string clearTask(string input);
 private:
 	static const string MESSAGE_CLEAR_ALL;
@@ -17,6 +19,10 @@ private:
 	static const string MESSAGE_CLEAR_DONE;
 	static const string MESSAGE_CLEAR_UNCOMPLETED;
 	static const string MESSAGE_CLEAR_COMMAND;
+	static const string MESSAGE_ALL;
+	static const string MESSAGE_CLEAR;
+	static const string MESSAGE_DONE;
+	static const string MESSAGE_UNCOMPLETE;
 };
 
 

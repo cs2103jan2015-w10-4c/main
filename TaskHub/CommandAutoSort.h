@@ -12,16 +12,18 @@ using namespace std;
 class CommandAutoSort {
 
 private:
+	static const string STATUS_DONE;
+	static const string STATUS_UNCOMPLETED;
+	static const string STATUS_FLOATING;
+	static const string MESSAGE_SORT_SUCCESSFUL;
+	static const char NULL_TERMINATION_CHARACTER;
 
 public:
-	//static CommandAutoSort& getInstance() {
-		//static CommandAutoSort instance;
-		//return instance;
-	//}
-
+	CommandAutoSort ();
+	~CommandAutoSort ();
 	static void sortTask(std::vector<Task> storage);
 	static string autoSort ();
-
+	static bool compareCriteria(Task first, Task second);
 
 };
 
