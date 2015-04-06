@@ -1,6 +1,5 @@
 #include "Parser.h"
 
-
 const int Task_LEN = 250;
 const string SCHEDULED_Task_LABEL = "timed";
 const string DEADLINE_Task_LABEL = "deadline";
@@ -71,6 +70,7 @@ Task::Task(string input){
 			_endTime = "";
 			_deadlineTime = input.substr(deadlined_Task + 4, 5);
 			_scheduledStartDate = "";
+			_scheduledEndDate = "";
 			_deadlineDate = parseDate.getDate();
 			_startHour = atoi(_deadlineTime.substr(0,2).c_str());
 			_startMinute = atoi(_deadlineTime.substr(3,2).c_str());
@@ -85,6 +85,7 @@ Task::Task(string input){
 			_endTime = "";
 			_deadlineTime = "";
 			_scheduledStartDate = "";
+			_scheduledEndDate = "";
 			_deadlineDate = "";
 			
 		}
@@ -185,6 +186,7 @@ Task::Task(string Task, string input){
 				_endTime = "";
 				_deadlineTime = Task.substr(find_time - 2, 5);
 				_scheduledStartDate = "";
+				_scheduledEndDate = "";
 				_deadlineDate = temp_date;
 				_startHour = atoi(_deadlineTime.substr(0,2).c_str());
 			    _startMinute = atoi(_deadlineTime.substr(3,2).c_str());
@@ -202,6 +204,7 @@ Task::Task(string Task, string input){
 			_endTime = "";
 			_deadlineTime = "";
 			_scheduledStartDate = "";
+			_scheduledEndDate = "";
 			_deadlineDate = "";
 		}
 		size_t venue_Task = Task.find("@");
@@ -228,7 +231,7 @@ string Task::ToString(){
 		output = Task+EMPTY_SPACE+" [due "+_deadlineDate.c_str()+" "+_deadlineTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
 	}
 	else if (_TaskType == SCHEDULED_Task_LABEL){
-		output = Task+EMPTY_SPACE+"[ "+ _scheduledStartDate.c_str()+" "+_startTime.c_str()+" - "+_endTime.c_str()+" ] "+_venue.c_str()+" "+ _status.c_str();
+		output = Task+EMPTY_SPACE+"[ "+ _scheduledStartDate.c_str()+" "+_startTime.c_str()+" - "+ _scheduledEndDate.c_str() +" " + _endTime.c_str()+" ] "+_venue.c_str()+" "+ _status.c_str();
 	}
 	else if (_TaskType == FLOATING_Task_LABEL){
 		output = Task+EMPTY_SPACE+_venue.c_str()+" "+_status.c_str();
