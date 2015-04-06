@@ -136,7 +136,7 @@ Task::Task(string Task, string input){
 			size_t find_ending_time = temp.find(":");	//check if there's an ending time ie. seperate deadlined Task and scheduled Task
 
 			if ((find_time != string::npos) && (find_ending_time != string::npos)){
-				DateParser parseDate(Task);
+				
 				TimeParser parseTime(Task);
 				size_t find_bracket = Task.find_first_of("[");
 				_TaskName = Task.substr(0, find_bracket-1);
@@ -144,16 +144,37 @@ Task::Task(string Task, string input){
 				_startTime = Task.substr(find_time - 2, 5);
 				_endTime = temp.substr(find_ending_time - 2, 5);
 				_deadlineTime = "";
-				_scheduledStartDate = temp_date;
-				_scheduledDateReverse = parseDate.getDateReverse();
 				_deadlineDate = "";
-				_integerStartDay = parseDate.getDay();
-			    _integerMonth = parseDate.getMonth();
 			    _startHour = parseTime.getStartHour();
 			    _startMinute = parseTime.getStartMinute();
 			    _endHour = parseTime.getEndHour();
 			    _endMinute = parseTime.getEndMinute();
-				_alphaMonth = parseDate.getAlphaMonth();
+				
+				if(find_startDate != string::npos && find_startDate == find_endDate){
+					DateParser parseDate(Task.substr(find_bracket));
+					_scheduledStartDate = parseDate.getDate();
+					_scheduledDateReverse = parseDate.getDateReverse();
+					_scheduledEndDate = "";
+					_integerStartDay = parseDate.getDay();
+			        _integerStartMonth = parseDate.getMonth();
+					_alphaMonth = parseDate.getAlphaMonth();
+				}
+				else if(find_startDate != string::npos && find_startDate != find_endDate){
+					temp = Task.substr(find_bracket);
+					size_t find_dash = temp.find("-");
+					DateParser parseStartDate(temp);
+					DateParser parseEndDate(temp.substr(find_dash));
+					_scheduledStartDate = parseStartDate.getDate();
+					_scheduledDateReverse = parseStartDate.getDateReverse();
+					_scheduledEndDate = parseEndDate.getDate();
+					_integerStartDay = parseStartDate.getDay();
+			        _integerStartMonth = parseStartDate.getMonth();
+					_integerEndDay = parseEndDate.getDay();
+					_integerEndMonth = parseEndDate.getMonth();
+					_alphaMonth = parseStartDate.getAlphaMonth();
+				}
+
+
 			}
 			else if (find_time != string::npos){
 				DateParser parseDate(Task);
@@ -168,13 +189,11 @@ Task::Task(string Task, string input){
 				_startHour = atoi(_deadlineTime.substr(0,2).c_str());
 			    _startMinute = atoi(_deadlineTime.substr(3,2).c_str());
 			    _integerStartDay = parseDate.getDay();
-			    _integerMonth = parseDate.getMonth();
+			    _integerStartMonth = parseDate.getMonth();
 				_alphaMonth = parseDate.getAlphaMonth();
 			}
 
 		}
-		else if(find_startDate != string::npos &&  find_endDate != find_startDate){
-
 
 		else{
 			_TaskType = FLOATING_Task_LABEL;
@@ -372,12 +391,20 @@ string Task::getVenue(){
 	return _venue;
 }
 
-int Task::getIntegerDay(){
+int Task::getIntegerStartDay(){
 	return _integerStartDay;
 }
 
-int Task::getIntegerMonth(){
-	return _integerMonth;
+int Task::getIntegerStartMonth(){
+	return _integerStartMonth;
+}
+
+int Task::getIntegerEndDay(){
+	return _integerEndDay;
+}
+
+int Task::getIntegerEndMonth(){
+	return _integerEndMonth;
 }
 
 
