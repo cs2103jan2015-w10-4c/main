@@ -205,7 +205,7 @@ Task::Task(string Task, string input){
 			_deadlineDate = "";
 		}
 		size_t venue_Task = Task.find("@");
-		size_t status_mark = Task.find(" progressing");
+		size_t status_mark = Task.find_last_of(" ");
 		if (venue_Task != string::npos){
 			VenueParser parseVenue(Task);
 			string tempVenue;
