@@ -10,7 +10,7 @@ const string FINISHED_Task_LABEL = "done";
 const string INVALID_DATE_MSG = "invalid date, provide valid date";
 const string INVALID_TIME_MSG = "invalid time, provide valid time";
 const string EMPTY_SPACE =" ";
-const int LENGTH_OF_DATE_AND_TIME = 11;
+const int LENGTH_OF_DATE = 5;
 
 Task::Task(){}
 
@@ -49,8 +49,8 @@ Task::Task(string input){
 				
 			}
 			else if(timed_startDate != string::npos && timed_startDate != timed_endDate){
-				DateParser parseStartDate(input.substr(timed_TaskStart+6, LENGTH_OF_DATE_AND_TIME));
-				DateParser parseEndDate(input.substr(time_TaskEnd+6, LENGTH_OF_DATE_AND_TIME));
+				DateParser parseStartDate(input.substr(timed_TaskStart+6, LENGTH_OF_DATE));
+				DateParser parseEndDate(input.substr(time_TaskEnd+6, LENGTH_OF_DATE));
 				_scheduledStartDate = parseStartDate.getDate();
 				_scheduledEndDate = parseEndDate.getDate();
 				_scheduledDateReverse = parseStartDate.getDateReverse();
