@@ -18,8 +18,8 @@ string CommandDelete::deleteMessage(string input) {
 		Logic::history.setLastChangedTaskIndex(index);
 		Logic::history.setLastUnchangedTask (Logic::history.getVectorTextStorage()[index - 1]);
 		
-		vector<Task> temporary=Logic::history.getVectorTextStorage();
-		Task taskDeleted=temporary[index - 1];
+		vector<Task> temporary = Logic::history.getVectorTextStorage();
+		Task taskDeleted = temporary[index - 1];
 		temporary.erase(temporary.begin() + index - 1);
 		Logic::history.setVectorTextStorage(temporary);
 		
