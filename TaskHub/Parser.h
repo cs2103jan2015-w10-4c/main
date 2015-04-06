@@ -23,8 +23,10 @@ private:
 	string _status;
 	string _venue;
 	string _alphaMonth;
-	int _integerDay;
-	int _integerMonth;
+	int _integerStartDay;
+	int _integerStartMonth;
+	int _integerEndDay;
+	int _integerEndMonth;
 	int _startHour;
 	int _startMinute;
 	int _endHour;
@@ -51,8 +53,10 @@ public:
 	string getStatus();
 	string getVenue();
 	string getAlphaMonth();
-	int getIntegerDay();
-	int getIntegerMonth();
+	int getIntegerStartDay();
+	int getIntegerStartMonth();
+	int getIntegerEndDay();
+	int getIntegerEndMonth();
 	int getStartHour();
 	int getStartMinute();
 	int getEndHour();

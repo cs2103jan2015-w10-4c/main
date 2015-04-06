@@ -5,9 +5,9 @@ TimeParser::TimeParser(void){
 }
 
 TimeParser::TimeParser(string input){
-	size_t timed_Task = input.find("-from");
+	size_t time_TaskStart = input.find("-from");
 	size_t ending_time = input.find("-to");
-	_startTime = input.substr(timed_Task + 6, 5);
+	_startTime = input.substr(time_TaskStart + 6, 5);
 	_endTime = input.substr(ending_time + 4, 5);
 	_startHour = atoi(_startTime.substr(0, 2).c_str());
 	_startMinute = atoi(_startTime.substr(3, 2).c_str());
