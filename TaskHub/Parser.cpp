@@ -17,7 +17,7 @@ Task::Task(string input){
 	
 	if (!input.empty()){
 		size_t timed_TaskStart = input.find("-from");
-		size_t time_TaskEnd = input.find("-to");
+		size_t timed_TaskEnd = input.find("-to");
 		size_t deadlined_Task = input.find("-by");
 		size_t venue_Task = input.find("@");
 		size_t timed_startDate = input.substr(timed_TaskStart).find_first_of("/");
@@ -49,7 +49,7 @@ Task::Task(string input){
 			}
 			else if(timed_startDate != string::npos && timed_startDate != timed_endDate){
 				DateParser parseStartDate(input.substr(timed_TaskStart+6, LENGTH_OF_DATE));
-				DateParser parseEndDate(input.substr(time_TaskEnd+6, LENGTH_OF_DATE));
+				DateParser parseEndDate(input.substr(timed_TaskEnd+4, LENGTH_OF_DATE));
 				_scheduledStartDate = parseStartDate.getDate();
 				_scheduledEndDate = parseEndDate.getDate();
 				_scheduledDateReverse = parseStartDate.getDateReverse();
