@@ -4,6 +4,7 @@
 #include "CommandAdd.h"
 #include "CommandClash.h"
 #include "CommandAutoSort.h"
+
 const string CommandAdd::MESSAGE_COMMAND_TYPE = "add";
 const string CommandAdd::MESSAGE_ADDED = "Task: \" %s \" added";
 const string CommandAdd::MESSAGE_INDICATING_EMPTY = "The input is empty.";
@@ -31,9 +32,9 @@ string CommandAdd::addMessage (string input) {
 		} else {
 		Task newTask(input);
 	//CommandAutoSort::autoSort();
-	Logic::history.setVectorTextStorage(newTask);
-	Logic::history.setLastChangedTask(newTask);
-	sprintf_s(Logic::messageDisplayed, MESSAGE_ADDED.c_str(),newTask.ToString().c_str());
+		Logic::history.setVectorTextStorage(newTask);
+		Logic::history.setLastChangedTask(newTask);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_ADDED.c_str(),newTask.ToString().c_str());
 		}
 
 	} else {
