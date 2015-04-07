@@ -14,7 +14,7 @@ const string redoChange::COMMAND_TYPE_DELETE = "delete";
 redoChange::redoChange () {
 
 }
-redoChange::redoChange () {
+redoChange::~redoChange () {
 
 }
 

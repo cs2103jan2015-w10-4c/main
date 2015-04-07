@@ -15,7 +15,7 @@ undoChange::undoChange () {
 
 }
 
-undoChange::undoChange () {
+undoChange::~undoChange () {
 
 }
 
