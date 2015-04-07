@@ -166,12 +166,21 @@ string CommandRecurring::setRecurringTask(string input) {
 	get_Start_Time=input.find_first_of(":");
 	get_End_Time=input.find_last_of(":");
 	get_Venue=input.find("@");
-	get_TaskName=input.find_first_of("/")-3;
 	get_day_of_week=input.find("-every");
 
-	string taskName=input.substr(0,get_TaskName);
-	string startingDate=input.substr(get_Start_Date-2,5);
+	string taskName;
+	if (input.find_first_of("/") != string::npos) {
+	get_TaskName=input.find_first_of("/")-3;
+	taskName=input.substr(0,get_TaskName);
+	} else {
+		taskName = input;
+	}
 	
+	string startingDate;
+	if (get_Start_Date != string::npos) {
+	startingDate=input.substr(get_Start_Date-2,5);
+	} 
+
 	string startingTime;
 	if (get_Start_Time!=string::npos) {
 		startingTime=input.substr(get_Start_Time-2,5);
@@ -188,14 +197,19 @@ string CommandRecurring::setRecurringTask(string input) {
 	endingHour=atoi(input.substr(get_End_Time-2,2).c_str());
 	endingMinute=atoi(input.substr(get_End_Time+1,2).c_str());
 	} else {
-		cout<<"!!!"<<endl;
 		endingHour=23;
 		endingMinute=59;
 	}
 
-	int endingDay=atoi(input.substr(get_End_Date-2,2).c_str());
-	int endingMonth=atoi(input.substr(get_End_Date+1,2).c_str());
-	
+	int endingDay;
+	int endingMonth;
+	if (get_End_Date != string::npos) {
+	endingDay = atoi(input.substr(get_End_Date-2,2).c_str());
+	endingMonth = atoi(input.substr(get_End_Date+1,2).c_str());
+	} else {
+		endingDay = currentTimeData._day;
+		endingMonth = currentTimeData._mon;
+	}
 	
 	int startingYear;
 	int endingYear;
