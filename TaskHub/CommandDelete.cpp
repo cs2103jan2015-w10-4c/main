@@ -7,6 +7,13 @@ const string CommandDelete::MESSAGE_COMMAND_TYPE = "delete";
 const string CommandDelete::MESSAGE_DELETED = "Message \" %s \" is deleted";
 const string CommandDelete::MESSAGE_INVALID_INDEX = "Invalid index";
 
+CommandDelete::CommandDelete () {
+
+}
+CommandDelete::~CommandDelete () {
+
+}
+
 string CommandDelete::deleteMessage(string input) {
 
 	unsigned int index;

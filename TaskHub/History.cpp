@@ -5,30 +5,32 @@ History::History(void) {
 
 }
 
-History::~History(void) {}
+History::~History(void) {
+
+}
 
 void History::setLastChangedTaskIndex( int index) {
 
-	lastChangedTaskIndex = index-1;
+	lastChangedTaskIndex= index-1;
 }
 
 void History::setLastChangedTask(Task changedTask) {
 
-	lastChangedTask = changedTask;
+	lastChangedTask=changedTask;
 }
 
 void History::setLastCommandType(string changedCommandType) {
 
-	lastCommandType = changedCommandType;
+	lastCommandType=changedCommandType;
 }
 
 void History::setLastUnchangedTask(Task unChangedTask) {
 
-	lastUnchangedTask = unChangedTask;
+	lastUnchangedTask=unChangedTask;
 }
 
 void History::setVectorTextStorage (Task taskString) {
-	backUpStorage = textStorage;
+	backUpStorage=textStorage;
 	textStorage.push_back(taskString);
 	
 }
@@ -56,8 +58,8 @@ string History::getLastCommandType() {
 }
 
 void History::setVectorTextStorage(vector<Task> sample) {
-	backUpStorage = textStorage;
-	textStorage = sample;
+	backUpStorage=textStorage;
+	textStorage=sample;
 	
 
 }

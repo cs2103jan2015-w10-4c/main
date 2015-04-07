@@ -12,10 +12,11 @@ const int MAX_BUFFERRING_CAPACITY=10086;
 class Logic
 {
 public:
-	static char messageDisplayed[MAX_BUFFERRING_CAPACITY];
 	
+	static char messageDisplayed[MAX_BUFFERRING_CAPACITY];
 	static string getFirstWord(string input);
 	static string removeFirstWord(string input);
+	
 	static string checkClash(string input);
 	static string addTask(string input);
 	static string updateTask(string input);
@@ -25,19 +26,18 @@ public:
 	static string display(string message);
 	static string MarkDone(string input);
 	static string markUncompleted (string input);
-	static string recurTask(string input);
-	static string show(string input);
 	static string undo();
 	static string redo();
 	static string sort();
 	static string help();
+	static string recurTask(string input);
+	static string show(string input);
 	
-	/*
 	static vector<Task> textStorage;
 	static string lastCommandType;
 	static int lastChangedTaskIndex;
 	static Task lastUnchangedTask;
-	static Task lastChangedTask;*/
+	static Task lastChangedTask;
 
 	static void getStorage();
 	static History history;

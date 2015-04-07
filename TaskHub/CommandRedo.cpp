@@ -11,6 +11,13 @@ const string redoChange::COMMAND_TYPE_DONE = "done";
 const string redoChange::COMMAND_TYPE_UNCOMPLETE = "uncomplete";
 const string redoChange::COMMAND_TYPE_DELETE = "delete";
 
+redoChange::redoChange () {
+
+}
+redoChange::redoChange () {
+
+}
+
 string redoChange::redo() {
 
 	vector<Task> temporary=Logic::history.getVectorTextStorage();

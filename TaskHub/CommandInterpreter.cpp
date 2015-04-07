@@ -19,6 +19,14 @@ const string CommandInterpreter::COMMAND_RECURRING = "recurring";
 const string CommandInterpreter::COMMAND_HELP = "help";
 const string CommandInterpreter::COMMAND_EXIT = "exit";
 
+CommandInterpreter::CommandInterpreter () {
+
+}
+
+CommandInterpreter::~CommandInterpreter () {
+
+}
+
 string CommandInterpreter::executeUserCommand(string userCommand) {
 	string commandTypeString;
 	string TaskString;

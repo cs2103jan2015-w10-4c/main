@@ -11,6 +11,13 @@ const string undoChange::COMMAND_TYPE_DONE = "done";
 const string undoChange::COMMAND_TYPE_UNCOMPLETE = "uncomplete";
 const string undoChange::COMMAND_TYPE_DELETE = "delete";
 
+undoChange::undoChange () {
+
+}
+
+undoChange::undoChange () {
+
+}
 
 string undoChange::undo() {
 

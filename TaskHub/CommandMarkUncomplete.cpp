@@ -5,6 +5,14 @@ const string markingMessageUncomplete::MESSAGE_COMMAND_TYPE = "uncomplete";
 const string markingMessageUncomplete::MESSAGE_MARK_UNCOMPLETE = "Task \" %s \" is marked";
 const string markingMessageUncomplete::MESSAGE_INVALID_INDEX = "Invalid index";
 
+markingMessageUncomplete::markingMessageUncomplete () {
+
+}
+
+markingMessageUncomplete::~markingMessageUncomplete () {
+
+}
+
 string markingMessageUncomplete::markMessageUncompleted(string input) {
 
 	unsigned int index;
