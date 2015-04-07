@@ -25,6 +25,7 @@ vector <string> ShowTask (vector <int> taskIndex) {
 			oss << i + 1 << ". " << Logic::history.getVectorTextStorage()[taskIndex[i]].ToString() << endl;
 			string TaskDisplay = oss.str();
 			ShowDailyTask::messageDisplayed.push_back(TaskDisplay);
+			cout<<"what"<<ShowDailyTask::messageDisplayed[0]<<"3q3q"<<endl;
 			
 		}
 		
@@ -81,6 +82,7 @@ string ShowDailyTask::showDayTask (string userMessage) {
 
 	transform(userMessage.begin(),userMessage.end(),userMessage.begin(),::tolower);
 	vector<Task> temporary=Logic::history.getVectorTextStorage();
+	cout<<temporary[0].ToString()<<"!@!@!"<<endl;
 	vector<int> taskIndex;
 	localTime timeNow;
 	ShowDailyTask::getSystemTime(timeNow);
@@ -90,15 +92,17 @@ string ShowDailyTask::showDayTask (string userMessage) {
 	int currentHour=timeNow._hour;
 	int size=temporary.size();
 	string secondCommand=Logic::getFirstWord(userMessage);
-
+	cout<<"!!!"<<secondCommand<<endl;
+	cout<<temporary[0].ToString()<<"!@!@!"<<endl;
 	ShowDailyTask::messageDisplayed.clear();
 	if (userMessage=="today"||userMessage=="show") {
 		
 		//get into that day and display
-		for (int i=0;i<size;i++) {
-			if (currentMonth==temporary[i].getIntegerMonth()) {
+		for ( int i=0;i<size;i++) {
+			if (currentMonth==temporary[i].getIntegerStartMonth()) {
 				
-				if (currentDay==temporary[i].getIntegerDay()) {
+				if (currentDay==temporary[i].getIntegerStartDay()) {
+					cout<<temporary[i].getIntegerStartDay()<<"  LALA"<<endl;
 					taskIndex.push_back(i);
 				}
 			}
@@ -110,8 +114,8 @@ string ShowDailyTask::showDayTask (string userMessage) {
 		//get into that day and display
 		currentDay++;
 		for (int i=0;i<size;i++) {
-			if (currentMonth==temporary[i].getIntegerMonth()) {
-				if (currentDay==temporary[i].getIntegerDay()) {
+			if (currentMonth==temporary[i].getIntegerStartMonth()) {
+				if (currentDay==temporary[i].getIntegerStartDay()) {
 					taskIndex.push_back(i);
 				}
 			}
@@ -122,8 +126,8 @@ string ShowDailyTask::showDayTask (string userMessage) {
 		//get into that day and display
 		
 		for (int i=0;i<size;i++) {
-			if (currentMonth==temporary[i].getIntegerMonth()) {
-				if (currentDay==temporary[i].getIntegerDay()) {
+			if (currentMonth==temporary[i].getIntegerStartMonth()) {
+				if (currentDay==temporary[i].getIntegerStartDay()) {
 					if (currentHour==temporary[i].getStartHour()) {
 						//if (currentMinute==temporary[i].getMinute()) {
 							taskIndex.push_back(i);
@@ -138,7 +142,7 @@ string ShowDailyTask::showDayTask (string userMessage) {
 		size_t get_date=userMessage.find("/");
 		if (get_date!=string::npos) {
 		currentMonth=atoi(userMessage.substr(get_date+1,2).c_str());
-		currentDay=atoi(userMessage.substr(0,get_date).c_str());
+		currentDay=atoi(userMessage.substr(get_date-2,2).c_str());
 		cout<<"month: "<<currentMonth<<"day: "<<currentDay<<endl;
 		} 
 		size_t get_time=userMessage.find(":");
@@ -151,9 +155,9 @@ string ShowDailyTask::showDayTask (string userMessage) {
 		if ((get_time==string::npos)&&(get_date!=string::npos)) {
 			cout<<"10086"<<endl;
 			for (int i=0;i<size;i++) {
-				cout<<"task month: "<<temporary[i].getIntegerMonth()<<endl;
-				if (currentMonth==temporary[i].getIntegerMonth()) {
-					if (currentDay==temporary[i].getIntegerDay()) {
+				cout<<"task month: "<<temporary[i].getIntegerStartMonth()<<endl;
+				if (currentMonth==temporary[i].getIntegerStartMonth()) {
+					if (currentDay==temporary[i].getIntegerStartDay()) {
 						taskIndex.push_back(i);
 					}
 				}
@@ -163,8 +167,8 @@ string ShowDailyTask::showDayTask (string userMessage) {
 		else if ((get_time!=string::npos)&&(get_date==string::npos)) {
 
 			for (int i=0;i<size;i++) {
-				if (currentMonth==temporary[i].getIntegerMonth()) {
-					if (currentDay==temporary[i].getIntegerDay()) {
+				if (currentMonth==temporary[i].getIntegerStartMonth()) {
+					if (currentDay==temporary[i].getIntegerStartDay()) {
 						if (currentHour==temporary[i].getStartHour()) {
 					//if (currentMinute==temporary[i].getMinute()) {
 					taskIndex.push_back(i);
@@ -175,8 +179,8 @@ string ShowDailyTask::showDayTask (string userMessage) {
 			}
 		} else if ((get_time!=string::npos)&&(get_date!=string::npos)) {
 			for (int i=0;i<size;i++) {
-				if (currentMonth==temporary[i].getIntegerMonth()) {
-					if (currentDay==temporary[i].getIntegerDay()) {
+				if (currentMonth==temporary[i].getIntegerStartMonth()) {
+					if (currentDay==temporary[i].getIntegerStartDay()) {
 						if (currentHour==temporary[i].getStartHour()) {
 					//if (currentMinute==temporary[i].getMinute()) {
 						taskIndex.push_back(i);
