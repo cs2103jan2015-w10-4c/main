@@ -123,8 +123,10 @@ Task::Task(string Task, string input){
 		}
 
 		//classify Tasks into scheduled, deadlined or floating
-		size_t find_startDate = Task.find_first_of("/");
-		size_t find_endDate = Task.find_last_of("/");
+		size_t find_bracket = Task.find_last_of("[");
+		size_t find_bracketEnd = Task.find_last_of("]");
+		size_t find_startDate = Task.substr(find_bracket).find_first_of("/");
+		size_t find_endDate = Task.substr(find_bracket, find_bracketEnd - find_bracket).find_last_of("/");
 		string temp_date;
 		string temp;	//to store remaining part of the Task arguement to check whether there is a time included there
 		if (find_startDate != string::npos && find_startDate == find_endDate){	//only start date is found, Task is either scheduled or deadlined.
@@ -255,23 +257,36 @@ void Task::UpdateTask(string input){
 
 		if(timed_Task_startTime!=string::npos){
 			_startTime = input.substr(timed_Task_startTime + 6, 5);
+			TimeParser updateInfo(input);
+			_startHour = updateInfo.getStartHour();
+			_startMinute = updateInfo.getStartMinute();
 		}
 
 		if(timed_Task_endTime!=string::npos){
 			_endTime = input.substr(timed_Task_endTime + 4, 5);
+			TimeParser updateInfo(input);
+			_endHour = updateInfo.getEndHour();
+			_endMinute = updateInfo.getEndMinute();
 		}
 
 		if(deadlined_Task!=string::npos){
 				_deadlineTime = input.substr(deadlined_Task + 4, 5);
+				TimeParser updateInfo(input);
+				_startHour = updateInfo.getStartHour();
+				_startMinute = updateInfo.getStartMinute();
 		}
 		if(date!=string::npos){
 			if(_TaskType==SCHEDULED_Task_LABEL){
 				DateParser dateParse(input);
 				_scheduledStartDate = dateParse.getDate();
+				_integerStartDay = dateParse.getDay();
+				_integerStartMonth = dateParse.getMonth();
 			}
 			else if(_TaskType==DEADLINE_Task_LABEL){
 				DateParser dateParse(input);
 				_deadlineDate = dateParse.getDate();
+				_integerStartDay = dateParse.getDay();
+				_integerStartMonth = dateParse.getMonth();
 			}
 		}
 		if(venue!=string::npos){
@@ -346,7 +361,7 @@ void Task::MarkDone(){
 }
 
 void Task::MarkUndone(){
-	_status = "processing";
+	_status = "progressing";
 }
 
 void Task::markUncompleted(){
