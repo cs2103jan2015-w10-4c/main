@@ -20,8 +20,8 @@ Task::Task(string input){
 		size_t time_TaskEnd = input.find("-to");
 		size_t deadlined_Task = input.find("-by");
 		size_t venue_Task = input.find("@");
-		size_t timed_startDate = input.find_first_of("/");
-		size_t timed_endDate = input.find_last_of("/");
+		size_t timed_startDate = input.substr(timed_TaskStart).find_first_of("/");
+		size_t timed_endDate = input.substr(timed_TaskEnd).find_first_of("/");
 		if (timed_TaskStart != string::npos){
 			 
 		     TimeParser parseTime(input.substr(timed_TaskStart));
