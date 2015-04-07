@@ -257,23 +257,36 @@ void Task::UpdateTask(string input){
 
 		if(timed_Task_startTime!=string::npos){
 			_startTime = input.substr(timed_Task_startTime + 6, 5);
+			TimeParser updateInfo(input);
+			_startHour = updateInfo.getStartHour();
+			_startMinute = updateInfo.getStartMinute();
 		}
 
 		if(timed_Task_endTime!=string::npos){
 			_endTime = input.substr(timed_Task_endTime + 4, 5);
+			TimeParser updateInfo(input);
+			_endHour = updateInfo.getEndHour();
+			_endMinute = updateInfo.getEndMinute();
 		}
 
 		if(deadlined_Task!=string::npos){
 				_deadlineTime = input.substr(deadlined_Task + 4, 5);
+				TimeParser updateInfo(input);
+				_startHour = updateInfo.getStartHour();
+				_startMinute = updateInfo.getStartMinute();
 		}
 		if(date!=string::npos){
 			if(_TaskType==SCHEDULED_Task_LABEL){
 				DateParser dateParse(input);
 				_scheduledStartDate = dateParse.getDate();
+				_integerStartDay = dateParse.getDay();
+				_integerStartMonth = dateParse.getMonth();
 			}
 			else if(_TaskType==DEADLINE_Task_LABEL){
 				DateParser dateParse(input);
 				_deadlineDate = dateParse.getDate();
+				_integerStartDay = dateParse.getDay();
+				_integerStartMonth = dateParse.getMonth();
 			}
 		}
 		if(venue!=string::npos){
@@ -348,7 +361,7 @@ void Task::MarkDone(){
 }
 
 void Task::MarkUndone(){
-	_status = "processing";
+	_status = "progressing";
 }
 
 void Task::markUncompleted(){
