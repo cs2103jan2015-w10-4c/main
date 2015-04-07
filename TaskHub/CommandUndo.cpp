@@ -5,7 +5,6 @@
 const string undoChange::MESSAGE_COMMAND_UNDO = "%s is undo";
 const string undoChange::COMMAND_TYPE_ADD = "add";
 const string undoChange::MESSAGE_ERROR = "previous action cannot be redo";
-const string undoChange::COMMAND_TYPE_ADD = "add";
 const string undoChange::COMMAND_TYPE_UPDATE = "update";
 const string undoChange::COMMAND_TYPE_CLEAR = "clear";
 const string undoChange::COMMAND_TYPE_DONE = "done";
