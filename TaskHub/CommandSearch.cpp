@@ -6,6 +6,8 @@
 const string CommandSearch::MESSAGE_COMMAND_TYPE="search";
 const string CommandSearch::MESSAGE_CANNOT_FIND="Cannot find message";
 const string CommandSearch::MESSAGE_EMPTY_FILE="The file is empty";
+const string CommandSearch::MESSAGE_IS_SHOWN = "Message is shown";
+vector <string> CommandSearch::messageDisplayed;
 
 string CommandSearch::searchMessage (string input) {
 
@@ -40,12 +42,14 @@ string CommandSearch::searchMessage (string input) {
 			sprintf_s(Logic::messageDisplayed, MESSAGE_CANNOT_FIND.c_str());
 			return Logic::messageDisplayed;
 		} else {
-		return CommandSearch::printVector(output);
+				messageDisplayed=output;
+				sprintf_s(Logic::messageDisplayed, MESSAGE_IS_SHOWN.c_str());
+		return Logic::messageDisplayed;
 		}	
 
 	}
 }
-
+/*
 string CommandSearch::printVector(vector<string> output){
 	ostringstream oss;
 	for (unsigned int i = 0; i < output.size(); i++){
@@ -53,3 +57,4 @@ string CommandSearch::printVector(vector<string> output){
 	}
 	return oss.str();
 }
+*/
