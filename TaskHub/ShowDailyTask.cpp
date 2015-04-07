@@ -82,7 +82,7 @@ string ShowDailyTask::showDayTask (string userMessage) {
 
 	transform(userMessage.begin(),userMessage.end(),userMessage.begin(),::tolower);
 	vector<Task> temporary=Logic::history.getVectorTextStorage();
-	cout<<temporary[0].ToString()<<"!@!@!"<<endl;
+	
 	vector<int> taskIndex;
 	localTime timeNow;
 	ShowDailyTask::getSystemTime(timeNow);
@@ -92,11 +92,9 @@ string ShowDailyTask::showDayTask (string userMessage) {
 	int currentHour=timeNow._hour;
 	int size=temporary.size();
 	string secondCommand=Logic::getFirstWord(userMessage);
-	cout<<"!!!"<<secondCommand<<endl;
-	cout<<temporary[0].ToString()<<"!@!@!"<<endl;
 	ShowDailyTask::messageDisplayed.clear();
 	if (userMessage=="today"||userMessage=="show") {
-		
+		if (!temporary.empty()) {
 		//get into that day and display
 		for ( int i=0;i<size;i++) {
 			if (currentMonth==temporary[i].getIntegerStartMonth()) {
@@ -107,6 +105,7 @@ string ShowDailyTask::showDayTask (string userMessage) {
 				}
 			}
 
+		}
 		}
 		
 	} else if (userMessage=="tomorrow") {
