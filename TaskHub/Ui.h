@@ -16,6 +16,7 @@
 #include "StorageController.h"
 #include "CommandInterpreter.h"
 #include "CommandDisplay.h"
+#include "CommandSearch.h"
 #include "ShowDailyTask.h"
 #include "Parser.h"
 #include <iomanip>
@@ -30,7 +31,7 @@ private:
 	static const string MESSAGE_WELCOME;
 
 public:
-	static string displayWelcomeMessage();
+	static void displayWelcomeMessage();
 	static string getUserCommand();
 	static void showToUser(string userCommand);
 	static void systemFeedback(string text);
