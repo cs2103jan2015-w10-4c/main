@@ -123,8 +123,10 @@ Task::Task(string Task, string input){
 		}
 
 		//classify Tasks into scheduled, deadlined or floating
-		size_t find_startDate = Task.find_first_of("/");
-		size_t find_endDate = Task.find_last_of("/");
+		size_t find_bracket = Task.find_last_of("[");
+		size_t find_bracketEnd = Task.find_last_of("]");
+		size_t find_startDate = Task.substr(find_bracket).find_first_of("/");
+		size_t find_endDate = Task.substr(find_bracket, find_bracketEnd - find_bracket).find_last_of("/");
 		string temp_date;
 		string temp;	//to store remaining part of the Task arguement to check whether there is a time included there
 		if (find_startDate != string::npos && find_startDate == find_endDate){	//only start date is found, Task is either scheduled or deadlined.
