@@ -24,7 +24,7 @@ Task::Task(string input){
 		size_t timed_endDate = input.find_last_of("/");
 		if (timed_TaskStart != string::npos){
 			 
-		     TimeParser parseTime(input);
+		     TimeParser parseTime(input.substr(timed_TaskStart));
 		
 			_TaskType = SCHEDULED_Task_LABEL;
 			_TaskName = input.substr(0, timed_TaskStart - 1);
@@ -38,7 +38,7 @@ Task::Task(string input){
 			_endMinute = parseTime.getEndMinute();
 			
 			if(timed_startDate != string::npos && timed_startDate == timed_endDate){
-				DateParser parseDate(input);
+				DateParser parseDate(input.substr(timed_TaskStart));
 				_scheduledStartDate = parseDate.getDate();
 			    _scheduledEndDate = "";
 				_scheduledDateReverse = parseDate.getDateReverse();
@@ -62,7 +62,7 @@ Task::Task(string input){
 
 		}
 		else if (deadlined_Task != string::npos){
-			DateParser parseDate(input);
+			DateParser parseDate(input.substr(deadlined_Task));
 
 			_TaskType = DEADLINE_Task_LABEL;
 			_TaskName = input.substr(0, deadlined_Task - 1);
@@ -127,7 +127,7 @@ Task::Task(string Task, string input){
 		size_t find_endDate = Task.find_last_of("/");
 		string temp_date;
 		string temp;	//to store remaining part of the Task arguement to check whether there is a time included there
-		if (find_startDate != string::npos && find_startDate == find_endDate){	//onl start date is found, Task is either scheduled or deadlined.
+		if (find_startDate != string::npos && find_startDate == find_endDate){	//only start date is found, Task is either scheduled or deadlined.
 			//assume double digit date
 				temp_date = Task.substr(find_startDate - 2, 5);
 
@@ -138,8 +138,8 @@ Task::Task(string Task, string input){
 
 			if ((find_time != string::npos) && (find_ending_time != string::npos)){
 				
-				TimeParser parseTime(Task);
 				size_t find_bracket = Task.find_first_of("[");
+				TimeParser parseTime(Task.substr(find_bracket));
 				_TaskName = Task.substr(0, find_bracket-1);
 				_TaskType = SCHEDULED_Task_LABEL;
 				_startTime = Task.substr(find_time - 2, 5);
@@ -178,8 +178,8 @@ Task::Task(string Task, string input){
 
 			}
 			else if (find_time != string::npos){
-				DateParser parseDate(Task);
 				size_t find_bracket = Task.find_first_of("[");
+				DateParser parseDate(Task.substr(find_bracket));
 				_TaskName = Task.substr(0, find_bracket-1);
 				_TaskType = DEADLINE_Task_LABEL;
 				_startTime = "";
