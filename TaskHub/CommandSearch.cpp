@@ -43,6 +43,7 @@ string CommandSearch::searchMessage (string input) {
 			sprintf_s(Logic::messageDisplayed, MESSAGE_CANNOT_FIND.c_str());
 			return Logic::messageDisplayed;
 		} else {
+			CommandSearch::messageDisplayed.clear();
 			CommandSearch::messageDisplayed = output;
 			sprintf_s(Logic::messageDisplayed, MESSAGE_IS_SHOWN.c_str());
 			return Logic::messageDisplayed;
