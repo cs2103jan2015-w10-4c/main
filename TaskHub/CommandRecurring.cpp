@@ -254,6 +254,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	} else {
 		startingHour = currentTimeData._hour;
 		startingMinute = currentTimeData._min;
+		startingTime = to_string(startingHour) + ":" + to_string(startingMinute);
 	}
 
 	
