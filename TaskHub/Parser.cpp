@@ -14,68 +14,46 @@ const int LENGTH_OF_DATE = 5;
 Task::Task(){}
 
 Task::Task(string input){
-	
 	if (!input.empty()){
-		size_t timed_TaskStart = input.find("-from");
-		size_t time_TaskEnd = input.find("-to");
+		size_t timed_Task = input.find("-from");
 		size_t deadlined_Task = input.find("-by");
 		size_t venue_Task = input.find("@");
-		size_t timed_startDate = input.find_first_of("/");
-		size_t timed_endDate = input.find_last_of("/");
-		if (timed_TaskStart != string::npos){
-			 
-		     TimeParser parseTime(input);
+
+		if (timed_Task != string::npos){
+			DateParser parseDate(input);
+		    TimeParser parseTime(input);
 		
 			_TaskType = SCHEDULED_Task_LABEL;
-			_TaskName = input.substr(0, timed_TaskStart - 1);
+			_TaskName = input.substr(0, timed_Task - 1);
 			_startTime = parseTime.getStartTime();
 			_endTime = parseTime.getEndTime();
 			_deadlineTime = "";
+			_scheduledDate = parseDate.getDate();
 			_deadlineDate = "";
+			_integerDay = parseDate.getDay();
+			_integerMonth = parseDate.getMonth();
 			_startHour = parseTime.getStartHour();
 			_startMinute = parseTime.getStartMinute();
 			_endHour = parseTime.getEndHour();
 			_endMinute = parseTime.getEndMinute();
+			_alphaMonth = parseDate.getAlphaMonth();
+			_scheduledDateReverse = parseDate.getDateReverse();
 			
-			if(timed_startDate != string::npos && timed_startDate == timed_endDate){
-				DateParser parseDate(input);
-				_scheduledStartDate = parseDate.getDate();
-			    _scheduledEndDate = "";
-				_scheduledDateReverse = parseDate.getDateReverse();
-				_integerStartDay = parseDate.getDay();
-				_integerStartMonth = parseDate.getMonth();
-				_alphaMonth = parseDate.getAlphaMonth();
-				
-			}
-			else if(timed_startDate != string::npos && timed_startDate != timed_endDate){
-				DateParser parseStartDate(input.substr(timed_TaskStart+6, LENGTH_OF_DATE));
-				DateParser parseEndDate(input.substr(time_TaskEnd+6, LENGTH_OF_DATE));
-				_scheduledStartDate = parseStartDate.getDate();
-				_scheduledEndDate = parseEndDate.getDate();
-				_scheduledDateReverse = parseStartDate.getDateReverse();
-				_integerStartDay = parseStartDate.getDay();
-				_integerStartMonth = parseStartDate.getMonth();
-				_alphaMonth = parseStartDate.getAlphaMonth();
-				_integerEndDay = parseEndDate.getDay();
-				_integerEndMonth = parseEndDate.getMonth();
-			}
-
 		}
 		else if (deadlined_Task != string::npos){
 			DateParser parseDate(input);
-
+			TimeParser parseTime(input);
 			_TaskType = DEADLINE_Task_LABEL;
 			_TaskName = input.substr(0, deadlined_Task - 1);
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = input.substr(deadlined_Task + 4, 5);
-			_scheduledStartDate = "";
-			_scheduledEndDate = "";
+			_startHour = parseTime.getStartHour();
+			_startMinute = parseTime.getStartMinute();
+			_scheduledDate = "";
 			_deadlineDate = parseDate.getDate();
-			_startHour = atoi(_deadlineTime.substr(0,2).c_str());
-			_startMinute = atoi(_deadlineTime.substr(3,2).c_str());
-			_integerStartDay = parseDate.getDay();
-			_integerStartMonth = parseDate.getMonth();
+			_integerDay = parseDate.getDay();
+			_integerMonth = parseDate.getMonth();
 			_alphaMonth = parseDate.getAlphaMonth();
 		}
 		else{
@@ -84,9 +62,9 @@ Task::Task(string input){
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = "";
-			_scheduledStartDate = "";
-			_scheduledEndDate = "";
+			_scheduledDate = "";
 			_deadlineDate = "";
+			_scheduledDateReverse = "";
 			
 		}
 		_status = "progressing";
@@ -123,13 +101,11 @@ Task::Task(string Task, string input){
 		}
 
 		//classify Tasks into scheduled, deadlined or floating
-		size_t find_startDate = Task.find_first_of("/");
-		size_t find_endDate = Task.find_last_of("/");
-		string temp_date;
+		size_t find_bracket = Task.find("[");
 		string temp;	//to store remaining part of the Task arguement to check whether there is a time included there
-		if (find_startDate != string::npos && find_startDate == find_endDate){	//onl start date is found, Task is either scheduled or deadlined.
+		if (find_bracket != string::npos){	//date found, Task is either scheduled or deadlined.
 			//assume double digit date
-				temp_date = Task.substr(find_startDate - 2, 5);
+				
 
 
 			size_t find_time = Task.find(":"); 
@@ -137,75 +113,49 @@ Task::Task(string Task, string input){
 			size_t find_ending_time = temp.find(":");	//check if there's an ending time ie. seperate deadlined Task and scheduled Task
 
 			if ((find_time != string::npos) && (find_ending_time != string::npos)){
-				
 				TimeParser parseTime(Task);
-				size_t find_bracket = Task.find_first_of("[");
-				_TaskName = Task.substr(0, find_bracket-1);
+				DateParser parseDate(Task);
+
 				_TaskType = SCHEDULED_Task_LABEL;
-				_startTime = Task.substr(find_time - 2, 5);
-				_endTime = temp.substr(find_ending_time - 2, 5);
+				_TaskName = Task.substr(0, find_bracket - 1);
+				_startTime = parseTime.getStartTime();
+				_endTime = parseTime.getEndTime();
 				_deadlineTime = "";
+				_scheduledDate = parseDate.getDate();
 				_deadlineDate = "";
-			    _startHour = parseTime.getStartHour();
+				_startHour = parseTime.getStartHour();
 			    _startMinute = parseTime.getStartMinute();
 			    _endHour = parseTime.getEndHour();
 			    _endMinute = parseTime.getEndMinute();
-				
-				if(find_startDate != string::npos && find_startDate == find_endDate){
-					DateParser parseDate(Task.substr(find_bracket));
-					_scheduledStartDate = parseDate.getDate();
-					_scheduledDateReverse = parseDate.getDateReverse();
-					_scheduledEndDate = "";
-					_integerStartDay = parseDate.getDay();
-			        _integerStartMonth = parseDate.getMonth();
-					_alphaMonth = parseDate.getAlphaMonth();
-				}
-				else if(find_startDate != string::npos && find_startDate != find_endDate){
-					temp = Task.substr(find_bracket);
-					size_t find_dash = temp.find("-");
-					DateParser parseStartDate(temp);
-					DateParser parseEndDate(temp.substr(find_dash));
-					_scheduledStartDate = parseStartDate.getDate();
-					_scheduledDateReverse = parseStartDate.getDateReverse();
-					_scheduledEndDate = parseEndDate.getDate();
-					_integerStartDay = parseStartDate.getDay();
-			        _integerStartMonth = parseStartDate.getMonth();
-					_integerEndDay = parseEndDate.getDay();
-					_integerEndMonth = parseEndDate.getMonth();
-					_alphaMonth = parseStartDate.getAlphaMonth();
-				}
-
-
+				_scheduledDateReverse = parseDate.getDateReverse();
+				_integerDay = parseDate.getDay();
+			    _integerMonth = parseDate.getMonth();
+			    _alphaMonth = parseDate.getAlphaMonth();
 			}
 			else if (find_time != string::npos){
 				DateParser parseDate(Task);
-				size_t find_bracket = Task.find_first_of("[");
-				_TaskName = Task.substr(0, find_bracket-1);
+				TimeParser parseTime(Task);
+
+				_TaskName = Task.substr(0, find_bracket - 2);
 				_TaskType = DEADLINE_Task_LABEL;
 				_startTime = "";
 				_endTime = "";
-				_deadlineTime = Task.substr(find_time - 2, 5);
-				_scheduledStartDate = "";
-				_scheduledEndDate = "";
-				_deadlineDate = temp_date;
-				_startHour = atoi(_deadlineTime.substr(0,2).c_str());
-			    _startMinute = atoi(_deadlineTime.substr(3,2).c_str());
-			    _integerStartDay = parseDate.getDay();
-			    _integerStartMonth = parseDate.getMonth();
-				_alphaMonth = parseDate.getAlphaMonth();
+				_deadlineTime = parseTime.getStartTime();
+				_scheduledDate = "";
+				_deadlineDate = parseDate.getDate();
+				_venue = "";
 			}
 
 		}
-
 		else{
 			_TaskType = FLOATING_Task_LABEL;
-			_TaskName = Task.substr(0, find__status - 2);
+			_TaskName = Task.substr(0, find__status-2);
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = "";
-			_scheduledStartDate = "";
-			_scheduledEndDate = "";
+			_scheduledDate = "";
 			_deadlineDate = "";
+			_scheduledDateReverse = "";
 		}
 		size_t venue_Task = Task.find("@");
 		size_t status_mark = Task.find_last_of(" ");
@@ -231,7 +181,7 @@ string Task::ToString(){
 		output = Task+EMPTY_SPACE+" [due "+_deadlineDate.c_str()+" "+_deadlineTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
 	}
 	else if (_TaskType == SCHEDULED_Task_LABEL){
-		output = Task+EMPTY_SPACE+"[ "+ _scheduledStartDate.c_str()+" "+_startTime.c_str()+" - "+ _scheduledEndDate.c_str() +" " + _endTime.c_str()+" ] "+_venue.c_str()+" "+ _status.c_str();
+		output = Task+EMPTY_SPACE+"[ "+ _scheduledDate.c_str()+" "+_startTime.c_str()+" - " + _endTime.c_str()+" ] "+_venue.c_str()+" "+ _status.c_str();
 	}
 	else if (_TaskType == FLOATING_Task_LABEL){
 		output = Task+EMPTY_SPACE+_venue.c_str()+" "+_status.c_str();
