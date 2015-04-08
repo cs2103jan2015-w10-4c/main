@@ -8,6 +8,8 @@ using namespace std;
 class CommandDelete {
 public:
 	static string deleteMessage(string input);
+	CommandDelete ();
+	~CommandDelete ();
 
 private:
 	static const string MESSAGE_COMMAND_TYPE;

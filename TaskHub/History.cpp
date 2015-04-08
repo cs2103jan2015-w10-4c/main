@@ -5,7 +5,9 @@ History::History(void) {
 
 }
 
-History::~History(void) {}
+History::~History(void) {
+
+}
 
 void History::setLastChangedTaskIndex( int index) {
 
@@ -83,7 +85,7 @@ string History::printToString() {
 			totalTask << TaskDisplay;
 	}
 		else if (taskType == "timed"){
-			string scheduledDate=temp.getScheduledDate();
+			string scheduledDate=temp.getScheduledStartDate();
 			string startTime=temp.getStartTime();
 			string endTime=temp.getEndTime();
 			string venue=temp.getVenue();

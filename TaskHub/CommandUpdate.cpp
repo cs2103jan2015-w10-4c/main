@@ -2,9 +2,17 @@
 #include "Logic.h"
 #include "Parser.h"
 
-const string CommandUpdate::MESSAGE_COMMAND_TYPE="update";
-const string CommandUpdate::MESSAGE_INVALID_INDEX="The index is invalid";
-const string CommandUpdate::MESSAGE_UPDATED="Task: %s is updated";
+const string CommandUpdate::MESSAGE_COMMAND_TYPE = "update";
+const string CommandUpdate::MESSAGE_INVALID_INDEX = "The index is invalid";
+const string CommandUpdate::MESSAGE_UPDATED = "Task: %s is updated";
+
+CommandUpdate::CommandUpdate () {
+
+}
+
+CommandUpdate::~CommandUpdate () {
+
+}
 
 string CommandUpdate::updateMessage(string input) {
 
@@ -22,12 +30,12 @@ string CommandUpdate::updateMessage(string input) {
 	}
 	else{
 		Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);
-		Logic::history.setLastChangedTaskIndex ( index);
-		vector<Task> temp=Logic::history.getVectorTextStorage();
+		Logic::history.setLastChangedTaskIndex (index);
+		vector<Task> temp = Logic::history.getVectorTextStorage();
 
 		Logic::history.setLastUnchangedTask (temp[index - 1]);
 
-		temp[index -1].UpdateTask(TaskInfo);
+		temp[index - 1].UpdateTask(TaskInfo);
 
 		Logic::history.setLastChangedTask(temp[index - 1]);
 

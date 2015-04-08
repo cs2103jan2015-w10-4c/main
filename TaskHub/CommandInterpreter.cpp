@@ -1,8 +1,31 @@
 #include "CommandInterpreter.h"
 
 const string CommandInterpreter::MESSAGE_TERMINATION = "Programme terminated.";
-
 const string CommandInterpreter::MESSAGE_ERROR = "Invalid command.";
+const string CommandInterpreter::COMMAND_ADD = "add";
+const string CommandInterpreter::COMMAND_DELETE = "delete";
+const string CommandInterpreter::COMMAND_CLEAR = "clear";
+const string CommandInterpreter::COMMAND_UPDATE = "update";
+const string CommandInterpreter::COMMAND_REDO = "redo";
+const string CommandInterpreter::COMMAND_UNDO = "undo";
+const string CommandInterpreter::COMMAND_SORT = "sort";
+const string CommandInterpreter::COMMAND_CLASH = "clash";
+const string CommandInterpreter::COMMAND_DONE = "done";
+const string CommandInterpreter::COMMAND_SHOW = "show";
+const string CommandInterpreter::COMMAND_SEARCH = "search";
+const string CommandInterpreter::COMMAND_UNCOMPLETE = "uncompleted";
+const string CommandInterpreter::COMMAND_DISPLAY = "display";
+const string CommandInterpreter::COMMAND_RECURRING = "recurring";
+const string CommandInterpreter::COMMAND_HELP = "help";
+const string CommandInterpreter::COMMAND_EXIT = "exit";
+
+CommandInterpreter::CommandInterpreter () {
+
+}
+
+CommandInterpreter::~CommandInterpreter () {
+
+}
 
 string CommandInterpreter::executeUserCommand(string userCommand) {
 	string commandTypeString;
@@ -25,15 +48,15 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 		return Logic::help();
 	case CLEAR:
 		return Logic::clearAll(TaskString);
-	case ADD_Task:
+	case ADD_TASK:
 		return Logic::addTask(TaskString);
 	case UPDATE:
 		return Logic::updateTask(TaskString);
 	case SORT:
 		return Logic::sort();
-	case DELETE_Task:
+	case DELETE_TASK:
 		return Logic::deleteTask(TaskString);
-	case DISPLAY_TaskS:
+	case DISPLAY_TASK:
 		return Logic::display(TaskString);
 	case MARK_DONE:
 		return Logic::MarkDone(TaskString);
@@ -58,52 +81,52 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 }
 
 CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string commandTypeString, string TaskString) {
-	if (commandTypeString == "help") {
+	if (commandTypeString == COMMAND_HELP) {
 		return COMMAND_TYPE::HELP;
 	}
-	else if (commandTypeString == "add") {
-		return COMMAND_TYPE::ADD_Task;
+	else if (commandTypeString == COMMAND_ADD) {
+		return COMMAND_TYPE::ADD_TASK;
 	} 
-	else if (commandTypeString == "clear") {
+	else if (commandTypeString == COMMAND_CLEAR) {
 		return COMMAND_TYPE::CLEAR;
 	}
-	else if (commandTypeString == "update") {
+	else if (commandTypeString == COMMAND_UPDATE) {
 		return COMMAND_TYPE::UPDATE;
 	}
-	else if (commandTypeString == "recurring") {
+	else if (commandTypeString == COMMAND_RECURRING) {
 		return COMMAND_TYPE::RECURRING;
 	}
-	else if (commandTypeString == "delete") {
-		return COMMAND_TYPE::DELETE_Task;
+	else if (commandTypeString == COMMAND_DELETE) {
+		return COMMAND_TYPE::DELETE_TASK;
 	}
-	else if (commandTypeString == "search") {
+	else if (commandTypeString == COMMAND_SEARCH) {
 		return COMMAND_TYPE::SEARCH;
 	}
-	else if (commandTypeString == "display") {
-		return COMMAND_TYPE::DISPLAY_TaskS;
+	else if (commandTypeString == COMMAND_DISPLAY) {
+		return COMMAND_TYPE::DISPLAY_TASK;
 	}
-	else if (commandTypeString == "show") {
+	else if (commandTypeString == COMMAND_SHOW) {
 		return COMMAND_TYPE::SHOW;
 	}
-	else if (commandTypeString == "sort") {
+	else if (commandTypeString == COMMAND_SORT) {
 		return COMMAND_TYPE::SORT;
 	}
-	else if (commandTypeString == "done") {
+	else if (commandTypeString == COMMAND_DONE) {
 		return COMMAND_TYPE::MARK_DONE;
 	}
-	else if (commandTypeString == "undo") {
+	else if (commandTypeString == COMMAND_UNDO) {
 		return COMMAND_TYPE::UNDO;
 	} 
-	else if (commandTypeString == "check") {
+	else if (commandTypeString == COMMAND_CLASH) {
 		return COMMAND_TYPE::CHECK;
 	}
-	else if (commandTypeString == "redo") {
+	else if (commandTypeString == COMMAND_REDO) {
 		return COMMAND_TYPE::REDO;
 	}
-	else if (commandTypeString == "uncomplete") {
+	else if (commandTypeString == COMMAND_UNCOMPLETE) {
 		return COMMAND_TYPE::UNCONPLETE;
 	}
-	else if (commandTypeString == "exit") {
+	else if (commandTypeString == COMMAND_EXIT) {
 		return COMMAND_TYPE::EXIT;
 	}
 	else{

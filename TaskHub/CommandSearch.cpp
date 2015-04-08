@@ -1,11 +1,22 @@
+#include <algorithm>
 #include "Logic.h"
 #include "Parser.h"
 #include "CommandSearch.h"
-#include <algorithm>
 
-const string CommandSearch::MESSAGE_COMMAND_TYPE="search";
-const string CommandSearch::MESSAGE_CANNOT_FIND="Cannot find message";
-const string CommandSearch::MESSAGE_EMPTY_FILE="The file is empty";
+
+const string CommandSearch::MESSAGE_COMMAND_TYPE = "search";
+const string CommandSearch::MESSAGE_CANNOT_FIND = "Cannot find message";
+const string CommandSearch::MESSAGE_EMPTY_FILE = "The file is empty";
+const string CommandSearch::MESSAGE_IS_SHOWN = "Message is shown";
+vector <string> CommandSearch::messageDisplayed;
+
+CommandSearch::CommandSearch () {
+
+}
+
+CommandSearch::~CommandSearch () {
+
+}
 
 string CommandSearch::searchMessage (string input) {
 
@@ -15,7 +26,7 @@ string CommandSearch::searchMessage (string input) {
 	}
 	else{
 		vector<string> output;
-		vector<Task> temp=Logic::history.getVectorTextStorage();
+		vector<Task> temp = Logic::history.getVectorTextStorage();
 		vector<string> description;
 
 		transform(input.begin(),input.end(),input.begin(),:: tolower);
@@ -28,7 +39,7 @@ string CommandSearch::searchMessage (string input) {
 
 		for (unsigned int j = 0; j < description.size(); j++){
 			size_t found= description[j].find(input);	
-			if (found!=string::npos){
+			if (found != string::npos){
 					ostringstream oss;
 					oss << j + 1 << "." << temp[j].ToString() << endl;
 					string TaskDisplay = oss.str();
@@ -40,12 +51,15 @@ string CommandSearch::searchMessage (string input) {
 			sprintf_s(Logic::messageDisplayed, MESSAGE_CANNOT_FIND.c_str());
 			return Logic::messageDisplayed;
 		} else {
-		return CommandSearch::printVector(output);
+			CommandSearch::messageDisplayed.clear();
+			CommandSearch::messageDisplayed = output;
+			sprintf_s(Logic::messageDisplayed, MESSAGE_IS_SHOWN.c_str());
+			return Logic::messageDisplayed;
 		}	
 
 	}
 }
-
+/*
 string CommandSearch::printVector(vector<string> output){
 	ostringstream oss;
 	for (unsigned int i = 0; i < output.size(); i++){
@@ -53,3 +67,4 @@ string CommandSearch::printVector(vector<string> output){
 	}
 	return oss.str();
 }
+*/
