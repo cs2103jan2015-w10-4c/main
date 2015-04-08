@@ -1,7 +1,10 @@
+//@author A0111322E
+
 #include "StorageController.h"
 
 vector<string> StorageController::TaskList;
 std::string StorageController::_fileName;
+const std::string StorageController::_lastSaveFileName = "LastSaveFile.txt";
 TaskLog* StorageController::taskLog;
 
 StorageController::StorageController(){
@@ -11,7 +14,7 @@ StorageController::~StorageController(){
 }
 
 //change function name to updateSaveFile
-void StorageController::programmeTerminating() {
+void StorageController::updateSaveFile() {
 	ofstream file;
 
 	file.open(getFileName());
@@ -19,6 +22,8 @@ void StorageController::programmeTerminating() {
 	file.close();
 }
 
+
+// to be part of storage convertor
 std::string StorageController::convertTaskIntoString(){
 	ostringstream oss;
 	vector<Task> temp = Logic::history.getVectorTextStorage();
@@ -45,13 +50,47 @@ void StorageController::programmeInitialising(){
 	constructTaskLog();
 	promptSaveFile();
 	readSaveFile();
+	std::cout << getFileName() << " is open" << endl;
 }
 
 void StorageController::promptSaveFile(){
-	std::cout << "Enter save file address: ";
 	std::string fileName;
-	std::cin >> fileName;
+
+	if (isRetrieveSaveFile()){
+		fileName = getLastSaveFileName();
+	}
+	else{
+		std::cout << "Enter save file address: ";
+		std::cin >> fileName;
+		setLastSaveFile(fileName);
+	}
 	setFileName(fileName);
+}
+
+bool StorageController::isRetrieveSaveFile(){
+	std::cout << "Last saved file: " << ". Do you want to open it?  Y/N" << std::endl;
+	char answer;
+	bool isAnswerValid = false; 
+	while (!isAnswerValid){
+		std::cin >> answer;
+		if (toupper(answer) == 'Y'){
+			return true;
+		}
+		else if (toupper(answer) == 'N'){
+			return false;
+		}
+		else{
+			std::cout << "Invalid input. If you want to continue with TaskHub, enter Y" << std::endl;
+			char input; 
+			std::cin >> input;
+			if (toupper(input) == 'Y'){
+				return isRetrieveSaveFile();
+			}
+			else{
+				exit(1);		//exit the program
+			}
+		}
+	}
 }
 
 void StorageController::constructTaskLog(){
@@ -84,7 +123,22 @@ std::string StorageController::getFileName(){
 	return _fileName;
 }
 
+void StorageController::setLastSaveFile(std::string newFileName){
+	ofstream file;
+	file.open(_lastSaveFileName);
+	file << newFileName;
+	file.close();
+}
+
+std::string StorageController::getLastSaveFileName(){
+	ifstream file;
+	std::string lastSaveFileName;
+	file.open(_lastSaveFileName);
+	getline(file, lastSaveFileName);
+	return lastSaveFileName;
+
+}
+
 vector<string> StorageController::returnTask() {
 	return TaskList;
 }
-

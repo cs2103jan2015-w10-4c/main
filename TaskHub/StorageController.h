@@ -1,3 +1,5 @@
+//@author A0111322E
+
 #ifndef STORAGECONTROLLER_H_
 #define STORAGECONTROLLER_H_
 
@@ -16,6 +18,7 @@ class StorageController {
 private:
 	static vector<string> TaskList;
 	static std::string _fileName;
+	const static std::string _lastSaveFileName;
 
 public:
 	StorageController();
@@ -26,15 +29,17 @@ public:
 	static void destructTaskLog();
 
 	static void programmeInitialising();
-	static void programmeTerminating(); // need change to updateSaveFile();
+	static void updateSaveFile(); 
 	static void readSaveFile();
 	static void promptSaveFile();
 	static vector<string> returnTask();
 
 	static void setFileName(std::string fileName);
 	static std::string getFileName();
+	static void setLastSaveFile(std::string newFileName);
+	static std::string getLastSaveFileName();
 	static std::string convertTaskIntoString();
+	static bool isRetrieveSaveFile();
 };
 
 #endif
-
