@@ -9,6 +9,8 @@ using namespace std;
 
 class CommandInterpreter {
 	public:
+		CommandInterpreter ();
+		~CommandInterpreter ();
 	enum COMMAND_TYPE {
 		HELP, ADD_TASK, CLEAR, UPDATE, RECURRING, DELETE_TASK, SEARCH, CHECK, SORT, DISPLAY_TASK, 
 		MARK_DONE, UNCONPLETE, UNDO, REDO, SHOW, EXIT, INVALID

@@ -8,8 +8,9 @@ using namespace std;
 
 class CommandSearch {
 public:
+	CommandSearch ();
+	~CommandSearch ();
 	static string searchMessage(string input);
-	//static string printVector(vector<string> output);
 	static vector <string> messageDisplayed;
 
 private:

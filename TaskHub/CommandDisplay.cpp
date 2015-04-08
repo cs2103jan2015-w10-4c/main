@@ -19,6 +19,13 @@ const string CommandDisplay::DOT = ". ";
 
 vector <string> CommandDisplay::messageDisplayed;
 
+CommandDisplay::CommandDisplay () {
+
+}
+CommandDisplay::~CommandDisplay() {
+
+}
+
 string CommandDisplay::display(string message) {
 
 	if (Logic::history.getVectorTextStorage().empty()){

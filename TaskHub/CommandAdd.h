@@ -15,6 +15,7 @@ public:
 private:
 	static const string MESSAGE_COMMAND_TYPE;
 	static const string MESSAGE_ADDED;
+	static const string MESSAGE_CLASH;
 };
 
 #endif

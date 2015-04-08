@@ -5,6 +5,14 @@ const string markingDoneMessage::MESSAGE_COMMAND_TYPE = "done";
 const string markingDoneMessage::MESSAGE_MARK_DONE = "Task \" %s \" is completed";
 const string markingDoneMessage::MESSAGE_INVALID_INDEX = "Invalid index";
 
+markingDoneMessage::markingDoneMessage () {
+
+}
+
+markingDoneMessage::~markingDoneMessage () {
+
+}
+
 string markingDoneMessage::markMessageDone(string input) {
 
 	unsigned int index;

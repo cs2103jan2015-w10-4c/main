@@ -7,6 +7,8 @@ using namespace std;
 
 class markingDoneMessage {
 public:
+	markingDoneMessage ();
+	~markingDoneMessage ();
 	static string markMessageDone(string input);
 private:
 	static const string MESSAGE_COMMAND_TYPE;

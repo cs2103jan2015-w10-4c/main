@@ -10,6 +10,14 @@ const string CommandSearch::MESSAGE_EMPTY_FILE = "The file is empty";
 const string CommandSearch::MESSAGE_IS_SHOWN = "Message is shown";
 vector <string> CommandSearch::messageDisplayed;
 
+CommandSearch::CommandSearch () {
+
+}
+
+CommandSearch::~CommandSearch () {
+
+}
+
 string CommandSearch::searchMessage (string input) {
 
 	if (Logic::history.getVectorTextStorage().empty()){

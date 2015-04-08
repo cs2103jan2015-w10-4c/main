@@ -7,6 +7,8 @@ using namespace std;
 
 class CommandUpdate {
 public:
+	CommandUpdate ();
+	~CommandUpdate ();
 	static string updateMessage(string input);
 private:
 	static const string MESSAGE_COMMAND_TYPE;

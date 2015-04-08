@@ -6,27 +6,35 @@
 #include "CommandAdd.h"
 #include "CommandRecurring.h"
 
-const int DAYSIZE=14;
-const int DAYOFWEEKSIZE=10;
-const int DEFAULT=7;
-const int MONTHLY=9;
-const int MAX_BUFFERING_CAPACITY=256;
+const int CommandRecurring::DAYSIZE = 14;
+const int CommandRecurring::DAYOFWEEKSIZE = 10;
+const int CommandRecurring::DEFAULT = 7;
+const int CommandRecurring::MONTHLY = 9;
+const int CommandRecurring::MAX_BUFFERING_CAPACITY = 256;
 
 const string CommandRecurring::COMMAND_TYPE="recurring";
 const string CommandRecurring::MESSAGE_RECURRING_TASK_SET="Recurring tasks have been set";
-const string MESSAGE_WRONG="Wrong message";
-const string MESSAGE_INVALID="invalid";
-const string MESSAGE_DEFAULT="default";
-const string EMPTY_SPACE=" ";
-const string MONDAY="1";
-const string TUESDAY="2";
-const string WEDNESDAY="3";
-const string THURSDAY="4";
-const string FRIDAY="5";
-const string SATURDAY="6";
-const string SUNDAY="7";
+const string CommandRecurring::MESSAGE_WRONG="Wrong message";
+const string CommandRecurring::MESSAGE_INVALID="invalid";
+const string CommandRecurring::MESSAGE_DEFAULT="default";
+const string CommandRecurring::EMPTY_SPACE=" ";
+const string CommandRecurring::MONDAY="1";
+const string CommandRecurring::TUESDAY="2";		
+const string CommandRecurring::WEDNESDAY="3";
+const string CommandRecurring::THURSDAY="4";
+const string CommandRecurring::FRIDAY="5";
+const string CommandRecurring::SATURDAY="6";
+const string CommandRecurring::SUNDAY="7";
 
-string determineDayOfWeek (string input) {
+CommandRecurring::CommandRecurring () {
+	
+}
+
+CommandRecurring::~CommandRecurring () {
+	
+}
+
+string CommandRecurring::determineDayOfWeek (string input) {
 	string dayOfWeek;
 	dayOfWeek=input.substr(7,3);
 	transform(dayOfWeek.begin(),dayOfWeek.end(),dayOfWeek.begin(), ::tolower);
@@ -50,40 +58,41 @@ string determineDayOfWeek (string input) {
 	}
 }
 
-void getTime(Time &time) {
+void getTime (Time &time) {
 
 	SYSTEMTIME lt;
     GetLocalTime(&lt);
   
-	time._day=lt.wDay;
-	time._mon=lt.wMonth;
-	time._hour=lt.wHour;
-	time._min=lt.wMinute;
-	time._dayOfWeek=lt.wDayOfWeek;
-	time._year=lt.wYear;
+	time._day = lt.wDay;
+	time._mon = lt.wMonth;
+	time._hour = lt.wHour;
+	time._min = lt.wMinute;
+	time._dayOfWeek = lt.wDayOfWeek;
+	time._year = lt.wYear;
 
 }
 
 
 bool isLeapYear (int year) {
-	bool isLeapYear=false;
-	if ((year%4==0)&&(year%100 !=0)||(year%400 ==0)) {
-		isLeapYear=true;
+	bool isLeapYear = false;
+	if ((year % 4 == 0)&&(year % 100 != 0)||(year % 400 == 0)) {
+		isLeapYear = true;
 	}
 
 	return isLeapYear;
 }
 
 int getDayNumberInOneMonth (int Month, int year) {
-	int solarMonth=31;
-	int lunarMonth=30;
-	int normalFeburaryDay=28;
-	int leapFeburaryDay=29;
-	if (Month==1||Month==3||Month==5||Month==7||Month==8||Month==10||Month==12) {
+	int solarMonth = 31;
+	int lunarMonth = 30;
+	int normalFeburaryDay = 28;
+	int leapFeburaryDay = 29;
+
+	if (Month == 1 || Month == 3 || Month == 5 || Month == 7 || Month == 8 || Month == 10 || Month == 12) {
 		return solarMonth;
-	} else if (Month==4||Month==6||Month==9||Month==11) {
+	} else if (Month == 4 || Month == 6 || Month == 9 || Month == 11) {
 		return lunarMonth;
-	} else if (isLeapYear(year)){
+	} else if (isLeapYear(year)) {
 		return leapFeburaryDay;
 	} else {
 		return normalFeburaryDay;
@@ -91,32 +100,32 @@ int getDayNumberInOneMonth (int Month, int year) {
 }
 
 void checkWithinRange (int &startingDay, int &startingMonth,int &year) {
-	if (startingMonth==1||startingMonth==3||startingMonth==5||startingMonth==7||startingMonth==8||startingMonth==10) {
-		if (startingDay>31) {
-			startingDay-=31;
-			startingMonth+=1;
+	if (startingMonth == 1 || startingMonth == 3 || startingMonth == 5 || startingMonth == 7 || startingMonth == 8 || startingMonth == 10) {
+		if (startingDay > 31) {
+			startingDay -= 31;
+			startingMonth += 1;
 		}
-	} else if (startingMonth==12)  {
-		if (startingDay>31) {
-			startingDay-=31;
-			startingMonth=1;
+	} else if (startingMonth == 12)  {
+		if (startingDay > 31) {
+			startingDay -= 31;
+			startingMonth = 1;
 			year++;
 		}
 	}
-	else if (startingMonth==4||startingMonth==6||startingMonth==9||startingMonth==11)  {
-		if (startingDay>30) {
-			startingDay-=30;
-			startingMonth+=1;
+	else if (startingMonth == 4 || startingMonth == 6 || startingMonth == 9 || startingMonth == 11)  {
+		if (startingDay > 30) {
+			startingDay -= 30;
+			startingMonth += 1;
 		}
 	} else if (isLeapYear(year)){
-		if (startingDay>29) {
-			startingDay-=29;
-			startingMonth+=1;
+		if (startingDay > 29) {
+			startingDay -= 29;
+			startingMonth += 1;
 		}
 	} else if (!isLeapYear(year)) {
-		if (startingDay>28) {
-			startingDay-=28;
-			startingMonth+=1;
+		if (startingDay > 28) {
+			startingDay -= 28;
+			startingMonth += 1;
 		}
 	}
 
@@ -125,22 +134,22 @@ void checkWithinRange (int &startingDay, int &startingMonth,int &year) {
 
 
 bool isValidDay (int day, int month, int year) {
-	bool isValid=false;
-	if (month==1||month==3||month==5||month==7||month==8||month==10||month==12) {
-		if(day<=31) {
-			isValid=true;
+	bool isValid = false;
+	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+		if(day <= 31) {
+			isValid = true;
 		}
-	} else if (month==4||month==6||month==9||month==11) {
-		if (day<=30) {
-			isValid=true;
+	} else if (month == 4 || month == 6 || month == 9 || month == 11) {
+		if (day <= 30) {
+			isValid = true;
 		}
 	} else if (isLeapYear(year)){
-		if (day<=29) {
-			isValid=true;
+		if (day <= 29) {
+			isValid = true;
 		}
 	} else if (!isLeapYear(year)){
-		if (day<=28) {
-			isValid=true;
+		if (day <= 28) {
+			isValid = true;
 		}
 	}
 	return isValid;
@@ -160,283 +169,273 @@ string CommandRecurring::setRecurringTask(string input) {
 	size_t get_year;
 	size_t get_day_of_week;
 	
-	get_year=input.find_last_of("~");
-	get_Start_Date=input.find("/");
-	get_End_Date=input.find_last_of("/");
-	get_Start_Time=input.find_first_of(":");
-	get_End_Time=input.find_last_of(":");
-	get_Venue=input.find("@");
-	get_TaskName=input.find_first_of("/")-3;
-	get_day_of_week=input.find("-every");
+	get_year = input.find_last_of("~");
+	get_Start_Date = input.find("/");
+	get_End_Date = input.find_last_of("/");
+	get_Start_Time = input.find_first_of(":");
+	get_End_Time = input.find_last_of(":");
+	get_Venue = input.find("@");
+	get_day_of_week = input.find("-every");
 
-	string taskName=input.substr(0,get_TaskName);
-	string startingDate=input.substr(get_Start_Date-2,5);
+	string taskName;
+	if (input.find_first_of("/") != string::npos) {
+	get_TaskName = input.find_first_of("/") - 3;
+	taskName = input.substr(0,get_TaskName);
+	} else {
+		taskName = input;
+	}
 	
+	string startingDate;
+	if (get_Start_Date != string::npos) {
+	startingDate=input.substr(get_Start_Date - 2, 5);
+	} 
+
 	string startingTime;
-	if (get_Start_Time!=string::npos) {
-		startingTime=input.substr(get_Start_Time-2,5);
+	if (get_Start_Time != string::npos) {
+		startingTime = input.substr(get_Start_Time - 2, 5);
 	}
 	
 	string endingTime;
-	if (get_End_Time!=string::npos) {
-		endingTime=input.substr(get_End_Time-2,5);
+	if (get_End_Time != string::npos) {
+		endingTime = input.substr(get_End_Time - 2, 5);
 	}
 
 	int endingHour;
 	int endingMinute;
-	if (get_End_Time!=string::npos) {
-	endingHour=atoi(input.substr(get_End_Time-2,2).c_str());
-	endingMinute=atoi(input.substr(get_End_Time+1,2).c_str());
+	if (get_End_Time != string::npos) {
+	endingHour = atoi(input.substr(get_End_Time - 2, 2).c_str());
+	endingMinute = atoi(input.substr(get_End_Time + 1, 2).c_str());
 	} else {
-		cout<<"!!!"<<endl;
-		endingHour=23;
-		endingMinute=59;
+		endingHour = 23;
+		endingMinute = 59;
 	}
 
-	int endingDay=atoi(input.substr(get_End_Date-2,2).c_str());
-	int endingMonth=atoi(input.substr(get_End_Date+1,2).c_str());
-	
+	int endingDay;
+	int endingMonth;
+	if (get_End_Date != string::npos) {
+	endingDay = atoi(input.substr(get_End_Date - 2, 2).c_str());
+	endingMonth = atoi(input.substr(get_End_Date + 1, 2).c_str());
+	} else {
+		endingDay = currentTimeData._day;
+		endingMonth = currentTimeData._mon;
+	}
 	
 	int startingYear;
 	int endingYear;
-	if(get_year!=string::npos) {
-		if ((input.substr(get_year-1,1)!=" ")) {
-			startingYear=atoi(input.substr(get_year-4,4).c_str());
+	if(get_year != string::npos) {
+		if ((input.substr(get_year - 1, 1) != " ")) {
+			startingYear = atoi(input.substr(get_year - 4, 4).c_str());
 		} else {
-			startingYear=currentTimeData._year;
+			startingYear = currentTimeData._year;
 		}
-			endingYear=atoi(input.substr(get_year+1,4).c_str());
+			endingYear = atoi(input.substr(get_year + 1, 4).c_str());
 	} else {
-			startingYear=currentTimeData._year;
-			endingYear=currentTimeData._year;
+			startingYear = currentTimeData._year;
+			endingYear = currentTimeData._year;
 	}
 
 	int startingDay;
 	int startingMonth;
-	if ((get_Start_Date!=string::npos)&&(get_Start_Date!=get_End_Date)) {
-	startingDay=atoi(input.substr(get_Start_Date-2,2).c_str());
-	startingMonth=atoi(input.substr(get_Start_Date+1,2).c_str());
+	if ((get_Start_Date != string::npos)&&(get_Start_Date != get_End_Date)) {
+	startingDay = atoi(input.substr(get_Start_Date - 2, 2).c_str());
+	startingMonth = atoi(input.substr(get_Start_Date + 1, 2).c_str());
 	} else {
-		startingDay=currentTimeData._day;
-		startingMonth=currentTimeData._mon;
+		startingDay = currentTimeData._day;
+		startingMonth = currentTimeData._mon;
 	}
 
 	
 
 	int startingHour;
 	int startingMinute;
-	if ((get_Start_Time!=string::npos)&&(get_Start_Time!=get_End_Time)) {
-	startingHour=atoi(input.substr(get_Start_Time-2,2).c_str());
-	startingMinute=atoi(input.substr(get_Start_Time+1,2).c_str());;
+	if ((get_Start_Time != string::npos)&&(get_Start_Time != get_End_Time)) {
+	startingHour = atoi(input.substr(get_Start_Time - 2, 2).c_str());
+	startingMinute = atoi(input.substr(get_Start_Time + 1, 2).c_str());;
 	} else {
-		startingHour=currentTimeData._hour;
-		startingMinute=currentTimeData._min;
+		startingHour = currentTimeData._hour;
+		startingMinute = currentTimeData._min;
+		startingTime = to_string(startingHour) + ":" + to_string(startingMinute);
 	}
 
 	
 	
-	string venue="";
+	string venue = "";
 	string dayOfWeek;
-	if (get_day_of_week!=string::npos) {
-	dayOfWeek=input.substr(get_day_of_week);
+	if (get_day_of_week != string::npos) {
+	dayOfWeek = input.substr(get_day_of_week);
 	}
 	else {
-		dayOfWeek=MESSAGE_DEFAULT;
+		dayOfWeek = MESSAGE_DEFAULT;
 	}
 
 	int interval;
-	if (get_day_of_week!=string::npos) {
-		interval=7;
+	if (get_day_of_week != string::npos) {
+		interval = 7;
 	} else {
-		interval=1;
+		interval = 1;
 	}
 	
 	int weekday;
-	if (get_day_of_week!=string::npos) {
+	if (get_day_of_week != string::npos) {
 	
-	if (dayOfWeek.size()==DAYOFWEEKSIZE){
-		dayOfWeek=determineDayOfWeek(input.substr(get_day_of_week));
-		if( dayOfWeek!=MESSAGE_INVALID) {
-		weekday=atoi(dayOfWeek.c_str());
+	if (dayOfWeek.size() == DAYOFWEEKSIZE){
+		dayOfWeek = determineDayOfWeek(input.substr(get_day_of_week));
+		if( dayOfWeek != MESSAGE_INVALID) {
+		weekday = atoi(dayOfWeek.c_str());
 	} else {
-		weekday=currentTimeData._dayOfWeek;
+		weekday = currentTimeData._dayOfWeek;
 	}
 
-		if (startingDay==currentTimeData._day&&startingMonth==currentTimeData._mon) {
-		startingDay=startingDay+weekday-currentTimeData._dayOfWeek;// get last date with the same day of week
+		if (startingDay == currentTimeData._day&&startingMonth == currentTimeData._mon) {
+		startingDay = startingDay + weekday - currentTimeData._dayOfWeek;// get last date with the same day of week
 
-		if (weekday<currentTimeData._dayOfWeek) {
-		startingDay+=7;//get next date with the same day of week
+		if (weekday < currentTimeData._dayOfWeek) {
+		startingDay += 7;//get next date with the same day of week
 		}
 		checkWithinRange(startingDay,startingMonth,startingYear);
 		} 
 		else {
 		//set to correct day of the week for the starting day, week task only up to this year
-		int dayAdvanced=0;
-		if ((startingMonth!=currentTimeData._mon)/*&&(startingDay!=currentTimeData._day)*/) {
-			int tempMonth=currentTimeData._mon;
-			while (tempMonth<startingMonth) {
-				dayAdvanced+=getDayNumberInOneMonth(tempMonth,currentTimeData._year);
+		int dayAdvanced = 0;
+		if ((startingMonth != currentTimeData._mon)/*&&(startingDay!=currentTimeData._day)*/) {
+			int tempMonth = currentTimeData._mon;
+			while (tempMonth < startingMonth) {
+				dayAdvanced += getDayNumberInOneMonth(tempMonth,currentTimeData._year);
 				tempMonth++;
 			}
-			dayAdvanced=dayAdvanced+startingDay-currentTimeData._day;
-			cout<<dayAdvanced<<endl;
-			int tempDayOfWeek=currentTimeData._dayOfWeek;
+			dayAdvanced = dayAdvanced + startingDay - currentTimeData._day;
+			
+			int tempDayOfWeek = currentTimeData._dayOfWeek;
 			currentTimeData._dayOfWeek=(currentTimeData._dayOfWeek+dayAdvanced)%7;
-			cout<<currentTimeData._dayOfWeek<<endl;
-			if (currentTimeData._dayOfWeek==0) {
-				currentTimeData._dayOfWeek=tempDayOfWeek;
+			
+			if (currentTimeData._dayOfWeek == 0) {
+				currentTimeData._dayOfWeek = tempDayOfWeek;
 			}
-			startingDay=startingDay+abs(currentTimeData._dayOfWeek-weekday);
-				//startingDay=startingDay+weekday-currentTimeData._dayOfWeek;// get last date with the same day of week
-		//startingDay+=7;//get next date with the same day of week wrong
-
-	} /*else if ((startingMonth!=currentTimeData._mon)&&(startingDay==currentTimeData._day)) {
-		cout<<"111"<<endl;
-		int tempStartingMonth=startingMonth;
-		while (tempStartingMonth<=endingMonth) {
-			dayAdvanced=getDayNumberInOneMonth(startingMonth,startingYear);
-			tempStartingMonth++;
-		}
-		cout<<"222"<<endl;
-		int tempDayOfWeek=currentTimeData._dayOfWeek;
-		dayAdvanced%=7;
-		currentTimeData._dayOfWeek=(currentTimeData._dayOfWeek+dayAdvanced)%7;
-		cout<<"111"<<endl;
-		if (currentTimeData._dayOfWeek==0) {
-			currentTimeData._dayOfWeek=7;
-			cout<<"222"<<endl;
-		}
-		startingDay=startingDay+weekday-currentTimeData._dayOfWeek;// get last date with the same day of week
-	startingDay++;//get next date with the same day of week wrong 
-	cout<<"starting day: "<<startingDay<<endl;
-	cout<<"weekday"<<weekday<<"current data: "<<currentTimeData._dayOfWeek<<endl;
-	cout<<"startingMonth: "<<startingMonth<<" "<<"endingMonth: "<<endingMonth<<endl;
-	} */else if ((startingMonth==currentTimeData._mon)&&(startingDay!=currentTimeData._day)) {
+			startingDay = startingDay + abs(currentTimeData._dayOfWeek-weekday);
+		} else if ((startingMonth == currentTimeData._mon)&&(startingDay != currentTimeData._day)) {
 		
-		dayAdvanced=startingDay-currentTimeData._day;
-		int tempDayOfWeek=currentTimeData._dayOfWeek;
-		currentTimeData._dayOfWeek+=dayAdvanced;
-		currentTimeData._dayOfWeek=currentTimeData._dayOfWeek%7;
-		if (currentTimeData._dayOfWeek==0) {
-			currentTimeData._dayOfWeek=7;
+		dayAdvanced=startingDay - currentTimeData._day;
+		int tempDayOfWeek = currentTimeData._dayOfWeek;
+		currentTimeData._dayOfWeek += dayAdvanced;
+		currentTimeData._dayOfWeek = currentTimeData._dayOfWeek % 7;
+		if (currentTimeData._dayOfWeek == 0) {
+			currentTimeData._dayOfWeek = 7;
 		}
-		startingDay=startingDay+weekday-currentTimeData._dayOfWeek;// get last date with the same day of week
-		startingDay+=7;//get next date with the same day of week this one correct
+		startingDay = startingDay+weekday - currentTimeData._dayOfWeek;// get last date with the same day of week
+		startingDay += 7;//get next date with the same day of week this one correct
 	}
 		}
 	//recur weekly and daily
 	int i;
 	int j;
 	int k;
-	for ( k=startingYear; k<=endingYear; k++) {
+	for ( k = startingYear; k <= endingYear; k++) {
 		int monthNumber;
-		if (k!=endingYear) {
-			monthNumber=12;
+		if (k != endingYear) {
+			monthNumber = 12;
 		} else {
-			monthNumber=endingMonth;
+			monthNumber = endingMonth;
 		}
-		for ( j=startingMonth;j<=monthNumber;j++) {
+		for ( j = startingMonth;j <= monthNumber;j++) {
 			int dayNumber;
-			if (j!=endingMonth) {
-			dayNumber=getDayNumberInOneMonth(j,k);
+			if (j != endingMonth) {
+			dayNumber = getDayNumberInOneMonth(j,k);
 			} else {
-				dayNumber=endingDay;
+				dayNumber = endingDay;
 			}
 			
-			for (i=startingDay;i<=dayNumber;i=i+interval) {
+			for (i = startingDay; i <= dayNumber; i = i + interval) {
 				char taskname[MAX_BUFFERING_CAPACITY];
 				strcpy_s(taskname, taskName.c_str());
-				if (get_End_Time!=string::npos) {
-				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
+				if (get_End_Time != string::npos) {
+				string message = taskname+EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + " " + to_string(i) + "/" + to_string(j);
 				CommandAdd::addMessage(message);
 				} else {
-				string message=taskname;
+				string message = taskname;
 				CommandAdd::addMessage(message);
 				}
 	
 			}
-			startingDay=i-dayNumber;
+			startingDay = i-dayNumber;
 		}
-		startingMonth=1;
+		startingMonth = 1;
 	}
 	return MESSAGE_RECURRING_TASK_SET;
 	} //monthly
-	else if (dayOfWeek.size()==MONTHLY){
-		int recurringDay=atoi(dayOfWeek.substr(7,2).c_str());
+	else if (dayOfWeek.size() ==  MONTHLY){
+		int recurringDay = atoi(dayOfWeek.substr(7,2).c_str());
 
-		for (int k=startingYear; k<=endingYear; k++) {
+		for (int k = startingYear; k <= endingYear; k++) {
 		int monthNumber;
-		if (k!=endingYear) {
-			monthNumber=12;
+		if (k != endingYear) {
+			monthNumber = 12;
 		} else {
-			monthNumber=endingMonth;
+			monthNumber = endingMonth;
 		}
-		for (int j=startingMonth;j<=monthNumber;j++) {
+		for (int j = startingMonth; j <= monthNumber; j++) {
 			int dayNumber;
-			if (j!=endingMonth) {
-			dayNumber=getDayNumberInOneMonth(j,k);
+			if (j != endingMonth) {
+			dayNumber = getDayNumberInOneMonth(j,k);
 			} else {
-				dayNumber=endingDay;
+				dayNumber = endingDay;
 			}
-			startingDay=recurringDay;
+			startingDay = recurringDay;
 			if (isValidDay(startingDay,j,k)) {
 			//for (int i=startingDay;i<=dayNumber;i=i+interval) {
 				char taskname[MAX_BUFFERING_CAPACITY];
 				strcpy_s(taskname, taskName.c_str());
-				if (get_End_Time!=string::npos) {
-				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+"/"+to_string(j);
+				if (get_End_Time != string::npos) {
+				string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + "/" + to_string(j);
 				CommandAdd::addMessage(message);
 				} else {
-				string message=taskname;
+				string message = taskname;
 				CommandAdd::addMessage(message);
 				}
 			}
-			//}
-			//startingDay=1;
+			
 		}
-		startingMonth=1;
+		startingMonth = 1;
 	}
 		return MESSAGE_RECURRING_TASK_SET;
 	}//any days as interval
-	else if (dayOfWeek.size()==DAYSIZE){
+	else if (dayOfWeek.size() == DAYSIZE){
 		int i;
 		int j;
 		int k;
 		int interval; 
-		interval=atoi(dayOfWeek.substr(7,2).c_str());
+		interval = atoi(dayOfWeek.substr(7,2).c_str());
 
-		for ( k=startingYear; k<=endingYear; k++) {
+		for ( k = startingYear; k <= endingYear; k++) {
 		int monthNumber;
-		if (k!=endingYear) {
-			monthNumber=12;
+		if (k != endingYear) {
+			monthNumber = 12;
 		} else {
-			monthNumber=endingMonth;
+			monthNumber = endingMonth;
 		}
-		for ( j=startingMonth;j<=monthNumber;j++) {
+		for ( j = startingMonth;j <= monthNumber; j++) {
 			int dayNumber;
-			if (j!=endingMonth) {
-			dayNumber=getDayNumberInOneMonth(j,k);
+			if (j != endingMonth) {
+			dayNumber = getDayNumberInOneMonth(j,k);
 			} else {
-				dayNumber=endingDay;
+				dayNumber = endingDay;
 			}
 
 			//checkWithinRange(startingDay,startingMonth,startingYear);
-			for ( i=startingDay;i<=dayNumber;i=i+interval) {
+			for ( i = startingDay; i <= dayNumber;i = i + interval) {
 				char taskname[MAX_BUFFERING_CAPACITY];
 				strcpy_s(taskname, taskName.c_str());
-				if (get_End_Time!=string::npos) {
-				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
+				if (get_End_Time != string::npos) {
+				string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + " " + to_string(i) + "/" + to_string(j);
 				CommandAdd::addMessage(message);
 				} else {
-				string message=taskname;
+				string message = taskname;
 				CommandAdd::addMessage(message);
 				}
 	
 			}
-			startingDay=i-dayNumber;
+			startingDay = i - dayNumber;
 		}
-		startingMonth=1;
+		startingMonth = 1;
 	}
 		return MESSAGE_RECURRING_TASK_SET;
 	 } else {
@@ -445,43 +444,43 @@ string CommandRecurring::setRecurringTask(string input) {
 	}
 	// by default every day
 	else {
-		if (dayOfWeek.size()==DEFAULT){
+		if (dayOfWeek.size() == DEFAULT){
 		int i;
 		int j;
 		int k;
 		int interval; 
-		interval=atoi(dayOfWeek.substr(7,2).c_str());
-		for ( k=startingYear; k<=endingYear; k++) {
+		interval = atoi(dayOfWeek.substr(7,2).c_str());
+		for ( k = startingYear; k <= endingYear; k++) {
 		int monthNumber;
-		if (k!=endingYear) {
-			monthNumber=12;
+		if (k != endingYear) {
+			monthNumber = 12;
 		} else {
-			monthNumber=endingMonth;
+			monthNumber = endingMonth;
 		}
-		for ( j=startingMonth;j<=monthNumber;j++) {
+		for ( j = startingMonth;j <= monthNumber; j++) {
 			int dayNumber;
-			if (j!=endingMonth) {
-			dayNumber=getDayNumberInOneMonth(j,k);
+			if (j != endingMonth) {
+			dayNumber = getDayNumberInOneMonth(j,k);
 			} else {
-				dayNumber=endingDay;
+				dayNumber = endingDay;
 			}
 
 			//checkWithinRange(startingDay,startingMonth,startingYear);
-			for ( i=startingDay;i<=dayNumber;i++) {
+			for ( i = startingDay; i <= dayNumber; i++) {
 				char taskname[MAX_BUFFERING_CAPACITY];
 				strcpy_s(taskname, taskName.c_str());
-				if (get_End_Time!=string::npos) {
-				string message=taskname+EMPTY_SPACE+" -from "+startingTime+" -to "+endingTime+" "+to_string(i)+"/"+to_string(j);
+				if (get_End_Time != string::npos) {
+				string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + " " + to_string(i) + "/" + to_string(j);
 				CommandAdd::addMessage(message);
 				} else {
-				string message=taskname;
+				string message = taskname;
 				CommandAdd::addMessage(message);
 				}
 	
 			}
-			startingDay=1;
+			startingDay = 1;
 		}
-		startingMonth=1;
+		startingMonth = 1;
 	}
 		return MESSAGE_RECURRING_TASK_SET;
 	 } else {
@@ -490,14 +489,4 @@ string CommandRecurring::setRecurringTask(string input) {
 	}
 	
 }
-
-	/*
-	string startingDayString=input.substr(get_Start_Date-2,2);
-	string startingMonthString=input.substr(get_Start_Date+1,2);
-	string endingDayString=input.substr(get_End_Date-2,2);
-	string endingMonthString=input.substr(get_End_Date+1,2);
-	string startingHourString=input.substr(get_Start_Time-2,2);
-	string startingMinuteString=input.substr(get_Start_Time+1,2);
-	string endingHourString=input.substr(get_End_Time-2,2);
-	string endingMinutStringe=input.substr(get_End_Time+1,2);*/
 

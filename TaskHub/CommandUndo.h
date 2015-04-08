@@ -7,6 +7,8 @@ using namespace std;
 
 class undoChange {
 public:
+	undoChange ();
+	~undoChange ();
 	static string undo();
 private:
 	static const string MESSAGE_COMMAND_UNDO;

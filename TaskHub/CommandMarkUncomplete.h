@@ -7,6 +7,8 @@ using namespace std;
 
 class markingMessageUncomplete {
 public:
+	markingMessageUncomplete ();
+	~markingMessageUncomplete ();
 	static string markMessageUncompleted(string input);
 private:
 	static const string MESSAGE_COMMAND_TYPE;

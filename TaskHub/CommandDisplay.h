@@ -8,6 +8,8 @@ using namespace std;
 
 class CommandDisplay {
 public:
+	CommandDisplay ();
+	~CommandDisplay();
 	static string display(string message);
 	static vector<string> messageDisplayed;
 private:

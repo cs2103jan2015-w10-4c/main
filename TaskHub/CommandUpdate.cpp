@@ -6,6 +6,14 @@ const string CommandUpdate::MESSAGE_COMMAND_TYPE = "update";
 const string CommandUpdate::MESSAGE_INVALID_INDEX = "The index is invalid";
 const string CommandUpdate::MESSAGE_UPDATED = "Task: %s is updated";
 
+CommandUpdate::CommandUpdate () {
+
+}
+
+CommandUpdate::~CommandUpdate () {
+
+}
+
 string CommandUpdate::updateMessage(string input) {
 
 	string TaskIndex = Logic::getFirstWord(input);

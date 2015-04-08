@@ -7,6 +7,8 @@ using namespace std;
 
 class redoChange {
 public:
+	redoChange ();
+	~redoChange ();
 	static string redo();
 private:
 	static const string MESSAGE_COMMAND_REDO;
