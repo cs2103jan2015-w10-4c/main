@@ -17,6 +17,16 @@ void UI::displayWelcomeMessage() {
 void UI::showToUser(string userCommand) {
 	string command = Logic::getFirstWord(userCommand);
 	string message = Logic::removeFirstWord(userCommand);
+
+	cout <<"\n                               *********                                    "
+		 <<"\n                             **         **                                  "
+		 <<"\n                            **           **                                "
+		 <<"\n   ********************************************************************    "
+		 <<"\n   **                      WELCOME TO TASKHUB ^-^                    **    "
+		 <<"\n   **                                                                **    "
+		 <<"\n   **                                                                **    "
+		 <<"\n   ********************************************************************      "
+		 <<endl;
 	
 	if(command=="show"){
 		string aa= ShowDailyTask::showDayTask(message);
@@ -50,6 +60,9 @@ void UI::showToUser(string userCommand) {
 		//cout << task[0]<<endl;
 		UI::dispalyDay(task,userCommand);
 	}
+	else if(command=="detail"){
+		
+	}
 	else{
 		string temp= ShowDailyTask::showDayTask("today");
 		vector<string> task = ShowDailyTask::messageDisplayed;
@@ -57,7 +70,7 @@ void UI::showToUser(string userCommand) {
 		UI::dispalyDay(task, "Today");
 		
 	}
-	cout << "--------------------------------------------------------------------------------" 
+	cout << "\n------------------------------------------------------------------------------" 
 			<< endl;
 
 }
@@ -73,24 +86,27 @@ void UI::dispalyDay(vector<string> task, string heading){
 	size_t free = heading.find("free");
 	size_t search = heading.find("search");
 	
-	for(unsigned int i=0; i<task.size(); i++){
-		Task temp(task[i],"input");
-		temporary.push_back(temp);
-	}
+	
 
 	HANDLE  hConsole;
 			hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	cout << heading << " -------------------------------------------------------------------------" << endl;
+	cout << heading << " :";
+	cout <<"\n------------------------------------------------------------------------------";
 
 	if(task.empty()){
 		if(search!=string::npos){
-			cout << "                         SORRY NOTHING IS FOUND T_T                            " << endl;
+			cout << "\n                         SORRY NOTHING IS FOUND T_T                            " << endl;
 		}
 		else{
-			cout << "                              YAY! YOU ARE FREE! ^-^                           " << endl;
+			cout << "\n                              YAY! YOU ARE FREE! ^-^                           " << endl;
 		}
 	}
 	else{
+		for(unsigned int i=0; i<task.size(); i++){
+		Task temp(task[i],"input");
+		temporary.push_back(temp);
+	    }
+
 		if(free!=string::npos){
 			for(unsigned int i=0;i<task.size();i++){
 					cout << task[i] << endl;
@@ -98,7 +114,7 @@ void UI::dispalyDay(vector<string> task, string heading){
 		}
 		else{
 			for(unsigned int i=0; i<temporary.size();i++){
-				cout<< left << setw(4) <<"|";
+				cout<< left << setw(4) <<"\n|";
 				if(temporary[i].getStatus()==FINISHED_Task_LABEL){
 					SetConsoleTextAttribute(hConsole, 10);
 				}
@@ -133,7 +149,7 @@ void UI::dispalyDay(vector<string> task, string heading){
 
 			
 			SetConsoleTextAttribute(hConsole, 7);
-			cout << right << setw(8)<<"|";
+			cout << right << setw(7)<<"|";
 			}
 		}
 	}
