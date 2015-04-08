@@ -4,3 +4,5 @@ Debug/
 TaskHub.opensdf
 *.sln
 ipch/
+*.filters
+*.vcxproj
