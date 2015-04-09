@@ -43,8 +43,8 @@ public:
 	string getStartTime();
 	string getEndTime();
 	string getDeadlineTime();
-	string getScheduledStartDate();
-	string getScheduledStartDateReverse();
+	string getScheduledDate();
+	string getScheduledDateReverse();
 	string getDeadlineDate();
 	string getStatus();
 	string getVenue();
