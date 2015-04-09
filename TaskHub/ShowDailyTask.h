@@ -17,8 +17,15 @@ class ShowDailyTask {
 public:
 	ShowDailyTask ();
 	~ShowDailyTask ();
-	static string showDayTask(string userMessage);
+	
 	static vector <string> messageDisplayed;
+
+	static string showDayTask(string userMessage);
+	static vector <string> ShowTask (vector <int> taskIndex);
+	static vector <string> checkFreeSlot (vector <int> taskIndex);
+
+	static void getDayTask (vector <Task> & temporary, vector <int> &taskIndex, int currentMonth, int currentDay);
+	static void getHourTask (vector <Task> &temporary, vector <int> &taskIndex, int currentMonth, int currentDay, int currentHour);
 private:
 	static void getSystemTime(localTime &time);
 	

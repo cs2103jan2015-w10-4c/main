@@ -36,8 +36,8 @@ void ShowDailyTask::getSystemTime(localTime &timevalue) {
 }
 
 
-vector <string> ShowTask (vector <int> taskIndex) {
-		ShowDailyTask::messageDisplayed.clear();
+vector <string> ShowDailyTask::ShowTask (vector <int> taskIndex) {
+		
 		for (unsigned int i = 0; i < taskIndex.size() ; i++){
 			ostringstream oss;
 			oss << i + 1 << ". " << Logic::history.getVectorTextStorage()[taskIndex[i]].ToString() << endl;
@@ -51,8 +51,8 @@ vector <string> ShowTask (vector <int> taskIndex) {
 
 }
 
-vector <string> checkFreeSlot (vector <int> taskIndex) {
-		ShowDailyTask::messageDisplayed.clear();
+vector <string> ShowDailyTask::checkFreeSlot (vector <int> taskIndex) {
+		
 		vector<Task> temp = Logic::history.getVectorTextStorage();
 		vector<string> tempfreeSlot;
 		
@@ -60,8 +60,6 @@ vector <string> checkFreeSlot (vector <int> taskIndex) {
 		int dayStartintMin = 0;
 		int dayEndingHour = 24;
 		int dayEndingMin = 00;
-		
-		
 		int defaultStartingHour = 0;
 		int defaultStartingMin = 0;
 		int currentEndingHour;
@@ -93,28 +91,9 @@ vector <string> checkFreeSlot (vector <int> taskIndex) {
 }
 }
 
-
-
-string ShowDailyTask::showDayTask (string userMessage) {
-
-	transform(userMessage.begin(),userMessage.end(),userMessage.begin(),::tolower);
-	vector<Task> temporary = Logic::history.getVectorTextStorage();
-	
-	vector<int> taskIndex;
-	localTime timeNow;
-	ShowDailyTask::getSystemTime(timeNow);
-	int currentDay = timeNow._day;
-	int currentMonth = timeNow._mon;
-	int currentMinute = timeNow._min;
-	int currentHour = timeNow._hour;
+void ShowDailyTask::getDayTask (vector <Task> & temporary, vector <int> &taskIndex, int currentMonth, int currentDay) {
 	int size = temporary.size();
-
-	string secondCommand = Logic::getFirstWord(userMessage);
-	ShowDailyTask::messageDisplayed.clear();
-
-	if (userMessage == MESSAGE_TODAY || userMessage == MESSAGE_SHOW) {
-		if (!temporary.empty()) {
-		//get into that day and display
+	if (!temporary.empty()) {
 		for ( int i = 0; i < size; i++) {
 			if (currentMonth == temporary[i].getIntegerStartMonth()) {
 				
@@ -126,24 +105,12 @@ string ShowDailyTask::showDayTask (string userMessage) {
 
 		}
 		}
-		
-	} else if (userMessage == MESSAGE_TOMORROW) {
+}
 
-		//get into that day and display
-		currentDay++;
-		for (int i = 0;i < size; i++) {
-			if (currentMonth == temporary[i].getIntegerStartMonth()) {
-				if (currentDay == temporary[i].getIntegerStartDay()) {
-					taskIndex.push_back(i);
-				}
-			}
-
-		}
-	} else if (userMessage == MESSAGE_NOW) {
-
-		//get into that day and display
-		
-		for (int i = 0; i < size; i++) {
+void ShowDailyTask::getHourTask (vector <Task> &temporary, vector <int> &taskIndex, int currentMonth, int currentDay, int currentHour) {
+	int size = temporary.size();
+	if (!temporary.empty()) {
+	for (int i = 0; i < size; i++) {
 			if (currentMonth == temporary[i].getIntegerStartMonth()) {
 				if (currentDay == temporary[i].getIntegerStartDay()) {
 					if (currentHour == temporary[i].getStartHour()) {
@@ -151,61 +118,72 @@ string ShowDailyTask::showDayTask (string userMessage) {
 					}
 				}
 			}
-		} 
+		}
+	}
+}
+
+string ShowDailyTask::showDayTask (string userMessage) {
+
+	transform(userMessage.begin(),userMessage.end(),userMessage.begin(),::tolower);
+	vector<Task> temporary = Logic::history.getVectorTextStorage();
+	
+	vector<int> taskIndex;
+	localTime timeNow;
+	ShowDailyTask::getSystemTime(timeNow);
+
+	int currentDay = timeNow._day;
+	int currentMonth = timeNow._mon;
+	int currentMinute = timeNow._min;
+	int currentHour = timeNow._hour;
+	int size = temporary.size();
+
+	string secondCommand = Logic::getFirstWord(userMessage);
+	ShowDailyTask::messageDisplayed.clear();
+
+	if (userMessage == MESSAGE_TODAY || userMessage == MESSAGE_SHOW) {
+		//get into that day and display
+		getDayTask(temporary, taskIndex, currentMonth, currentDay);
+		
+	} else if (userMessage == MESSAGE_TOMORROW) {
+		//get into that day and display
+		currentDay++;
+		getDayTask(temporary, taskIndex, currentMonth, currentDay);
+
+	} else if (userMessage == MESSAGE_NOW) {
+
+		//get into that hour and display
+		getHourTask (temporary, taskIndex, currentMonth, currentDay, currentHour);
+
 	} else {
-		//covert to mmdd
-		//get into
 		size_t get_date = userMessage.find("/");
 		if (get_date != string::npos) {
 		currentMonth = atoi(userMessage.substr(get_date+1,2).c_str());
 		currentDay = atoi(userMessage.substr(get_date-2,2).c_str());
-		} 
+		} //try date parser
 
 		size_t get_time = userMessage.find(":");
 		if (get_time != string::npos) {
 		currentHour = atoi(userMessage.substr(get_time-2,2).c_str());
 		currentMinute = atoi(userMessage.substr(get_time+1,2).c_str());
-		}
+		} //try time parser
 		
 		if ((get_time == string::npos)&&(get_date != string::npos)) {
-			
-			for (int i = 0; i < size; i++) {
-				if (currentMonth == temporary[i].getIntegerStartMonth()) {
-					if (currentDay == temporary[i].getIntegerStartDay()) {
-						taskIndex.push_back(i);
-					}
-				}
-			}
+			//show a particular day tasks
+			getDayTask(temporary, taskIndex, currentMonth, currentDay);
 		
 		} //when no dates are enter, by default it is today	
 		else if ((get_time != string::npos)&&(get_date == string::npos)) {
+			getHourTask (temporary, taskIndex, currentMonth, currentDay, currentHour);
 
-			for (int i = 0; i < size; i++) {
-				if (currentMonth == temporary[i].getIntegerStartMonth()) {
-					if (currentDay == temporary[i].getIntegerStartDay()) {
-						if (currentHour == temporary[i].getStartHour()) {
-					
-							taskIndex.push_back(i);
-					
-						}
-					}
-				}
-			}
 		} else if ((get_time != string::npos)&&(get_date != string::npos)) {
-			for (int i = 0; i < size; i++) {
-				if (currentMonth == temporary[i].getIntegerStartMonth()) {
-					if (currentDay == temporary[i].getIntegerStartDay()) {
-						if (currentHour == temporary[i].getStartHour()) {
-							taskIndex.push_back(i);
-						}
-					}
-				}
-			}
+			//show tasks of a particular time on a particular day
+			getHourTask (temporary, taskIndex, currentMonth, currentDay, currentHour);
 		}
 	}
 
 	if (taskIndex.empty()) {
 		return MESSAGE_EMPTY;
+
 	} else if (secondCommand == MESSAGE_SECOND_COMMAND) {
 			ShowDailyTask::messageDisplayed = checkFreeSlot(taskIndex);
 			return MESSAGE_FREE_SLOT_SHOWN;
