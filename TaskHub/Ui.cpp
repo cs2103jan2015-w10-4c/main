@@ -146,7 +146,7 @@ void UI::dispalyDay(vector<string> task, string heading){
 					date = "due "+ temporary[i].getDeadlineDate();
 				}
 				if(temporary[i].getTaskType()==SCHEDULED_Task_LABEL){
-					date = temporary[i].getScheduledStartDate();
+					date = temporary[i].getScheduledDate();
 				}
 				if(temporary[i].getTaskType()==FLOATING_Task_LABEL){
 					date = EMPTY_SPACE;
