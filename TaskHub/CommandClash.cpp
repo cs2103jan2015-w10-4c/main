@@ -7,8 +7,8 @@ bool CommandClash::isTwoClash(int startTime1, int endTime1,int startTime2, int e
 vector<Task> CommandClash::getDayTask(vector<Task> allTask,int day, int month){
 	vector<Task> dayTask;
 	for (unsigned int i=0;i<allTask.size();i++) {
-			if (month==allTask[i].getIntegerStartMonth()) {
-				if (day==allTask[i].getIntegerStartDay()) {
+			if (month==allTask[i].getIntegerMonth()) {
+				if (day==allTask[i].getIntegerDay()) {
 					dayTask.push_back(allTask[i]);
 				}
 			}
@@ -29,8 +29,8 @@ string CommandClash::Clash(string input){
 		temp = temp1;
 	_startTime=temp.getStartHour()*100+temp.getStartMinute();
 	_endTime=temp.getEndHour()*100+temp.getEndMinute();
-	day=temp.getIntegerStartDay();
-	month=temp.getIntegerStartMonth();
+	day=temp.getIntegertDay();
+	month=temp.getIntegerMonth();
 	}
 	else{
 		SYSTEMTIME lt;

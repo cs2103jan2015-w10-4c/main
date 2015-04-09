@@ -226,15 +226,15 @@ void Task::UpdateTask(string input){
 		if(date!=string::npos){
 			if(_TaskType==SCHEDULED_Task_LABEL){
 				DateParser dateParse(input);
-				_scheduledStartDate = dateParse.getDate();
-				_integerStartDay = dateParse.getDay();
-				_integerStartMonth = dateParse.getMonth();
+				_scheduledDate = dateParse.getDate();
+				_integerDay = dateParse.getDay();
+				_integerMonth = dateParse.getMonth();
 			}
 			else if(_TaskType==DEADLINE_Task_LABEL){
 				DateParser dateParse(input);
 				_deadlineDate = dateParse.getDate();
-				_integerStartDay = dateParse.getDay();
-				_integerStartMonth = dateParse.getMonth();
+				_integerDay = dateParse.getDay();
+				_integerMonth = dateParse.getMonth();
 			}
 		}
 		if(venue!=string::npos){
@@ -271,7 +271,7 @@ void Task::UpdateTask(string input){
 			}
 		}else if(date!=string::npos){
 			if(_TaskType==SCHEDULED_Task_LABEL){
-				size_t temparory = input.find_first_of(_scheduledStartDate);
+				size_t temparory = input.find_first_of(_scheduledDate);
 				if(temparory!=0){
 					temp = input.substr(0,temparory);
 					if(temp!=" "){
@@ -392,16 +392,16 @@ void Task::checkInputValidation(){
 
 	//check date for schedule Task
 	while ((_TaskType == SCHEDULED_Task_LABEL) && (!valid_date)){
-		size_t get_date = _scheduledStartDate.find("/");
+		size_t get_date = _scheduledDate.find("/");
 		if(get_date != string::npos){
-			date = atoi(_scheduledStartDate.substr(0, get_date).c_str());
-		    month = atoi(_scheduledStartDate.substr(get_date + 1, 2).c_str());
+			date = atoi(_scheduledDate.substr(0, get_date).c_str());
+		    month = atoi(_scheduledDate.substr(get_date + 1, 2).c_str());
 		    if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
 			    valid_date = true;
 		    }
 		    else{
 			    cout << INVALID_DATE_MSG << endl;
-			    getline(cin, _scheduledStartDate);
+			    getline(cin, _scheduledDate);
 		    }
 		}
 	}
@@ -425,12 +425,10 @@ string Task::getDeadlineTime(){
 }
 
 string Task::getScheduledStartDate(){
-	return _scheduledStartDate;
+	return _scheduledDate;
 }
 
-string Task::getScheduledEndDate(){
-	return _scheduledEndDate;
-}
+
 
 string Task::getScheduledStartDateReverse(){
 	return _scheduledDateReverse;

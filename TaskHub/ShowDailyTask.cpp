@@ -95,9 +95,9 @@ void ShowDailyTask::getDayTask (vector <Task> & temporary, vector <int> &taskInd
 	int size = temporary.size();
 	if (!temporary.empty()) {
 		for ( int i = 0; i < size; i++) {
-			if (currentMonth == temporary[i].getIntegerStartMonth()) {
+			if (currentMonth == temporary[i].getIntegerMonth()) {
 				
-				if (currentDay == temporary[i].getIntegerStartDay()) {
+				if (currentDay == temporary[i].getIntegerDay()) {
 					
 					taskIndex.push_back(i);
 				}
@@ -111,8 +111,8 @@ void ShowDailyTask::getHourTask (vector <Task> &temporary, vector <int> &taskInd
 	int size = temporary.size();
 	if (!temporary.empty()) {
 	for (int i = 0; i < size; i++) {
-			if (currentMonth == temporary[i].getIntegerStartMonth()) {
-				if (currentDay == temporary[i].getIntegerStartDay()) {
+			if (currentMonth == temporary[i].getIntegerMonth()) {
+				if (currentDay == temporary[i].getIntegerDay()) {
 					if (currentHour == temporary[i].getStartHour()) {
 							taskIndex.push_back(i);
 					}

@@ -26,3 +26,4 @@
 #include "..\TaskHub\Parser.h"
 #include "..\TaskHub\StorageController.h"
 #include "..\TaskHub\Ui.h"
+#include "..\TaskHub\TaskLog.h"

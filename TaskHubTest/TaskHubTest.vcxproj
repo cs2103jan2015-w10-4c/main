@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,14 +19,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
@@ -86,6 +86,15 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CommandAddTest.cpp" />
+    <ClCompile Include="CommandClearTest.cpp" />
+    <ClCompile Include="CommandDeleteTest.cpp" />
+    <ClCompile Include="CommandMarkDoneTest.cpp" />
+    <ClCompile Include="CommandMarkUncompleteTest.cpp" />
+    <ClCompile Include="CommandRedoTest.cpp" />
+    <ClCompile Include="CommandSearchTest.cpp" />
+    <ClCompile Include="CommandUndoTest.cpp" />
+    <ClCompile Include="CommandUpdateTest.cpp" />
     <ClCompile Include="LogicTest.cpp" />
     <ClCompile Include="ParserTest.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -95,11 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskHub\TaskHub.vcxproj">
-<<<<<<< HEAD
-      <Project>{7af1b3e2-1179-40f6-9357-559b13df9a37}</Project>
-=======
-      <Project>{b84b1f07-1882-4445-9e99-345da22080bf}</Project>
->>>>>>> 3983d756235d2488d1c6a3c2364ed47309774302
+      <Project>{0278bace-542a-47c5-9047-a598ba57a7d7}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
