@@ -17,6 +17,7 @@
 #include "CommandInterpreter.h"
 #include "CommandDisplay.h"
 #include "CommandSearch.h"
+#include "CommandDetail.h"
 #include "ShowDailyTask.h"
 #include "Parser.h"
 #include <iomanip>
@@ -32,14 +33,12 @@ private:
 	
 
 public:
-	//UI();
-	//~UI();
-
 	static void programmeInitialising();
 	static void displayWelcomeMessage();
 	static string getUserCommand();
 	static void showToUser(string userCommand);
 	static void systemFeedback(string text);
 	static void dispalyDay(vector<string> task, string heading);
+	static void displayDetail(string task, string index);
 };
 #endif

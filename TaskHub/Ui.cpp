@@ -12,7 +12,6 @@ const int FINISHED_TASK_COLOR = 250;
 const int NORAL_BACKGROUND_COLOR = 243;
 const int WELCOME_MESSAGE_COLOR = 244;
 
-
 void UI::programmeInitialising() {
 	StorageController::programmeInitialising();
 	Logic::getStorage();
@@ -69,7 +68,10 @@ void UI::showToUser(string userCommand) {
 		UI::dispalyDay(task,userCommand);
 	}
 	else if(command=="detail"){
-		
+		string task = CommandDetail::detailMessage(message);
+		if(!task.empty()){
+		UI::displayDetail(task,message);
+		}
 	}
 	else{
 		string temp= ShowDailyTask::showDayTask("today");
@@ -81,6 +83,16 @@ void UI::showToUser(string userCommand) {
 	cout << "\n -----------------------------------------------------------------------------" 
 			<< endl;
 
+}
+void UI::displayDetail(string task, string index){
+	Task temp(task);
+	cout << "\n Detail of task " << index << " :";
+	cout <<"\n -----------------------------------------------------------------------------";
+	cout << "\n¡¾TASK NAME¡¿: " << temp.getTaskName()
+		<< "\n¡¾DATE¡¿: " << temp.getScheduledDate()
+		<< "\n¡¾TIME¡¿: " << temp.getStartTime() << " - " << temp.getEndTime()
+		<< "\n ¡¾VENUE¡¿: " << temp.getVenue()
+		<< "\n ¡¾STATUS¡¿: " << temp.getStatus();
 }
 void UI::dispalyDay(vector<string> task, string heading){
 	vector<Task> temporary;
@@ -134,7 +146,7 @@ void UI::dispalyDay(vector<string> task, string heading){
 					date = "due "+ temporary[i].getDeadlineDate();
 				}
 				if(temporary[i].getTaskType()==SCHEDULED_Task_LABEL){
-					date = temporary[i].getScheduledDate();
+					date = temporary[i].getScheduledStartDate();
 				}
 				if(temporary[i].getTaskType()==FLOATING_Task_LABEL){
 					date = EMPTY_SPACE;
