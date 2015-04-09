@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}</ProjectGuid>
+    <ProjectGuid>{22CCA250-E2C5-4A2F-A303-2C39F5748F51}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>TaskHubTest</RootNamespace>
   </PropertyGroup>
@@ -59,7 +59,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\USER\Documents\Visual Studio 2013\Projects\TryThis\TaskHubTest\Debug;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -104,7 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskHub\TaskHub.vcxproj">
-      <Project>{0278bace-542a-47c5-9047-a598ba57a7d7}</Project>
+      <Project>{b03dd725-450e-4475-a70e-0976b2dc4d7b}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

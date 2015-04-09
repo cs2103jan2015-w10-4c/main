@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHubTest", "TaskHubTest\TaskHubTest.vcxproj", "{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHub", "TaskHub\TaskHub.vcxproj", "{B03DD725-450E-4475-A70E-0976B2DC4D7B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHub", "TaskHub\TaskHub.vcxproj", "{0278BACE-542A-47C5-9047-A598BA57A7D7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHubMain", "TaskHubMain\TaskHubMain.vcxproj", "{0D07EB04-1A42-4213-9DA9-C03C9CD9D170}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHubMain", "TaskHubMain\TaskHubMain.vcxproj", "{92931542-8789-4545-99FA-C55A5677BC38}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskHubTest", "TaskHubTest\TaskHubTest.vcxproj", "{22CCA250-E2C5-4A2F-A303-2C39F5748F51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}.Debug|Win32.Build.0 = Debug|Win32
-		{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}.Release|Win32.ActiveCfg = Release|Win32
-		{B16D4981-1665-4E8D-8B0C-42B280AFC2D6}.Release|Win32.Build.0 = Release|Win32
-		{0278BACE-542A-47C5-9047-A598BA57A7D7}.Debug|Win32.ActiveCfg = Debug|Win32
-		{0278BACE-542A-47C5-9047-A598BA57A7D7}.Debug|Win32.Build.0 = Debug|Win32
-		{0278BACE-542A-47C5-9047-A598BA57A7D7}.Release|Win32.ActiveCfg = Release|Win32
-		{0278BACE-542A-47C5-9047-A598BA57A7D7}.Release|Win32.Build.0 = Release|Win32
-		{92931542-8789-4545-99FA-C55A5677BC38}.Debug|Win32.ActiveCfg = Debug|Win32
-		{92931542-8789-4545-99FA-C55A5677BC38}.Debug|Win32.Build.0 = Debug|Win32
-		{92931542-8789-4545-99FA-C55A5677BC38}.Release|Win32.ActiveCfg = Release|Win32
-		{92931542-8789-4545-99FA-C55A5677BC38}.Release|Win32.Build.0 = Release|Win32
+		{B03DD725-450E-4475-A70E-0976B2DC4D7B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B03DD725-450E-4475-A70E-0976B2DC4D7B}.Debug|Win32.Build.0 = Debug|Win32
+		{B03DD725-450E-4475-A70E-0976B2DC4D7B}.Release|Win32.ActiveCfg = Release|Win32
+		{B03DD725-450E-4475-A70E-0976B2DC4D7B}.Release|Win32.Build.0 = Release|Win32
+		{0D07EB04-1A42-4213-9DA9-C03C9CD9D170}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0D07EB04-1A42-4213-9DA9-C03C9CD9D170}.Debug|Win32.Build.0 = Debug|Win32
+		{0D07EB04-1A42-4213-9DA9-C03C9CD9D170}.Release|Win32.ActiveCfg = Release|Win32
+		{0D07EB04-1A42-4213-9DA9-C03C9CD9D170}.Release|Win32.Build.0 = Release|Win32
+		{22CCA250-E2C5-4A2F-A303-2C39F5748F51}.Debug|Win32.ActiveCfg = Debug|Win32
+		{22CCA250-E2C5-4A2F-A303-2C39F5748F51}.Debug|Win32.Build.0 = Debug|Win32
+		{22CCA250-E2C5-4A2F-A303-2C39F5748F51}.Release|Win32.ActiveCfg = Release|Win32
+		{22CCA250-E2C5-4A2F-A303-2C39F5748F51}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -32,6 +32,9 @@ private:
 	
 
 public:
+	UI();
+	~UI();
+
 	static void programmeInitialising();
 	static void displayWelcomeMessage();
 	static string getUserCommand();

@@ -12,6 +12,12 @@ const int FINISHED_TASK_COLOR = 250;
 const int NORAL_BACKGROUND_COLOR = 243;
 const int WELCOME_MESSAGE_COLOR = 244;
 
+UI::UI(){
+}
+
+UI::~UI(){
+}
+
 void UI::programmeInitialising() {
 	StorageController::programmeInitialising();
 	Logic::getStorage();

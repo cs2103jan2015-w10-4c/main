@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{92931542-8789-4545-99FA-C55A5677BC38}</ProjectGuid>
+    <ProjectGuid>{0D07EB04-1A42-4213-9DA9-C03C9CD9D170}</ProjectGuid>
     <RootNamespace>TaskHubMain</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskHub\TaskHub.vcxproj">
-      <Project>{0278bace-542a-47c5-9047-a598ba57a7d7}</Project>
+      <Project>{b03dd725-450e-4475-a70e-0976b2dc4d7b}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -8,8 +8,8 @@
 #include "VenueParser.h"
 using namespace std;
 
-class Task
-{
+class Task{
+
 private:
 	string _TaskName;
 	string _TaskType;
