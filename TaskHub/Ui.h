@@ -29,8 +29,10 @@ class UI {
 
 private:
 	static const string MESSAGE_WELCOME;
+	
 
 public:
+	static void programmeInitialising();
 	static void displayWelcomeMessage();
 	static string getUserCommand();
 	static void showToUser(string userCommand);

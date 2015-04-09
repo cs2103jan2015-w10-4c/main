@@ -8,25 +8,32 @@ const string FLOATING_Task_LABEL = "floating";
 const string PROCESSING_Task_LABEL = "progressing";
 const string FINISHED_Task_LABEL = "done";
 const string EMPTY_SPACE =" ";
+const int FINISHED_TASK_COLOR = 250;
+const int NORAL_BACKGROUND_COLOR = 243;
+const int WELCOME_MESSAGE_COLOR = 244;
 
-void UI::displayWelcomeMessage() {
+void UI::programmeInitialising() {
 	StorageController::programmeInitialising();
 	Logic::getStorage();
+}
+
+void UI::displayWelcomeMessage(){
+	HANDLE  hConsole= GetStdHandle(STD_OUTPUT_HANDLE);
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, WELCOME_MESSAGE_COLOR);
+
+	cout     <<"\n                              WELCOME TO TASKHUB ^-^                          "
+			 <<"\n ******************************************************************************      "
+			 <<endl<<endl;
+	SetConsoleTextAttribute(hConsole, NORAL_BACKGROUND_COLOR);
+
 }
 
 void UI::showToUser(string userCommand) {
 	string command = Logic::getFirstWord(userCommand);
 	string message = Logic::removeFirstWord(userCommand);
 
-	cout <<"\n                               *********                                    "
-		 <<"\n                             **         **                                  "
-		 <<"\n                            **           **                                "
-		 <<"\n   ********************************************************************    "
-		 <<"\n   **                      WELCOME TO TASKHUB ^-^                    **    "
-		 <<"\n   **                                                                **    "
-		 <<"\n   **                                                                **    "
-		 <<"\n   ********************************************************************      "
-		 <<endl;
+	
 	
 	if(command=="show"){
 		string aa= ShowDailyTask::showDayTask(message);
@@ -34,7 +41,7 @@ void UI::showToUser(string userCommand) {
 		size_t free = message.find("free");
 
 		if(message=="today")
-			UI::dispalyDay(task,"today");
+			UI::dispalyDay(task,"Today");
 		else if(free!=string::npos){
 			
 			UI::dispalyDay(task, message);
@@ -70,7 +77,7 @@ void UI::showToUser(string userCommand) {
 		UI::dispalyDay(task, "Today");
 		
 	}
-	cout << "\n------------------------------------------------------------------------------" 
+	cout << "\n -----------------------------------------------------------------------------" 
 			<< endl;
 
 }
@@ -79,8 +86,8 @@ void UI::dispalyDay(vector<string> task, string heading){
 	int indexAndNameLength=20;
 	int dateLength=8;
 	int timeLength=15;
-	int venueLength=15;
-	int statusLength=10;
+	int venueLength=13;
+	int statusLength=12;
 	string date;
 	string time;
 	size_t free = heading.find("free");
@@ -89,16 +96,17 @@ void UI::dispalyDay(vector<string> task, string heading){
 	
 
 	HANDLE  hConsole;
-			hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
 	cout << heading << " :";
-	cout <<"\n------------------------------------------------------------------------------";
+	cout <<"\n -----------------------------------------------------------------------------";
 
 	if(task.empty()){
 		if(search!=string::npos){
 			cout << "\n                         SORRY NOTHING IS FOUND T_T                            " << endl;
 		}
 		else{
-			cout << "\n                              YAY! YOU ARE FREE! ^-^                           " << endl;
+			cout << "\n                              YAY! YOU ARE FREE! ^-^                           " ;
 		}
 	}
 	else{
@@ -116,9 +124,9 @@ void UI::dispalyDay(vector<string> task, string heading){
 			for(unsigned int i=0; i<temporary.size();i++){
 				cout<< left << setw(4) <<"\n|";
 				if(temporary[i].getStatus()==FINISHED_Task_LABEL){
-					SetConsoleTextAttribute(hConsole, 10);
+					SetConsoleTextAttribute(hConsole, FINISHED_TASK_COLOR);
 				}
-				else SetConsoleTextAttribute(hConsole, 7);
+				else SetConsoleTextAttribute(hConsole, NORAL_BACKGROUND_COLOR);
 
 				//check date
 				if(temporary[i].getTaskType()==DEADLINE_Task_LABEL){
@@ -140,16 +148,16 @@ void UI::dispalyDay(vector<string> task, string heading){
 				if(temporary[i].getTaskType()==FLOATING_Task_LABEL){
 					time = EMPTY_SPACE;
 				}
-				cout<< left << setw(indexAndNameLength) << temporary[i].getTaskName() 
-					<< setw(dateLength) << date
-					<< setw(timeLength) << time
-					<< setw(venueLength) << temporary[i].getVenue()
-					<< setw(statusLength) << temporary[i].getStatus();
+				cout<< left << setw(indexAndNameLength) << temporary[i].getTaskName().substr(0,indexAndNameLength-2) 
+					<< setw(dateLength) << date.substr(0,dateLength)
+					<< setw(timeLength) << time.substr(0,timeLength)
+					<< setw(venueLength) << temporary[i].getVenue().substr(0,venueLength)
+					<< setw(statusLength) << temporary[i].getStatus().substr(0,statusLength);
 			
 
 			
-			SetConsoleTextAttribute(hConsole, 7);
-			cout << right << setw(7)<<"|";
+			SetConsoleTextAttribute(hConsole, NORAL_BACKGROUND_COLOR);
+			cout << right << setw(8)<<"|";
 			}
 		}
 	}
