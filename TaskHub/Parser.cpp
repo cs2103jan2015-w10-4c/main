@@ -425,13 +425,13 @@ string Task::getDeadlineTime(){
 	return _deadlineTime;
 }
 
-string Task::getScheduledStartDate(){
+string Task::getScheduledDate(){
 	return _scheduledDate;
 }
 
 
 
-string Task::getScheduledStartDateReverse(){
+string Task::getScheduledDateReverse(){
 	return _scheduledDateReverse;
 }
 
@@ -447,21 +447,15 @@ string Task::getVenue(){
 	return _venue;
 }
 
-int Task::getIntegerStartDay(){
-	return _integerStartDay;
+int Task::getIntegerDay(){
+	return _integerDay;
 }
 
-int Task::getIntegerStartMonth(){
-	return _integerStartMonth;
+int Task::getIntegerMonth(){
+	return _integerMonth;
 }
 
-int Task::getIntegerEndDay(){
-	return _integerEndDay;
-}
 
-int Task::getIntegerEndMonth(){
-	return _integerEndMonth;
-}
 
 
 int Task::getStartHour(){

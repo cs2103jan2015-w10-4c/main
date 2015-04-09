@@ -29,7 +29,7 @@ string CommandClash::Clash(string input){
 		temp = temp1;
 	_startTime=temp.getStartHour()*100+temp.getStartMinute();
 	_endTime=temp.getEndHour()*100+temp.getEndMinute();
-	day=temp.getIntegertDay();
+	day=temp.getIntegerDay();
 	month=temp.getIntegerMonth();
 	}
 	else{
@@ -47,8 +47,8 @@ string CommandClash::Clash(string input){
 		temp = temp1;
 	_startTime=temp.getStartHour()*100+temp.getStartMinute();
 	_endTime=temp.getEndHour()*100+temp.getEndMinute();
-	day=temp.getIntegerStartDay();
-	month=temp.getIntegerStartMonth();
+	day=temp.getIntegerDay();
+	month=temp.getIntegerMonth();
 	}
 
 	

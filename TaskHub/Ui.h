@@ -32,8 +32,8 @@ private:
 	
 
 public:
-	UI();
-	~UI();
+	//UI();
+	//~UI();
 
 	static void programmeInitialising();
 	static void displayWelcomeMessage();

@@ -12,11 +12,6 @@ const int FINISHED_TASK_COLOR = 250;
 const int NORAL_BACKGROUND_COLOR = 243;
 const int WELCOME_MESSAGE_COLOR = 244;
 
-UI::UI(){
-}
-
-UI::~UI(){
-}
 
 void UI::programmeInitialising() {
 	StorageController::programmeInitialising();
@@ -139,7 +134,7 @@ void UI::dispalyDay(vector<string> task, string heading){
 					date = "due "+ temporary[i].getDeadlineDate();
 				}
 				if(temporary[i].getTaskType()==SCHEDULED_Task_LABEL){
-					date = temporary[i].getScheduledStartDate();
+					date = temporary[i].getScheduledDate();
 				}
 				if(temporary[i].getTaskType()==FLOATING_Task_LABEL){
 					date = EMPTY_SPACE;
