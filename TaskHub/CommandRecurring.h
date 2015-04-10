@@ -21,14 +21,23 @@ public:
 	~CommandRecurring ();
 
 	static int getDayNumberInOneMonth (int Month, int year);
-	static void getTime (Time &time);
-	static void checkWithinRange (int &startingDay, int &startingMonth,int &year);
-	static void getParameters (string input);
+	
 	static bool isLeapYear (int year);
 	static bool isValidDay (int day, int month, int year);
 	static string setRecurringTask (string input);
 	static string determineDayOfWeek (string input);
+	static void getTime (Time &time);
+	static void checkWithinRange (int &startingDay, int &startingMonth,int &year);
+	static void getParameters (string input);
 	
+	static void recDayDefault ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay,
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found);
+	static void recDayOrWeek ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay, int interval,
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found);
+	static void recMonth ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay, int interval,
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found);
+	static int setStartingDay (string input, string dayOfWeek, Time currentTimeData, int startingDay, int startingMonth,
+									  size_t get_day_of_week, int startingYear);
 private:
 	static const string COMMAND_TYPE;
 	static const string MESSAGE_RECURRING_TASK_SET;
@@ -79,6 +88,8 @@ private:
 	static const int MONTHNOPERYEAR;
 	static const int intJan;
 	static const int FIRSTDAYINAMONTH;
+	static const int DEFAULTENDINGHOUR;
+	static const int DEFAULTENDINGMINUTE;
 
 };
 
