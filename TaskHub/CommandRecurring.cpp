@@ -12,6 +12,18 @@ const int CommandRecurring::DEFAULT = 7;
 const int CommandRecurring::MONTHLY = 9;
 const int CommandRecurring::MAX_BUFFERING_CAPACITY = 256;
 
+const int CommandRecurring::NOOFDAYSPERWEEK = 7;
+const int CommandRecurring::YEARWIDTH = 4;
+const int CommandRecurring::TIMEWIDTH = 5;
+const int CommandRecurring::DATEWIDTH= 5;
+const int CommandRecurring::HRORMINWIDTH = 2;
+const int CommandRecurring::MONORDAYWIDTH = 2;
+const int CommandRecurring::CORRECTPLACE = 1;
+const int CommandRecurring::intSUNDAY = 7;
+const int CommandRecurring::intJan = 1;
+const int CommandRecurring::FIRSTDAYINAMONTH = 1;
+const int CommandRecurring::MONTHNOPERYEAR = 12;
+
 const int CommandRecurring::JAN = 1;
 const int CommandRecurring::FEB= 2;
 const int CommandRecurring::MAR = 3;
@@ -42,6 +54,7 @@ const string CommandRecurring::THURSDAY="4";
 const string CommandRecurring::FRIDAY="5";
 const string CommandRecurring::SATURDAY="6";
 const string CommandRecurring::SUNDAY="7";
+
 
 CommandRecurring::CommandRecurring (string input) {
 	
@@ -206,24 +219,24 @@ string CommandRecurring::setRecurringTask(string input) {
 	
 	string startingDate;
 	if (get_Start_Date != string::npos) {
-	startingDate=input.substr(get_Start_Date - 2, 5);
+		startingDate=input.substr(get_Start_Date - MONORDAYWIDTH, DATEWIDTH);
 	} 
 
 	string startingTime;
 	if (get_Start_Time != string::npos) {
-		startingTime = input.substr(get_Start_Time - 2, 5);
+		startingTime = input.substr(get_Start_Time - HRORMINWIDTH, TIMEWIDTH);
 	}
 	
 	string endingTime;
 	if (get_End_Time != string::npos) {
-		endingTime = input.substr(get_End_Time - 2, 5);
+		endingTime = input.substr(get_End_Time - HRORMINWIDTH, TIMEWIDTH);
 	}
 
 	int endingHour;
 	int endingMinute;
 	if (get_End_Time != string::npos) {
-	endingHour = atoi(input.substr(get_End_Time - 2, 2).c_str());
-	endingMinute = atoi(input.substr(get_End_Time + 1, 2).c_str());
+		endingHour = atoi(input.substr(get_End_Time - HRORMINWIDTH, HRORMINWIDTH).c_str());
+		endingMinute = atoi(input.substr(get_End_Time + CORRECTPLACE, HRORMINWIDTH).c_str());
 	} else {
 		endingHour = 23;
 		endingMinute = 59;
@@ -232,8 +245,8 @@ string CommandRecurring::setRecurringTask(string input) {
 	int endingDay;
 	int endingMonth;
 	if (get_End_Date != string::npos) {
-	endingDay = atoi(input.substr(get_End_Date - 2, 2).c_str());
-	endingMonth = atoi(input.substr(get_End_Date + 1, 2).c_str());
+		endingDay = atoi(input.substr(get_End_Date - MONORDAYWIDTH, MONORDAYWIDTH).c_str());
+		endingMonth = atoi(input.substr(get_End_Date + CORRECTPLACE, MONORDAYWIDTH).c_str());
 	} else {
 		endingDay = currentTimeData._day;
 		endingMonth = currentTimeData._mon;
@@ -242,12 +255,12 @@ string CommandRecurring::setRecurringTask(string input) {
 	int startingYear;
 	int endingYear;
 	if(get_year != string::npos) {
-		if ((input.substr(get_year - 1, 1) != " ")) {
-			startingYear = atoi(input.substr(get_year - 4, 4).c_str());
+		if ((input.substr(get_year - CORRECTPLACE, CORRECTPLACE) != " ")) {
+			startingYear = atoi(input.substr(get_year - YEARWIDTH, YEARWIDTH).c_str());
 		} else {
 			startingYear = currentTimeData._year;
 		}
-			endingYear = atoi(input.substr(get_year + 1, 4).c_str());
+		endingYear = atoi(input.substr(get_year + CORRECTPLACE, YEARWIDTH).c_str());
 	} else {
 			startingYear = currentTimeData._year;
 			endingYear = currentTimeData._year;
@@ -256,8 +269,8 @@ string CommandRecurring::setRecurringTask(string input) {
 	int startingDay;
 	int startingMonth;
 	if ((get_Start_Date != string::npos)&&(get_Start_Date != get_End_Date)) {
-	startingDay = atoi(input.substr(get_Start_Date - 2, 2).c_str());
-	startingMonth = atoi(input.substr(get_Start_Date + 1, 2).c_str());
+		startingDay = atoi(input.substr(get_Start_Date - MONORDAYWIDTH, MONORDAYWIDTH).c_str());
+		startingMonth = atoi(input.substr(get_Start_Date + CORRECTPLACE, MONORDAYWIDTH).c_str());
 	} else {
 		startingDay = currentTimeData._day;
 		startingMonth = currentTimeData._mon;
@@ -268,8 +281,8 @@ string CommandRecurring::setRecurringTask(string input) {
 	int startingHour;
 	int startingMinute;
 	if ((get_Start_Time != string::npos)&&(get_Start_Time != get_End_Time)) {
-	startingHour = atoi(input.substr(get_Start_Time - 2, 2).c_str());
-	startingMinute = atoi(input.substr(get_Start_Time + 1, 2).c_str());;
+		startingHour = atoi(input.substr(get_Start_Time - HRORMINWIDTH, HRORMINWIDTH).c_str());
+		startingMinute = atoi(input.substr(get_Start_Time + CORRECTPLACE, HRORMINWIDTH).c_str());;
 	} else {
 		startingHour = currentTimeData._hour;
 		startingMinute = currentTimeData._min;
@@ -325,7 +338,7 @@ string CommandRecurring::setRecurringTask(string input) {
 					dayAdvanced = dayAdvanced + startingDay - currentTimeData._day;
 			
 					int tempDayOfWeek = currentTimeData._dayOfWeek;
-					currentTimeData._dayOfWeek=(currentTimeData._dayOfWeek+dayAdvanced)%7;
+					currentTimeData._dayOfWeek=(currentTimeData._dayOfWeek+dayAdvanced) % NOOFDAYSPERWEEK;
 			
 					if (currentTimeData._dayOfWeek == 0) {
 						currentTimeData._dayOfWeek = tempDayOfWeek;
@@ -336,9 +349,9 @@ string CommandRecurring::setRecurringTask(string input) {
 						dayAdvanced=startingDay - currentTimeData._day;
 						int tempDayOfWeek = currentTimeData._dayOfWeek;
 						currentTimeData._dayOfWeek += dayAdvanced;
-						currentTimeData._dayOfWeek = currentTimeData._dayOfWeek % 7;
+						currentTimeData._dayOfWeek = currentTimeData._dayOfWeek % NOOFDAYSPERWEEK;
 						if (currentTimeData._dayOfWeek == 0) {
-							currentTimeData._dayOfWeek = 7;
+							currentTimeData._dayOfWeek = intSUNDAY;
 						}
 						startingDay = startingDay+weekday - currentTimeData._dayOfWeek;// get last date with the same day of week
 						startingDay += 7;//get next date with the same day of week this one correct
@@ -351,7 +364,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	for ( k = startingYear; k <= endingYear; k++) {
 		int monthNumber;
 		if (k != endingYear) {
-			monthNumber = 12;
+			monthNumber = MONTHNOPERYEAR;
 		} else {
 			monthNumber = endingMonth;
 		}
@@ -377,7 +390,7 @@ string CommandRecurring::setRecurringTask(string input) {
 			}
 			startingDay = i-dayNumber;
 		}
-		startingMonth = 1;
+		startingMonth = intJan;
 	}
 	return MESSAGE_RECURRING_TASK_SET;
 	} //monthly
@@ -386,7 +399,7 @@ string CommandRecurring::setRecurringTask(string input) {
 		for (int k = startingYear; k <= endingYear; k++) {
 		int monthNumber;
 		if (k != endingYear) {
-			monthNumber = 12;
+			monthNumber = MONTHNOPERYEAR;
 		} else {
 			monthNumber = endingMonth;
 		}
@@ -407,7 +420,7 @@ string CommandRecurring::setRecurringTask(string input) {
 			}
 			
 		}
-		startingMonth = 1;
+		startingMonth = intJan;
 	}
 		return MESSAGE_RECURRING_TASK_SET;
 	}//any days as interval
@@ -421,7 +434,7 @@ string CommandRecurring::setRecurringTask(string input) {
 		for ( k = startingYear; k <= endingYear; k++) {
 		int monthNumber;
 		if (k != endingYear) {
-			monthNumber = 12;
+			monthNumber = MONTHNOPERYEAR;
 		} else {
 			monthNumber = endingMonth;
 		}
@@ -448,7 +461,7 @@ string CommandRecurring::setRecurringTask(string input) {
 			}
 			startingDay = i - dayNumber;
 		}
-		startingMonth = 1;
+		startingMonth = intJan;
 	}
 		return MESSAGE_RECURRING_TASK_SET;
 	 } else {
@@ -466,7 +479,7 @@ string CommandRecurring::setRecurringTask(string input) {
 		for ( k = startingYear; k <= endingYear; k++) {
 		int monthNumber;
 		if (k != endingYear) {
-			monthNumber = 12;
+			monthNumber = MONTHNOPERYEAR;
 		} else {
 			monthNumber = endingMonth;
 		}
@@ -491,9 +504,9 @@ string CommandRecurring::setRecurringTask(string input) {
 				}
 	
 			}
-			startingDay = 1;
+			startingDay = FIRSTDAYINAMONTH;
 		}
-		startingMonth = 1;
+		startingMonth = intJan;
 	}
 		StorageController::updateSaveFile();
 		return MESSAGE_RECURRING_TASK_SET;

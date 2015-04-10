@@ -68,6 +68,18 @@ private:
 	static const int FEBURARYDAY;
 	static const int LEAPFEBURARYDAY;
 
+	static const int TIMEWIDTH;
+	static const int DATEWIDTH;
+	static const int HRORMINWIDTH;
+	static const int MONORDAYWIDTH;
+	static const int CORRECTPLACE;
+	static const int YEARWIDTH;
+	static const int NOOFDAYSPERWEEK;
+	static const int intSUNDAY;
+	static const int MONTHNOPERYEAR;
+	static const int intJan;
+	static const int FIRSTDAYINAMONTH;
+
 };
 
 

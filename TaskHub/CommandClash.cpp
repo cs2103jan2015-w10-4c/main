@@ -40,9 +40,7 @@ string CommandClash::Clash(string input){
 		timeNow._day=lt.wDay;
 		timeNow._mon=lt.wMonth;
 		day=timeNow._day;
-		cout<<day<<endl;
 		month=timeNow._mon;
-		cout<<month<<endl;
 		Task temp1(input+to_string(day)+"/"+to_string(month));
 		temp = temp1;
 	_startTime=temp.getStartHour()*100+temp.getStartMinute();
