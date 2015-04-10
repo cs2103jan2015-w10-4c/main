@@ -17,10 +17,18 @@ struct Time {
 class CommandRecurring {
 
 public:
-	CommandRecurring ();
+	CommandRecurring (string input);
 	~CommandRecurring ();
+
+	static int getDayNumberInOneMonth (int Month, int year);
+	static void getTime (Time &time);
+	static void checkWithinRange (int &startingDay, int &startingMonth,int &year);
+	static void getParameters (string input);
+	static bool isLeapYear (int year);
+	static bool isValidDay (int day, int month, int year);
 	static string setRecurringTask (string input);
 	static string determineDayOfWeek (string input);
+	
 private:
 	static const string COMMAND_TYPE;
 	static const string MESSAGE_RECURRING_TASK_SET;
@@ -41,6 +49,7 @@ private:
 	static const int DEFAULT;
 	static const int MONTHLY;
 	static const int MAX_BUFFERING_CAPACITY;
+
 
 };
 

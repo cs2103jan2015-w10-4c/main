@@ -8,7 +8,7 @@
 const string CommandAdd::MESSAGE_COMMAND_TYPE = "add";
 const string CommandAdd::MESSAGE_ADDED = "Task: \" %s \" added";
 const string CommandAdd::MESSAGE_INDICATING_EMPTY = "The input is empty.";
-const string CommandAdd::MESSAGE_CLASH = "clashes with existing tasks";
+const string CommandAdd::MESSAGE_CLASH = " clashes with existing tasks";
 
 CommandAdd::CommandAdd () {
 
