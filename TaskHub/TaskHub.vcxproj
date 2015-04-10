@@ -84,6 +84,7 @@
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="ShowDailyTask.cpp" />
     <ClCompile Include="StorageController.cpp" />
+    <ClCompile Include="StorageDatabase.cpp" />
     <ClCompile Include="StorageProcessor.cpp" />
     <ClCompile Include="TaskLog.cpp" />
     <ClCompile Include="TimeParser.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ShowDailyTask.h" />
     <ClInclude Include="StorageController.h" />
+    <ClInclude Include="StorageDatabase.h" />
     <ClInclude Include="StorageProcessor.h" />
     <ClInclude Include="TaskLog.h" />
     <ClInclude Include="TimeParser.h" />
