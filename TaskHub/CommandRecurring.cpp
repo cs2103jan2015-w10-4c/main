@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include "Logic.h"
 #include "CommandAdd.h"
+#include "CommandUndo.h"
 #include "CommandRecurring.h"
 
 const int CommandRecurring::DAYSIZE = 14;
@@ -196,6 +197,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	size_t get_TaskName;
 	size_t get_year;
 	size_t get_day_of_week;
+	size_t get_deadline;
 	
 	get_year = input.find_last_of("~");
 	get_Start_Date = input.find("/");
@@ -205,6 +207,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	get_Venue = input.find("@");
 	get_day_of_week = input.find("-every");
 	get_TaskName = input.find_first_of("/");
+	get_deadline = input.find("-by");
 
 	string taskName;
 	if (get_TaskName != string::npos) {
@@ -214,6 +217,7 @@ string CommandRecurring::setRecurringTask(string input) {
 		taskName = input;
 	}
 	
+
 	string startingDate;
 	if (get_Start_Date != string::npos) {
 		startingDate=input.substr(get_Start_Date - MONORDAYWIDTH, DATEWIDTH);
@@ -273,8 +277,6 @@ string CommandRecurring::setRecurringTask(string input) {
 		startingMonth = currentTimeData._mon;
 	}
 
-	
-
 	int startingHour;
 	int startingMinute;
 	if ((get_Start_Time != string::npos)&&(get_Start_Time != get_End_Time)) {
@@ -320,6 +322,8 @@ string CommandRecurring::setRecurringTask(string input) {
 	
 	if (get_day_of_week != string::npos) {
 	
+		
+		
 		if (dayOfWeek.size() == DAYOFWEEKSIZE){
 			startingDay = setStartingDay ( input, dayOfWeek, currentTimeData, startingDay, startingMonth,
 									   get_day_of_week, startingYear) ;
@@ -329,33 +333,33 @@ string CommandRecurring::setRecurringTask(string input) {
 			interval, dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
 			
 			return MESSAGE_RECURRING_TASK_SET;
-	} //monthly
-	else if (dayOfWeek.size() ==  MONTHLY) {
+		} //monthly
+		else if (dayOfWeek.size() ==  MONTHLY) {
 		
-		recMonth (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay, interval,
-			 dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
+			recMonth (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay, interval,
+				dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
 		return MESSAGE_RECURRING_TASK_SET;
-	}//any days as interval
-	else if (dayOfWeek.size() == DAYSIZE) {
+		}//any days as interval
+		else if (dayOfWeek.size() == DAYSIZE) {
 			int interval; 
 			interval = atoi(dayOfWeek.substr(7,2).c_str());
 			recDayOrWeek (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
 			interval, dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
 			return MESSAGE_RECURRING_TASK_SET;
-	 } else {
+		} else {
 			return MESSAGE_WRONG;
-	}
+		}
 	}
 	// by default every day
 	else {
-		if (dayOfWeek.size() == DEFAULT){
+			if (dayOfWeek.size() == DEFAULT){
 			recDayDefault (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
 				dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
 			StorageController::updateSaveFile();
 			return MESSAGE_RECURRING_TASK_SET;
-		} else {
-			return MESSAGE_WRONG;
-		}
+			} else {
+				return MESSAGE_WRONG;
+			}
 	}
 	
 }
@@ -428,7 +432,6 @@ void CommandRecurring::recMonth ( int startingYear, int endingYear, int starting
 			
 				startingDay = recurringDay;
 				if (isValidDay(startingDay,j,k)) {
-			//for (int i=startingDay;i<=dayNumber;i=i+interval) {
 					char taskname[MAX_BUFFERING_CAPACITY];
 					strcpy_s(taskname, taskName.c_str());
 					if (found != string::npos) {
@@ -443,6 +446,11 @@ void CommandRecurring::recMonth ( int startingYear, int endingYear, int starting
 			
 			}
 			startingMonth = intJan;
+		}
+
+		if (endingDay < recurringDay) {
+
+			undoChange::undo();
 		}
 
 }
@@ -488,7 +496,7 @@ void CommandRecurring::recDayOrWeek ( int startingYear, int endingYear, int star
 			startingMonth = intJan;
 		}
 }
-
+//everyday
 void CommandRecurring::recDayDefault ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay,
 							   string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found) {
 					   
