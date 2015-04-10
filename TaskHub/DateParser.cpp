@@ -27,7 +27,7 @@ DateParser::DateParser(string input){
 			if(input.substr(get_date+2,1) == " "){
 				_date = input.substr(get_date-POSITION_ADJUSTMENT, LENGTH_OF_THREE_DIGIT_DATE);
 				_day = input.substr(get_date-POSITION_ADJUSTMENT,2);
-				_month = input.substr(get_date+1, 1);
+				_month = "0" + input.substr(get_date+1, 1);
 				_integerDay = atoi(_day.c_str());
 			    _integerMonth = atoi(_month.c_str());
 			}
@@ -39,7 +39,7 @@ DateParser::DateParser(string input){
 			// format: d/mm
 			if(input.substr(get_date+POSITION_ADJUSTMENT, 1) != " "){
 				_date = input.substr(get_date-1, LENGTH_OF_THREE_DIGIT_DATE);
-				_day = input.substr(get_date-1, 1);
+				_day = "0" + input.substr(get_date-1, 1);
 				_month = input.substr(get_date+1, 2);
 				_integerDay = atoi(_day.c_str());
 			    _integerMonth = atoi(_month.c_str());
@@ -48,8 +48,8 @@ DateParser::DateParser(string input){
 			else{
 				if(input.substr(get_date+POSITION_ADJUSTMENT, 1) == " "){
 					_date = input.substr(get_date-1, LENGTH_OF_TWO_DIGIT_DATE);
-					_day = input.substr(get_date-1, 1);
-					_month = input.substr(get_date+1, 1);
+					_day = "0" + input.substr(get_date-1, 1);
+					_month = "0" + input.substr(get_date+1, 1);
 					_integerDay = atoi(_day.c_str());
 			        _integerMonth = atoi(_month.c_str());
 				}
