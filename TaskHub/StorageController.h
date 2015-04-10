@@ -11,6 +11,8 @@
 #include <algorithm>
 #include "Logic.h"
 #include "TaskLog.h"
+#include "StorageProcessor.h"
+#include "StorageDatabase.h"
 
 using namespace std;
 

@@ -13,37 +13,15 @@ StorageController::StorageController(){
 StorageController::~StorageController(){
 }
 
-//change function name to updateSaveFile
 void StorageController::updateSaveFile() {
 	ofstream file;
+	StorageProcessor* convertor = new StorageProcessor();
 
 	file.open(getFileName());
-	file << convertTaskIntoString();	
+	file << convertor->convertTaskIntoString();	
 	file.close();
-}
 
-
-// to be part of storage convertor
-std::string StorageController::convertTaskIntoString(){
-	ostringstream oss;
-	vector<Task> temp = Logic::history.getVectorTextStorage();
-
-	if (temp.empty()){
-		return "";
-	}
-	else{
-		std::vector<Task>::iterator iter;
-		int taskIndex = 1;
-		
-		for (iter = temp.begin(); iter != temp.end(); iter++){
-			oss << taskIndex << ". " << iter->ToString();
-			if (iter != temp.end() - 1){
-				oss << std::endl;
-				taskIndex++;
-			}
-		}
-		return oss.str();
-	}
+	delete convertor;
 }
 
 void StorageController::programmeInitialising(){
