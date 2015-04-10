@@ -50,6 +50,23 @@ private:
 	static const int MONTHLY;
 	static const int MAX_BUFFERING_CAPACITY;
 
+	static const int JAN;
+	static const int FEB;
+	static const int MAR;
+	static const int APR;
+	static const int MAY;
+	static const int JUN;
+	static const int JULY;
+	static const int AUG;
+	static const int SEP;
+	static const int OCT;
+	static const int NOV;
+	static const int DEC;
+
+	static const int SOLARMONTH;
+	static const int LUNARMONTH;
+	static const int FEBURARYDAY;
+	static const int LEAPFEBURARYDAY;
 
 };
 

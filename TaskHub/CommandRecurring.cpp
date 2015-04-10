@@ -12,6 +12,23 @@ const int CommandRecurring::DEFAULT = 7;
 const int CommandRecurring::MONTHLY = 9;
 const int CommandRecurring::MAX_BUFFERING_CAPACITY = 256;
 
+const int CommandRecurring::JAN = 1;
+const int CommandRecurring::FEB= 2;
+const int CommandRecurring::MAR = 3;
+const int CommandRecurring::APR= 4;
+const int CommandRecurring::MAY = 5;
+const int CommandRecurring::JUN = 6;
+const int CommandRecurring::JULY = 7;
+const int CommandRecurring::AUG = 8;
+const int CommandRecurring::SEP = 9;
+const int CommandRecurring::OCT = 10;
+const int CommandRecurring::NOV = 11;
+const int CommandRecurring::DEC = 12;
+const int CommandRecurring::SOLARMONTH = 31;
+const int CommandRecurring::LUNARMONTH = 30;
+const int CommandRecurring::FEBURARYDAY = 28;
+const int CommandRecurring::LEAPFEBURARYDAY = 29;
+
 const string CommandRecurring::COMMAND_TYPE="recurring";
 const string CommandRecurring::MESSAGE_RECURRING_TASK_SET="Recurring tasks have been set";
 const string CommandRecurring::MESSAGE_WRONG="Wrong message";
@@ -82,49 +99,45 @@ bool CommandRecurring::isLeapYear (int year) {
 	return isLeapYear;
 }
 
-int CommandRecurring::getDayNumberInOneMonth (int Month, int year) {
-	int solarMonth = 31;
-	int lunarMonth = 30;
-	int normalFeburaryDay = 28;
-	int leapFeburaryDay = 29;
+int CommandRecurring::getDayNumberInOneMonth (int month, int year) {
 
-	if (Month == 1 || Month == 3 || Month == 5 || Month == 7 || Month == 8 || Month == 10 || Month == 12) {
-		return solarMonth;
-	} else if (Month == 4 || Month == 6 || Month == 9 || Month == 11) {
-		return lunarMonth;
+	if (month == JAN || month == MAR || month == MAY || month == JULY || month == AUG || month == OCT || month == DEC) {
+		return SOLARMONTH;
+	} else if (month == APR || month == JUN || month == SEP || month == NOV) {
+		return LUNARMONTH;
 	} else if (isLeapYear(year)) {
-		return leapFeburaryDay;
+		return LEAPFEBURARYDAY;
 	} else {
-		return normalFeburaryDay;
+		return FEBURARYDAY;
 	}
 }
 
 void CommandRecurring::checkWithinRange (int &startingDay, int &startingMonth,int &year) {
-	if (startingMonth == 1 || startingMonth == 3 || startingMonth == 5 || startingMonth == 7 || startingMonth == 8 || startingMonth == 10) {
-		if (startingDay > 31) {
-			startingDay -= 31;
+	if (startingMonth == JAN || startingMonth == MAR || startingMonth == MAY || startingMonth == JULY || startingMonth == AUG || startingMonth == OCT) {
+		if (startingDay > SOLARMONTH) {
+			startingDay -= SOLARMONTH;
 			startingMonth += 1;
 		}
-	} else if (startingMonth == 12)  {
-		if (startingDay > 31) {
-			startingDay -= 31;
+	} else if (startingMonth == DEC)  {
+		if (startingDay > SOLARMONTH) {
+			startingDay -= SOLARMONTH;
 			startingMonth = 1;
 			year++;
 		}
 	}
-	else if (startingMonth == 4 || startingMonth == 6 || startingMonth == 9 || startingMonth == 11)  {
-		if (startingDay > 30) {
-			startingDay -= 30;
+	else if (startingMonth == APR || startingMonth == JUN || startingMonth == SEP || startingMonth == NOV)  {
+		if (startingDay > LUNARMONTH) {
+			startingDay -= LUNARMONTH;
 			startingMonth += 1;
 		}
 	} else if (isLeapYear(year)){
-		if (startingDay > 29) {
-			startingDay -= 29;
+		if (startingDay > LEAPFEBURARYDAY) {
+			startingDay -= LEAPFEBURARYDAY;
 			startingMonth += 1;
 		}
 	} else if (!isLeapYear(year)) {
-		if (startingDay > 28) {
-			startingDay -= 28;
+		if (startingDay > FEBURARYDAY) {
+			startingDay -= FEBURARYDAY;
 			startingMonth += 1;
 		}
 	}
@@ -135,20 +148,20 @@ void CommandRecurring::checkWithinRange (int &startingDay, int &startingMonth,in
 
 bool CommandRecurring::isValidDay (int day, int month, int year) {
 	bool isValid = false;
-	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
-		if(day <= 31) {
+	if (month == JAN || month == MAR || month == MAY || month == JULY || month == AUG || month == OCT || month == DEC) {
+		if(day <= SOLARMONTH) {
 			isValid = true;
 		}
-	} else if (month == 4 || month == 6 || month == 9 || month == 11) {
-		if (day <= 30) {
+	} else if (month == APR || month == JUN || month == SEP || month == NOV) {
+		if (day <= LUNARMONTH) {
 			isValid = true;
 		}
 	} else if (isLeapYear(year)){
-		if (day <= 29) {
+		if (day <= LEAPFEBURARYDAY) {
 			isValid = true;
 		}
 	} else if (!isLeapYear(year)){
-		if (day <= 28) {
+		if (day <= FEBURARYDAY) {
 			isValid = true;
 		}
 	}
@@ -297,7 +310,7 @@ string CommandRecurring::setRecurringTask(string input) {
 				startingDay = startingDay + weekday - currentTimeData._dayOfWeek;// get last date with the same day of week
 
 				if (weekday < currentTimeData._dayOfWeek) {
-					startingDay += 7;//get next date with the same day of week
+					startingDay += DEFAULT;//get next date with the same day of week
 				}
 				checkWithinRange(startingDay,startingMonth,startingYear);
 			} else {
