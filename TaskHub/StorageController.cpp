@@ -13,7 +13,6 @@ StorageController::StorageController(){
 StorageController::~StorageController(){
 }
 
-//change function name to updateSaveFile
 void StorageController::updateSaveFile() {
 	ofstream file;
 
