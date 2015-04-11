@@ -117,8 +117,8 @@ void DateParser::checkValidation(string input){
 	string doubleMonth = input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
 	string singleDay =  input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
 	string singleMonth =  input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
-
-	switch(DateType) {
+	DateType dateType = determinDateType(input);
+	switch(dateType) {
 	case DDMM:
 		_validDate = checkIntegerValidation(doubleDay, LENGTH_DAY_DOUBLE);
 		if(_validDate){
