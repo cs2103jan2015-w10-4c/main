@@ -5,7 +5,10 @@
 vector<string> StorageController::TaskList;
 std::string StorageController::_fileName;
 const std::string StorageController::_lastSaveFileName = "LastSaveFile.txt";
+
 TaskLog* StorageController::taskLog;
+StorageDatabase* StorageController::_databaseObj;
+StorageProcessor* StorageController::_processorObj;
 
 StorageController::StorageController(){
 }
@@ -15,13 +18,16 @@ StorageController::~StorageController(){
 
 void StorageController::updateSaveFile() {
 	ofstream file;
-	StorageProcessor* convertor = new StorageProcessor();
+	//StorageProcessor* convertorObj = new StorageProcessor();
+	_processorObj = new StorageProcessor();
 
 	file.open(getFileName());
-	file << convertor->convertTaskIntoString();	
+	file << _processorObj->convertTaskIntoString();	
 	file.close();
 
-	delete convertor;
+	//free memory space allocated
+	delete _processorObj;
+	_processorObj = NULL;
 }
 
 void StorageController::programmeInitialising(){

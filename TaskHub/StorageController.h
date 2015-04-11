@@ -21,12 +21,16 @@ private:
 	static vector<string> TaskList;
 	static std::string _fileName;
 	const static std::string _lastSaveFileName;
+	static TaskLog* taskLog; // For logging
+
+	//objects to execute database and processor functions
+	static StorageProcessor* _processorObj;
+	static StorageDatabase* _databaseObj;
 
 public:
 	StorageController();
 	~StorageController();
 
-	static TaskLog* taskLog; // For logging
 	static void constructTaskLog();
 	static void destructTaskLog();
 
