@@ -50,7 +50,6 @@ public:
 	string getDeadlineDate();
 	string getStatus();
 	string getVenue();
-	//string getAlphaMonth();
 	int getIntegerDay();
 	int getIntegerMonth();
 	int getStartHour();

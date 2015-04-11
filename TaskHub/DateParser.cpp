@@ -32,9 +32,9 @@ DateParser::DateParser(void){
 
 
 DateParser::DateParser(string input){
-	_validDate = false;
-	checkValidation(input);
-	if(_validDate){
+	//_validDate = false;
+	//checkValidation(input);
+	//if(_validDate){
 		size_t get_date = input.find_first_of(SLASH);
 			if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
 			//  format:  dd/mm
@@ -76,11 +76,11 @@ DateParser::DateParser(string input){
 				}
 			}
 	}
-}
 
 
 
-DateParser::DateType DateParser::determinDateType(string input){
+
+/*DateParser::DateType DateParser::determinDateType(string input){
 	DateType dateType;
 	size_t get_date = input.find_first_of(SLASH);
 	size_t multipleDate = input.find_last_of(SLASH);
@@ -111,7 +111,7 @@ DateParser::DateType DateParser::determinDateType(string input){
 	return dateType;
 }
 
-void DateParser::checkValidation(string input){
+void  DateParser::checkValidation(string input){
 	size_t get_date = input.find_first_of(SLASH);
 	string doubleDay = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
 	string doubleMonth = input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
@@ -162,7 +162,7 @@ bool DateParser::checkIntegerValidation(string input, int digit){
 		}
 	}
 	return isInteger;	
-}
+}*/
 
 string DateParser::getDate(){
 	return _date;
