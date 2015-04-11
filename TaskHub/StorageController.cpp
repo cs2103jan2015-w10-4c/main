@@ -38,6 +38,7 @@ void StorageController::promptSaveFile(){
 	}
 	else{
 		std::cout << "Enter save file address: ";
+		std::cin.ignore();
 		std::getline(cin, fileName);
 		_databaseObj->setLastSavedFileName(fileName);
 		_databaseObj->setLastSavedFileIntoStorage(fileName);
