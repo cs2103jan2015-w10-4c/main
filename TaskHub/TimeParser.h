@@ -1,3 +1,5 @@
+//author: A0115399W
+
 #ifndef TIMEPARSER_H
 #define TIMEPARSER_H
 #include <string>

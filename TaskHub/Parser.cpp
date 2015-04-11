@@ -1,3 +1,5 @@
+//author: A0115399W
+
 #include "Parser.h"
 
 const int Task_LEN = 250;
@@ -16,6 +18,7 @@ const string MARK_AT = "@";
 const string SLASH = "/";
 const string COLON = ":";
 const string EMPTY_SPACE =" ";
+const string EMPTY_STRING = "";
 const int ADJUSTMENT_ONE = 1;
 const int LENGTH_OF_DATE = 5;
 const int START_OF_STRING = 0;
@@ -68,9 +71,9 @@ Task::Task(string input){
 			_TaskName = input.substr(START_OF_STRING, timedTask - ADJUSTMENT_ONE);
 			_startTime = parseTime.getStartTime();
 			_endTime = parseTime.getEndTime();
-			_deadlineTime = "";
+			_deadlineTime = EMPTY_STRING;
 			_scheduledDate = parseDate.getDate();
-			_deadlineDate = "";
+			_deadlineDate = EMPTY_STRING;
 			_integerDay = parseDate.getDay();
 			_integerMonth = parseDate.getMonth();
 			_startHour = parseTime.getStartHour();
@@ -94,12 +97,12 @@ Task::Task(string input){
 
 			_TaskType = DEADLINE_TASK_LABEL;
 			_TaskName = input.substr(START_OF_STRING, deadlinedTask - ADJUSTMENT_ONE);
-			_startTime = "";
-			_endTime = "";
+			_startTime = EMPTY_STRING;
+			_endTime = EMPTY_STRING;
 			_deadlineTime =	parseTime.getStartTime();
 			_startHour = parseTime.getStartHour();
 			_startMinute = parseTime.getStartMinute();
-			_scheduledDate = "";
+			_scheduledDate = EMPTY_STRING;
 			_deadlineDate = parseDate.getDate();
 			_integerDay = parseDate.getDay();
 			_integerMonth = parseDate.getMonth();
@@ -109,12 +112,12 @@ Task::Task(string input){
 			isValid = true;
 			_TaskType = FLOATING_TASK_LABEL;
 			_TaskName = input;
-			_startTime = "";
-			_endTime = "";
-			_deadlineTime = "";
-			_scheduledDate = "";
-			_deadlineDate = "";
-			_scheduledDateReverse = "";
+			_startTime = EMPTY_STRING;
+			_endTime = EMPTY_STRING;
+			_deadlineTime = EMPTY_STRING;
+			_scheduledDate = EMPTY_STRING;
+			_deadlineDate = EMPTY_STRING;
+			_scheduledDateReverse = EMPTY_STRING;
 			
 		}
 		_status = PROGRESSING_TASK_LABEL;
@@ -123,7 +126,7 @@ Task::Task(string input){
 		    _venue = parseVenue.getVenue();
 		}
 		else{
-			_venue = "";
+			_venue = EMPTY_STRING;
 		}
 	}
 	if (isValid == true){
@@ -178,9 +181,9 @@ Task::Task(string Task, string input){
 				_TaskName = Task.substr(START_OF_STRING, find_bracket - ADJUSTMENT_ONE);
 				_startTime = parseTime.getStartTime();
 				_endTime = parseTime.getEndTime();
-				_deadlineTime = "";
+				_deadlineTime = EMPTY_STRING;
 				_scheduledDate = parseDate.getDate();
-				_deadlineDate = "";
+				_deadlineDate = EMPTY_STRING;
 				_startHour = parseTime.getStartHour();
 			    _startMinute = parseTime.getStartMinute();
 			    _endHour = parseTime.getEndHour();
@@ -196,12 +199,12 @@ Task::Task(string Task, string input){
 
 				_TaskName = Task.substr(START_OF_STRING, find_bracket - ADJUSTMENT_ONE);
 				_TaskType = DEADLINE_TASK_LABEL;
-				_startTime = "";
-				_endTime = "";
+				_startTime = EMPTY_STRING;
+				_endTime = EMPTY_STRING;
 				_deadlineTime = parseTime.getStartTime();
-				_scheduledDate = "";
+				_scheduledDate = EMPTY_STRING;
 				_deadlineDate = parseDate.getDate();
-				_venue = "";
+				_venue = EMPTY_STRING;
 			}
 
 		}
@@ -213,12 +216,12 @@ Task::Task(string Task, string input){
 			else{
 				_TaskName = Task.substr(START_OF_STRING, Task.find(MARK_AT));
 			}
-			_startTime = "";
-			_endTime = "";
-			_deadlineTime = "";
-			_scheduledDate = "";
-			_deadlineDate = "";
-			_scheduledDateReverse = "";
+			_startTime = EMPTY_STRING;
+			_endTime = EMPTY_STRING;
+			_deadlineTime = EMPTY_STRING;
+			_scheduledDate = EMPTY_STRING;
+			_deadlineDate = EMPTY_STRING;
+			_scheduledDateReverse = EMPTY_STRING;
 		}
 		size_t venueTask = Task.find(MARK_AT);
 		size_t status_mark = Task.find_last_of(EMPTY_SPACE);
@@ -230,7 +233,7 @@ Task::Task(string Task, string input){
 			_venue = tempVenue.substr(START_OF_STRING, status_mark - venueTask);
 		}
 		else{
-			_venue = "";
+			_venue = EMPTY_STRING;
 		}
 	}
 	checkInputValidation();
@@ -256,6 +259,7 @@ string Task::getTaskName(){
 	return _TaskName;
 }
 
+//Author for update function: Li Shuyuan 
 void Task::UpdateTask(string input){
 
 	input = EMPTY_SPACE + input;

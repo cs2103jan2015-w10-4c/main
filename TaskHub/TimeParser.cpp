@@ -1,4 +1,7 @@
+//author: A0115399W
+
 #include "TimeParser.h"
+
 const string COLON = ":";
 const int LENGTH_TWO_DIGIT = 2;
 const int LENGTH_TIME = 5;

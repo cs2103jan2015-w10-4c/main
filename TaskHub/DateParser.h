@@ -1,3 +1,5 @@
+//author: A0115399W
+
 #ifndef DATEPARSER_H
 #define DATEPARSER_H
 #include <string>
@@ -5,6 +7,7 @@
 #include <vector>
 #include <Windows.h>
 using namespace std;
+
 class DateParser{
 
 public:
