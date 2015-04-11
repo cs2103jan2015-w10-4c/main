@@ -81,7 +81,7 @@ void TimeParser::checkValidation(string input){
 }
 
 
-bool checkIntegerValidation(string input){
+bool TimeParser::checkIntegerValidation(string input){
 	bool isInteger = false;
 	if(input >= HOUR_START && input <= MIN_END){
 		isInteger = true;
