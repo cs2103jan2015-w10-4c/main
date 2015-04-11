@@ -16,7 +16,10 @@ const string MARK_AT = "@";
 const string SLASH = "/";
 const string COLON = ":";
 const string EMPTY_SPACE =" ";
+const int ADJUSTMENT_ONE = 1;
 const int LENGTH_OF_DATE = 5;
+const int START_OF_STRING = 0;
+bool Task::isValid;
 
 Task::Task(){}
 
@@ -28,38 +31,42 @@ Task::Task(string input){
 		size_t venueTask = input.find(MARK_AT);
 		
 		if((timedTask != string::npos && timedTaskEnd == string::npos) || (timedTask == string::npos && timedTaskEnd != string::npos) || (timedTask > timedTaskEnd)){
-			_isValid = false;
+			isValid = false;
 		}
 
-		else if (timedTask != string::npos && timedTaskEnd != string::npos){
-			_isValid = true;
-			DateParser parseDate(input.substr(timedTaskEnd));
-			TimeParser parseTime(input.substr(timedTask));
+		if (timedTask != string::npos && timedTaskEnd != string::npos){
+			if((input.substr(timedTaskEnd, venueTask-timedTaskEnd)).find(SLASH) == string::npos){
+				isValid = false;
+			}
+			else{
+				isValid = true;
+				DateParser parseDate(input.substr(timedTaskEnd));
+				TimeParser parseTime(input.substr(timedTask));
 
-			_TaskType = SCHEDULED_TASK_LABEL;
-			_TaskName = input.substr(0, timedTask - 1);
-			_startTime = parseTime.getStartTime();
-			_endTime = parseTime.getEndTime();
-			_deadlineTime = "";
-			_scheduledDate = parseDate.getDate();
-			_deadlineDate = "";
-			_integerDay = parseDate.getDay();
-			_integerMonth = parseDate.getMonth();
-			_startHour = parseTime.getStartHour();
-			_startMinute = parseTime.getStartMinute();
-			_endHour = parseTime.getEndHour();
-			_endMinute = parseTime.getEndMinute();
-			_alphaMonth = parseDate.getAlphaMonth();
-			_scheduledDateReverse = parseDate.getDateReverse();
-			
+				_TaskType = SCHEDULED_TASK_LABEL;
+				_TaskName = input.substr(START_OF_STRING, timedTask - ADJUSTMENT_ONE);
+				_startTime = parseTime.getStartTime();
+				_endTime = parseTime.getEndTime();
+				_deadlineTime = "";
+				_scheduledDate = parseDate.getDate();
+				_deadlineDate = "";
+				_integerDay = parseDate.getDay();
+				_integerMonth = parseDate.getMonth();
+				_startHour = parseTime.getStartHour();
+				_startMinute = parseTime.getStartMinute();
+				_endHour = parseTime.getEndHour();
+				_endMinute = parseTime.getEndMinute();
+				_alphaMonth = parseDate.getAlphaMonth();
+				_scheduledDateReverse = parseDate.getDateReverse();
+			}	
 		}
-		else if (deadlinedTask != string::npos){
-			_isValid = true;
+	    if (deadlinedTask != string::npos){
+			isValid = true;
 			DateParser parseDate(input);
 			TimeParser parseTime(input);
 
 			_TaskType = DEADLINE_TASK_LABEL;
-			_TaskName = input.substr(0, deadlinedTask - 1);
+			_TaskName = input.substr(START_OF_STRING, deadlinedTask - ADJUSTMENT_ONE);
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = input.substr(deadlinedTask + 4, 5);
@@ -71,8 +78,8 @@ Task::Task(string input){
 			_integerMonth = parseDate.getMonth();
 			_alphaMonth = parseDate.getAlphaMonth();
 		}
-		else {
-			_isValid = true;
+		if(timedTask == string::npos && timedTaskEnd == string::npos && deadlinedTask == string::npos) {
+			isValid = true;
 			_TaskType = FLOATING_TASK_LABEL;
 			_TaskName = input;
 			_startTime = "";
@@ -133,7 +140,7 @@ Task::Task(string Task, string input){
 				DateParser parseDate(Task);
 
 				_TaskType = SCHEDULED_TASK_LABEL;
-				_TaskName = Task.substr(0, find_bracket - 1);
+				_TaskName = Task.substr(START_OF_STRING, find_bracket - ADJUSTMENT_ONE);
 				_startTime = parseTime.getStartTime();
 				_endTime = parseTime.getEndTime();
 				_deadlineTime = "";
@@ -152,7 +159,7 @@ Task::Task(string Task, string input){
 				DateParser parseDate(Task);
 				TimeParser parseTime(Task);
 
-				_TaskName = Task.substr(0, find_bracket - 2);
+				_TaskName = Task.substr(START_OF_STRING, find_bracket - ADJUSTMENT_ONE);
 				_TaskType = DEADLINE_TASK_LABEL;
 				_startTime = "";
 				_endTime = "";
@@ -165,7 +172,7 @@ Task::Task(string Task, string input){
 		}
 		else{
 			_TaskType = FLOATING_TASK_LABEL;
-			_TaskName = Task.substr(0, find__status-2);
+			_TaskName = Task.substr(START_OF_STRING, find__status-2);
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = "";
@@ -180,7 +187,7 @@ Task::Task(string Task, string input){
 			string tempVenue;
 			tempVenue = parseVenue.getVenue();
 			
-			_venue = tempVenue.substr(0, status_mark - venueTask);
+			_venue = tempVenue.substr(START_OF_STRING, status_mark - venueTask);
 		}
 		else{
 			_venue = "";
@@ -397,9 +404,14 @@ void Task::checkInputValidation(){
 			date = _integerDay;
 			month = _integerMonth;
 		    if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
-			    valid_date = true;
+				if((month == 2 && date >= 29) || (month == 4 && date > 30) || (month == 6 && date > 30) || (month == 9 && date > 30) || (month == 11 && date > 30)){
+					valid_date = false;
+				}
+				else{
+					valid_date = true;
+				}
 		    }
-		    else{
+			if(valid_date == false){
 			    cout << MESSAGE_INVALID_DATE <<endl;
 			    getline(cin,_deadlineDate);
 		    }
@@ -410,12 +422,17 @@ void Task::checkInputValidation(){
 	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_date)){
 		size_t get_date = _scheduledDate.find(SLASH);
 		if(get_date != string::npos){
-			date = atoi(_scheduledDate.substr(0, get_date).c_str());
-		    month = atoi(_scheduledDate.substr(get_date + 1, 2).c_str());
+			date = _integerDay;
+			month = _integerMonth;
 		    if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
-			    valid_date = true;
+				if((month == 2 && date >= 29) || (month == 4 && date > 30) || (month == 6 && date > 30) || (month == 9 && date > 30) || (month == 11 && date > 30)){
+					valid_date = false;
+				}
+			    else{
+					valid_date = true;
+				}
 		    }
-		    else{
+			if(valid_date == false){
 			    cout << MESSAGE_INVALID_DATE << endl;
 			    getline(cin, _scheduledDate);
 		    }
@@ -444,8 +461,6 @@ string Task::getScheduledDate(){
 	return _scheduledDate;
 }
 
-
-
 string Task::getScheduledDateReverse(){
 	return _scheduledDateReverse;
 }
@@ -470,9 +485,6 @@ int Task::getIntegerMonth(){
 	return _integerMonth;
 }
 
-
-
-
 int Task::getStartHour(){
 	return _startHour;
 }
@@ -487,8 +499,4 @@ int Task::getEndHour(){
 
 int Task::getEndMinute(){
 	return _endMinute;
-}
-
-bool Task::isValid(){
-	return _isValid;
 }

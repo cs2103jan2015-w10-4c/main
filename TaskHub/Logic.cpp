@@ -34,7 +34,7 @@ void Logic::getStorage(){
 string Logic::getDetail (string input) {
 
 	string temp = CommandDetail::detailMessage(input);
-	return CommandDetail::SYSTEM_FEEDBACK;
+	return CommandDetail::FEEDBACK_SYSTEM;
 }
 
 string Logic::addTask(string input){
@@ -97,7 +97,7 @@ string Logic::sort () {
 }
 
 string Logic::checkClash(string input) {
-	return CommandClash::Clash(input);
+	return CommandClash::clash(input);
 }
 
 string Logic::getFirstWord(string input)

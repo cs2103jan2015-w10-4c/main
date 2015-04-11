@@ -29,3 +29,17 @@ std::string StorageProcessor::convertTaskIntoString(){
 		return oss.str();
 	}
 }
+
+/*
+	Function removes the quotation marks, in the event when the user copy and paste the file address as 
+	a file path.
+	The input string is left untouched if there is no quotation marks. 
+	Condition: it is assumed that all file paths does not contain any quotation marks.
+*/
+std::string StorageProcessor::processFileDirectory(std::string inputString){
+	if (inputString[0] == '"'){
+		int stringLength = inputString.size();
+		return inputString.substr(1, stringLength - 2);
+	}
+	return inputString;
+}

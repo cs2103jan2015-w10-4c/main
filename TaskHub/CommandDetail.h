@@ -6,12 +6,12 @@
 
 using namespace std;
 
-class CommandDetail
-{
+class CommandDetail{
+
 public:
 	static string detailMessage(string taskIndex);
 	static bool checkInputValidation(string taskIndex);
-	static string SYSTEM_FEEDBACK;
+	static string FEEDBACK_SYSTEM;
 
 private:
 	static const string MESSAGE_COMMAND_TYPE;
