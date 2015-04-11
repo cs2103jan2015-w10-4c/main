@@ -22,6 +22,7 @@ namespace CommandClearTest{
 			CommandClear::clearTask ("1-2");
 			std::string expectedOutput2 = "Message with index from 1 to 2 have been clear";
 			std::string actualOutput2 = Logic::messageDisplayed;
+			CommandClear::clearTask("all");
 			Assert::AreEqual(expectedOutput2, actualOutput2);
 
 			//test case 3
