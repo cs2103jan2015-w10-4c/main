@@ -1,3 +1,5 @@
+//author: A0115399W
+
 #include "DateParser.h"
 #include <string>
 #include <iostream>
@@ -16,6 +18,11 @@ const int LENGTH_ONE_DIGIT = 1;
 const string EMPTY_SPACE = " ";
 const string SLASH = "/";
 const string ZERO = "0";
+const string START_OF_DOUBLE = "01";
+const string MONTH_END_DOUBLE = "12";
+const string DAY_END_DOUBLE = "31";
+const string START_OF_SINGLE = "1";
+const string END_OF_SINGLE = "9";
 
 DateParser::DateParser(void){
 }
@@ -34,6 +41,9 @@ DateParser::DateParser(string input){
 				_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_DOUBLE);
 				_integerDay = atoi(_day.c_str());
 				_integerMonth = atoi(_month.c_str());
+				if(_day >= START_OF_DOUBLE && _day <= DAY_END_DOUBLE && _month >= START_OF_DOUBLE && _month <= MONTH_END_DOUBLE){
+					_validDate = true;
+				}
 			}
 		// format:  dd/m
 			if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
@@ -42,6 +52,9 @@ DateParser::DateParser(string input){
 				_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_SINGLE);
 				_integerDay = atoi(_day.c_str());
 				_integerMonth = atoi(_month.c_str());
+				if(_day >= START_OF_DOUBLE && _day <= DAY_END_DOUBLE && _month >= START_OF_SINGLE && _month <= END_OF_SINGLE){
+					_validDate = true;
+				}
 			}
 			
 	}
@@ -54,6 +67,9 @@ DateParser::DateParser(string input){
 					_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_DOUBLE);
 					_integerDay = atoi(_day.c_str());
 					_integerMonth = atoi(_month.c_str());
+					if(_day >= START_OF_SINGLE && _day <= END_OF_SINGLE && _month >= START_OF_DOUBLE && _month <= MONTH_END_DOUBLE){
+						_validDate = true;
+					}
 				}
 				// format: d/m
 				if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
@@ -61,7 +77,10 @@ DateParser::DateParser(string input){
 					_day = ZERO + input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
 					_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_SINGLE);
 					_integerDay = atoi(_day.c_str());
-					   _integerMonth = atoi(_month.c_str());
+				    _integerMonth = atoi(_month.c_str());
+					if(_day >= START_OF_SINGLE && _day <= END_OF_SINGLE && _month >= START_OF_SINGLE && _month <= END_OF_SINGLE){
+						_validDate = true;
+					}
 				}
 			}
 		}
@@ -100,6 +119,10 @@ int DateParser::getDay(){
 
 int DateParser::getMonth(){
 	return _integerMonth;
+}
+
+bool DateParser::isValidDate(){
+	return _validDate;
 }
 
 /*string DateParser::getAlphaMonth(){
