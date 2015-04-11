@@ -6,9 +6,11 @@ const string DEADLINE_Task_LABEL = "deadline";
 const string FLOATING_Task_LABEL = "floating";
 const string PROCESSING_Task_LABEL = "progressing";
 const string FINISHED_Task_LABEL = "done";
+const string UNCOMPLETED_TASK_LABLE = "uncompleted";
 const string EMPTY_SPACE_DOUBLE ="  ";
 const string DUMMY_INPUT_FOR_SECOND_TASK_CONSTRUCTOR = "00";
 const int COLOR_FINISHED_TASK = 250;
+const int COLOR_UNCOMPLETED_TASK = 249;
 const int COLOR_NORAL_BACKGROUND = 243;
 const int COLOR_WELCOME_MESSAGE = 244;
 const int LENGTH_INDEX_AND_TASK_NAME=18;
@@ -32,7 +34,7 @@ void UI::displayWelcomeMessage() {
 
 	cout    <<"\n                              WELCOME TO TASKHUB ^-^                          "
 			<<"\n INPUT FORMAT:   "
-			<<"\n	Scheduled Task: add meeting -from 13:00 -to 14:00 11/12 @utwon  "
+			<<"\n	Scheduled Task: add meeting -from 13:00 -to 14:00 11/12 @utown  "
 			<<"\n	Deadline Task: add meeting -by 13:00 11/12 @utown   "
 			<<"\n	Floating Task: add meeting   "
 			<<"\n	Recurring Task: recurring meeting 11/12 08:00 09:00 -every mon   "
@@ -137,6 +139,12 @@ void UI::displayDay(vector<string> task, string heading) {
 				cout<< left << setw(LENGTH_LEFT_SIDE_FORMAT) <<"\n|";
 				if(temporary[i].getStatus()==FINISHED_Task_LABEL) {
 					SetConsoleTextAttribute(hConsole,COLOR_FINISHED_TASK);
+				}
+				else {
+					SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
+				}
+				if(temporary[i].getStatus()==UNCOMPLETED_TASK_LABLE) {
+					SetConsoleTextAttribute(hConsole,COLOR_UNCOMPLETED_TASK);
 				}
 				else {
 					SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
