@@ -30,3 +30,6 @@
 #include "..\TaskHub\StorageController.h"
 #include "..\TaskHub\Ui.h"
 #include "..\TaskHub\TaskLog.h"
+#include "..\TaskHub\CommandClear.h"
+#include "..\TaskHub\CommandMarkUncomplete.h"
+#include "..\TaskHub\CommandUndo.h"
