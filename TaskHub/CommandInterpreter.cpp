@@ -18,6 +18,7 @@ const string CommandInterpreter::COMMAND_DISPLAY = "display";
 const string CommandInterpreter::COMMAND_RECURRING = "recurring";
 const string CommandInterpreter::COMMAND_HELP = "help";
 const string CommandInterpreter::COMMAND_EXIT = "exit";
+const string CommandInterpreter::COMMAND_DETAIL = "detail";
 
 CommandInterpreter::CommandInterpreter () {
 
@@ -64,6 +65,8 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 		return Logic::markUncompleted(TaskString);
 	case SEARCH:
 		return Logic::search(TaskString);
+	case DETAIL:
+		return Logic::getDetail(TaskString);
 	case CHECK:
 		return Logic::checkClash(TaskString);
 	case UNDO:
@@ -107,6 +110,9 @@ CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string
 	}
 	else if (commandTypeString == COMMAND_SHOW) {
 		return COMMAND_TYPE::SHOW;
+	} 
+	else if (commandTypeString == COMMAND_DETAIL) {
+		return COMMAND_TYPE::DETAIL;
 	}
 	else if (commandTypeString == COMMAND_SORT) {
 		return COMMAND_TYPE::SORT;

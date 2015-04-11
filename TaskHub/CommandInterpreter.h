@@ -13,7 +13,7 @@ class CommandInterpreter {
 		~CommandInterpreter ();
 	enum COMMAND_TYPE {
 		HELP, ADD_TASK, CLEAR, UPDATE, RECURRING, DELETE_TASK, SEARCH, CHECK, SORT, DISPLAY_TASK, 
-		MARK_DONE, UNCONPLETE, UNDO, REDO, SHOW, EXIT, INVALID
+		DETAIL, MARK_DONE, UNCONPLETE, UNDO, REDO, SHOW, EXIT, INVALID
 	};
 	static string executeUserCommand(string userCommand);
 private:
@@ -41,6 +41,7 @@ private:
 	static const string COMMAND_DONE;
 	static const string COMMAND_HELP;
 	static const string COMMAND_EXIT;
+	static const string COMMAND_DETAIL;
 
 };
 

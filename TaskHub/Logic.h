@@ -32,6 +32,7 @@ public:
 	static string help();
 	static string recurTask(string input);
 	static string show(string input);
+	static string getDetail(string input);
 	
 	static vector<Task> textStorage;
 	static string lastCommandType;

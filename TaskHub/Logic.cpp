@@ -15,6 +15,7 @@
 #include "CommandAutoSort.h"
 #include "CommandRecurring.h"
 #include "CommandClash.h"
+#include "CommandDetail.h"
 
 char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY] = "";
 
@@ -28,6 +29,11 @@ void Logic::getStorage(){
 		Logic::history.setVectorTextStorage(newTask);
 	}
 	
+}
+
+string Logic::getDetail (string input) {
+
+	return CommandDetail::detailMessage(input);
 }
 
 string Logic::addTask(string input){
