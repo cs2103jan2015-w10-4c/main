@@ -76,6 +76,7 @@ void UI::showToUser(string userCommand) {
 	else{
 		string temp= ShowDailyTask::showDayTask("today");
 		vector<string> task = ShowDailyTask::messageDisplayed;
+		//if (!task.empty())
 		//cout << task[0]<<endl;
 		UI::dispalyDay(task, "Today");
 		
@@ -85,19 +86,19 @@ void UI::showToUser(string userCommand) {
 
 }
 void UI::displayDetail(string task, string index){
-	Task temp(task);
+	Task temp(task,"00");
 	cout << "\n Detail of task " << index << " :";
 	cout <<"\n -----------------------------------------------------------------------------";
 	cout << "\n¡¾TASK NAME¡¿: " << temp.getTaskName()
 		<< "\n¡¾DATE¡¿: " << temp.getScheduledDate()
 		<< "\n¡¾TIME¡¿: " << temp.getStartTime() << " - " << temp.getEndTime()
-		<< "\n ¡¾VENUE¡¿: " << temp.getVenue()
-		<< "\n ¡¾STATUS¡¿: " << temp.getStatus();
+		<< "\n¡¾VENUE¡¿: " << temp.getVenue()
+		<< "\n¡¾STATUS¡¿: " << temp.getStatus();
 }
 void UI::dispalyDay(vector<string> task, string heading){
 	vector<Task> temporary;
-	int indexAndNameLength=20;
-	int dateLength=8;
+	int indexAndNameLength=18;
+	int dateLength=10;
 	int timeLength=15;
 	int venueLength=13;
 	int statusLength=12;
@@ -162,8 +163,8 @@ void UI::dispalyDay(vector<string> task, string heading){
 					time = EMPTY_SPACE;
 				}
 				cout<< left << setw(indexAndNameLength) << temporary[i].getTaskName().substr(0,indexAndNameLength-2) 
-					<< setw(dateLength) << date.substr(0,dateLength)
-					<< setw(timeLength) << time.substr(0,timeLength)
+					<< right << setw(dateLength) << date.substr(0,dateLength)
+					<< left << setw(timeLength) << time.substr(0,timeLength)
 					<< setw(venueLength) << temporary[i].getVenue().substr(0,venueLength)
 					<< setw(statusLength) << temporary[i].getStatus().substr(0,statusLength);
 			
