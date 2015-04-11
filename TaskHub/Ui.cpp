@@ -23,7 +23,12 @@ void UI::displayWelcomeMessage(){
 	SetConsoleTextAttribute(hConsole, WELCOME_MESSAGE_COLOR);
 
 	cout     <<"\n                              WELCOME TO TASKHUB ^-^                          "
-			 <<"\n ******************************************************************************      "
+			<<"\n INPUT FORMAT:   "
+			<<"\n	Scheduled Task: add meeting -from 13:00 -to 14:00 11/12 @utwon  "
+			<<"\n	Deadline Task: add meeting -by 13:00 11/12 @utown   "
+			<<"\n	Floating Task: add meeting   "
+			<<"\n	Recurring Task: recurring meeting 11/12 08:00 09:00 -every mon   "
+			<<"\n ******************************************************************************      "
 			 <<endl<<endl;
 	SetConsoleTextAttribute(hConsole, NORAL_BACKGROUND_COLOR);
 
@@ -163,8 +168,8 @@ void UI::dispalyDay(vector<string> task, string heading){
 					time = EMPTY_SPACE;
 				}
 				cout<< left << setw(indexAndNameLength) << temporary[i].getTaskName().substr(0,indexAndNameLength-2) 
-					<< right << setw(dateLength) << date.substr(0,dateLength)
-					<< left << setw(timeLength) << time.substr(0,timeLength)
+					<< setw(dateLength) << date.substr(0,dateLength)
+					<< setw(timeLength) << time.substr(0,timeLength)
 					<< setw(venueLength) << temporary[i].getVenue().substr(0,venueLength)
 					<< setw(statusLength) << temporary[i].getStatus().substr(0,statusLength);
 			
