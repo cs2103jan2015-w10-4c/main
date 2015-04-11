@@ -1,13 +1,20 @@
 #include "Parser.h"
 
 const int Task_LEN = 250;
-const string SCHEDULED_Task_LABEL = "timed";
-const string DEADLINE_Task_LABEL = "deadline";
-const string FLOATING_Task_LABEL = "floating";
-const string PROCESSING_Task_LABEL = "progressing";
-const string FINISHED_Task_LABEL = "done";
-const string INVALID_DATE_MSG = "invalid date, provide valid date";
-const string INVALID_TIME_MSG = "invalid time, provide valid time";
+const string SCHEDULED_TASK_LABEL = "timed";
+const string DEADLINE_TASK_LABEL = "deadline";
+const string FLOATING_TASK_LABEL = "floating";
+const string PROCESSING_TASK_LABEL = "progressing";
+const string FINISHED_TASK_LABEL = "done";
+const string UNCOMPLETED_TASK_LABEL = "uncompleted";
+const string MESSAGE_INVALID_DATE = "Invalid date, provide valid date";
+const string MESSAGE_INVALID_TIME = "Invalid time, provide valid time";
+const string MARK_FROM = "-from";
+const string MARK_TO = "-to";
+const string MARK_BY = "-by";
+const string MARK_AT = "@";
+const string SLASH = "/";
+const string COLON = ":";
 const string EMPTY_SPACE =" ";
 const int LENGTH_OF_DATE = 5;
 
@@ -15,16 +22,22 @@ Task::Task(){}
 
 Task::Task(string input){
 	if (!input.empty()){
-		size_t timed_Task = input.find("-from");
-		size_t deadlined_Task = input.find("-by");
-		size_t venue_Task = input.find("@");
-
-		if (timed_Task != string::npos){
-			DateParser parseDate(input);
-		    TimeParser parseTime(input);
+		size_t timedTask = input.find(MARK_FROM);
+		size_t timedTaskEnd = input.find(MARK_TO);
+		size_t deadlinedTask = input.find(MARK_BY);
+		size_t venueTask = input.find(MARK_AT);
 		
-			_TaskType = SCHEDULED_Task_LABEL;
-			_TaskName = input.substr(0, timed_Task - 1);
+		if((timedTask != string::npos && timedTaskEnd == string::npos) || (timedTask == string::npos && timedTaskEnd != string::npos) || (timedTask > timedTaskEnd)){
+			_isValid = false;
+		}
+
+		else if (timedTask != string::npos && timedTaskEnd != string::npos){
+			_isValid = true;
+			DateParser parseDate(input.substr(timedTaskEnd));
+			TimeParser parseTime(input.substr(timedTask));
+
+			_TaskType = SCHEDULED_TASK_LABEL;
+			_TaskName = input.substr(0, timedTask - 1);
 			_startTime = parseTime.getStartTime();
 			_endTime = parseTime.getEndTime();
 			_deadlineTime = "";
@@ -40,15 +53,16 @@ Task::Task(string input){
 			_scheduledDateReverse = parseDate.getDateReverse();
 			
 		}
-		else if (deadlined_Task != string::npos){
+		else if (deadlinedTask != string::npos){
+			_isValid = true;
 			DateParser parseDate(input);
 			TimeParser parseTime(input);
 
-			_TaskType = DEADLINE_Task_LABEL;
-			_TaskName = input.substr(0, deadlined_Task - 1);
+			_TaskType = DEADLINE_TASK_LABEL;
+			_TaskName = input.substr(0, deadlinedTask - 1);
 			_startTime = "";
 			_endTime = "";
-			_deadlineTime = input.substr(deadlined_Task + 4, 5);
+			_deadlineTime = input.substr(deadlinedTask + 4, 5);
 			_startHour = parseTime.getStartHour();
 			_startMinute = parseTime.getStartMinute();
 			_scheduledDate = "";
@@ -57,8 +71,9 @@ Task::Task(string input){
 			_integerMonth = parseDate.getMonth();
 			_alphaMonth = parseDate.getAlphaMonth();
 		}
-		else{
-			_TaskType = FLOATING_Task_LABEL;
+		else {
+			_isValid = true;
+			_TaskType = FLOATING_TASK_LABEL;
 			_TaskName = input;
 			_startTime = "";
 			_endTime = "";
@@ -68,8 +83,8 @@ Task::Task(string input){
 			_scheduledDateReverse = "";
 			
 		}
-		_status = "progressing";
-		if (venue_Task != string::npos){
+		_status = PROCESSING_TASK_LABEL;
+		if (venueTask != string::npos){
 			VenueParser parseVenue(input);
 		    _venue = parseVenue.getVenue();
 		}
@@ -87,17 +102,17 @@ Task::Task(string Task, string input){
 	if (!Task.empty()){
 
 		//store _status
-		size_t find__status = Task.find("progressing");
+		size_t find__status = Task.find(PROCESSING_TASK_LABEL);
 		if (find__status != string::npos){
-			_status = "progressing";
+			_status = PROCESSING_TASK_LABEL;
 		}
 		else{
-			size_t find__status = Task.find("done");
+			size_t find__status = Task.find(FINISHED_TASK_LABEL);
 			if (find__status != string::npos){
-				_status = "done";
+				_status = FINISHED_TASK_LABEL;
 			}
 			else{
-				_status = " ";
+				_status = EMPTY_SPACE;
 			}
 		}
 
@@ -117,7 +132,7 @@ Task::Task(string Task, string input){
 				TimeParser parseTime(Task);
 				DateParser parseDate(Task);
 
-				_TaskType = SCHEDULED_Task_LABEL;
+				_TaskType = SCHEDULED_TASK_LABEL;
 				_TaskName = Task.substr(0, find_bracket - 1);
 				_startTime = parseTime.getStartTime();
 				_endTime = parseTime.getEndTime();
@@ -138,7 +153,7 @@ Task::Task(string Task, string input){
 				TimeParser parseTime(Task);
 
 				_TaskName = Task.substr(0, find_bracket - 2);
-				_TaskType = DEADLINE_Task_LABEL;
+				_TaskType = DEADLINE_TASK_LABEL;
 				_startTime = "";
 				_endTime = "";
 				_deadlineTime = parseTime.getStartTime();
@@ -149,7 +164,7 @@ Task::Task(string Task, string input){
 
 		}
 		else{
-			_TaskType = FLOATING_Task_LABEL;
+			_TaskType = FLOATING_TASK_LABEL;
 			_TaskName = Task.substr(0, find__status-2);
 			_startTime = "";
 			_endTime = "";
@@ -158,14 +173,14 @@ Task::Task(string Task, string input){
 			_deadlineDate = "";
 			_scheduledDateReverse = "";
 		}
-		size_t venue_Task = Task.find("@");
-		size_t status_mark = Task.find_last_of(" ");
-		if (venue_Task != string::npos){
+		size_t venueTask = Task.find(MARK_AT);
+		size_t status_mark = Task.find_last_of(EMPTY_SPACE);
+		if (venueTask != string::npos){
 			VenueParser parseVenue(Task);
 			string tempVenue;
 			tempVenue = parseVenue.getVenue();
 			
-			_venue = tempVenue.substr(0, status_mark - venue_Task);
+			_venue = tempVenue.substr(0, status_mark - venueTask);
 		}
 		else{
 			_venue = "";
@@ -178,14 +193,14 @@ string Task::ToString(){
 	char Task[Task_LEN];
 	string output;
 	strcpy_s(Task, _TaskName.c_str());
-	if (_TaskType == DEADLINE_Task_LABEL){
-		output = Task+EMPTY_SPACE+" [due "+_deadlineDate.c_str()+" "+_deadlineTime.c_str()+"] "+_venue.c_str()+" "+ _status.c_str();
+	if (_TaskType == DEADLINE_TASK_LABEL){
+		output = Task+EMPTY_SPACE+" [due "+_deadlineDate.c_str()+EMPTY_SPACE+_deadlineTime.c_str()+"] "+_venue.c_str()+EMPTY_SPACE+ _status.c_str();
 	}
-	else if (_TaskType == SCHEDULED_Task_LABEL){
-		output = Task+EMPTY_SPACE+"[ "+ _scheduledDate.c_str()+" "+_startTime.c_str()+" - " + _endTime.c_str()+" ] "+_venue.c_str()+" "+ _status.c_str();
+	else if (_TaskType == SCHEDULED_TASK_LABEL){
+		output = Task+EMPTY_SPACE+"[ "+ _scheduledDate.c_str()+EMPTY_SPACE+_startTime.c_str()+" - " + _endTime.c_str()+" ] "+_venue.c_str()+EMPTY_SPACE+ _status.c_str();
 	}
-	else if (_TaskType == FLOATING_Task_LABEL){
-		output = Task+EMPTY_SPACE+_venue.c_str()+" "+_status.c_str();
+	else if (_TaskType == FLOATING_TASK_LABEL){
+		output = Task+EMPTY_SPACE+_venue.c_str()+EMPTY_SPACE+_status.c_str();
 	}
 	return output;
 }
@@ -196,42 +211,42 @@ string Task::getTaskName(){
 
 void Task::UpdateTask(string input){
 
-	input = " " + input;
+	input = EMPTY_SPACE + input;
 	if(!input.empty()) {
-		size_t timed_Task_startTime = input.find("-from");
-		size_t timed_Task_endTime = input.find("-to");
-		size_t deadlined_Task = input.find("-by");
+		size_t timedTask_startTime = input.find("-from");
+		size_t timedTask_endTime = input.find("-to");
+		size_t deadlinedTask = input.find("-by");
 		size_t date = input.find("/");
 		size_t venue = input.find("@");
 
-		if(timed_Task_startTime!=string::npos){
-			_startTime = input.substr(timed_Task_startTime + 6, 5);
+		if(timedTask_startTime!=string::npos){
+			_startTime = input.substr(timedTask_startTime + 6, 5);
 			TimeParser updateInfo(input);
 			_startHour = updateInfo.getStartHour();
 			_startMinute = updateInfo.getStartMinute();
 		}
 
-		if(timed_Task_endTime!=string::npos){
-			_endTime = input.substr(timed_Task_endTime + 4, 5);
+		if(timedTask_endTime!=string::npos){
+			_endTime = input.substr(timedTask_endTime + 4, 5);
 			TimeParser updateInfo(input);
 			_endHour = updateInfo.getEndHour();
 			_endMinute = updateInfo.getEndMinute();
 		}
 
-		if(deadlined_Task!=string::npos){
-				_deadlineTime = input.substr(deadlined_Task + 4, 5);
+		if(deadlinedTask!=string::npos){
+				_deadlineTime = input.substr(deadlinedTask + 4, 5);
 				TimeParser updateInfo(input);
 				_startHour = updateInfo.getStartHour();
 				_startMinute = updateInfo.getStartMinute();
 		}
 		if(date!=string::npos){
-			if(_TaskType==SCHEDULED_Task_LABEL){
+			if(_TaskType==SCHEDULED_TASK_LABEL){
 				DateParser dateParse(input);
 				_scheduledDate = dateParse.getDate();
 				_integerDay = dateParse.getDay();
 				_integerMonth = dateParse.getMonth();
 			}
-			else if(_TaskType==DEADLINE_Task_LABEL){
+			else if(_TaskType==DEADLINE_TASK_LABEL){
 				DateParser dateParse(input);
 				_deadlineDate = dateParse.getDate();
 				_integerDay = dateParse.getDay();
@@ -243,9 +258,9 @@ void Task::UpdateTask(string input){
 		}
 
 		string temp;
-		if(timed_Task_endTime==string::npos){
-			if(timed_Task_startTime==string::npos){
-				if(deadlined_Task==string::npos){
+		if(timedTask_endTime==string::npos){
+			if(timedTask_startTime==string::npos){
+				if(deadlinedTask==string::npos){
 					if(date==string::npos){
 						if(venue == string::npos){
 							temp = input;
@@ -255,37 +270,37 @@ void Task::UpdateTask(string input){
 				}
 			}
 		}
-		if(deadlined_Task!=string::npos){
-			temp = input.substr(0,deadlined_Task);
-			if(temp!=" "){
+		if(deadlinedTask!=string::npos){
+			temp = input.substr(0,deadlinedTask);
+			if(temp!=EMPTY_SPACE){
 				_TaskName = temp;
 			}
-		}else if(timed_Task_startTime!=string::npos){
-			temp = input.substr(0,timed_Task_startTime);
-			if(temp!=" "){
+		}else if(timedTask_startTime!=string::npos){
+			temp = input.substr(0,timedTask_startTime);
+			if(temp!=EMPTY_SPACE){
 				_TaskName = temp;
 			}
-		}else if(timed_Task_endTime!=string::npos){
-			temp = input.substr(0,timed_Task_endTime);
-			if(temp!=" "){
+		}else if(timedTask_endTime!=string::npos){
+			temp = input.substr(0,timedTask_endTime);
+			if(temp!=EMPTY_SPACE){
 				_TaskName = temp;
 			}
 		}else if(date!=string::npos){
-			if(_TaskType==SCHEDULED_Task_LABEL){
+			if(_TaskType==SCHEDULED_TASK_LABEL){
 				size_t temparory = input.find_first_of(_scheduledDate);
 				if(temparory!=0){
 					temp = input.substr(0,temparory);
-					if(temp!=" "){
+					if(temp!=EMPTY_SPACE){
 					_TaskName = temp;
 					}
 				}
 				
 			}
-			else if(_TaskType==DEADLINE_Task_LABEL){
+			else if(_TaskType==DEADLINE_TASK_LABEL){
 				size_t temparory = input.find_first_of(_deadlineDate);
 				if(temparory!=0){
 					temp = input.substr(0,temparory);
-					if(temp!=" "){
+					if(temp!=EMPTY_SPACE){
 					_TaskName = temp;
 					}
 				}
@@ -293,7 +308,7 @@ void Task::UpdateTask(string input){
 			}
 		}else if(venue!=string::npos){
 			temp = input.substr(0,venue);
-			if(temp!=" "){
+			if(temp!=EMPTY_SPACE){
 				_TaskName = temp;
 			}
 		}
@@ -306,15 +321,15 @@ void Task::UpdateTask(string input){
 
 
 void Task::MarkDone(){
-	_status = "done";
+	_status = FINISHED_TASK_LABEL;
 }
 
 void Task::MarkUndone(){
-	_status = "progressing";
+	_status = PROCESSING_TASK_LABEL;
 }
 
 void Task::markUncompleted(){
-	_status = "uncompleted";
+	_status = UNCOMPLETED_TASK_LABEL;
 }
 
 void Task::checkInputValidation(){
@@ -326,19 +341,19 @@ void Task::checkInputValidation(){
 	int end_mins;
 
 	//check time frame in scheduled Task
-	while ((_TaskType == SCHEDULED_Task_LABEL) && (!valid_time)){
-		size_t get__startTime = _startTime.find(":");
-		size_t get__endTime = _endTime.find(":");
-		start_hour = atoi(_startTime.substr(0, get__startTime).c_str());
-		start_mins = atoi(_startTime.substr(get__startTime + 1, 2).c_str());
-		end_hour = atoi(_endTime.substr(0, get__endTime).c_str());
-		end_mins = atoi(_endTime.substr(get__endTime + 1, 2).c_str());
+	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_time)){
+		size_t get__startTime = _startTime.find(COLON);
+		size_t get__endTime = _endTime.find(COLON);
+		start_hour = _startHour;
+		start_mins = _startMinute;
+		end_hour = _endHour;
+		end_mins = _endMinute;
 		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60) && (end_hour >= 0 && end_hour <= 24) && (end_mins >= 0 && end_mins <= 60)){
 			if (start_hour < end_hour){
 				valid_time = true;
 			}
 			else{
-				cout << INVALID_TIME_MSG << endl;
+				cout << MESSAGE_INVALID_TIME << endl;
 				cout << "starting time:";
 				getline (cin, _startTime);
 				cout << "ending time:";
@@ -346,7 +361,7 @@ void Task::checkInputValidation(){
 			}
 		}
 		else{
-			cout << INVALID_TIME_MSG << endl;
+			cout << MESSAGE_INVALID_TIME << endl;
 			cout << "starting time:";
 			getline (cin, _startTime);
 			cout << "ending time:";
@@ -355,15 +370,15 @@ void Task::checkInputValidation(){
 	}
 
 	//check time frame in deadline Task
-	while ((_TaskType == DEADLINE_Task_LABEL) && (!valid_time)){
-		size_t get_time = _deadlineTime.find(":");
-		start_hour = atoi(_deadlineTime.substr(0, get_time).c_str());
-		start_mins = atoi(_deadlineTime.substr(get_time + 1, 2).c_str());
+	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_time)){
+		size_t get_time = _deadlineTime.find(COLON);
+		start_hour = _startHour;
+		start_mins = _startMinute;
 		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60)){
 			valid_time = true;
 		}
 		else{
-			cout << INVALID_TIME_MSG << endl;
+			cout << MESSAGE_INVALID_TIME << endl;
 			cout << "deadline time:";
 			getline (cin ,_deadlineTime);
 		}
@@ -375,25 +390,25 @@ void Task::checkInputValidation(){
 	int date;
 
 	//check date for deadline Task
-	while ((_TaskType == DEADLINE_Task_LABEL) && (!valid_date)){
-		size_t get_date = _deadlineDate.find("/");
+	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_date)){
+		size_t get_date = _deadlineDate.find(SLASH);
 		
 		if (get_date != string::npos){
-			date = atoi(_deadlineDate.substr(0, get_date).c_str());
-		    month = atoi(_deadlineDate.substr(get_date + 1, 2).c_str());
+			date = _integerDay;
+			month = _integerMonth;
 		    if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
 			    valid_date = true;
 		    }
 		    else{
-			    cout << INVALID_DATE_MSG <<endl;
+			    cout << MESSAGE_INVALID_DATE <<endl;
 			    getline(cin,_deadlineDate);
 		    }
 		}
 	}
 
 	//check date for schedule Task
-	while ((_TaskType == SCHEDULED_Task_LABEL) && (!valid_date)){
-		size_t get_date = _scheduledDate.find("/");
+	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_date)){
+		size_t get_date = _scheduledDate.find(SLASH);
 		if(get_date != string::npos){
 			date = atoi(_scheduledDate.substr(0, get_date).c_str());
 		    month = atoi(_scheduledDate.substr(get_date + 1, 2).c_str());
@@ -401,7 +416,7 @@ void Task::checkInputValidation(){
 			    valid_date = true;
 		    }
 		    else{
-			    cout << INVALID_DATE_MSG << endl;
+			    cout << MESSAGE_INVALID_DATE << endl;
 			    getline(cin, _scheduledDate);
 		    }
 		}
@@ -472,4 +487,8 @@ int Task::getEndHour(){
 
 int Task::getEndMinute(){
 	return _endMinute;
+}
+
+bool Task::isValid(){
+	return _isValid;
 }

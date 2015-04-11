@@ -28,6 +28,7 @@ private:
 	int _startMinute;
 	int _endHour;
 	int _endMinute;
+	bool _isValid;
 
 
 
@@ -60,6 +61,7 @@ public:
 	void MarkUndone();
 	void checkInputValidation();
 	void markUncompleted();
+	bool isValid();
 };
 
 #endif
