@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <Windows.h>
 #include <string>
-#include "Ui.h"
-#include "CommandInterpreter.h"
+#include "..\TaskHub\Ui.h"
+#include "..\TaskHub\CommandInterpreter.h"
 
 //const int FINISHED_TASK_COLOR = 250;
 const int NORAL_BACKGROUND_COLOR = 243;
