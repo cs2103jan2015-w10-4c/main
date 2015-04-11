@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <Windows.h>
+#include <algorithm>
 #include "Logic.h"
 #include "CommandAdd.h"
 #include "CommandUndo.h"

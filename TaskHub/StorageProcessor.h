@@ -17,6 +17,8 @@ public:
 	~StorageProcessor();
 
 	std::string convertTaskIntoString();
+	Task convertStringIntoTask();
+
 	std::string processFileDirectory(std::string inputString);
 
 };

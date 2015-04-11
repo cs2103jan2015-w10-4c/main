@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <algorithm>
 #include "TaskLog.h"
 #include "StorageProcessor.h"
 #include "StorageDatabase.h"
@@ -21,9 +20,8 @@ private:
 	static TaskLog* taskLog;;					// For logging
 
 	//objects to execute database and processor functions
-	static StorageDatabase* _databaseObj;
-	static StorageProcessor* _processorObj;
-
+	static StorageDatabase _databaseObj;
+	static StorageProcessor _processorObj;
 
 public:
 	StorageController();

@@ -7,8 +7,8 @@ std::string StorageController::_fileName;
 const std::string StorageController::_lastSaveFileName = "LastSaveFile.txt";
 
 TaskLog* StorageController::taskLog;
-StorageDatabase* StorageController::_databaseObj = new StorageDatabase();
-StorageProcessor* StorageController::_processorObj = new StorageProcessor();
+//StorageDatabase* StorageController::_databaseObj = new StorageDatabase();
+//StorageProcessor* StorageController::_processorObj = new StorageProcessor();
 
 StorageController::StorageController(){
 }
@@ -18,8 +18,8 @@ StorageController::~StorageController(){
 
 void StorageController::updateSaveFile() {
 	std::string filename = getFileName();
-	std::string inputString = _processorObj->convertTaskIntoString();
-	_databaseObj->executeUpdateSaveFile(filename, inputString);
+	std::string inputString = _processorObj.convertTaskIntoString();
+	_databaseObj.executeUpdateSaveFile(filename, inputString);
 }
 
 void StorageController::programmeInitialising(){
@@ -33,8 +33,8 @@ void StorageController::promptSaveFile(){
 	std::string fileName;
 
 	if (isRetrieveSaveFile()){
-		_databaseObj->readLastSavedFileFromStorage();
-		fileName = _databaseObj->getLastSavedFileName();
+		_databaseObj.readLastSavedFileFromStorage();
+		fileName = _databaseObj.getLastSavedFileName();
 	}
 	else{
 		std::cout << "Enter save file address: ";
@@ -42,10 +42,10 @@ void StorageController::promptSaveFile(){
 		
 		std::string temp;
 		std::getline(cin, temp);
-		fileName = _processorObj->processFileDirectory(temp);
+		fileName = _processorObj.processFileDirectory(temp);
 
-		_databaseObj->setLastSavedFileName(fileName);
-		_databaseObj->setLastSavedFileIntoStorage(fileName);
+		_databaseObj.setLastSavedFileName(fileName);
+		_databaseObj.setLastSavedFileIntoStorage(fileName);
 	}
 	setFileName(fileName);
 }

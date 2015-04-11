@@ -30,6 +30,10 @@ std::string StorageProcessor::convertTaskIntoString(){
 	}
 }
 
+Task StorageProcessor::convertStringIntoTask(){
+
+}
+
 /*
 	Function removes the quotation marks, in the event when the user copy and paste the file address as 
 	a file path.
