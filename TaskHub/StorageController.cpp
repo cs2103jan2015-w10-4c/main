@@ -7,8 +7,8 @@ std::string StorageController::_fileName;
 const std::string StorageController::_lastSaveFileName = "LastSaveFile.txt";
 
 TaskLog* StorageController::taskLog;
-StorageDatabase* StorageController::_databaseObj;
-StorageProcessor* StorageController::_processorObj;
+StorageDatabase* StorageController::_databaseObj = new StorageDatabase();
+StorageProcessor* StorageController::_processorObj = new StorageProcessor();
 
 StorageController::StorageController(){
 }
@@ -17,17 +17,9 @@ StorageController::~StorageController(){
 }
 
 void StorageController::updateSaveFile() {
-	ofstream file;
-	//StorageProcessor* convertorObj = new StorageProcessor();
-	_processorObj = new StorageProcessor();
-
-	file.open(getFileName());
-	file << _processorObj->convertTaskIntoString();	
-	file.close();
-
-	//free memory space allocated
-	delete _processorObj;
-	_processorObj = NULL;
+	std::string filename = getFileName();
+	std::string inputString = _processorObj->convertTaskIntoString();
+	_databaseObj->executeUpdateSaveFile(filename, inputString);
 }
 
 void StorageController::programmeInitialising(){
@@ -41,12 +33,15 @@ void StorageController::promptSaveFile(){
 	std::string fileName;
 
 	if (isRetrieveSaveFile()){
-		fileName = getLastSaveFileName();
+		_databaseObj->readLastSavedFileFromStorage();
+		fileName = _databaseObj->getLastSavedFileName();
 	}
 	else{
 		std::cout << "Enter save file address: ";
-		std::cin >> fileName;
-		setLastSaveFile(fileName);
+		std::cin.ignore();
+		std::getline(cin, fileName);
+		_databaseObj->setLastSavedFileName(fileName);
+		_databaseObj->setLastSavedFileIntoStorage(fileName);
 	}
 	setFileName(fileName);
 }
@@ -106,7 +101,7 @@ void StorageController::setFileName(std::string fileName){
 std::string StorageController::getFileName(){
 	return _fileName;
 }
-
+/*
 void StorageController::setLastSaveFile(std::string newFileName){
 	ofstream file;
 	file.open(_lastSaveFileName);
@@ -122,6 +117,7 @@ std::string StorageController::getLastSaveFileName(){
 	return lastSaveFileName;
 
 }
+*/
 
 vector<string> StorageController::returnTask() {
 	return TaskList;
