@@ -76,6 +76,7 @@ void UI::showToUser(string userCommand) {
 	else{
 		string temp= ShowDailyTask::showDayTask("today");
 		vector<string> task = ShowDailyTask::messageDisplayed;
+		//if (!task.empty())
 		//cout << task[0]<<endl;
 		UI::dispalyDay(task, "Today");
 		
@@ -96,8 +97,8 @@ void UI::displayDetail(string task, string index){
 }
 void UI::dispalyDay(vector<string> task, string heading){
 	vector<Task> temporary;
-	int indexAndNameLength=20;
-	int dateLength=8;
+	int indexAndNameLength=18;
+	int dateLength=10;
 	int timeLength=15;
 	int venueLength=13;
 	int statusLength=12;
