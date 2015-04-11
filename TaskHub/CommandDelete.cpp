@@ -1,4 +1,4 @@
-#include "Logic.h"
+#include "LogicController.h"
 #include "Parser.h"
 #include "CommandDelete.h"
 

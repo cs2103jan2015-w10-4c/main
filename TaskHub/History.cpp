@@ -1,5 +1,5 @@
 #include "History.h"
-#include "Logic.h"
+#include "LogicController.h"
 
 History::History(void) {
 

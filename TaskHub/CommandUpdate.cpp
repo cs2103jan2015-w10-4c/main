@@ -1,5 +1,5 @@
 #include "CommandUpdate.h"
-#include "Logic.h"
+#include "LogicController.h"
 #include "Parser.h"
 
 const string CommandUpdate::MESSAGE_COMMAND_TYPE = "update";

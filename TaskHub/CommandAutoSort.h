@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "Logic.h"
+#include "LogicController.h"
 #include "Parser.h"
 using namespace std;
 

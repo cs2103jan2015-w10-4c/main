@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <vector>
 #include <algorithm>
-#include "Logic.h"
+#include "LogicController.h"
 #include "ShowDailyTask.h"
 
 const string ShowDailyTask::MESSAGE_TODAY = "today";
