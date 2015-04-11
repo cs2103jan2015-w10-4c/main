@@ -21,7 +21,7 @@ private:
 	string _deadlineDate;
 	string _status;
 	string _venue;
-	string _alphaMonth;
+	//string _alphaMonth;
 	int _integerDay;
 	int _integerMonth;
 	int _startHour;
@@ -48,7 +48,7 @@ public:
 	string getDeadlineDate();
 	string getStatus();
 	string getVenue();
-	string getAlphaMonth();
+	//string getAlphaMonth();
 	int getIntegerDay();
 	int getIntegerMonth();
 	int getStartHour();

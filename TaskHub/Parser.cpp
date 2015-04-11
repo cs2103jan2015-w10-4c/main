@@ -72,7 +72,7 @@ Task::Task(string input){
 				_startMinute = parseTime.getStartMinute();
 				_endHour = parseTime.getEndHour();
 				_endMinute = parseTime.getEndMinute();
-				_alphaMonth = parseDate.getAlphaMonth();
+				//_alphaMonth = parseDate.getAlphaMonth();
 				_scheduledDateReverse = parseDate.getDateReverse();
 			}	
 		}
@@ -92,7 +92,7 @@ Task::Task(string input){
 			_deadlineDate = parseDate.getDate();
 			_integerDay = parseDate.getDay();
 			_integerMonth = parseDate.getMonth();
-			_alphaMonth = parseDate.getAlphaMonth();
+			//_alphaMonth = parseDate.getAlphaMonth();
 		}
 		if(timedTask == string::npos && timedTaskEnd == string::npos && deadlinedTask == string::npos) {
 			isValid = true;
@@ -169,7 +169,7 @@ Task::Task(string Task, string input){
 				_scheduledDateReverse = parseDate.getDateReverse();
 				_integerDay = parseDate.getDay();
 			    _integerMonth = parseDate.getMonth();
-			    _alphaMonth = parseDate.getAlphaMonth();
+			    //_alphaMonth = parseDate.getAlphaMonth();
 			}
 			else if (find_time != string::npos){
 				DateParser parseDate(Task);
