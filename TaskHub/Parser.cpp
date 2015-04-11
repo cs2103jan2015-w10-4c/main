@@ -490,7 +490,7 @@ int Task::getEndHour(){
 int Task::getEndMinute(){
 	return _endMinute;
 }
-
+/*
 bool Task::isValid(){
 	return _isValid;
-}
+}*/
