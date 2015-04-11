@@ -19,6 +19,22 @@ const string EMPTY_SPACE =" ";
 const int ADJUSTMENT_ONE = 1;
 const int LENGTH_OF_DATE = 5;
 const int START_OF_STRING = 0;
+const int HOUR_START = 0;
+const int HOUR_END = 23;
+const int MINUTE_START = 0;
+const int MINUTE_END = 59;
+const int MONTH_START = 1;
+const int MONTH_END = 12;
+const int DAY_START = 1;
+const int FEB_END = 29;
+const int DAY_30_END = 30;
+const int DAY_31_END = 31;
+const int FEB = 2;
+const int APRIL = 4;
+const int JUN = 6;
+const int SEPT = 9;
+const int NOV = 11;
+
 bool Task::isValid;
 
 Task::Task(){}
@@ -69,7 +85,7 @@ Task::Task(string input){
 			_TaskName = input.substr(START_OF_STRING, deadlinedTask - ADJUSTMENT_ONE);
 			_startTime = "";
 			_endTime = "";
-			_deadlineTime = input.substr(deadlinedTask + 4, 5);
+			_deadlineTime =	parseTime.getStartTime();
 			_startHour = parseTime.getStartHour();
 			_startMinute = parseTime.getStartMinute();
 			_scheduledDate = "";
@@ -131,9 +147,9 @@ Task::Task(string Task, string input){
 				
 
 
-			size_t find_time = Task.find(":"); 
+			size_t find_time = Task.find(COLON); 
 			temp = Task.substr(find_time + 2);
-			size_t find_ending_time = temp.find(":");	//check if there's an ending time ie. seperate deadlined Task and scheduled Task
+			size_t find_ending_time = temp.find(COLON);	//check if there's an ending time ie. seperate deadlined Task and scheduled Task
 
 			if ((find_time != string::npos) && (find_ending_time != string::npos)){
 				TimeParser parseTime(Task);
@@ -341,104 +357,54 @@ void Task::markUncompleted(){
 
 void Task::checkInputValidation(){
 	//check for valid time frame
-	bool valid_time = false;
-	int start_hour; //deadline Task use this to store time
-	int start_mins; //deadline Task use this to store time
-	int end_hour;
-	int end_mins;
+	int startHour; //deadline Task use this to store time
+	int startMin; //deadline Task use this to store time
+	int endHour;
+	int endMin;
 
 	//check time frame in scheduled Task
-	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_time)){
-		size_t get__startTime = _startTime.find(COLON);
-		size_t get__endTime = _endTime.find(COLON);
-		start_hour = _startHour;
-		start_mins = _startMinute;
-		end_hour = _endHour;
-		end_mins = _endMinute;
-		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60) && (end_hour >= 0 && end_hour <= 24) && (end_mins >= 0 && end_mins <= 60)){
-			if (start_hour < end_hour){
-				valid_time = true;
+	if (_TaskType == SCHEDULED_TASK_LABEL){
+		startHour = _startHour;
+		startMin = _startMinute;
+		endHour = _endHour;
+		endMin = _endMinute;
+		if ((startHour >= HOUR_START && startHour <= HOUR_END) && (startMin >= MINUTE_START && startMin <= MINUTE_END) && (endHour >= HOUR_START && endHour <= HOUR_END) && (endMin >= MINUTE_START && endMin <= MINUTE_END)){
+			if (startHour <= endHour && startMin < endMin){
+				isValid = true;
 			}
-			else{
-				cout << MESSAGE_INVALID_TIME << endl;
-				cout << "starting time:";
-				getline (cin, _startTime);
-				cout << "ending time:";
-				getline(cin,_endTime);
-			}
-		}
-		else{
-			cout << MESSAGE_INVALID_TIME << endl;
-			cout << "starting time:";
-			getline (cin, _startTime);
-			cout << "ending time:";
-			getline(cin,_endTime);
-		}
+		}	
+
 	}
 
 	//check time frame in deadline Task
-	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_time)){
-		size_t get_time = _deadlineTime.find(COLON);
-		start_hour = _startHour;
-		start_mins = _startMinute;
-		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60)){
-			valid_time = true;
-		}
-		else{
-			cout << MESSAGE_INVALID_TIME << endl;
-			cout << "deadline time:";
-			getline (cin ,_deadlineTime);
+	if (_TaskType == DEADLINE_TASK_LABEL){
+		startHour = _startHour;
+		startMin = _startMinute;
+		if ((startHour >= HOUR_START && startHour <= HOUR_END) && (startMin >= MINUTE_START && startMin <= MINUTE_END)){
+			isValid = true;
 		}
 	}
 
 	//check for valid date
-	bool valid_date = false;
 	int month;
 	int date;
-
 	//check date for deadline Task
-	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_date)){
-		size_t get_date = _deadlineDate.find(SLASH);
-		
-		if (get_date != string::npos){
+	if(_TaskType == DEADLINE_TASK_LABEL || _TaskType == SCHEDULED_TASK_LABEL){
 			date = _integerDay;
 			month = _integerMonth;
-		    if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
-				if((month == 2 && date >= 29) || (month == 4 && date > 30) || (month == 6 && date > 30) || (month == 9 && date > 30) || (month == 11 && date > 30)){
-					valid_date = false;
+			if ((date >= DAY_START && date <= DAY_31_END) && (month >= MONTH_START && month <= MONTH_END)){
+				if((month == FEB && date > FEB_END) || (month == APRIL && date > DAY_30_END) || (month == JUN && date > DAY_30_END) || (month == SEPT && date > DAY_30_END) || (month == NOV && date > DAY_30_END)){
+					isValid = false;
 				}
 				else{
-					valid_date = true;
+					isValid = true;
 				}
 		    }
-			if(valid_date == false){
-			    cout << MESSAGE_INVALID_DATE <<endl;
-			    getline(cin,_deadlineDate);
-		    }
-		}
-	}
-
-	//check date for schedule Task
-	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_date)){
-		size_t get_date = _scheduledDate.find(SLASH);
-		if(get_date != string::npos){
-			date = _integerDay;
-			month = _integerMonth;
-		    if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
-				if((month == 2 && date >= 29) || (month == 4 && date > 30) || (month == 6 && date > 30) || (month == 9 && date > 30) || (month == 11 && date > 30)){
-					valid_date = false;
-				}
-			    else{
-					valid_date = true;
-				}
-		    }
-			if(valid_date == false){
-			    cout << MESSAGE_INVALID_DATE << endl;
-			    getline(cin, _scheduledDate);
-		    }
-		}
 	}
 }
+
+	
+
 
 
 string Task::getTaskType(){
