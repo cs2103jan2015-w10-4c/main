@@ -24,7 +24,7 @@ namespace CommandClearTest{
 			std::string actualOutput2 = Logic::messageDisplayed;
 			CommandClear::clearTask("all");
 			Assert::AreEqual(expectedOutput2, actualOutput2);
-
+			CommandClear::clearTask("all");
 			//test case 3
 			CommandAdd::addOperation("cs meeting");
 			CommandAdd::addOperation("cs meeting and tutorial");
