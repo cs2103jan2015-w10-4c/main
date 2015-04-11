@@ -21,5 +21,6 @@ public:
 private:
 	std::string _lastSavedfile;
 	static const std::string _lastSavedFileStorage;
+
 };
 
