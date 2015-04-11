@@ -1,4 +1,3 @@
-
 #include "UI.h"
 
 const string UI::MESSAGE_WELCOME = "Welcome to Taskhub";
@@ -7,182 +6,175 @@ const string DEADLINE_Task_LABEL = "deadline";
 const string FLOATING_Task_LABEL = "floating";
 const string PROCESSING_Task_LABEL = "progressing";
 const string FINISHED_Task_LABEL = "done";
-const string EMPTY_SPACE =" ";
-const int FINISHED_TASK_COLOR = 250;
-const int NORAL_BACKGROUND_COLOR = 243;
-const int WELCOME_MESSAGE_COLOR = 244;
+const string EMPTY_SPACE_DOUBLE ="  ";
+const string DUMMY_INPUT_FOR_SECOND_TASK_CONSTRUCTOR = "00";
+const int COLOR_FINISHED_TASK = 250;
+const int COLOR_NORAL_BACKGROUND = 243;
+const int COLOR_WELCOME_MESSAGE = 244;
+const int LENGTH_INDEX_AND_TASK_NAME=18;
+const int LENGTH_DATE=10;
+const int LENGTH_TIME=15;
+const int LENGTH_VENUE=13;
+const int LENGTH_STATUS=12;
+const int LENGTH_DOUBLE_EMPTY_SPACE = 2;
+const int LENGTH_LEFT_SIDE_FORMAT = 4;
+const int LENGTH_RIGHT_SIDE_FORMAT = 8;
 
 void UI::programmeInitialising() {
 	StorageController::programmeInitialising();
 	Logic::getStorage();
 }
 
-void UI::displayWelcomeMessage(){
+void UI::displayWelcomeMessage() {
 	HANDLE  hConsole= GetStdHandle(STD_OUTPUT_HANDLE);
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, WELCOME_MESSAGE_COLOR);
+	SetConsoleTextAttribute(hConsole, COLOR_WELCOME_MESSAGE);
 
-	cout     <<"\n                              WELCOME TO TASKHUB ^-^                          "
+	cout    <<"\n                              WELCOME TO TASKHUB ^-^                          "
 			<<"\n INPUT FORMAT:   "
 			<<"\n	Scheduled Task: add meeting -from 13:00 -to 14:00 11/12 @utwon  "
 			<<"\n	Deadline Task: add meeting -by 13:00 11/12 @utown   "
 			<<"\n	Floating Task: add meeting   "
 			<<"\n	Recurring Task: recurring meeting 11/12 08:00 09:00 -every mon   "
 			<<"\n ******************************************************************************      "
-			 <<endl<<endl;
-	SetConsoleTextAttribute(hConsole, NORAL_BACKGROUND_COLOR);
+			<<endl<<endl;
 
+	SetConsoleTextAttribute(hConsole,COLOR_NORAL_BACKGROUND);
 }
 
 void UI::showToUser(string userCommand) {
 	string command = Logic::getFirstWord(userCommand);
 	string message = Logic::removeFirstWord(userCommand);
 
-	
-	
 	if(command=="show"){
 		string aa= ShowDailyTask::showDayTask(message);
 		vector<string> task = ShowDailyTask::messageDisplayed;
 		size_t free = message.find("free");
 
-		if(message=="today")
+		if(message=="today") {
 			UI::dispalyDay(task,"Today");
-		else if(free!=string::npos){
-			
+		}
+		else if(free!=string::npos) {
 			UI::dispalyDay(task, message);
 		}
-		else{
+		else {
 			UI::dispalyDay(task,message);
 		}
-		
 	}
-	else if(command=="display"){
+	else if(command=="display") {
 		vector<string> task = CommandDisplay::messageDisplayed;
 		UI::dispalyDay(task,"Display");
-		
 	}
-	else if(command=="sort"){
+	else if(command=="sort") {
 		vector<string> task = CommandDisplay::messageDisplayed;
 		UI::dispalyDay(task,userCommand);
-		
 	}
-	else if(command=="search"){
+	else if(command=="search") {
 		string temp= CommandSearch::searchMessage(message);
 		vector<string> task = CommandSearch::messageDisplayed;
-		//cout << task[0]<<endl;
 		UI::dispalyDay(task,userCommand);
 	}
-	else if(command=="detail"){
+	else if(command=="detail") {
 		string task = CommandDetail::detailMessage(message);
-		if(!task.empty()){
+		if(!task.empty()) {
 		UI::displayDetail(task,message);
 		}
 	}
-	else{
+	else {
 		string temp= ShowDailyTask::showDayTask("today");
 		vector<string> task = ShowDailyTask::messageDisplayed;
-		//if (!task.empty())
-		//cout << task[0]<<endl;
 		UI::dispalyDay(task, "Today");
-		
 	}
 	cout << "\n -----------------------------------------------------------------------------" 
-			<< endl;
-
+		 << endl;
 }
-void UI::displayDetail(string task, string index){
-	Task temp(task,"00");
+
+void UI::displayDetail(string task, string index) {
+	Task temp(task,DUMMY_INPUT_FOR_SECOND_TASK_CONSTRUCTOR);
+
 	cout << "\n Detail of task " << index << " :";
 	cout <<"\n -----------------------------------------------------------------------------";
 	cout << "\n¡¾TASK NAME¡¿: " << temp.getTaskName()
-		<< "\n¡¾DATE¡¿: " << temp.getScheduledDate()
-		<< "\n¡¾TIME¡¿: " << temp.getStartTime() << " - " << temp.getEndTime()
-		<< "\n¡¾VENUE¡¿: " << temp.getVenue()
-		<< "\n¡¾STATUS¡¿: " << temp.getStatus();
+		 << "\n¡¾DATE¡¿: " << temp.getScheduledDate()
+		 << "\n¡¾TIME¡¿: " << temp.getStartTime() << " - " << temp.getEndTime()
+		 << "\n¡¾VENUE¡¿: " << temp.getVenue()
+		 << "\n¡¾STATUS¡¿: " << temp.getStatus();
 }
-void UI::dispalyDay(vector<string> task, string heading){
+
+void UI::dispalyDay(vector<string> task, string heading) {
 	vector<Task> temporary;
-	int indexAndNameLength=18;
-	int dateLength=10;
-	int timeLength=15;
-	int venueLength=13;
-	int statusLength=12;
 	string date;
 	string time;
 	size_t free = heading.find("free");
 	size_t search = heading.find("search");
-	
-	
-
 	HANDLE  hConsole;
+
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	cout << heading << " :";
 	cout <<"\n -----------------------------------------------------------------------------";
 
-	if(task.empty()){
-		if(search!=string::npos){
+	if(task.empty()) {
+		if(search!=string::npos) {
 			cout << "\n                         SORRY NOTHING IS FOUND T_T                            " << endl;
 		}
-		else{
+		else {
 			cout << "\n                              YAY! YOU ARE FREE! ^-^                           " ;
 		}
 	}
-	else{
-		for(unsigned int i=0; i<task.size(); i++){
-		Task temp(task[i],"input");
-		temporary.push_back(temp);
+	else {
+		for(unsigned int i=0; i<task.size(); i++) {
+			Task temp(task[i],"input");
+			temporary.push_back(temp);
 	    }
-
-		if(free!=string::npos){
-			for(unsigned int i=0;i<task.size();i++){
-					cout << task[i] << endl;
+		if(free!=string::npos) {
+			for(unsigned int i=0;i<task.size();i++) {
+				cout << task[i] << endl;
 			}
 		}
-		else{
-			for(unsigned int i=0; i<temporary.size();i++){
-				cout<< left << setw(4) <<"\n|";
-				if(temporary[i].getStatus()==FINISHED_Task_LABEL){
-					SetConsoleTextAttribute(hConsole, FINISHED_TASK_COLOR);
+		else {
+			for(unsigned int i=0; i<temporary.size();i++) {
+				cout<< left << setw(LENGTH_LEFT_SIDE_FORMAT) <<"\n|";
+				if(temporary[i].getStatus()==FINISHED_Task_LABEL) {
+					SetConsoleTextAttribute(hConsole,COLOR_FINISHED_TASK);
 				}
-				else SetConsoleTextAttribute(hConsole, NORAL_BACKGROUND_COLOR);
-
+				else {
+					SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
+				}
 				//check date
-				if(temporary[i].getTaskType()==DEADLINE_Task_LABEL){
+				if(temporary[i].getTaskType()==DEADLINE_Task_LABEL) {
 					date = "due "+ temporary[i].getDeadlineDate();
 				}
-				if(temporary[i].getTaskType()==SCHEDULED_Task_LABEL){
+				if(temporary[i].getTaskType()==SCHEDULED_Task_LABEL) {
 					date = temporary[i].getScheduledDate();
 				}
-				if(temporary[i].getTaskType()==FLOATING_Task_LABEL){
-					date = EMPTY_SPACE;
+				if(temporary[i].getTaskType()==FLOATING_Task_LABEL) {
+					date = EMPTY_SPACE_DOUBLE;
 				}
 				//check time
-				if(temporary[i].getTaskType()==DEADLINE_Task_LABEL){
+				if(temporary[i].getTaskType()==DEADLINE_Task_LABEL) {
 					time = temporary[i].getDeadlineTime();
 				}
-				if(temporary[i].getTaskType()==SCHEDULED_Task_LABEL){
+				if(temporary[i].getTaskType()==SCHEDULED_Task_LABEL) {
 					time = temporary[i].getStartTime()+" - " + temporary[i].getEndTime();
 				}
-				if(temporary[i].getTaskType()==FLOATING_Task_LABEL){
-					time = EMPTY_SPACE;
+				if(temporary[i].getTaskType()==FLOATING_Task_LABEL) {
+					time = EMPTY_SPACE_DOUBLE;
 				}
-				cout<< left << setw(indexAndNameLength) << temporary[i].getTaskName().substr(0,indexAndNameLength-2) 
-					<< setw(dateLength) << date.substr(0,dateLength)
-					<< setw(timeLength) << time.substr(0,timeLength)
-					<< setw(venueLength) << temporary[i].getVenue().substr(0,venueLength)
-					<< setw(statusLength) << temporary[i].getStatus().substr(0,statusLength);
-			
-
-			
-			SetConsoleTextAttribute(hConsole, NORAL_BACKGROUND_COLOR);
-			cout << right << setw(8)<<"|";
+				cout<< left << setw(LENGTH_INDEX_AND_TASK_NAME) << temporary[i].getTaskName().substr(0,LENGTH_INDEX_AND_TASK_NAME-LENGTH_DOUBLE_EMPTY_SPACE) 
+					<< setw(LENGTH_DATE) << date.substr(0,LENGTH_DATE)
+					<< setw(LENGTH_TIME) << time.substr(0,LENGTH_TIME)
+					<< setw(LENGTH_VENUE) << temporary[i].getVenue().substr(0,LENGTH_VENUE)
+					<< setw(LENGTH_STATUS) << temporary[i].getStatus().substr(0,LENGTH_STATUS);
+				SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
+				cout << right << setw(LENGTH_RIGHT_SIDE_FORMAT)<<"|";
 			}
 		}
 	}
 }
-void UI::systemFeedback(string text){
-	cout << text ;
+
+void UI::systemFeedback(string text) {
+	cout << text;
 }
 
 string UI::getUserCommand() {

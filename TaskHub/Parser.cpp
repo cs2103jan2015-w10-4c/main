@@ -17,6 +17,7 @@ const string SLASH = "/";
 const string COLON = ":";
 const string EMPTY_SPACE =" ";
 const int LENGTH_OF_DATE = 5;
+bool Task::isValid;
 
 Task::Task(){}
 
@@ -490,7 +491,3 @@ int Task::getEndHour(){
 int Task::getEndMinute(){
 	return _endMinute;
 }
-/*
-bool Task::isValid(){
-	return _isValid;
-}*/
