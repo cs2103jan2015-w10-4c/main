@@ -2,7 +2,7 @@
 
 #include "StorageController.h"
 
-vector<string> StorageController::TaskList;
+std::vector<std::string> StorageController::TaskList;
 std::string StorageController::_fileName;
 const std::string StorageController::_lastSaveFileName = "LastSaveFile.txt";
 
@@ -38,8 +38,12 @@ void StorageController::promptSaveFile(){
 	}
 	else{
 		std::cout << "Enter save file address: ";
-		std::cin.ignore();
-		std::getline(cin, fileName);
+		std::cin.ignore();									//ignore whitespace
+		
+		std::string temp;
+		std::getline(cin, temp);
+		fileName = _processorObj->processFileDirectory(temp);
+
 		_databaseObj->setLastSavedFileName(fileName);
 		_databaseObj->setLastSavedFileIntoStorage(fileName);
 	}
@@ -87,6 +91,7 @@ void StorageController::readSaveFile() {
 	TaskList.clear();
 
 	file.open(getFileName());
+
 
 	while(getline(file,currentLine)) {
 		TaskList.push_back(currentLine);
