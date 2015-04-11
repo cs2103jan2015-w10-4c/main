@@ -315,34 +315,34 @@ void Task::UpdateTask(string input){
 					if(date==string::npos){
 						if(venue == string::npos){
 							temp = input;
-							_TaskName = temp;
+							_TaskName = temp.substr(ADJUSTMENT_ONE);
 						}
 					}
 				}
 			}
 		}
 		if(deadlinedTask!=string::npos){
-			temp = input.substr(0,deadlinedTask);
+			temp = input.substr(START_OF_STRING,deadlinedTask);
 			if(temp!=EMPTY_SPACE){
-				_TaskName = temp;
+				_TaskName = temp.substr(ADJUSTMENT_ONE);
 			}
 		}else if(timedTask_startTime!=string::npos){
-			temp = input.substr(0,timedTask_startTime);
+			temp = input.substr(START_OF_STRING,timedTask_startTime);
 			if(temp!=EMPTY_SPACE){
-				_TaskName = temp;
+				_TaskName = temp.substr(ADJUSTMENT_ONE);
 			}
 		}else if(timedTask_endTime!=string::npos){
-			temp = input.substr(0,timedTask_endTime);
+			temp = input.substr(START_OF_STRING,timedTask_endTime);
 			if(temp!=EMPTY_SPACE){
-				_TaskName = temp;
+				_TaskName = temp.substr(ADJUSTMENT_ONE);
 			}
 		}else if(date!=string::npos){
 			if(_TaskType==SCHEDULED_TASK_LABEL){
 				size_t temparory = input.find_first_of(_scheduledDate);
 				if(temparory!=0){
-					temp = input.substr(0,temparory);
+					temp = input.substr(START_OF_STRING,temparory);
 					if(temp!=EMPTY_SPACE){
-					_TaskName = temp;
+						_TaskName = temp.substr(ADJUSTMENT_ONE);
 					}
 				}
 				
@@ -350,17 +350,17 @@ void Task::UpdateTask(string input){
 			else if(_TaskType==DEADLINE_TASK_LABEL){
 				size_t temparory = input.find_first_of(_deadlineDate);
 				if(temparory!=0){
-					temp = input.substr(0,temparory);
+					temp = input.substr(START_OF_STRING,temparory);
 					if(temp!=EMPTY_SPACE){
-					_TaskName = temp;
+						_TaskName = temp.substr(ADJUSTMENT_ONE);
 					}
 				}
 				
 			}
 		}else if(venue!=string::npos){
-			temp = input.substr(0,venue);
+			temp = input.substr(START_OF_STRING,venue);
 			if(temp!=EMPTY_SPACE){
-				_TaskName = temp;
+				_TaskName = temp.substr(ADJUSTMENT_ONE);
 			}
 		}
 		

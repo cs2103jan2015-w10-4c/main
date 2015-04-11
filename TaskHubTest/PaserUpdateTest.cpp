@@ -62,12 +62,12 @@ namespace TaskHubTest
 			scheduledTask.UpdateTask(input7);
 			string actualOutput7 = scheduledTask.getTaskName();
 			string expectedOutput7 = "2nd meeting";
-			Assert::AreEqual(actualOutput7,expectedOutput7);
+			Assert::AreEqual(expectedOutput7,actualOutput7);
 
 			//test case 8
 			string input8 = "-by 13:30 13/4 @computing";
 			deadlineTask.UpdateTask(input8);
-			string actualOutput8 = deadlineTask.getStartTime();
+			string actualOutput8 = deadlineTask.getDeadlineTime();
 			string expectedOutput8 ="13:30";
 			Assert::AreEqual(actualOutput8,expectedOutput8);
 

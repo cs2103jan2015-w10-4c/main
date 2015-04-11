@@ -13,17 +13,20 @@ namespace TaskHubTest
 		TEST_METHOD(TestisClash)
 		{
 			//test case 1
-			CommandAdd::addMessage("meeting -from 13:00 -to 14:00 12/4");
+			CommandAdd::addMessage("meeting -from 13:00 -to 14:00 19/4");
 			string testSentence1 = "-from 13:00 -to 14:00";
 			string actualOutput1 = CommandClash::clash(testSentence1);
 			string expectedOutput1 = "-from 13:00 -to 14:00 does not clash with existing tasks";
 			Assert::AreEqual(expectedOutput1,actualOutput1);
+			CommandClear::clearTask("all");
 			//test case 2
 			CommandAdd::addMessage("meeting -from 13:00 -to 14:00 12/4");
 			string testSentence2 = "-from 13:00 -to 14:00 12/4";
 			string actualOutput2 = CommandClash::clash(testSentence2);
 			string expectedOutput2 = "-from 13:00 -to 14:00 12/4 clashes with existing tasks";
 			Assert::AreEqual(expectedOutput2,actualOutput2); 
+
+			CommandClear::clearTask("all");
 		}
 		TEST_METHOD(TestgetDayTasks)
 		{
@@ -43,6 +46,7 @@ namespace TaskHubTest
 			for(unsigned int i=0;i<actualOutput1.size();i++) {
 				Assert::AreEqual(expectedOutput1[i].ToString(),actualOutput1[i].ToString());
 			}
+			CommandClear::clearTask("all");
 			
 			//test case 2
 			CommandAdd::addMessage("meeting -from 13:00 -to 14:00 12/4");
