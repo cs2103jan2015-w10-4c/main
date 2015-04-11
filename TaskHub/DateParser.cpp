@@ -8,6 +8,7 @@ using namespace std;
 const int LENGTH_OF_FOUR_DIGIT_DATE = 5;
 const int LENGTH_OF_THREE_DIGIT_DATE = 4;
 const int LENGTH_OF_TWO_DIGIT_DATE = 3;
+const int POSITION_ADJUSTMENT_THREE = 3;
 const int POSITION_ADJUSTMENT_TWO = 2;
 const int POSITION_ADJUSTMENT_ONE = 1;
 const int LENGTH_MONTH_DOUBLE = 2;
@@ -24,85 +25,143 @@ const string DAY_END_DOUBLE = "31";
 const string START_OF_SINGLE = "1";
 const string END_OF_SINGLE = "9";
 
+
 DateParser::DateParser(void){
 }
 
+
+
 DateParser::DateParser(string input){
 	_validDate = false;
-	size_t get_date = input.find_first_of(SLASH);
-	size_t multipleDate = input.find_last_of(SLASH);
-	if(get_date != string::npos && get_date == multipleDate){
-		
-	    if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
-		//  format:  dd/mm
-			if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
-				_date = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_OF_FOUR_DIGIT_DATE);
-				_day = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
-				_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_DOUBLE);
-				_integerDay = atoi(_day.c_str());
-				_integerMonth = atoi(_month.c_str());
-				if(_day >= START_OF_DOUBLE && _day <= DAY_END_DOUBLE && _month >= START_OF_DOUBLE && _month <= MONTH_END_DOUBLE){
-					_validDate = true;
-				}
-			}
-		// format:  dd/m
-			if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
-				_date = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_OF_THREE_DIGIT_DATE);
-				_day = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
-				_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_SINGLE);
-				_integerDay = atoi(_day.c_str());
-				_integerMonth = atoi(_month.c_str());
-				if(_day >= START_OF_DOUBLE && _day <= DAY_END_DOUBLE && _month >= START_OF_SINGLE && _month <= END_OF_SINGLE){
-					_validDate = true;
-				}
-			}
-			
-	}
-		else{
-			if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
-			// format: d/mm
+	checkValidation(input);
+	if(_validDate){
+		size_t get_date = input.find_first_of(SLASH);
+			if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+			//  format:  dd/mm
 				if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
-					_date = input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_OF_THREE_DIGIT_DATE);
-					_day = ZERO + input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
+					_date = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_OF_FOUR_DIGIT_DATE);
+					_day = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
 					_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_DOUBLE);
 					_integerDay = atoi(_day.c_str());
 					_integerMonth = atoi(_month.c_str());
-					if(_day >= START_OF_SINGLE && _day <= END_OF_SINGLE && _month >= START_OF_DOUBLE && _month <= MONTH_END_DOUBLE){
-						_validDate = true;
-					}
 				}
-				// format: d/m
+			// format:  dd/m
 				if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
-					_date = input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_OF_TWO_DIGIT_DATE);
-					_day = ZERO + input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
+					_date = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_OF_THREE_DIGIT_DATE);
+					_day = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
 					_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_SINGLE);
 					_integerDay = atoi(_day.c_str());
-				    _integerMonth = atoi(_month.c_str());
-					if(_day >= START_OF_SINGLE && _day <= END_OF_SINGLE && _month >= START_OF_SINGLE && _month <= END_OF_SINGLE){
-						_validDate = true;
+					_integerMonth = atoi(_month.c_str());
+				}
+			
+		}
+			else{
+				if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
+				// format: d/mm
+					if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+						_date = input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_OF_THREE_DIGIT_DATE);
+						_day = ZERO + input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
+						_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_DOUBLE);
+						_integerDay = atoi(_day.c_str());
+						_integerMonth = atoi(_month.c_str());
+					}
+					// format: d/m
+					if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
+						_date = input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_OF_TWO_DIGIT_DATE);
+						_day = ZERO + input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
+						_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_SINGLE);
+						_integerDay = atoi(_day.c_str());
+						_integerMonth = atoi(_month.c_str());
 					}
 				}
 			}
+	}
+}
+
+
+
+DateParser::DateType DateParser::determinDateType(string input){
+	DateType dateType;
+	size_t get_date = input.find_first_of(SLASH);
+	size_t multipleDate = input.find_last_of(SLASH);
+	if (get_date != string::npos && get_date == multipleDate){
+		if(input.substr(get_date-POSITION_ADJUSTMENT_THREE, LENGTH_ONE_DIGIT) == EMPTY_SPACE && input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+			if(input.substr(get_date+POSITION_ADJUSTMENT_THREE, LENGTH_ONE_DIGIT) == EMPTY_SPACE && input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+				dateType = DDMM;
+			}
+			if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE && input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+				dateType = DDM;
+			}
+		}
+		else{
+			dateType = INVALID;
+		}
+		if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE && input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+			if(input.substr(get_date+POSITION_ADJUSTMENT_THREE, LENGTH_ONE_DIGIT) == EMPTY_SPACE && input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+				dateType = DMM;
+			}
+			if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE && input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+				dateType = DM;
+			}
+		}
+		else{
+			dateType = INVALID;
 		}
 	}
-    //date is not found
-    //else if(get_date == string::npos){
+	return dateType;
+}
 
-  
-/*	else{
-		SYSTEMTIME lt;
-		GetLocalTime(&lt);
-		_integerDay = lt.wDay;
-		_integerMonth = lt.wMonth;
-		ostringstream oss;
-		oss << _integerDay;
-		_day = oss.str();
-		oss.clear();
-		oss << _integerDay;
-		_month = oss.str();
-		oss.clear();
-		_date = _day + "/" + _month;
-	}*/
+void DateParser::checkValidation(string input){
+	size_t get_date = input.find_first_of(SLASH);
+	string doubleDay = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
+	string doubleMonth = input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
+	string singleDay =  input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
+	string singleMonth =  input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
+	DateType dateType = determinDateType(input);
+	switch(dateType) {
+	case DDMM:
+		_validDate = checkIntegerValidation(doubleDay, LENGTH_DAY_DOUBLE);
+		if(_validDate){
+			_validDate = checkIntegerValidation(doubleMonth, LENGTH_MONTH_DOUBLE);
+		}
+		break;
+	case DDM:
+		_validDate = checkIntegerValidation(doubleDay, LENGTH_DAY_DOUBLE);
+		if(_validDate){
+			_validDate = checkIntegerValidation(singleMonth, LENGTH_MONTH_SINGLE);
+		}
+		break;
+	case DMM:
+		_validDate = checkIntegerValidation(singleDay, LENGTH_DAY_SINGLE);
+		if(_validDate){
+			_validDate = checkIntegerValidation(doubleMonth, LENGTH_MONTH_DOUBLE);
+		}
+		break;
+	case DM:
+		_validDate = checkIntegerValidation(singleDay, LENGTH_DAY_SINGLE);
+		if(_validDate){
+			_validDate = checkIntegerValidation(singleMonth, LENGTH_MONTH_SINGLE);
+		}
+		break;
+	case INVALID:
+		_validDate = false;
+		break;
+    }
+}
+
+bool DateParser::checkIntegerValidation(string input, int digit){
+	bool isInteger = false;
+	if(digit == 1){
+		if(input >= START_OF_SINGLE && input <= END_OF_SINGLE){
+			isInteger = true;
+		}
+	}
+	if(digit == 2){
+		if(input >= START_OF_DOUBLE && input <= DAY_END_DOUBLE){
+			isInteger = true;
+		}
+	}
+	return isInteger;	
 }
 
 string DateParser::getDate(){
@@ -124,26 +183,3 @@ int DateParser::getMonth(){
 bool DateParser::isValidDate(){
 	return _validDate;
 }
-
-/*string DateParser::getAlphaMonth(){
-	int i=1;
-	vector<string> months;
-	months.push_back("Jan");
-	months.push_back("Feb");
-	months.push_back("Mar");
-	months.push_back("April");
-	months.push_back("May");
-	months.push_back("Jun");
-	months.push_back("Jul");
-	months.push_back("Aug");
-	months.push_back("Sept");
-	months.push_back("Oct");
-	months.push_back("Nov");
-	months.push_back("Dec");
-	while(i != _integerMonth){
-		i++;
-	}
-	_alphaMonth = months[i-1];
-
-	return _alphaMonth;
-}*/

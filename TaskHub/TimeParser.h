@@ -17,6 +17,8 @@ public:
 	int getEndHour();
 	int getEndMinute();
 	bool isValidTime();
+	void checkValidation(string input);
+	bool checkIntegerValidation(string input);
 private:
 	string _startTime;
 	string _endTime;
