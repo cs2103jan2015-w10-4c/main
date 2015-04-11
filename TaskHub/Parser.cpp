@@ -35,7 +35,7 @@ const int JUN = 6;
 const int SEPT = 9;
 const int NOV = 11;
 
-bool Task::isValid;
+bool Task::isValid = true;
 
 Task::Task(){}
 
@@ -45,13 +45,13 @@ Task::Task(string input){
 		size_t timedTaskEnd = input.find(MARK_TO);
 		size_t deadlinedTask = input.find(MARK_BY);
 		size_t venueTask = input.find(MARK_AT);
-		
+		//-from and -to wrong formating
 		if((timedTask != string::npos && timedTaskEnd == string::npos) || (timedTask == string::npos && timedTaskEnd != string::npos) || (timedTask > timedTaskEnd)){
 			isValid = false;
 		}
 
 		if (timedTask != string::npos && timedTaskEnd != string::npos){
-			if((input.substr(timedTaskEnd, venueTask-timedTaskEnd)).find(SLASH) == string::npos){
+			if((input.substr(timedTaskEnd, venueTask-timedTaskEnd)).find_first_of(SLASH) == string::npos){
 				isValid = false;
 			}
 			else{
@@ -115,8 +115,9 @@ Task::Task(string input){
 			_venue = "";
 		}
 	}
-	
-	checkInputValidation();
+	if (isValid == true){
+		checkInputValidation();
+	}
 }
 
 Task::~Task(){}
@@ -134,9 +135,16 @@ Task::Task(string Task, string input){
 			if (find__status != string::npos){
 				_status = FINISHED_TASK_LABEL;
 			}
+			
 			else{
+				size_t find__status = Task.find(UNCOMPLETED_TASK_LABEL);
+				if (find__status != string::npos){
+					_status = UNCOMPLETED_TASK_LABEL;
+				}
+				else{
 				_status = EMPTY_SPACE;
-			}
+			    }
+		   }
 		}
 
 		//classify Tasks into scheduled, deadlined or floating
