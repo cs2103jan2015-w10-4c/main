@@ -21,6 +21,14 @@ namespace TaskHubTest
 			std::string actualResult2("");
 			Assert::AreEqual(actualResult2, testResult2);
 		}
+		TEST_METHOD(TestcheckInputValidation) {
+			//test case 1
+			std::string testSentence1 = "0";
+			Assert::IsTrue(CommandDetail::checkInputValidation(testSentence1));
+			//test case 2
+			std::string testSentence2 = "1dkjsdf jdfks";
+			Assert::IsFalse(CommandDetail::checkInputValidation(testSentence2));
+		}
 
 	};
 }
