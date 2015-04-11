@@ -1,6 +1,10 @@
 #include "DateParser.h"
 #include <string>
+#include <iostream>
 using namespace std;
+
+const string MESSAGE_DATE_ERROR = "Date is missing.";
+const string MESSAGE_DATE_INPUT = "Key in date(dd/mm): ";
 const int LENGTH_OF_FOUR_DIGIT_DATE = 5;
 const int LENGTH_OF_THREE_DIGIT_DATE = 4;
 const int LENGTH_OF_TWO_DIGIT_DATE = 3;
@@ -13,50 +17,62 @@ DateParser::DateParser(string input){
 	size_t get_date = input.find("/");
 	if(get_date != string::npos){
 
-	  if(input.substr(get_date-POSITION_ADJUSTMENT,1) != " "){
+	    if(input.substr(get_date-POSITION_ADJUSTMENT,1) != " "){
 		//  format:  dd/mm
-		if(input.substr(get_date+POSITION_ADJUSTMENT,1) != " "){
-			_date = input.substr(get_date-POSITION_ADJUSTMENT, LENGTH_OF_FOUR_DIGIT_DATE);
-			_day = input.substr(get_date-POSITION_ADJUSTMENT,2);
-			_month = input.substr(get_date+1, 2);
-			_integerDay = atoi(_day.c_str());
-			_integerMonth = atoi(_month.c_str());
-		}
+			if(input.substr(get_date+POSITION_ADJUSTMENT,1) != " "){
+				_date = input.substr(get_date-POSITION_ADJUSTMENT, LENGTH_OF_FOUR_DIGIT_DATE);
+				_day = input.substr(get_date-POSITION_ADJUSTMENT,2);
+				_month = input.substr(get_date+1, 2);
+				_integerDay = atoi(_day.c_str());
+				_integerMonth = atoi(_month.c_str());
+			}
 		// format:  dd/m
-		else{
 			if(input.substr(get_date+2,1) == " "){
 				_date = input.substr(get_date-POSITION_ADJUSTMENT, LENGTH_OF_THREE_DIGIT_DATE);
 				_day = input.substr(get_date-POSITION_ADJUSTMENT,2);
 				_month = input.substr(get_date+1, 1);
 				_integerDay = atoi(_day.c_str());
-			    _integerMonth = atoi(_month.c_str());
+				_integerMonth = atoi(_month.c_str());
 			}
-		}
-		
+			
 	}
-	else{
-		if(input.substr(get_date-POSITION_ADJUSTMENT,1) == " "){
+		else{
+			if(input.substr(get_date-POSITION_ADJUSTMENT,1) == " "){
 			// format: d/mm
-			if(input.substr(get_date+POSITION_ADJUSTMENT, 1) != " "){
-				_date = input.substr(get_date-1, LENGTH_OF_THREE_DIGIT_DATE);
-				_day = "0" + input.substr(get_date-1, 1);
-				_month = input.substr(get_date+1, 2);
-				_integerDay = atoi(_day.c_str());
-			    _integerMonth = atoi(_month.c_str());
-			}
-			// format: d/m
-			else{
+				if(input.substr(get_date+POSITION_ADJUSTMENT, 1) != " "){
+					_date = input.substr(get_date-1, LENGTH_OF_THREE_DIGIT_DATE);
+					_day = "0" + input.substr(get_date-1, 1);
+					_month = input.substr(get_date+1, 2);
+					_integerDay = atoi(_day.c_str());
+					_integerMonth = atoi(_month.c_str());
+				}
+				// format: d/m
 				if(input.substr(get_date+POSITION_ADJUSTMENT, 1) == " "){
 					_date = input.substr(get_date-1, LENGTH_OF_TWO_DIGIT_DATE);
 					_day = "0" + input.substr(get_date-1, 1);
 					_month = input.substr(get_date+1, 1);
 					_integerDay = atoi(_day.c_str());
-			        _integerMonth = atoi(_month.c_str());
+					   _integerMonth = atoi(_month.c_str());
 				}
 			}
 		}
 	}
-  }
+    //date is not found
+    else if(get_date == string::npos){
+		SYSTEMTIME lt;
+		GetLocalTime(&lt);
+		_integerDay = lt.wDay;
+		_integerMonth = lt.wMonth;
+		ostringstream oss;
+		oss << _integerDay;
+		_day = oss.str();
+		oss.clear();
+		oss << _integerDay;
+		_month = oss.str();
+		oss.clear();
+		_date = _day + "/" + _month;
+	}
+  
 /*	else{
 		SYSTEMTIME lt;
 		GetLocalTime(&lt);
