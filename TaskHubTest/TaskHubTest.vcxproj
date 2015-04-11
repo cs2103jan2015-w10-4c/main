@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CommandAddTest.cpp" />
+    <ClCompile Include="CommandClashTest.cpp" />
     <ClCompile Include="CommandClearTest.cpp" />
     <ClCompile Include="CommandDeleteTest.cpp" />
     <ClCompile Include="CommandDetailTest.cpp" />

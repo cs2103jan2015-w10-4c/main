@@ -9,6 +9,13 @@ const string FINISHED_Task_LABEL = "done";
 const string UNCOMPLETED_TASK_LABLE = "uncompleted";
 const string EMPTY_SPACE_DOUBLE ="  ";
 const string DUMMY_INPUT_FOR_SECOND_TASK_CONSTRUCTOR = "00";
+const string COMMAND_TYPE_SHOW = "show";
+const string COMMAND_TYPE_DISPLAY = "display";
+const string COMMAND_TYPE_SORT = "sort";
+const string COMMAND_TYPE_SEARCH = "search";
+const string COMMAND_TYPE_DETAIL = "detail";
+const string COMMAND_MESSAGE_TODAY = "today";
+const string COMMAND_MESSAGE_FREE = "free";
 const int COLOR_FINISHED_TASK = 250;
 const int COLOR_UNCOMPLETED_TASK = 249;
 const int COLOR_NORAL_BACKGROUND = 243;
@@ -48,13 +55,13 @@ void UI::showToUser(string userCommand) {
 	string command = Logic::getFirstWord(userCommand);
 	string message = Logic::removeFirstWord(userCommand);
 
-	if(command=="show"){
+	if(command==COMMAND_TYPE_SHOW){
 		string aa= ShowDailyTask::showDayTask(message);
 		vector<string> task = ShowDailyTask::messageDisplayed;
-		size_t free = message.find("free");
+		size_t free = message.find(COMMAND_MESSAGE_FREE);
 
-		if(message=="today") {
-			UI::displayDay(task,"Today");
+		if(message==COMMAND_MESSAGE_TODAY) {
+			UI::displayDay(task,COMMAND_MESSAGE_TODAY);
 		}
 		else if(free!=string::npos) {
 			UI::displayDay(task, message);
@@ -63,29 +70,29 @@ void UI::showToUser(string userCommand) {
 			UI::displayDay(task,message);
 		}
 	}
-	else if(command=="display") {
+	else if(command==COMMAND_TYPE_DISPLAY) {
 		vector<string> task = CommandDisplay::messageDisplayed;
-		UI::displayDay(task,"Display");
+		UI::displayDay(task,COMMAND_TYPE_DISPLAY);
 	}
-	else if(command=="sort") {
+	else if(command==COMMAND_TYPE_SORT) {
 		vector<string> task = CommandDisplay::messageDisplayed;
 		UI::displayDay(task,userCommand);
 	}
-	else if(command=="search") {
+	else if(command==COMMAND_TYPE_SEARCH) {
 		string temp= CommandSearch::searchMessage(message);
 		vector<string> task = CommandSearch::messageDisplayed;
 		UI::displayDay(task,userCommand);
 	}
-	else if(command=="detail") {
+	else if(command==COMMAND_TYPE_DETAIL) {
 		string task = CommandDetail::detailMessage(message);
 		if(!task.empty()) {
 		UI::displayDetail(task,message);
 		}
 	}
 	else {
-		string temp= ShowDailyTask::showDayTask("today");
+		string temp= ShowDailyTask::showDayTask(COMMAND_MESSAGE_TODAY);
 		vector<string> task = ShowDailyTask::messageDisplayed;
-		UI::displayDay(task, "Today");
+		UI::displayDay(task, COMMAND_MESSAGE_TODAY);
 	}
 	cout << "\n -----------------------------------------------------------------------------" 
 		 << endl;
@@ -107,12 +114,13 @@ void UI::displayDay(vector<string> task, string heading) {
 	vector<Task> temporary;
 	string date;
 	string time;
-	size_t free = heading.find("free");
-	size_t search = heading.find("search");
+	size_t free = heading.find(COMMAND_MESSAGE_FREE);
+	size_t search = heading.find(COMMAND_TYPE_SEARCH);
 	HANDLE  hConsole;
 
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
+	heading[0]=toupper(heading[0]);
 	cout << heading << " :";
 	cout <<"\n -----------------------------------------------------------------------------";
 
@@ -126,7 +134,7 @@ void UI::displayDay(vector<string> task, string heading) {
 	}
 	else {
 		for(unsigned int i=0; i<task.size(); i++) {
-			Task temp(task[i],"input");
+			Task temp(task[i],DUMMY_INPUT_FOR_SECOND_TASK_CONSTRUCTOR);
 			temporary.push_back(temp);
 	    }
 		if(free!=string::npos) {
