@@ -94,11 +94,11 @@ void UI::displayDetail(string task, string index) {
 
 	cout << "\n Detail of task " << index << " :";
 	cout <<"\n -----------------------------------------------------------------------------";
-	cout << "\n¡¾TASK NAME¡¿: " << temp.getTaskName()
-		 << "\n¡¾DATE¡¿: " << temp.getScheduledDate()
-		 << "\n¡¾TIME¡¿: " << temp.getStartTime() << " - " << temp.getEndTime()
-		 << "\n¡¾VENUE¡¿: " << temp.getVenue()
-		 << "\n¡¾STATUS¡¿: " << temp.getStatus();
+	cout << "\n [TASK NAME]: " << temp.getTaskName()
+		 << "\n [DATE]: " << temp.getScheduledDate()
+		 << "\n [TIME]: " << temp.getStartTime() << " - " << temp.getEndTime()
+		 << "\n [VENUE]: " << temp.getVenue()
+		 << "\n [STATUS]: " << temp.getStatus();
 }
 
 void UI::displayDay(vector<string> task, string heading) {
