@@ -21,9 +21,11 @@ DateParser::DateParser(void){
 }
 
 DateParser::DateParser(string input){
-	size_t get_date = input.find(SLASH);
-	if(get_date != string::npos){
-
+	_validDate = false;
+	size_t get_date = input.find_first_of(SLASH);
+	size_t multipleDate = input.find_last_of(SLASH);
+	if(get_date != string::npos && get_date == multipleDate){
+		
 	    if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
 		//  format:  dd/mm
 			if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){

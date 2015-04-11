@@ -15,7 +15,7 @@ public:
 	string getAlphaMonth();
 	int getDay();
 	int getMonth();
-	bool isValidDate;
+	bool isValidDate();
 private:
 	string _date;
 	string _day;
@@ -23,5 +23,6 @@ private:
 	string _alphaMonth;
 	int _integerDay;
 	int _integerMonth;
+	bool _validDate;
 };
 #endif
