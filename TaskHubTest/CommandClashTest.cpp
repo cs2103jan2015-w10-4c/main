@@ -12,6 +12,10 @@ namespace TaskHubTest
 		
 		TEST_METHOD(TestisClash)
 		{
+			string input="-from 13:00 -to 14:00 12/4 @utown";
+			Task temp(input);
+			DateParser::checkValidation(input);
+			Assert::IsTrue(temp.isValid);
 			//test case 1
 			CommandAdd::addMessage("meeting -from 13:00 -to 14:00 19/4");
 			string testSentence1 = "-from 13:00 -to 14:00";
