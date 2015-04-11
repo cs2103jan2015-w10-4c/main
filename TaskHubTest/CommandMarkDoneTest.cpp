@@ -10,6 +10,10 @@ namespace CommandMarkDoneTest{
 	public:
 
 		TEST_METHOD(TestMarkDone){
+			markingDoneMessage::markMessageDone("1");
+			std::string expectedOutput = "Invalid index";
+			std::string actualOutput = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput, actualOutput);
 
 		}
 

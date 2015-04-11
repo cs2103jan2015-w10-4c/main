@@ -10,6 +10,8 @@ namespace CommandClearTest{
 	public:
 
 		TEST_METHOD(TestClear){
+			
+
 
 		}
 
