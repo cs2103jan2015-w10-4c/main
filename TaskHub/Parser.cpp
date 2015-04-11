@@ -51,10 +51,18 @@ Task::Task(string input){
 		isValid = false;
 		//-from and -to wrong formating
 
-		if (timedTask != string::npos && timedTaskEnd != string::npos && findDate != string::npos && findStartTime != string::npos && findEndTime != string::npos && timedTask < timedTaskEnd){
-			isValid = true;
+		if (timedTask != string::npos && timedTaskEnd != string::npos && findDate != string::npos && findStartTime != string::npos && findEndTime != string::npos && findStartTime != findEndTime && findDate > findEndTime && timedTask < timedTaskEnd){
+			if((input.substr(timedTask, timedTaskEnd-timedTask)).find_first_of(COLON) == (input.substr(timedTask, timedTaskEnd-timedTask)).find_last_of(COLON)){
+				if((input.substr(timedTaskEnd, findDate-timedTaskEnd)).find_first_of(COLON) == (input.substr(timedTaskEnd, findDate-timedTaskEnd)).find_last_of(COLON)){
+					isValid = true;
+				}
+			}
+
 			DateParser parseDate(input.substr(timedTaskEnd));
 			TimeParser parseTime(input.substr(timedTask));
+
+			isValid = parseDate.isValidDate();
+			isValid = parseTime.isValidTime();
 
 			_TaskType = SCHEDULED_TASK_LABEL;
 			_TaskName = input.substr(START_OF_STRING, timedTask - ADJUSTMENT_ONE);
@@ -73,10 +81,16 @@ Task::Task(string input){
 			_scheduledDateReverse = parseDate.getDateReverse();
 		}	
 		
-		if (deadlinedTask != string::npos && findDate != string::npos && findStartTime != string::npos && findStartTime == findEndTime){
-			isValid = true;
+		if (deadlinedTask != string::npos && findDate != string::npos && findStartTime != string::npos && findStartTime == findEndTime && findDate > findStartTime){
+			if((input.substr(deadlinedTask, findDate-deadlinedTask)).find_first_of(COLON) == (input.substr(deadlinedTask, findDate-deadlinedTask)).find_last_of(COLON)){
+				isValid = true;
+			}
+
 			DateParser parseDate(input);
 			TimeParser parseTime(input);
+
+			isValid = parseDate.isValidDate();
+			isValid = parseTime.isValidTime();
 
 			_TaskType = DEADLINE_TASK_LABEL;
 			_TaskName = input.substr(START_OF_STRING, deadlinedTask - ADJUSTMENT_ONE);
@@ -159,8 +173,7 @@ Task::Task(string Task, string input){
 			if ((find_time != string::npos) && (find_ending_time != string::npos)){
 				TimeParser parseTime(Task);
 				DateParser parseDate(Task);
-				isValid = parseDate.isValidDate();
-				isValid = parseTime.isValidTime();
+	
 				_TaskType = SCHEDULED_TASK_LABEL;
 				_TaskName = Task.substr(START_OF_STRING, find_bracket - ADJUSTMENT_ONE);
 				_startTime = parseTime.getStartTime();
