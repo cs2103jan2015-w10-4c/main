@@ -34,6 +34,7 @@ public:
 	static void updateSaveFile(); 
 	static void readSaveFile();
 	static void promptSaveFile();
+	static void displayFileOpeningOperation();
 	static std::vector<std::string> returnTask();
 
 	static void setFileName(std::string fileName);

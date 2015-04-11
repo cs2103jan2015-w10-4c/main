@@ -24,9 +24,15 @@ void StorageController::updateSaveFile() {
 
 void StorageController::programmeInitialising(){
 	constructTaskLog();
+	_databaseObj->readLastSavedFileFromStorage();
 	promptSaveFile();
 	readSaveFile();
-	std::cout << getFileName() << " is open" << endl;
+	displayFileOpeningOperation();
+}
+
+void StorageController::displayFileOpeningOperation(){
+	std::cout << "\nOpening file path: " << getFileName() << endl;
+	std::cout << "\nPress [Enter] to proceed." << endl;
 }
 
 void StorageController::promptSaveFile(){
@@ -38,10 +44,10 @@ void StorageController::promptSaveFile(){
 	}
 	else{
 		std::cout << "Enter save file address: ";
-		std::cin.ignore();									//ignore whitespace
-		
+		std::cin.ignore();
 		std::string temp;
 		std::getline(cin, temp);
+
 		fileName = _processorObj->processFileDirectory(temp);
 
 		_databaseObj->setLastSavedFileName(fileName);
@@ -51,7 +57,8 @@ void StorageController::promptSaveFile(){
 }
 
 bool StorageController::isRetrieveSaveFile(){
-	std::cout << "Last saved file: " << ". Do you want to open it?  Y/N" << std::endl;
+	std::cout << "\nTaskHub detected a previous save file:\n\n   " << _databaseObj->getLastSavedFileName();
+	std::cout << "\n\n\nDo you want to open it??  Y/N	";
 	char answer;
 	bool isAnswerValid = false; 
 	while (!isAnswerValid){
@@ -86,12 +93,11 @@ void StorageController::destructTaskLog(){
 
 void StorageController::readSaveFile() {
 	ifstream file;
-	string currentLine;
+	std::string currentLine;
 
 	TaskList.clear();
-
-	file.open(getFileName());
-
+	std::string fileName = getFileName();
+	file.open(fileName);
 
 	while(getline(file,currentLine)) {
 		TaskList.push_back(currentLine);
