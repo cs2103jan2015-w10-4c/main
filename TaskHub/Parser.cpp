@@ -16,6 +16,7 @@ const string MARK_AT = "@";
 const string SLASH = "/";
 const string COLON = ":";
 const string EMPTY_SPACE =" ";
+const int ADJUSTMENT_ONE = 1;
 const int LENGTH_OF_DATE = 5;
 bool Task::isValid;
 
@@ -42,7 +43,7 @@ Task::Task(string input){
 				TimeParser parseTime(input.substr(timedTask));
 
 				_TaskType = SCHEDULED_TASK_LABEL;
-				_TaskName = input.substr(0, timedTask - 1);
+				_TaskName = input.substr(0, timedTask - ADJUSTMENT_ONE);
 				_startTime = parseTime.getStartTime();
 				_endTime = parseTime.getEndTime();
 				_deadlineTime = "";
@@ -64,7 +65,7 @@ Task::Task(string input){
 			TimeParser parseTime(input);
 
 			_TaskType = DEADLINE_TASK_LABEL;
-			_TaskName = input.substr(0, deadlinedTask - 1);
+			_TaskName = input.substr(0, deadlinedTask - ADJUSTMENT_ONE);
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = input.substr(deadlinedTask + 4, 5);
@@ -138,7 +139,7 @@ Task::Task(string Task, string input){
 				DateParser parseDate(Task);
 
 				_TaskType = SCHEDULED_TASK_LABEL;
-				_TaskName = Task.substr(0, find_bracket - 1);
+				_TaskName = Task.substr(0, find_bracket - ADJUSTMENT_ONE);
 				_startTime = parseTime.getStartTime();
 				_endTime = parseTime.getEndTime();
 				_deadlineTime = "";
@@ -157,7 +158,7 @@ Task::Task(string Task, string input){
 				DateParser parseDate(Task);
 				TimeParser parseTime(Task);
 
-				_TaskName = Task.substr(0, find_bracket - 2);
+				_TaskName = Task.substr(0, find_bracket - ADJUSTMENT_ONE);
 				_TaskType = DEADLINE_TASK_LABEL;
 				_startTime = "";
 				_endTime = "";
@@ -402,9 +403,14 @@ void Task::checkInputValidation(){
 			date = _integerDay;
 			month = _integerMonth;
 		    if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
-			    valid_date = true;
+				if((month == 2 && date >= 29) || (month == 4 && date > 30) || (month == 6 && date > 30) || (month == 9 && date > 30) || (month == 11 && date > 30)){
+					valid_date = false;
+				}
+				else{
+					valid_date = true;
+				}
 		    }
-		    else{
+			if(valid_date == false){
 			    cout << MESSAGE_INVALID_DATE <<endl;
 			    getline(cin,_deadlineDate);
 		    }
@@ -415,12 +421,17 @@ void Task::checkInputValidation(){
 	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_date)){
 		size_t get_date = _scheduledDate.find(SLASH);
 		if(get_date != string::npos){
-			date = atoi(_scheduledDate.substr(0, get_date).c_str());
-		    month = atoi(_scheduledDate.substr(get_date + 1, 2).c_str());
+			date = _integerDay;
+			month = _integerMonth;
 		    if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
-			    valid_date = true;
+				if((month == 2 && date >= 29) || (month == 4 && date > 30) || (month == 6 && date > 30) || (month == 9 && date > 30) || (month == 11 && date > 30)){
+					valid_date = false;
+				}
+			    else{
+					valid_date = true;
+				}
 		    }
-		    else{
+			if(valid_date == false){
 			    cout << MESSAGE_INVALID_DATE << endl;
 			    getline(cin, _scheduledDate);
 		    }
@@ -472,9 +483,6 @@ int Task::getIntegerDay(){
 int Task::getIntegerMonth(){
 	return _integerMonth;
 }
-
-
-
 
 int Task::getStartHour(){
 	return _startHour;
