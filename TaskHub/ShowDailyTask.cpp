@@ -40,7 +40,7 @@ vector <string> ShowDailyTask::ShowTask (vector <int> taskIndex) {
 		
 		for (unsigned int i = 0; i < taskIndex.size() ; i++){
 			ostringstream oss;
-			oss << taskIndex[i] + 1 << ". " << Logic::history.getVectorTextStorage()[taskIndex[i]].ToString() << endl;
+			oss << taskIndex[i] + 1 << ". " << StorageDatabase::taskHistory.getVectorTextStorage()[taskIndex[i]].ToString() << endl;
 			string TaskDisplay = oss.str();
 			ShowDailyTask::messageDisplayed.push_back(TaskDisplay);
 			
@@ -53,7 +53,7 @@ vector <string> ShowDailyTask::ShowTask (vector <int> taskIndex) {
 
 vector <string> ShowDailyTask::checkFreeSlot (vector <int> taskIndex) {
 		
-		vector<Task> temp = Logic::history.getVectorTextStorage();
+		vector<Task> temp = StorageDatabase::taskHistory.getVectorTextStorage();
 		vector<string> tempfreeSlot;
 		
 		int dayStartingHour = 0;
@@ -125,7 +125,7 @@ void ShowDailyTask::getHourTask (vector <Task> &temporary, vector <int> &taskInd
 string ShowDailyTask::showDayTask (string userMessage) {
 
 	transform(userMessage.begin(),userMessage.end(),userMessage.begin(),::tolower);
-	vector<Task> temporary = Logic::history.getVectorTextStorage();
+	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
 	
 	vector<int> taskIndex;
 	localTime timeNow;

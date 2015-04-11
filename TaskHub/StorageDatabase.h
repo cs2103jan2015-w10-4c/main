@@ -4,12 +4,14 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include "History.h"
 
 class StorageDatabase{
 
 public:
 	StorageDatabase();
 	~StorageDatabase();
+	static History taskHistory;
 
 	void setLastSavedFileName(std::string filename);
 	void setLastSavedFileIntoStorage(std::string newFilename);

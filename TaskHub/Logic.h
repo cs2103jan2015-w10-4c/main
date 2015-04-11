@@ -9,8 +9,8 @@
 using namespace std;
 
 const int MAX_BUFFERRING_CAPACITY=10086;
-class Logic
-{
+class Logic{
+
 public:
 	
 	static char messageDisplayed[MAX_BUFFERRING_CAPACITY];
@@ -41,7 +41,7 @@ public:
 	static Task lastChangedTask;
 
 	static void getStorage();
-	static History history;
+//	static History history;
 };
 
 #endif

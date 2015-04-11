@@ -8,7 +8,7 @@
 #include <sstream>
 #include <vector>
 #include <cstddef>
-#include "Logic.h"
+#include "StorageDatabase.h"
 
 class StorageProcessor{
 

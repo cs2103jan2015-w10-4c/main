@@ -76,11 +76,11 @@ bool CommandAutoSort::compareCriteria(Task firstTask, Task secondTask) {
 
 string CommandAutoSort::autoSort () {
 	
-	vector<Task> temporary = Logic::history.getVectorTextStorage();
+	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
 
 	stable_sort(temporary.begin(),temporary.end(),CommandAutoSort::compareCriteria);
 
-	Logic::history.setVectorTextStorage(temporary);
+	StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 	
 	return MESSAGE_SORT_SUCCESSFUL;
 

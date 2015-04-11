@@ -19,14 +19,12 @@
 
 char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY] = "";
 
-History Logic::history;
-
 void Logic::getStorage(){
 	vector<string> Logic = StorageController::returnTask();
 	for (unsigned int i = 0; i < Logic.size(); i++){
 		string TaskString = removeFirstWord(Logic[i]);
 		Task newTask(TaskString, "regain");
-		Logic::history.setVectorTextStorage(newTask);
+		StorageDatabase::taskHistory.setVectorTextStorage(newTask);
 	}
 	
 }

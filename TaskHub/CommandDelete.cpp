@@ -36,16 +36,16 @@ string CommandDelete::deleteMessage(string input) {
 	unsigned int index;
 	istringstream in(input);
 	in >> index;
-	if (index > 0 && index <= Logic::history.getVectorTextStorage().size()) {
+	if (index > 0 && index <= StorageDatabase::taskHistory.getVectorTextStorage().size()) {
       
-		Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);
-		Logic::history.setLastChangedTaskIndex(index);
-		Logic::history.setLastUnchangedTask (Logic::history.getVectorTextStorage()[index - 1]);
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex(index);
+		StorageDatabase::taskHistory.setLastUnchangedTask (StorageDatabase::taskHistory.getVectorTextStorage()[index - 1]);
 		
-		vector<Task> temporary = Logic::history.getVectorTextStorage();
+		vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
 		Task taskDeleted = temporary[index - 1];
 		temporary.erase(temporary.begin() + index - 1);
-		Logic::history.setVectorTextStorage(temporary);
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 		
 		sprintf_s(Logic::messageDisplayed,MESSAGE_DELETED.c_str(), taskDeleted.ToString().c_str());
 

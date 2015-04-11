@@ -19,13 +19,13 @@ string markingDoneMessage::markMessageDone(string input) {
 	istringstream in(input);
 	in >> index;
 	
-	if (index > 0 && index <= Logic::history.getVectorTextStorage().size()) {
-		Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);
-		Logic::history.setLastChangedTaskIndex (index);
+	if (index > 0 && index <= StorageDatabase::taskHistory.getVectorTextStorage().size()) {
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex (index);
 
-		vector<Task> temporary = Logic::history.getVectorTextStorage();
+		vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
 		temporary[index - 1].MarkDone();
-		Logic::history.setVectorTextStorage(temporary);
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 		Task taskMarked = temporary[index - 1];
 		
 		sprintf_s(Logic::messageDisplayed,MESSAGE_MARK_DONE.c_str(),taskMarked.ToString().c_str());

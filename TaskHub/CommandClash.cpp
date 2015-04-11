@@ -17,7 +17,7 @@ vector<Task> CommandClash::getDayTasks(vector<Task> allTask,int day, int month) 
 	return dayTask;
 }
 string CommandClash::clash(string input) {
-	vector<Task> temporary = Logic::history.getVectorTextStorage();
+	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
 	size_t scheduled_date = input.find("/");
 	Task temp;
 	int _endTime;
