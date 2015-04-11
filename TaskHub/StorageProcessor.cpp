@@ -10,7 +10,7 @@ StorageProcessor::~StorageProcessor(){
 
 std::string StorageProcessor::convertTaskIntoString(){
 	std::ostringstream oss;
-	std::vector<Task> temp = Logic::history.getVectorTextStorage();
+	std::vector<Task> temp = StorageDatabase::taskHistory.getVectorTextStorage();
 
 	if (temp.empty()){
 		return "";
@@ -30,9 +30,6 @@ std::string StorageProcessor::convertTaskIntoString(){
 	}
 }
 
-Task StorageProcessor::convertStringIntoTask(){
-
-}
 
 /*
 	Function removes the quotation marks, in the event when the user copy and paste the file address as 

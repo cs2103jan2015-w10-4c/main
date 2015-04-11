@@ -1,6 +1,7 @@
 #include "StorageDatabase.h"
 
 const std::string StorageDatabase::_lastSavedFileStorage = "LastSavedFile.txt";
+History StorageDatabase::taskHistory;
 
 StorageDatabase::StorageDatabase(){
 }

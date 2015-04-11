@@ -20,8 +20,8 @@ private:
 	static TaskLog* taskLog;;					// For logging
 
 	//objects to execute database and processor functions
-	static StorageDatabase _databaseObj;
-	static StorageProcessor _processorObj;
+	static StorageDatabase* _databaseObj;
+	static StorageProcessor* _processorObj;
 
 public:
 	StorageController();
