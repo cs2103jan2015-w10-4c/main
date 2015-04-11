@@ -3,8 +3,7 @@
 #include <iostream>
 using namespace std;
 
-const string MESSAGE_DATE_ERROR = "Date is missing.";
-const string MESSAGE_DATE_INPUT = "Key in date(dd/mm): ";
+
 const int LENGTH_OF_FOUR_DIGIT_DATE = 5;
 const int LENGTH_OF_THREE_DIGIT_DATE = 4;
 const int LENGTH_OF_TWO_DIGIT_DATE = 3;
@@ -58,20 +57,8 @@ DateParser::DateParser(string input){
 		}
 	}
     //date is not found
-    else if(get_date == string::npos){
-		SYSTEMTIME lt;
-		GetLocalTime(&lt);
-		_integerDay = lt.wDay;
-		_integerMonth = lt.wMonth;
-		ostringstream oss;
-		oss << _integerDay;
-		_day = oss.str();
-		oss.clear();
-		oss << _integerDay;
-		_month = oss.str();
-		oss.clear();
-		_date = _day + "/" + _month;
-	}
+    //else if(get_date == string::npos){
+
   
 /*	else{
 		SYSTEMTIME lt;
