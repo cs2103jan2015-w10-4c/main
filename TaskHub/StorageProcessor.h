@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef STORAGEPROCESSOR_H_
+#define STORAGEPROCESSOR_H_
+
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -18,3 +21,4 @@ public:
 
 };
 
+#endif

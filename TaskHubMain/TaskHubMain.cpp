@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <Windows.h>
 #include <string>
-#include "Ui.h"
-#include "CommandInterpreter.h"
+#include "..\TaskHub\Ui.h"
+#include "..\TaskHub\CommandInterpreter.h"
 
 const int COLOR_NORAL_BACKGROUND = 243;
 const int COLOR_WELCOME_MESSAGE = 244;
