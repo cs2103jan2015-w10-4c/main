@@ -1,11 +1,20 @@
 
 #include <stdlib.h>
 #include <Windows.h>
-#include "..\TaskHub\Ui.h"
-#include "..\TaskHub\CommandInterpreter.h"
+#include <string>
+#include "Ui.h"
+#include "CommandInterpreter.h"
+
+//const int FINISHED_TASK_COLOR = 250;
+const int NORAL_BACKGROUND_COLOR = 243;
+const int WELCOME_MESSAGE_COLOR = 244;
+const int SYSTEM_FEEDBACK_COLOR = 252;
 
 int main() {
 	UI::programmeInitialising();
+	string temp;
+	getline(cin,temp);
+	system("CLS");
 	UI::displayWelcomeMessage();
 
 	//cout << "\n============================================================================" << endl;
@@ -24,8 +33,12 @@ int main() {
 		UI::showToUser(userCommand);
 
 		cout << endl << endl << endl;
+		HANDLE  hConsole= GetStdHandle(STD_OUTPUT_HANDLE);
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(hConsole, SYSTEM_FEEDBACK_COLOR);
 
 		UI::systemFeedback(output);
+		SetConsoleTextAttribute(hConsole, NORAL_BACKGROUND_COLOR);
 
 		cout << "\n==============================================================================" << endl;;
 	}
