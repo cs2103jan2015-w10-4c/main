@@ -1,5 +1,7 @@
 #include "CommandClash.h"
 
+const string MESSAGE_CLASH = " clashes with existing tasks";
+const string MESSAGE_DOES_NOT_CLASH = " does not clash with existing tasks";
 
 bool CommandClash::isTwoClash(int startTime1, int endTime1,int startTime2, int endTime2 ) {
 	return !(startTime2>=endTime1 || startTime1>=endTime2);
@@ -61,9 +63,9 @@ string CommandClash::clash(string input) {
 	}
 	
 	if(clash) {
-		return input + " clashes with existing tasks";
+		return input + MESSAGE_CLASH ;
 	}
 	else {
-		return input + " does not clash with existing tasks";
+		return input + MESSAGE_DOES_NOT_CLASH;
 	}
 }
