@@ -25,7 +25,7 @@ string CommandAdd::addMessage (string input) {
 
 	// this is to make sure if user just key in empty space or nothing except an "add", nothing will be done
 	if (!isWhiteSpace && input != MESSAGE_COMMAND_TYPE ) {
-		string message = CommandClash::Clash(input);
+		string message = CommandClash::clash(input);
 		if (message == (input + MESSAGE_CLASH)) {
 			sprintf_s(Logic::messageDisplayed,MESSAGE_CLASH.c_str());
 			return Logic::messageDisplayed;
