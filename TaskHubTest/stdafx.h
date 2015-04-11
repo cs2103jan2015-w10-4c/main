@@ -14,6 +14,7 @@
 #include "..\TaskHub\CommandAdd.h"
 #include "..\TaskHub\CommandDelete.h"
 #include "..\TaskHub\CommandDisplay.h"
+#include "..\TaskHub\CommandDetail.h"
 #include "..\TaskHub\CommandInterpreter.h"
 #include "..\TaskHub\CommandMarkDone.h"
 #include "..\TaskHub\CommandRedo.h"

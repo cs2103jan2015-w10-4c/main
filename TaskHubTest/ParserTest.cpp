@@ -12,10 +12,9 @@ namespace ParserTest{
 		TEST_METHOD(TestVenueParser){
 			std::string testInput = "Write code @NUS";
 			VenueParser parseVenue(testInput);
-			std::string expectedOutput = "NUS";
+			std::string expectedOutput = "@NUS";
 			std::string realOutput = parseVenue.getVenue();
 			Assert::AreEqual(realOutput, expectedOutput);
-
 		// Boundary case: empty venue
 
 		}

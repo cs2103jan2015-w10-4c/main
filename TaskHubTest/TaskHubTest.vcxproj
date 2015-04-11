@@ -19,7 +19,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
@@ -89,6 +89,7 @@
     <ClCompile Include="CommandAddTest.cpp" />
     <ClCompile Include="CommandClearTest.cpp" />
     <ClCompile Include="CommandDeleteTest.cpp" />
+    <ClCompile Include="CommandDetailTest.cpp" />
     <ClCompile Include="CommandMarkDoneTest.cpp" />
     <ClCompile Include="CommandMarkUncompleteTest.cpp" />
     <ClCompile Include="CommandRedoTest.cpp" />
