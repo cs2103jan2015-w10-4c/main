@@ -1,5 +1,3 @@
-//author: A0115399W
-
 #ifndef TIMEPARSER_H
 #define TIMEPARSER_H
 #include <string>
@@ -16,9 +14,6 @@ public:
 	int getStartMinute();
 	int getEndHour();
 	int getEndMinute();
-	bool isValidTime();
-	void checkValidation(string input);
-	bool checkIntegerValidation(string input);
 private:
 	string _startTime;
 	string _endTime;
@@ -26,6 +21,5 @@ private:
 	int _startMinute;
 	int _endHour;
 	int _endMinute;
-	bool _validTime;
 };
 #endif

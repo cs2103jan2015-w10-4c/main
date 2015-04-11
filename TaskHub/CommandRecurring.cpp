@@ -2,8 +2,7 @@
 #include <fstream>
 #include <string>
 #include <Windows.h>
-#include <algorithm>
-#include "LogicController.h"
+#include "Logic.h"
 #include "CommandAdd.h"
 #include "CommandUndo.h"
 #include "CommandRecurring.h"
@@ -340,7 +339,7 @@ string CommandRecurring::setRecurringTask(string input) {
 					startingHour, endingHour, startingMinute, endingMinute, startingDate,
 					dayOfWeek,startingTime, endingTime, taskName, venue);
 	
-	if (startingHour > 24 ||endingHour > 24 ||startingMonth > 12 ||endingMonth> 12 ||startingDay > 31 || endingDay > 31 || startingMinute >60 ||
+	if (startingHour > 24 || endingHour > 24 || startingMonth > 12 || endingMonth> 12 || startingDay > 31 || endingDay > 31 || startingMinute >60 ||
 		endingMinute > 60) {
 		return MESSAGE_WRONG;
 	}
@@ -518,8 +517,8 @@ void CommandRecurring::recDayOrWeek ( int startingYear, int endingYear, int star
 						CommandAdd::addMessage(message);
 						}
 	
-					} else {
-						string message = taskname + EMPTY_SPACE + "-by" + endingTime + " " +  to_string(i) + "/" + to_string(j) + " " + venue;
+					} else {cout<<"!!!!abc"<<endl;
+						string message = taskname + EMPTY_SPACE + "-by " + endingTime + " " +  to_string(i) + "/" + to_string(j) + " " + venue;
 						CommandAdd::addMessage(message);
 				}
 			}
@@ -567,7 +566,8 @@ void CommandRecurring::recDayDefault ( int startingYear, int endingYear, int sta
 						}
 	
 					} else {
-						string message = taskname + EMPTY_SPACE + "-by" + endingTime + " " +  to_string(i) + "/" + to_string(j) + " " + venue;
+						cout<<"!!!!"<<endl;
+						string message = taskname + EMPTY_SPACE + "-by " + endingTime + " " +  to_string(i) + "/" + to_string(j) + " " + venue;
 						CommandAdd::addMessage(message);
 				}
 	
@@ -578,3 +578,5 @@ void CommandRecurring::recDayDefault ( int startingYear, int endingYear, int sta
 	}
 
 }
+
+
