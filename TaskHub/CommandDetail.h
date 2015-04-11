@@ -6,8 +6,8 @@
 
 using namespace std;
 
-class CommandDetail
-{
+class CommandDetail{
+
 public:
 	static string detailMessage(string taskIndex);
 	static bool checkInputValidation(string taskIndex);

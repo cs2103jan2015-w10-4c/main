@@ -34,7 +34,7 @@ void Logic::getStorage(){
 string Logic::getDetail (string input) {
 
 	string temp = CommandDetail::detailMessage(input);
-	return CommandDetail::SYSTEM_FEEDBACK;
+	return CommandDetail::FEEDBACK_SYSTEM;
 }
 
 string Logic::addTask(string input){
