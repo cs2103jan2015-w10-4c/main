@@ -40,7 +40,7 @@ vector <string> ShowDailyTask::ShowTask (vector <int> taskIndex) {
 		
 		for (unsigned int i = 0; i < taskIndex.size() ; i++){
 			ostringstream oss;
-			oss << taskIndex[i] + 1 << ". " << Logic::history.getVectorTextStorage()[taskIndex[i]].ToString() << endl;
+			oss << i + 1 << ". " << Logic::history.getVectorTextStorage()[taskIndex[i]].ToString() << endl;
 			string TaskDisplay = oss.str();
 			ShowDailyTask::messageDisplayed.push_back(TaskDisplay);
 			

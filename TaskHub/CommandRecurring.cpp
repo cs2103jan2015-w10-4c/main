@@ -339,12 +339,6 @@ string CommandRecurring::setRecurringTask(string input) {
 					startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay, interval,
 					startingHour, endingHour, startingMinute, endingMinute, startingDate,
 					dayOfWeek,startingTime, endingTime, taskName, venue);
-	
-	if (startingHour > 24 ||endingHour > 24 ||startingMonth > 12 ||endingMonth> 12 ||startingDay > 31 || endingDay > 31 || startingMinute >60 ||
-		endingMinute > 60) {
-		return MESSAGE_WRONG;
-	}
-
 
 	if (get_day_of_week != string::npos) {
 		
@@ -356,14 +350,13 @@ string CommandRecurring::setRecurringTask(string input) {
 			
 			//recur weekly and daily
 			recDayOrWeek (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
-				interval, dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time, get_deadline);
-			
+			interval, dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
 			StorageController::updateSaveFile();
 			return MESSAGE_RECURRING_TASK_SET;
 
 		case (MONTHLY)://recur monthly
 			recMonth (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay, interval,
-				dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time, get_deadline);
+				dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
 			StorageController::updateSaveFile();
 			return MESSAGE_RECURRING_TASK_SET;
 
@@ -371,7 +364,7 @@ string CommandRecurring::setRecurringTask(string input) {
 			int interval; 
 			interval = atoi(dayOfWeek.substr(7,2).c_str());
 			recDayOrWeek (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
-			interval, dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time, get_deadline);
+			interval, dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
 			StorageController::updateSaveFile();
 			return MESSAGE_RECURRING_TASK_SET;
 
@@ -381,7 +374,7 @@ string CommandRecurring::setRecurringTask(string input) {
 	} else { // by default every day
 			if (dayOfWeek.size() == DEFAULT) {
 			recDayDefault (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
-				dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time, get_deadline);
+				dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
 			StorageController::updateSaveFile();
 			return MESSAGE_RECURRING_TASK_SET;
 			} else {
@@ -445,7 +438,7 @@ int CommandRecurring::setStartingDay (string input, string dayOfWeek, Time curre
 }
 
 void CommandRecurring::recMonth ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay, int interval,
-					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline) {
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found) {
 
 		int recurringDay = atoi(dayOfWeek.substr(7,2).c_str());
 		for (int k = startingYear; k <= endingYear; k++) {
@@ -483,7 +476,7 @@ void CommandRecurring::recMonth ( int startingYear, int endingYear, int starting
 }
 
 void CommandRecurring::recDayOrWeek ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay,
-							   int interval, string dayOfWeek, string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline) {
+							   int interval, string dayOfWeek, string startingTime, string endingTime, string taskName, string venue, size_t found) {
 
 			int i;
 			int j;
@@ -508,21 +501,16 @@ void CommandRecurring::recDayOrWeek ( int startingYear, int endingYear, int star
 			for ( i = startingDay; i <= dayNumber;i = i + interval) {
 				char taskname[MAX_BUFFERING_CAPACITY];
 				strcpy_s(taskname, taskName.c_str());
-				if (get_deadline == string::npos) {
-					if (found != string::npos) {
-						string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + " " + to_string(i) + "/" + to_string(j) + " " + venue;
+				if (found != string::npos) {
+					string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + " " + to_string(i) + "/" + to_string(j) + " " + venue;
 				
-						CommandAdd::addMessage(message);
-						} else {
-						string message = taskname;
-						CommandAdd::addMessage(message);
-						}
-	
+					CommandAdd::addMessage(message);
 					} else {
-						string message = taskname + EMPTY_SPACE + "-by" + endingTime + " " +  to_string(i) + "/" + to_string(j) + " " + venue;
-						CommandAdd::addMessage(message);
+					string message = taskname;
+					CommandAdd::addMessage(message);
+					}
+	
 				}
-			}
 				startingDay = i - dayNumber;
 			}
 			startingMonth = intJan;
@@ -530,7 +518,7 @@ void CommandRecurring::recDayOrWeek ( int startingYear, int endingYear, int star
 }
 //everyday
 void CommandRecurring::recDayDefault ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay,
-							   string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline) {
+							   string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found) {
 					   
 		int i;
 		int j;
@@ -556,20 +544,13 @@ void CommandRecurring::recDayDefault ( int startingYear, int endingYear, int sta
 				for ( i = startingDay; i <= dayNumber; i++) {
 					char taskname[MAX_BUFFERING_CAPACITY];
 					strcpy_s(taskname, taskName.c_str());
-					if (get_deadline == string::npos) {
 					if (found != string::npos) {
 						string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + " " + to_string(i) + "/" + to_string(j) + " " + venue;
-				
 						CommandAdd::addMessage(message);
-						} else {
-						string message = taskname;
-						CommandAdd::addMessage(message);
-						}
-	
 					} else {
-						string message = taskname + EMPTY_SPACE + "-by" + endingTime + " " +  to_string(i) + "/" + to_string(j) + " " + venue;
-						CommandAdd::addMessage(message);
-				}
+					string message = taskname;
+					CommandAdd::addMessage(message);
+					}
 	
 				}
 				startingDay = FIRSTDAYINAMONTH;

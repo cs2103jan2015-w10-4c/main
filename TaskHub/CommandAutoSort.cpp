@@ -38,7 +38,7 @@ bool CommandAutoSort::compareCriteria(Task firstTask, Task secondTask) {
 
 		//for undone tasks
 		//floating tasks sorted after timed and deadline tasks
-		if((firstTask.getTaskType() == STATUS_FLOATING) && (secondTask.getTaskType() != STATUS_FLOATING)){ //floating sorted after timed
+		if((firstTask.getTaskType() == STATUS_FLOATING) && (secondTask.getTaskType() != STATUS_FLOATING)){                //floating sorted after timed
 			return false;															
 		} else if ((firstTask.getTaskType() != STATUS_FLOATING) && (secondTask.getTaskType() == STATUS_FLOATING)){
 			return true;

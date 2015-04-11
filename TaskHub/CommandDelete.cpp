@@ -14,24 +14,7 @@ CommandDelete::~CommandDelete () {
 
 }
 
-
-bool checkInput(string taskIndex) {
-	
-	bool isValid=true;
-	for(unsigned int i=0; i<taskIndex.size()&&isValid;i++){
-		if(taskIndex[i]<'0' || taskIndex[i]>'9')
-			isValid=false;
-	}
-
-	return isValid;
-}
-
 string CommandDelete::deleteMessage(string input) {
-
-	if (!checkInput(input)) {
-		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
-		return Logic::messageDisplayed;
-	}
 
 	unsigned int index;
 	istringstream in(input);

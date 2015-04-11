@@ -37,13 +37,13 @@ public:
 										string &dayOfWeek,string &startingTime, string &endingTime, string &taskName, string &venue);
 
 	static void recDayDefault ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay,
-					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline);
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found);
 
 	static void recDayOrWeek ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay, int interval,
-					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline);
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found);
 
 	static void recMonth ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay, int interval,
-					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline);
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found);
 
 	static int setStartingDay (string input, string dayOfWeek, Time currentTimeData, int startingDay, int startingMonth,
 									  size_t get_day_of_week, int startingYear);
