@@ -14,6 +14,7 @@ public:
 	int getStartMinute();
 	int getEndHour();
 	int getEndMinute();
+	bool isValidTime();
 private:
 	string _startTime;
 	string _endTime;
@@ -21,5 +22,6 @@ private:
 	int _startMinute;
 	int _endHour;
 	int _endMinute;
+	bool _validTime;
 };
 #endif

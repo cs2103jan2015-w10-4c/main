@@ -159,7 +159,8 @@ Task::Task(string Task, string input){
 			if ((find_time != string::npos) && (find_ending_time != string::npos)){
 				TimeParser parseTime(Task);
 				DateParser parseDate(Task);
-
+				isValid = parseDate.isValidDate();
+				isValid = parseTime.isValidTime();
 				_TaskType = SCHEDULED_TASK_LABEL;
 				_TaskName = Task.substr(START_OF_STRING, find_bracket - ADJUSTMENT_ONE);
 				_startTime = parseTime.getStartTime();
