@@ -37,7 +37,7 @@ public:
 	static string getUserCommand();
 	static void showToUser(string userCommand);
 	static void systemFeedback(string text);
-	static void dispalyDay(vector<string> task, string heading);
+	static void displayDay(vector<string> task, string heading);
 	static void displayDetail(string task, string index);
 };
 #endif

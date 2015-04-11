@@ -52,27 +52,27 @@ void UI::showToUser(string userCommand) {
 		size_t free = message.find("free");
 
 		if(message=="today") {
-			UI::dispalyDay(task,"Today");
+			UI::displayDay(task,"Today");
 		}
 		else if(free!=string::npos) {
-			UI::dispalyDay(task, message);
+			UI::displayDay(task, message);
 		}
 		else {
-			UI::dispalyDay(task,message);
+			UI::displayDay(task,message);
 		}
 	}
 	else if(command=="display") {
 		vector<string> task = CommandDisplay::messageDisplayed;
-		UI::dispalyDay(task,"Display");
+		UI::displayDay(task,"Display");
 	}
 	else if(command=="sort") {
 		vector<string> task = CommandDisplay::messageDisplayed;
-		UI::dispalyDay(task,userCommand);
+		UI::displayDay(task,userCommand);
 	}
 	else if(command=="search") {
 		string temp= CommandSearch::searchMessage(message);
 		vector<string> task = CommandSearch::messageDisplayed;
-		UI::dispalyDay(task,userCommand);
+		UI::displayDay(task,userCommand);
 	}
 	else if(command=="detail") {
 		string task = CommandDetail::detailMessage(message);
@@ -83,7 +83,7 @@ void UI::showToUser(string userCommand) {
 	else {
 		string temp= ShowDailyTask::showDayTask("today");
 		vector<string> task = ShowDailyTask::messageDisplayed;
-		UI::dispalyDay(task, "Today");
+		UI::displayDay(task, "Today");
 	}
 	cout << "\n -----------------------------------------------------------------------------" 
 		 << endl;
@@ -101,7 +101,7 @@ void UI::displayDetail(string task, string index) {
 		 << "\n¡¾STATUS¡¿: " << temp.getStatus();
 }
 
-void UI::dispalyDay(vector<string> task, string heading) {
+void UI::displayDay(vector<string> task, string heading) {
 	vector<Task> temporary;
 	string date;
 	string time;
