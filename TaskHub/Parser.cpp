@@ -18,6 +18,7 @@ const string COLON = ":";
 const string EMPTY_SPACE =" ";
 const int ADJUSTMENT_ONE = 1;
 const int LENGTH_OF_DATE = 5;
+const int START_OF_STRING = 0;
 bool Task::isValid;
 
 Task::Task(){}
@@ -43,7 +44,7 @@ Task::Task(string input){
 				TimeParser parseTime(input.substr(timedTask));
 
 				_TaskType = SCHEDULED_TASK_LABEL;
-				_TaskName = input.substr(0, timedTask - ADJUSTMENT_ONE);
+				_TaskName = input.substr(START_OF_STRING, timedTask - ADJUSTMENT_ONE);
 				_startTime = parseTime.getStartTime();
 				_endTime = parseTime.getEndTime();
 				_deadlineTime = "";
@@ -65,7 +66,7 @@ Task::Task(string input){
 			TimeParser parseTime(input);
 
 			_TaskType = DEADLINE_TASK_LABEL;
-			_TaskName = input.substr(0, deadlinedTask - ADJUSTMENT_ONE);
+			_TaskName = input.substr(START_OF_STRING, deadlinedTask - ADJUSTMENT_ONE);
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = input.substr(deadlinedTask + 4, 5);
@@ -139,7 +140,7 @@ Task::Task(string Task, string input){
 				DateParser parseDate(Task);
 
 				_TaskType = SCHEDULED_TASK_LABEL;
-				_TaskName = Task.substr(0, find_bracket - ADJUSTMENT_ONE);
+				_TaskName = Task.substr(START_OF_STRING, find_bracket - ADJUSTMENT_ONE);
 				_startTime = parseTime.getStartTime();
 				_endTime = parseTime.getEndTime();
 				_deadlineTime = "";
@@ -158,7 +159,7 @@ Task::Task(string Task, string input){
 				DateParser parseDate(Task);
 				TimeParser parseTime(Task);
 
-				_TaskName = Task.substr(0, find_bracket - ADJUSTMENT_ONE);
+				_TaskName = Task.substr(START_OF_STRING, find_bracket - ADJUSTMENT_ONE);
 				_TaskType = DEADLINE_TASK_LABEL;
 				_startTime = "";
 				_endTime = "";
@@ -171,7 +172,7 @@ Task::Task(string Task, string input){
 		}
 		else{
 			_TaskType = FLOATING_TASK_LABEL;
-			_TaskName = Task.substr(0, find__status-2);
+			_TaskName = Task.substr(START_OF_STRING, find__status-2);
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = "";
@@ -186,7 +187,7 @@ Task::Task(string Task, string input){
 			string tempVenue;
 			tempVenue = parseVenue.getVenue();
 			
-			_venue = tempVenue.substr(0, status_mark - venueTask);
+			_venue = tempVenue.substr(START_OF_STRING, status_mark - venueTask);
 		}
 		else{
 			_venue = "";
