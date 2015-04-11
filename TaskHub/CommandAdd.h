@@ -16,6 +16,7 @@ private:
 	static const string MESSAGE_COMMAND_TYPE;
 	static const string MESSAGE_ADDED;
 	static const string MESSAGE_CLASH;
+	static const string MESSAGE_INVALID_INPUT;
 };
 
 #endif
