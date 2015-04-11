@@ -21,7 +21,8 @@ CommandAdd::~CommandAdd () {
 
 string CommandAdd::addMessage (string input) {
 
-	Logic::history.setLastCommandType (MESSAGE_COMMAND_TYPE);
+	StorageDatabase::taskHistory.setLastCommandType (MESSAGE_COMMAND_TYPE);
+
 	bool isWhiteSpace = all_of(input.begin(), input.end(), isspace);
 
 	// this is to make sure if user just key in empty space or nothing except an "add", nothing will be done
@@ -35,8 +36,11 @@ string CommandAdd::addMessage (string input) {
 				return Logic::messageDisplayed;
 			} else {
 			Task newTask(input);
-			Logic::history.setVectorTextStorage(newTask);
-			Logic::history.setLastChangedTask(newTask);
+
+			StorageDatabase::taskHistory.setVectorTextStorage(newTask);
+			StorageDatabase::taskHistory.setLastChangedTask(newTask);
+
+
 			sprintf_s(Logic::messageDisplayed, MESSAGE_ADDED.c_str(),newTask.ToString().c_str());
 			}
 

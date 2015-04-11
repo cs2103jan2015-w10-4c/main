@@ -44,23 +44,23 @@ string CommandUpdate::updateMessage(string input) {
 	in >> index;
 
 
-	if (index > Logic::history.getVectorTextStorage().size() || index <= 0){
+	if (index > StorageDatabase::taskHistory.getVectorTextStorage().size() || index <= 0){
 		
 		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
 		
 	}
 	else{
-		Logic::history.setLastCommandType(MESSAGE_COMMAND_TYPE);
-		Logic::history.setLastChangedTaskIndex (index);
-		vector<Task> temp = Logic::history.getVectorTextStorage();
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex (index);
+		vector<Task> temp = StorageDatabase::taskHistory.getVectorTextStorage();
 
-		Logic::history.setLastUnchangedTask (temp[index - 1]);
+		StorageDatabase::taskHistory.setLastUnchangedTask (temp[index - 1]);
 
 		temp[index - 1].UpdateTask(TaskInfo);
 
-		Logic::history.setLastChangedTask(temp[index - 1]);
+		StorageDatabase::taskHistory.setLastChangedTask(temp[index - 1]);
 
-		Logic::history.setVectorTextStorage(temp);
+		StorageDatabase::taskHistory.setVectorTextStorage(temp);
 
 		sprintf_s(Logic::messageDisplayed,MESSAGE_UPDATED.c_str(),temp[index-1].ToString().c_str());
 		

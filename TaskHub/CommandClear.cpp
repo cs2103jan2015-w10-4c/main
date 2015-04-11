@@ -22,18 +22,18 @@ CommandClear::~CommandClear () {
 
 string CommandClear::clearTask(string input) {
 
-	vector <Task> temporary = Logic::history.getVectorTextStorage();
+	vector <Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
 
 	transform(input.begin(),input.end(),input.begin(),::tolower);
 
 	if (input == MESSAGE_ALL||input == MESSAGE_CLEAR) {// when just clear is entered, by default is to clear all
-		Logic::history.setLastCommandType(MESSAGE_CLEAR_COMMAND);
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_CLEAR_COMMAND);
 		temporary.clear();
-		Logic::history.setVectorTextStorage(temporary);
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 		sprintf_s(Logic::messageDisplayed, MESSAGE_CLEAR_ALL.c_str());
 
 	} else if (input == MESSAGE_DONE) {
-		Logic::history.setLastCommandType(MESSAGE_CLEAR_COMMAND);
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_CLEAR_COMMAND);
 		for (unsigned int i=0;i<temporary.size();i++) {
 			if (temporary[i].getStatus() == MESSAGE_DONE) {
 				string s = to_string(i+1);
@@ -43,7 +43,7 @@ string CommandClear::clearTask(string input) {
 		sprintf_s(Logic::messageDisplayed, MESSAGE_CLEAR_DONE.c_str());
 
 	} else if (input == MESSAGE_UNCOMPLETE) {
-		Logic::history.setLastCommandType(MESSAGE_CLEAR_COMMAND);
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_CLEAR_COMMAND);
 		for (unsigned int i = 0; i < temporary.size(); i++) {
 			if (temporary[i].getStatus() == MESSAGE_UNCOMPLETE) {
 				string s = to_string(i + 1);
@@ -64,8 +64,8 @@ string CommandClear::clearTask(string input) {
 				} else {
 					temporary.erase(itr, temporary.end());
 				}
-				Logic::history.setLastCommandType(MESSAGE_CLEAR_COMMAND);
-				Logic::history.setVectorTextStorage(temporary);
+				StorageDatabase::taskHistory.setLastCommandType(MESSAGE_CLEAR_COMMAND);
+				StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 				sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_FROM_TO.c_str(),input.substr(0,get_task_index).c_str(),input.substr(get_task_index+1,2).c_str());
 			} else {
 			

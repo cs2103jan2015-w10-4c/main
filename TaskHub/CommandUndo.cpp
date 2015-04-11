@@ -21,49 +21,49 @@ undoChange::~undoChange () {
 
 string undoChange::undo() {
 
-	vector<Task> temporary = Logic::history.getVectorTextStorage();
+	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
 
-	if (Logic::history.getLastCommandType() == COMMAND_TYPE_ADD) {
-		//temporary=Logic::history.getBackUpStorage();
+	if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_ADD) {
+		//temporary=StorageDatabase::taskHistory.getBackUpStorage();
 		temporary.pop_back();
-		Logic::history.setVectorTextStorage(temporary);
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_ADD.c_str());
 		
 	}
 
-	else if (Logic::history.getLastCommandType() == COMMAND_TYPE_UPDATE) {
-		temporary[Logic::history.getLastChangedTaskIndex()] = Logic::history.getLastUnchangedTask();
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_UPDATE) {
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()] = StorageDatabase::taskHistory.getLastUnchangedTask();
 		
-		Logic::history.setVectorTextStorage(temporary);
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 		
 		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_UPDATE.c_str());
 		
 	} 
-	else if (Logic::history.getLastCommandType() == COMMAND_TYPE_CLEAR) {
-		temporary=Logic::history.getBackUpStorage();
-		Logic::history.setVectorTextStorage(temporary);
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_CLEAR) {
+		temporary=StorageDatabase::taskHistory.getBackUpStorage();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 	
 		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_CLEAR.c_str());
 		
 	}
-	else if (Logic::history.getLastCommandType() == COMMAND_TYPE_DELETE) {
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_DELETE) {
 		
-		temporary.insert(temporary.begin() + Logic::history.getLastChangedTaskIndex(), Logic::history.getLastUnchangedTask());
-		Logic::history.setVectorTextStorage(temporary);
+		temporary.insert(temporary.begin() + StorageDatabase::taskHistory.getLastChangedTaskIndex(), StorageDatabase::taskHistory.getLastUnchangedTask());
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 		
 		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_DELETE.c_str());
 		
 	}
-	else if (Logic::history.getLastCommandType() == COMMAND_TYPE_UNCOMPLETE) {
-		temporary[Logic::history.getLastChangedTaskIndex()].MarkUndone();
-		Logic::history.setVectorTextStorage(temporary);
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_UNCOMPLETE) {
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()].MarkUndone();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 		
 		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_UNCOMPLETE.c_str());
 		
 	}
-	else if (Logic::history.getLastCommandType() == COMMAND_TYPE_DONE) {
-		temporary[Logic::history.getLastChangedTaskIndex()].MarkUndone();
-		Logic::history.setVectorTextStorage(temporary);
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_DONE) {
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()].MarkUndone();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 	
 		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_DONE.c_str());
 		

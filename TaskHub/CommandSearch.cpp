@@ -20,13 +20,13 @@ CommandSearch::~CommandSearch () {
 
 string CommandSearch::searchMessage (string input) {
 
-	if (Logic::history.getVectorTextStorage().empty()){
+	if (StorageDatabase::taskHistory.getVectorTextStorage().empty()){
 		sprintf_s(Logic::messageDisplayed,MESSAGE_EMPTY_FILE.c_str());
 		return Logic::messageDisplayed;
 	}
 	else{
 		vector<string> output;
-		vector<Task> temp = Logic::history.getVectorTextStorage();
+		vector<Task> temp = StorageDatabase::taskHistory.getVectorTextStorage();
 		vector<string> description;
 
 		transform(input.begin(),input.end(),input.begin(),:: tolower);

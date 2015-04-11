@@ -15,12 +15,12 @@ string CommandDetail::detailMessage(string taskIndex) {
 		istringstream in(taskIndex);
 		in >> index;
 		
-		if (index > Logic::history.getVectorTextStorage().size() || index <= 0) {
+		if (index > StorageDatabase::taskHistory.getVectorTextStorage().size() || index <= 0) {
 			FEEDBACK_SYSTEM = MESSAGE_INVALID_INDEX;
 			return "";
 		}
 		else {
-			vector<Task> temp=Logic::history.getVectorTextStorage();
+			vector<Task> temp=StorageDatabase::taskHistory.getVectorTextStorage();
 			FEEDBACK_SYSTEM = MESSAGE_DETAIL;
 			return temp[index -1].ToString();
 		}

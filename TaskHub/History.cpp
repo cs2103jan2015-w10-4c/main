@@ -69,9 +69,9 @@ vector <Task> History::getBackUpStorage() {
 /*
 string History::printToString() {
 	ostringstream totalTask;
-	for (unsigned int i=0;i<Logic::history.getVectorTextStorage().size();i++) {
+	for (unsigned int i=0;i<StorageDatabase::taskHistory.getVectorTextStorage().size();i++) {
 		ostringstream oss;
-		Task temp=Logic::history.getVectorTextStorage()[i];
+		Task temp=StorageDatabase::taskHistory.getVectorTextStorage()[i];
 		string taskName=temp.getTaskName();
 		string taskType=temp.getTaskType();
 		
