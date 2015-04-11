@@ -1,5 +1,5 @@
 #include <algorithm>
-#include "Logic.h"
+#include "LogicController.h"
 #include "Parser.h"
 #include "CommandSearch.h"
 

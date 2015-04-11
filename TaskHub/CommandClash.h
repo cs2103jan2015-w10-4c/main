@@ -6,7 +6,7 @@
 #include <vector>
 #include <windows.h>
 #include <algorithm>
-#include "Logic.h"
+#include "LogicController.h"
 #include "Parser.h"
 #include "ShowDailyTask.h"
 

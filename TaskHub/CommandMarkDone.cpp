@@ -1,4 +1,4 @@
-#include "Logic.h"
+#include "LogicController.h"
 #include "CommandMarkDone.h"
 
 const string markingDoneMessage::MESSAGE_COMMAND_TYPE = "done";

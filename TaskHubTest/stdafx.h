@@ -24,7 +24,7 @@
 #include "..\TaskHub\CommandUpdate.h"
 #include "..\TaskHub\DateParser.h"
 #include "..\TaskHub\History.h"
-#include "..\TaskHub\Logic.h"
+#include "..\TaskHub\LogicController.h"
 #include "..\TaskHub\Parser.h"
 #include "..\TaskHub\StorageController.h"
 #include "..\TaskHub\Ui.h"
