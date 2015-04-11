@@ -184,6 +184,121 @@ bool CommandRecurring::isValidDay (int day, int month, int year) {
 	return isValid;
 }
 
+void CommandRecurring::InterpretInput (string input, size_t &get_year, size_t &get_Start_Date, size_t &get_End_Date, size_t &get_Start_Time, size_t &get_End_Time,
+									   size_t &get_Venue, size_t &get_day_of_week, size_t &get_TaskName, size_t &get_deadline, Time &currentTimeData,
+									   int &startingYear, int &endingYear, int &startingMonth, int &endingMonth, int &startingDay, int &endingDay, int &interval,
+									   int &startingHour, int &endingHour, int &startingMinute, int &endingMinute, string &startingDate,
+										string &dayOfWeek,string &startingTime, string &endingTime, string &taskName, string &venue) {
+	get_year = input.find_last_of("~");
+	get_Start_Date = input.find("/");
+	get_End_Date = input.find_last_of("/");
+	get_Start_Time = input.find_first_of(":");
+	get_End_Time = input.find_last_of(":");
+	get_Venue = input.find("@");
+	get_day_of_week = input.find("-every");
+	get_TaskName = input.find_first_of("/");
+	get_deadline = input.find("-by");
+
+	if (get_TaskName != string::npos) {
+		string temp = input.substr(0,get_TaskName);
+		taskName = input.substr(0,temp.find_last_of(" "));
+	} else {
+		taskName = input;
+	}
+	
+	if (get_Start_Date != string::npos) {
+		startingDate=input.substr(get_Start_Date - MONORDAYWIDTH, DATEWIDTH);
+	} 
+
+	
+	if (get_Start_Time != string::npos) {
+		startingTime = input.substr(get_Start_Time - HRORMINWIDTH, TIMEWIDTH);
+	}
+	
+	
+	if (get_End_Time != string::npos) {
+		endingTime = input.substr(get_End_Time - HRORMINWIDTH, TIMEWIDTH);
+	}
+
+	
+	if (get_End_Time != string::npos) {
+		endingHour = atoi(input.substr(get_End_Time - HRORMINWIDTH, HRORMINWIDTH).c_str());
+		endingMinute = atoi(input.substr(get_End_Time + CORRECTPLACE, HRORMINWIDTH).c_str());
+	} else {
+		endingHour = DEFAULTENDINGHOUR;
+		endingMinute = DEFAULTENDINGMINUTE;
+	}
+
+	
+	if (get_End_Date != string::npos) {
+		endingDay = atoi(input.substr(get_End_Date - MONORDAYWIDTH, MONORDAYWIDTH).c_str());
+		endingMonth = atoi(input.substr(get_End_Date + CORRECTPLACE, MONORDAYWIDTH).c_str());
+	} else {
+		endingDay = currentTimeData._day;
+		endingMonth = currentTimeData._mon;
+	}
+	
+	
+	if(get_year != string::npos) {
+		if ((input.substr(get_year - CORRECTPLACE, CORRECTPLACE) != " ")) {
+			startingYear = atoi(input.substr(get_year - YEARWIDTH, YEARWIDTH).c_str());
+		} else {
+			startingYear = currentTimeData._year;
+		}
+		endingYear = atoi(input.substr(get_year + CORRECTPLACE, YEARWIDTH).c_str());
+	} else {
+			startingYear = currentTimeData._year;
+			endingYear = currentTimeData._year;
+	}
+
+	
+	if ((get_Start_Date != string::npos)&&(get_Start_Date != get_End_Date)) {
+		startingDay = atoi(input.substr(get_Start_Date - MONORDAYWIDTH, MONORDAYWIDTH).c_str());
+		startingMonth = atoi(input.substr(get_Start_Date + CORRECTPLACE, MONORDAYWIDTH).c_str());
+	} else {
+		startingDay = currentTimeData._day;
+		startingMonth = currentTimeData._mon;
+	}
+
+	
+	if ((get_Start_Time != string::npos)&&(get_Start_Time != get_End_Time)) {
+		startingHour = atoi(input.substr(get_Start_Time - HRORMINWIDTH, HRORMINWIDTH).c_str());
+		startingMinute = atoi(input.substr(get_Start_Time + CORRECTPLACE, HRORMINWIDTH).c_str());;
+	} else {
+		startingHour = currentTimeData._hour;
+		startingMinute = currentTimeData._min;
+		startingTime = to_string(startingHour) + ":" + to_string(startingMinute);
+	}
+
+	
+	if (get_Venue != string::npos) {
+		size_t venueLength;
+		if (input.find("-every") != string::npos) {
+			venueLength = input.find("-every");
+			venue = input.substr(get_Venue,venueLength - get_Venue);
+		} else {
+			venue = input.substr(get_Venue);
+		}
+		
+	} else {
+		venue = "";
+	}
+
+	if (get_day_of_week != string::npos) {
+		dayOfWeek = input.substr(get_day_of_week);
+	}
+	else {
+		dayOfWeek = MESSAGE_DEFAULT;
+	}
+
+	if (get_day_of_week != string::npos) {
+		interval = NOOFDAYSPERWEEK;
+	} else {
+		interval = CORRECTPLACE;
+	}
+
+}
+
 string CommandRecurring::setRecurringTask(string input) {
 
 	Time currentTimeData;
@@ -198,161 +313,65 @@ string CommandRecurring::setRecurringTask(string input) {
 	size_t get_year;
 	size_t get_day_of_week;
 	size_t get_deadline;
-	
-	get_year = input.find_last_of("~");
-	get_Start_Date = input.find("/");
-	get_End_Date = input.find_last_of("/");
-	get_Start_Time = input.find_first_of(":");
-	get_End_Time = input.find_last_of(":");
-	get_Venue = input.find("@");
-	get_day_of_week = input.find("-every");
-	get_TaskName = input.find_first_of("/");
-	get_deadline = input.find("-by");
 
 	string taskName;
-	if (get_TaskName != string::npos) {
-		string temp = input.substr(0,get_TaskName);
-		taskName = input.substr(0,temp.find_last_of(" "));
-	} else {
-		taskName = input;
-	}
-	
-
 	string startingDate;
-	if (get_Start_Date != string::npos) {
-		startingDate=input.substr(get_Start_Date - MONORDAYWIDTH, DATEWIDTH);
-	} 
-
 	string startingTime;
-	if (get_Start_Time != string::npos) {
-		startingTime = input.substr(get_Start_Time - HRORMINWIDTH, TIMEWIDTH);
-	}
-	
 	string endingTime;
-	if (get_End_Time != string::npos) {
-		endingTime = input.substr(get_End_Time - HRORMINWIDTH, TIMEWIDTH);
-	}
-
-	int endingHour;
-	int endingMinute;
-	if (get_End_Time != string::npos) {
-		endingHour = atoi(input.substr(get_End_Time - HRORMINWIDTH, HRORMINWIDTH).c_str());
-		endingMinute = atoi(input.substr(get_End_Time + CORRECTPLACE, HRORMINWIDTH).c_str());
-	} else {
-		endingHour = DEFAULTENDINGHOUR;
-		endingMinute = DEFAULTENDINGMINUTE;
-	}
-
-	int endingDay;
-	int endingMonth;
-	if (get_End_Date != string::npos) {
-		endingDay = atoi(input.substr(get_End_Date - MONORDAYWIDTH, MONORDAYWIDTH).c_str());
-		endingMonth = atoi(input.substr(get_End_Date + CORRECTPLACE, MONORDAYWIDTH).c_str());
-	} else {
-		endingDay = currentTimeData._day;
-		endingMonth = currentTimeData._mon;
-	}
-	
-	int startingYear;
-	int endingYear;
-	if(get_year != string::npos) {
-		if ((input.substr(get_year - CORRECTPLACE, CORRECTPLACE) != " ")) {
-			startingYear = atoi(input.substr(get_year - YEARWIDTH, YEARWIDTH).c_str());
-		} else {
-			startingYear = currentTimeData._year;
-		}
-		endingYear = atoi(input.substr(get_year + CORRECTPLACE, YEARWIDTH).c_str());
-	} else {
-			startingYear = currentTimeData._year;
-			endingYear = currentTimeData._year;
-	}
-
-	int startingDay;
-	int startingMonth;
-	if ((get_Start_Date != string::npos)&&(get_Start_Date != get_End_Date)) {
-		startingDay = atoi(input.substr(get_Start_Date - MONORDAYWIDTH, MONORDAYWIDTH).c_str());
-		startingMonth = atoi(input.substr(get_Start_Date + CORRECTPLACE, MONORDAYWIDTH).c_str());
-	} else {
-		startingDay = currentTimeData._day;
-		startingMonth = currentTimeData._mon;
-	}
-
-	int startingHour;
-	int startingMinute;
-	if ((get_Start_Time != string::npos)&&(get_Start_Time != get_End_Time)) {
-		startingHour = atoi(input.substr(get_Start_Time - HRORMINWIDTH, HRORMINWIDTH).c_str());
-		startingMinute = atoi(input.substr(get_Start_Time + CORRECTPLACE, HRORMINWIDTH).c_str());;
-	} else {
-		startingHour = currentTimeData._hour;
-		startingMinute = currentTimeData._min;
-		startingTime = to_string(startingHour) + ":" + to_string(startingMinute);
-	}
-
-	
-	
 	string venue;
-	if (get_Venue != string::npos) {
-		size_t venueLength;
-		if (input.find("-every") != string::npos) {
-			venueLength = input.find("-every");
-			venue = input.substr(get_Venue,venueLength - get_Venue);
-		} else {
-			venue = input.substr(get_Venue);
-		}
-		
-	} else {
-		venue = "";
-	}
-
-	
 	string dayOfWeek;
-	if (get_day_of_week != string::npos) {
-		dayOfWeek = input.substr(get_day_of_week);
-	}
-	else {
-		dayOfWeek = MESSAGE_DEFAULT;
-	}
 
 	int interval;
-	if (get_day_of_week != string::npos) {
-		interval = NOOFDAYSPERWEEK;
-	} else {
-		interval = CORRECTPLACE;
-	}
+	int endingHour;
+	int endingMinute;
+	int startingHour;
+	int startingMinute;
+	int endingDay;
+	int endingMonth;
+	int startingDay;
+	int startingMonth;
+	int startingYear;
+	int endingYear;
 	
+	InterpretInput (input, get_year, get_Start_Date, get_End_Date, get_Start_Time, get_End_Time,
+					get_Venue, get_day_of_week, get_TaskName, get_deadline, currentTimeData,
+					startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay, interval,
+					startingHour, endingHour, startingMinute, endingMinute, startingDate,
+					dayOfWeek,startingTime, endingTime, taskName, venue);
+
 	if (get_day_of_week != string::npos) {
-	
 		
-		
-		if (dayOfWeek.size() == DAYOFWEEKSIZE){
+		switch (dayOfWeek.size())
+		{
+		case (DAYOFWEEKSIZE):
 			startingDay = setStartingDay ( input, dayOfWeek, currentTimeData, startingDay, startingMonth,
 									   get_day_of_week, startingYear) ;
 			
 			//recur weekly and daily
 			recDayOrWeek (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
 			interval, dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
-			
+			StorageController::updateSaveFile();
 			return MESSAGE_RECURRING_TASK_SET;
-		} //monthly
-		else if (dayOfWeek.size() ==  MONTHLY) {
-		
+
+		case (MONTHLY)://recur monthly
 			recMonth (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay, interval,
 				dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
-		return MESSAGE_RECURRING_TASK_SET;
-		}//any days as interval
-		else if (dayOfWeek.size() == DAYSIZE) {
+			StorageController::updateSaveFile();
+			return MESSAGE_RECURRING_TASK_SET;
+
+		case (DAYSIZE)://any days as interval
 			int interval; 
 			interval = atoi(dayOfWeek.substr(7,2).c_str());
 			recDayOrWeek (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
 			interval, dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
+			StorageController::updateSaveFile();
 			return MESSAGE_RECURRING_TASK_SET;
-		} else {
+
+		default:
 			return MESSAGE_WRONG;
 		}
-	}
-	// by default every day
-	else {
-			if (dayOfWeek.size() == DEFAULT){
+	} else { // by default every day
+			if (dayOfWeek.size() == DEFAULT) {
 			recDayDefault (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
 				dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time);
 			StorageController::updateSaveFile();

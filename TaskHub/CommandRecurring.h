@@ -30,12 +30,21 @@ public:
 	static void checkWithinRange (int &startingDay, int &startingMonth,int &year);
 	static void getParameters (string input);
 	
+	static void InterpretInput (string input, size_t &get_year, size_t &get_Start_Date, size_t &get_End_Date, size_t &get_Start_Time, size_t &get_End_Time,
+									   size_t &get_Venue, size_t &get_day_of_week, size_t &get_TaskName, size_t &get_deadline, Time &currentTimeData,
+									   int &startingYear, int &endingYear, int &startingMonth, int &endingMonth, int &startingDay, int &endingDay, int &interval,
+									   int &startingHour, int &endingHour, int &startingMinute, int &endingMinute, string &startingDate,
+										string &dayOfWeek,string &startingTime, string &endingTime, string &taskName, string &venue);
+
 	static void recDayDefault ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay,
 					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found);
+
 	static void recDayOrWeek ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay, int interval,
 					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found);
+
 	static void recMonth ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay, int interval,
 					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found);
+
 	static int setStartingDay (string input, string dayOfWeek, Time currentTimeData, int startingDay, int startingMonth,
 									  size_t get_day_of_week, int startingYear);
 private:
