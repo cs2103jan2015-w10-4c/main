@@ -97,7 +97,7 @@ string Logic::sort () {
 }
 
 string Logic::checkClash(string input) {
-	return CommandClash::Clash(input);
+	return CommandClash::clash(input);
 }
 
 string Logic::getFirstWord(string input)
