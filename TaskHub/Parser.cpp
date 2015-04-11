@@ -128,13 +128,13 @@ Task::Task(string Task, string input){
 			_status = PROGRESSING_TASK_LABEL;
 		}
 		else{
-			size_t find__status = Task.find(FINISHED_TASK_LABEL);
+			 find__status = Task.find(FINISHED_TASK_LABEL);
 			if (find__status != string::npos){
 				_status = FINISHED_TASK_LABEL;
 			}
 			
 			else{
-				size_t find__status = Task.find(UNCOMPLETED_TASK_LABEL);
+				 find__status = Task.find(UNCOMPLETED_TASK_LABEL);
 				if (find__status != string::npos){
 					_status = UNCOMPLETED_TASK_LABEL;
 				}
@@ -193,7 +193,12 @@ Task::Task(string Task, string input){
 		}
 		else{
 			_TaskType = FLOATING_TASK_LABEL;
-			_TaskName = Task.substr(START_OF_STRING, find__status);
+			if (Task.find(MARK_AT) == string::npos){
+				_TaskName = Task.substr(START_OF_STRING, find__status);
+			}
+			else{
+				_TaskName = Task.substr(START_OF_STRING, Task.find(MARK_AT));
+			}
 			_startTime = "";
 			_endTime = "";
 			_deadlineTime = "";
