@@ -13,6 +13,7 @@
 // TODO: reference additional headers your program requires here
 #include "..\TaskHub\CommandAdd.h"
 #include "..\TaskHub\CommandClash.h"
+#include "..\TaskHub\CommandClear.h"
 #include "..\TaskHub\CommandDelete.h"
 #include "..\TaskHub\CommandDisplay.h"
 #include "..\TaskHub\CommandDetail.h"

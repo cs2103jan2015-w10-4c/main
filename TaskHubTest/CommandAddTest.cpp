@@ -26,6 +26,8 @@ namespace CommandAddTest{
 				std::string expectedOutput3 = "invalid input";
 				std::string actualOutput3 = Logic::messageDisplayed;
 				Assert::AreEqual(expectedOutput3, actualOutput3);
+
+				
 				
 			}
 

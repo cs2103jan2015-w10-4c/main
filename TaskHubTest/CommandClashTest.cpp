@@ -53,7 +53,10 @@ namespace TaskHubTest
 			int month2 = 4;
 			vector<Task> actualOutput2 = CommandClash::getDayTasks(temporary2,day2,month2);
 			Assert::IsTrue(actualOutput2.empty());
+
+			CommandClear::clearTask("all");
 		}
+
 
 	};
 }

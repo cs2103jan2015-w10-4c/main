@@ -6,6 +6,8 @@ const string CommandDetail::MESSAGE_COMMAND_TYPE="detail";
 const string CommandDetail::MESSAGE_INVALID_INDEX="The index is invalid";
 const string CommandDetail::MESSAGE_DETAIL="Task detail is shown";
 string CommandDetail::FEEDBACK_SYSTEM;
+const char INTEGER_ZERO = '0';
+const char INTEGER_NINE = '9';
 
 string CommandDetail::detailMessage(string taskIndex) {
 	FEEDBACK_SYSTEM.clear();
@@ -35,7 +37,7 @@ bool CommandDetail::checkInputValidation(string taskIndex) {
 	bool isValid=true;
 
 	for(unsigned int i=0; i<taskIndex.size()&&isValid;i++) {
-		if(taskIndex[i]<'0' || taskIndex[i]>'9') {
+		if(taskIndex[i]<INTEGER_ZERO || taskIndex[i]>INTEGER_NINE) {
 			isValid=false;
 		}
 	}
