@@ -1,6 +1,10 @@
+//@author A0111322E
+
 #include "StorageDatabase.h"
 
-const std::string StorageDatabase::_lastSavedFileStorage = "LastSavedFile.txt";
+//_lastSavedFileStorage represents the file name of the text file that contains the previously saved file.
+const std::string StorageDatabase::_lastSavedFileStorage = "LastSavedFile.txt";	
+
 History StorageDatabase::taskHistory;
 
 StorageDatabase::StorageDatabase(){

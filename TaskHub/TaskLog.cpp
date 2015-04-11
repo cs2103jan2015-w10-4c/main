@@ -1,4 +1,4 @@
-//@author A0111322
+//@author A0111322E
 // Purpose of this class is to keep track of the actions done by the user over the course of the program's usage
 
 #include "TaskLog.h"

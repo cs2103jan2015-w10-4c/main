@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include "Logic.h"
+#include "LogicController.h"
 using namespace std;
 
 class CommandClear {

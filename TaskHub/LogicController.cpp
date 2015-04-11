@@ -1,6 +1,6 @@
 #include <sstream>
 #include <fstream>
-#include "Logic.h"
+#include "LogicController.h"
 #include "CommandAdd.h"
 #include "CommandUpdate.h"
 #include "CommandDelete.h"

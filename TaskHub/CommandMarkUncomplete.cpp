@@ -1,4 +1,4 @@
-#include "Logic.h"
+#include "LogicController.h"
 #include "CommandMarkUncomplete.h"
 
 const string markingMessageUncomplete::MESSAGE_COMMAND_TYPE = "uncomplete";

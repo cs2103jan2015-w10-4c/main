@@ -3,7 +3,7 @@
 #include <string>
 #include <Windows.h>
 #include <algorithm>
-#include "Logic.h"
+#include "LogicController.h"
 #include "CommandAdd.h"
 #include "CommandUndo.h"
 #include "CommandRecurring.h"

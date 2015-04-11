@@ -15,7 +15,7 @@
 #include <iomanip>
 #include <Windows.h>
 #include <iostream>
-#include "Logic.h"
+#include "LogicController.h"
 #include "StorageController.h"
 #include "CommandInterpreter.h"
 #include "CommandDisplay.h"

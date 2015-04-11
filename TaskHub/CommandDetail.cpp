@@ -1,5 +1,5 @@
 #include "CommandDetail.h"
-#include "Logic.h"
+#include "LogicController.h"
 #include "Parser.h"
 
 const string CommandDetail::MESSAGE_COMMAND_TYPE="detail";
