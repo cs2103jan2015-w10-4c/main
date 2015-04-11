@@ -1,3 +1,4 @@
+#include <algorithm> 
 #include "CommandAutoSort.h"
 
 const int MAX_TIME_LENGTH = 14;		//for yyyymmddhhmm
@@ -72,7 +73,6 @@ bool CommandAutoSort::compareCriteria(Task firstTask, Task secondTask) {
 }
 	return false;
 }
-
 
 string CommandAutoSort::autoSort () {
 	
