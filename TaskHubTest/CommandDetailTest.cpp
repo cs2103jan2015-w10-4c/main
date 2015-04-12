@@ -9,7 +9,7 @@ namespace TaskHubTest
 	{
 	public:
 		
-		TEST_METHOD(TestdetailMessage) {
+		TEST_METHOD(TestDetailMessage) {
 			//test case 1
 			std::string testSentence1 = "0";
 			std::string testResult1 = CommandDetail::detailMessage(testSentence1);
@@ -21,7 +21,7 @@ namespace TaskHubTest
 			std::string actualResult2("");
 			Assert::AreEqual(actualResult2, testResult2);
 		}
-		TEST_METHOD(TestcheckInputValidation) {
+		TEST_METHOD(TestCheckInputValidation) {
 			//test case 1
 			std::string testSentence1 = "0";
 			Assert::IsTrue(CommandDetail::checkInputValidation(testSentence1));

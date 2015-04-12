@@ -9,7 +9,7 @@ namespace TaskHubTest
 	{
 	public:
 		
-		TEST_METHOD(TestcheckValidation)
+		TEST_METHOD(TestCheckValidation)
 		{
 			//test case 1
 			

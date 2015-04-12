@@ -71,7 +71,13 @@
     <ClCompile Include="DateParserTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StorageTest.cpp">
+    <ClCompile Include="StorageControllerTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StorageDatabaseTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StorageProcessorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -5,11 +5,11 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace TaskHubTest{
 
-	TEST_CLASS(StorageTest)	{
+	TEST_CLASS(StorageProcessorTest) {
+
 	public:
 		
-		TEST_METHOD(TestStorage){
-
+		TEST_METHOD(TestStorageProcessor){
 			// TODO: Your test code here
 		}
 

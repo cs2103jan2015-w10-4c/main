@@ -10,7 +10,7 @@ namespace TaskHubTest
 	{
 	public:
 		
-		TEST_METHOD(TestisClash)
+		TEST_METHOD(TestIsClash)
 		{
 			string input="-from 13:00 -to 14:00 12/4 @utown";
 			Task temp(input);
@@ -32,7 +32,7 @@ namespace TaskHubTest
 
 			CommandClear::clearTask("all");
 		}
-		TEST_METHOD(TestgetDayTasks)
+		TEST_METHOD(TestGetDayTasks)
 		{
 			//test case 1
 			CommandAdd::addMessage("meeting -from 13:00 -to 14:00 12/4");
