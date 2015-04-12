@@ -4,59 +4,71 @@ using namespace std;
 const int LENGTH_OF_FOUR_DIGIT_DATE = 5;
 const int LENGTH_OF_THREE_DIGIT_DATE = 4;
 const int LENGTH_OF_TWO_DIGIT_DATE = 3;
-const int POSITION_ADJUSTMENT = 2;
+const int POSITION_ADJUSTMENT_THREE = 3;
+const int POSITION_ADJUSTMENT_TWO = 2;
+const int POSITION_ADJUSTMENT_ONE = 1;
+const int LENGTH_MONTH_DOUBLE = 2;
+const int LENGTH_MONTH_SINGLE = 1;
+const int LENGTH_DAY_DOUBLE = 2;
+const int LENGTH_DAY_SINGLE = 1;
+const int LENGTH_ONE_DIGIT = 1;
+const string EMPTY_SPACE = " ";
+const string SLASH = "/";
+const string ZERO = "0";
+const string START_OF_DOUBLE = "01";
+const string MONTH_END_DOUBLE = "12";
+const string DAY_END_DOUBLE = "31";
+const string START_OF_SINGLE = "1";
+const string END_OF_SINGLE = "9";
 
 DateParser::DateParser(void){
 }
 
 DateParser::DateParser(string input){
-	size_t get_date = input.find("/");
+	size_t get_date = input.find(SLASH);
 	if(get_date != string::npos){
-
-	  if(input.substr(get_date-POSITION_ADJUSTMENT,1) != " "){
-		//  format:  dd/mm
-		if(input.substr(get_date+POSITION_ADJUSTMENT,1) != " "){
-			_date = input.substr(get_date-POSITION_ADJUSTMENT, LENGTH_OF_FOUR_DIGIT_DATE);
-			_day = input.substr(get_date-POSITION_ADJUSTMENT,2);
-			_month = input.substr(get_date+1, 2);
-			_integerDay = atoi(_day.c_str());
-			_integerMonth = atoi(_month.c_str());
-		}
-		// format:  dd/m
-		else{
-			if(input.substr(get_date+2,1) == " "){
-				_date = input.substr(get_date-POSITION_ADJUSTMENT, LENGTH_OF_THREE_DIGIT_DATE);
-				_day = input.substr(get_date-POSITION_ADJUSTMENT,2);
-				_month = input.substr(get_date+1, 1);
-				_integerDay = atoi(_day.c_str());
-			    _integerMonth = atoi(_month.c_str());
-			}
-		}
-		
-	}
-	else{
-		if(input.substr(get_date-POSITION_ADJUSTMENT,1) == " "){
-			// format: d/mm
-			if(input.substr(get_date+POSITION_ADJUSTMENT, 1) != " "){
-				_date = input.substr(get_date-1, LENGTH_OF_THREE_DIGIT_DATE);
-				_day = "0" + input.substr(get_date-1, 1);
-				_month = input.substr(get_date+1, 2);
-				_integerDay = atoi(_day.c_str());
-			    _integerMonth = atoi(_month.c_str());
-			}
-			// format: d/m
-			else{
-				if(input.substr(get_date+POSITION_ADJUSTMENT, 1) == " "){
-					_date = input.substr(get_date-1, LENGTH_OF_TWO_DIGIT_DATE);
-					_day = "0" + input.substr(get_date-1, 1);
-					_month = input.substr(get_date+1, 1);
+			if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+			//  format:  dd/mm
+				if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+					_date = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_OF_FOUR_DIGIT_DATE);
+					_day = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
+					_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_DOUBLE);
 					_integerDay = atoi(_day.c_str());
-			        _integerMonth = atoi(_month.c_str());
+					_integerMonth = atoi(_month.c_str());
+				}
+			// format:  dd/m
+				if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
+					_date = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_OF_THREE_DIGIT_DATE);
+					_day = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
+					_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_SINGLE);
+					_integerDay = atoi(_day.c_str());
+					_integerMonth = atoi(_month.c_str());
+				}
+			
+			}
+			else{
+				if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
+				// format: d/mm
+					if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+						_date = input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_OF_THREE_DIGIT_DATE);
+						_day = ZERO + input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
+						_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_DOUBLE);
+						_integerDay = atoi(_day.c_str());
+						_integerMonth = atoi(_month.c_str());
+					}
+					// format: d/m
+					if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
+						_date = input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_OF_TWO_DIGIT_DATE);
+						_day = ZERO + input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
+						_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_SINGLE);
+						_integerDay = atoi(_day.c_str());
+						_integerMonth = atoi(_month.c_str());
+					}
 				}
 			}
-		}
-	}
-  }
+	 }
+	
+ }
 /*	else{
 		SYSTEMTIME lt;
 		GetLocalTime(&lt);
