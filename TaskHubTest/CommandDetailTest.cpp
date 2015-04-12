@@ -3,10 +3,10 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace TaskHubTest
-{
-	TEST_CLASS(CommandDetailTest)
-	{
+namespace TaskHubTest{
+
+	TEST_CLASS(CommandDetailTest){
+
 	public:
 		
 		TEST_METHOD(TestDetailMessage) {
