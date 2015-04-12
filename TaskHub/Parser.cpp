@@ -38,7 +38,7 @@ const int JUN = 6;
 const int SEPT = 9;
 const int NOV = 11;
 
-bool Task::isValid;
+//bool Task::isValid;
 
 Task::Task(){}
 
@@ -64,8 +64,8 @@ Task::Task(string input){
 			DateParser parseDate(input.substr(timedTaskEnd));
 			TimeParser parseTime(input.substr(timedTask));
 
-			isValid = parseDate.isValidDate();
-			isValid = parseTime.isValidTime();
+			//isValid = parseDate.isValidDate();
+			//isValid = parseTime.isValidTime();
 
 			_TaskType = SCHEDULED_TASK_LABEL;
 			_TaskName = input.substr(START_OF_STRING, timedTask - ADJUSTMENT_ONE);
@@ -92,8 +92,8 @@ Task::Task(string input){
 			DateParser parseDate(input);
 			TimeParser parseTime(input);
 
-			isValid = parseDate.isValidDate();
-			isValid = parseTime.isValidTime();
+			//isValid = parseDate.isValidDate();
+			//isValid = parseTime.isValidTime();
 
 			_TaskType = DEADLINE_TASK_LABEL;
 			_TaskName = input.substr(START_OF_STRING, deadlinedTask - ADJUSTMENT_ONE);
