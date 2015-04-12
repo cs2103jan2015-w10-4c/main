@@ -38,13 +38,20 @@ public:
 	std::string processFileDirectory(std::string inputString);
 	bool isValidFileFormat(std::string input);
 
+
 private:
 	//For readability purposes
 	const int MIN_REQUIRED_FILE_LENGTH = 5;
 	const int FIRST_LETTER_AFTER_QUOTATION = 1;
 	const int NO_OF_QUOTATION_MARKS = 2;
 	const int INDEX_OF_FIRST_CHAR = 0;
+	const std::string TXT_FILE_FORMAT = ".txt";
 
+	//Sub-functions for isValidFileFormat()
+	bool isMinRequiredNameLength(std::string fileInput);
+	bool isContainExtensionType(std::string fileInput);
+	bool isTextFileFormat(std::string fileInput);
+	std::string extractExtensionTypeString(std::string fileInput);
 };
 
 #endif

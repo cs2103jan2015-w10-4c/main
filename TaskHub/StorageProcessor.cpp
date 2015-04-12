@@ -48,17 +48,30 @@ std::string StorageProcessor::processFileDirectory(std::string inputString){
 
 bool StorageProcessor::isValidFileFormat(std::string input){
 	assert(&input != NULL);
-
 	std::string fileinput = processFileDirectory(input);
-	if (fileinput.size() < MIN_REQUIRED_FILE_LENGTH){				
+
+	return (isMinRequiredNameLength(fileinput) && isTextFileFormat(fileinput));
+}
+
+bool StorageProcessor::isMinRequiredNameLength(std::string fileInput){
+	assert(&fileInput != NULL);
+	return (fileInput.size() >= MIN_REQUIRED_FILE_LENGTH);
+}
+
+bool StorageProcessor::isContainExtensionType(std::string fileInput){
+	assert(&fileInput != NULL);
+	return (fileInput.find_last_of(".") != std::string::npos);
+}
+
+bool StorageProcessor::isTextFileFormat(std::string fileInput){
+	assert(&fileInput != NULL);
+	if (!isContainExtensionType(fileInput)){
 		return false;
 	}
-	if (input.find_last_of(".") == std::string::npos){
-		return false;
-	}
-	std::string extension = fileinput.substr(input.find_last_of("."));
-	if (extension != ".txt"){
-		return false;
-	}
-	return true;
+	std::string extensionType = extractExtensionTypeString(fileInput);
+	return (extensionType == TXT_FILE_FORMAT);
+}
+
+std::string StorageProcessor::extractExtensionTypeString(std::string fileInput){
+	return fileInput.substr(fileInput.find_last_of("."));
 }
