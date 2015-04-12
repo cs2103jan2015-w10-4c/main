@@ -44,6 +44,8 @@ public:
 	static std::string getLastSaveFileName();
 	static std::string convertTaskIntoString();
 	static bool isRetrieveSaveFile();
+	static void openLastSavedFile();
+	static void openNewSavedFile();
 };
 
 #endif

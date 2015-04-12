@@ -15,6 +15,7 @@ StorageDatabase::~StorageDatabase(){
 }
 
 void StorageDatabase::setLastSavedFileName(std::string filename){
+	assert(&filename != NULL);
 	_lastSavedfile = filename;
 }
 

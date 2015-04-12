@@ -40,6 +40,7 @@ std::string StorageProcessor::convertTaskIntoString(){
 	Condition: it is assumed that all file paths does not contain any quotation marks.
 */
 std::string StorageProcessor::processFileDirectory(std::string inputString){
+	assert(&inputString != NULL);
 	if (inputString[0] == '"'){
 		int stringLength = inputString.size();
 		return inputString.substr(1, stringLength - 2);

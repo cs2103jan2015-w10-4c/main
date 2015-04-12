@@ -39,24 +39,34 @@ void StorageController::displayFileOpeningOperation(){
 }
 
 void StorageController::promptSaveFile(){
-	std::string fileName;
-
 	if (isRetrieveSaveFile()){
-		_databaseObj->readLastSavedFileFromStorage();
-		fileName = _databaseObj->getLastSavedFileName();
-		assert(&fileName != NULL);
+		openLastSavedFile();
 	}
 	else{
-		std::cout << "Enter save file address: ";
-		std::cin.ignore();
-		std::string temp;
-		std::getline(cin, temp);
-
-		fileName = _processorObj->processFileDirectory(temp);
-
-		_databaseObj->setLastSavedFileName(fileName);
-		_databaseObj->setLastSavedFileIntoStorage(fileName);
+		openNewSavedFile();
 	}
+}
+
+void StorageController::openNewSavedFile(){
+	std::string fileName;
+	std::cout << "Enter save file address: ";
+	std::cin.ignore();
+	std::string temp;
+	std::getline(cin, temp);
+
+	fileName = _processorObj->processFileDirectory(temp);
+	assert(&fileName != NULL);
+
+	_databaseObj->setLastSavedFileName(fileName);
+	_databaseObj->setLastSavedFileIntoStorage(fileName);
+	setFileName(fileName);
+}
+
+void StorageController::openLastSavedFile(){
+	std::string fileName;
+	_databaseObj->readLastSavedFileFromStorage();
+	fileName = _databaseObj->getLastSavedFileName();
+	assert(&fileName != NULL);
 	setFileName(fileName);
 }
 
