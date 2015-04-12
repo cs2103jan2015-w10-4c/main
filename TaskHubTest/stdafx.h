@@ -28,6 +28,8 @@
 #include "..\TaskHub\LogicController.h"
 #include "..\TaskHub\Parser.h"
 #include "..\TaskHub\StorageController.h"
+#include "..\TaskHub\StorageDatabase.h"
+#include "..\TaskHub\StorageProcessor.h"
 #include "..\TaskHub\Ui.h"
 #include "..\TaskHub\TaskLog.h"
 #include "..\TaskHub\CommandClear.h"

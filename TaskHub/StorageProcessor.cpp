@@ -31,7 +31,6 @@ std::string StorageProcessor::convertTaskIntoString(){
 	}
 }
 
-
 /*
 	Function removes the quotation marks, in the event when the user copy and paste the file address as 
 	a file path.
@@ -52,7 +51,7 @@ bool StorageProcessor::isValidFileFormat(std::string input){
 	assert(&input != NULL);
 
 	std::string fileinput = processFileDirectory(input);
-	if (fileinput.size() < 5){
+	if (fileinput.size() < 5){								//since the file name needs to at least contain '.txt'.
 		return false;
 	}
 	if (input.find_last_of(".") == std::string::npos){
