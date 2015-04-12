@@ -413,7 +413,7 @@ int CommandRecurring::setStartingDay (string input, string dayOfWeek, Time curre
 			} else {
 				//set to correct day of the week for the starting day, week task only up to this year
 				int dayAdvanced = 0;
-				if ((startingMonth != currentTimeData._mon)/*&&(startingDay!=currentTimeData._day)*/) {
+				if ((startingMonth != currentTimeData._mon)) {
 					int tempMonth = currentTimeData._mon;
 					while (tempMonth < startingMonth) {
 						dayAdvanced += getDayNumberInOneMonth(tempMonth,currentTimeData._year);
@@ -462,14 +462,20 @@ void CommandRecurring::recMonth ( int startingYear, int endingYear, int starting
 				if (isValidDay(startingDay,j,k)) {
 					char taskname[MAX_BUFFERING_CAPACITY];
 					strcpy_s(taskname, taskName.c_str());
+				if (get_deadline == string::npos) {
 					if (found != string::npos) {
-					
-					string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + to_string(startingDay) + "/" + to_string(j) + " " + venue;
-					CommandAdd::addMessage(message);
+						string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + " " + to_string(startingDay) + "/" + to_string(j) + " " + venue;
+				
+						CommandAdd::addMessage(message);
+						} else {
+						string message = taskname;
+						CommandAdd::addMessage(message);
+						}
+	
 					} else {
-					string message = taskname;
-					CommandAdd::addMessage(message);
-					}
+						string message = taskname + EMPTY_SPACE + "-by " + endingTime + " " +  to_string(startingDay) + "/" + to_string(j) + " " + venue;
+						CommandAdd::addMessage(message);
+				}
 				}
 			
 			}
@@ -505,7 +511,6 @@ void CommandRecurring::recDayOrWeek ( int startingYear, int endingYear, int star
 						dayNumber = endingDay;
 				}
 
-			//checkWithinRange(startingDay,startingMonth,startingYear);
 			for ( i = startingDay; i <= dayNumber;i = i + interval) {
 				char taskname[MAX_BUFFERING_CAPACITY];
 				strcpy_s(taskname, taskName.c_str());
@@ -519,7 +524,7 @@ void CommandRecurring::recDayOrWeek ( int startingYear, int endingYear, int star
 						CommandAdd::addMessage(message);
 						}
 	
-					} else {cout<<"!!!!abc"<<endl;
+					} else {
 						string message = taskname + EMPTY_SPACE + "-by " + endingTime + " " +  to_string(i) + "/" + to_string(j) + " " + venue;
 						CommandAdd::addMessage(message);
 				}
@@ -553,7 +558,6 @@ void CommandRecurring::recDayDefault ( int startingYear, int endingYear, int sta
 					dayNumber = endingDay;
 				}
 
-			//checkWithinRange(startingDay,startingMonth,startingYear);
 				for ( i = startingDay; i <= dayNumber; i++) {
 					char taskname[MAX_BUFFERING_CAPACITY];
 					strcpy_s(taskname, taskName.c_str());
@@ -568,7 +572,7 @@ void CommandRecurring::recDayDefault ( int startingYear, int endingYear, int sta
 						}
 	
 					} else {
-						cout<<"!!!!"<<endl;
+						
 						string message = taskname + EMPTY_SPACE + "-by " + endingTime + " " +  to_string(i) + "/" + to_string(j) + " " + venue;
 						CommandAdd::addMessage(message);
 				}
