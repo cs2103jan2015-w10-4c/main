@@ -110,7 +110,7 @@ void UI::displayDetail(string task, string index) {
 			 << "\n [TIME]: " << temp.getStartTime() << " - " << temp.getEndTime();
 	}
 	else if(temp.getTaskType()==DEADLINE_Task_LABEL){
-		cout << "\n [DEADLINE]: " << temp.getDeadlineDate() << EMPTY_SPACE_DOUBLE << temp.getDeadlineTime;
+		cout << "\n [DEADLINE]: " << temp.getDeadlineDate() << EMPTY_SPACE_DOUBLE << temp.getDeadlineTime();
 	}
 	cout << "\n [VENUE]: " << temp.getVenue()
 		 << "\n [STATUS]: " << temp.getStatus();
