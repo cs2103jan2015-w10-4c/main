@@ -47,6 +47,9 @@ private:
 	const int INDEX_OF_FIRST_CHAR = 0;
 	const std::string TXT_FILE_FORMAT = ".txt";
 
+	bool isFileStorageEmpty(std::vector<Task>& FileStorage);
+	std::string convertTaskIntoStringOperation(std::vector<Task>& FileStorage);
+
 	//Sub-functions for isValidFileFormat()
 	bool isMinRequiredNameLength(std::string fileInput);
 	bool isContainExtensionType(std::string fileInput);

@@ -1,4 +1,7 @@
 //@author A0111322E
+//
+// Description is in StorageProcessor.h
+//
 
 #include "StorageProcessor.h"
 
@@ -6,30 +9,39 @@
 StorageProcessor::StorageProcessor(){
 }
 
-
 StorageProcessor::~StorageProcessor(){
 }
 
 std::string StorageProcessor::convertTaskIntoString(){
-	std::ostringstream oss;
-	std::vector<Task> temp = StorageDatabase::taskHistory.getVectorTextStorage();
+	std::vector<Task> fileStorage = StorageDatabase::taskHistory.getVectorTextStorage();
 
-	if (temp.empty()){
+	if (isFileStorageEmpty(fileStorage)){
 		return "";
 	}
 	else{
-		std::vector<Task>::iterator iter;
-		int taskIndex = 1;
-
-		for (iter = temp.begin(); iter != temp.end(); iter++){
-			oss << taskIndex << ". " << iter->ToString();
-			if (iter != temp.end() - 1){
-				oss << std::endl;
-				taskIndex++;
-			}
-		}
-		return oss.str();
+		return convertTaskIntoStringOperation(fileStorage);
 	}
+}
+
+std::string StorageProcessor::convertTaskIntoStringOperation(std::vector<Task>& FileStorage){
+	assert(&FileStorage != NULL);
+	std::ostringstream oss;
+	std::vector<Task>::iterator iter;
+	int taskIndex = 1;
+
+	for (iter = FileStorage.begin(); iter != FileStorage.end(); iter++){
+		oss << taskIndex << ". " << iter->ToString();
+		if (iter != FileStorage.end() - 1){
+			oss << std::endl;
+			taskIndex++;
+		}
+	}
+	return oss.str();
+}
+
+bool StorageProcessor::isFileStorageEmpty(std::vector<Task>& FileStorage){
+	assert(&FileStorage != NULL);
+	return FileStorage.empty();
 }
 
 //	Function removes the quotation marks, in the event when the user copy and paste the file address as 
@@ -46,6 +58,8 @@ std::string StorageProcessor::processFileDirectory(std::string inputString){
 	return inputString;
 }
 
+// Function checks if the desired file to be opened or created is a txt file to ensure that 
+// any added tasks can be saved and accessed somewhere on the user's computer.
 bool StorageProcessor::isValidFileFormat(std::string input){
 	assert(&input != NULL);
 	std::string fileinput = processFileDirectory(input);
@@ -73,5 +87,6 @@ bool StorageProcessor::isTextFileFormat(std::string fileInput){
 }
 
 std::string StorageProcessor::extractExtensionTypeString(std::string fileInput){
+	assert(&fileInput != NULL);
 	return fileInput.substr(fileInput.find_last_of("."));
 }
