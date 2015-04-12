@@ -2,7 +2,6 @@
 
 #include "StorageProcessor.h"
 
-
 StorageProcessor::StorageProcessor(){
 }
 
@@ -41,9 +40,27 @@ std::string StorageProcessor::convertTaskIntoString(){
 */
 std::string StorageProcessor::processFileDirectory(std::string inputString){
 	assert(&inputString != NULL);
-	if (inputString[0] == '"'){
+
+	if (inputString[0] == '\"'){
 		int stringLength = inputString.size();
 		return inputString.substr(1, stringLength - 2);
 	}
 	return inputString;
+}
+
+bool StorageProcessor::isValidFileFormat(std::string input){
+	assert(&input != NULL);
+
+	std::string fileinput = processFileDirectory(input);
+	if (fileinput.size() < 5){
+		return false;
+	}
+	if (input.find_last_of(".") == std::string::npos){
+		return false;
+	}
+	std::string extension = fileinput.substr(input.find_last_of("."));
+	if (extension != ".txt"){
+		return false;
+	}
+	return true;
 }

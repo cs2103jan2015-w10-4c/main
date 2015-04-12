@@ -22,6 +22,11 @@ private:
 	static StorageDatabase* _databaseObj;
 	static StorageProcessor* _processorObj;
 
+	static const std::string MESSAGE_ERROR_INVALID_FILE_FORMAT;
+	static const std::string MESSAGE_ERROR_LOCATION;
+	static std::string getErrorInvalidFileFormatMessage();
+	static void logErrorMessage(std::string errorMessage);
+
 public:
 	StorageController();
 	~StorageController();
@@ -46,6 +51,7 @@ public:
 	static bool isRetrieveSaveFile();
 	static void openLastSavedFile();
 	static void openNewSavedFile();
+	
 };
 
 #endif

@@ -5,6 +5,9 @@
 std::vector<std::string> StorageController::TaskList;
 std::string StorageController::_fileName;
 const std::string StorageController::_lastSaveFileName = "LastSaveFile.txt";
+const std::string StorageController::MESSAGE_ERROR_INVALID_FILE_FORMAT = "ERROR: Invalid File Format.";
+const std::string StorageController::MESSAGE_ERROR_LOCATION = "DETECTED AT STORAGE LEVEL - ";
+
 
 TaskLog* StorageController::taskLog;
 StorageDatabase* StorageController::_databaseObj = new StorageDatabase();
@@ -43,6 +46,7 @@ void StorageController::promptSaveFile(){
 		openLastSavedFile();
 	}
 	else{
+		cin.ignore();
 		openNewSavedFile();
 	}
 }
@@ -50,16 +54,26 @@ void StorageController::promptSaveFile(){
 void StorageController::openNewSavedFile(){
 	std::string fileName;
 	std::cout << "Enter save file address: ";
-	std::cin.ignore();
 	std::string temp;
 	std::getline(cin, temp);
 
-	fileName = _processorObj->processFileDirectory(temp);
-	assert(&fileName != NULL);
+	try{
+		if (!_processorObj->isValidFileFormat(temp)){
+			throw getErrorInvalidFileFormatMessage();
+		}
+		fileName = _processorObj->processFileDirectory(temp);
 
-	_databaseObj->setLastSavedFileName(fileName);
-	_databaseObj->setLastSavedFileIntoStorage(fileName);
-	setFileName(fileName);
+		assert(&fileName != NULL);
+		_databaseObj->setLastSavedFileName(fileName);
+		_databaseObj->setLastSavedFileIntoStorage(fileName);
+		setFileName(fileName);
+	}
+	catch(std::string errorMessage){
+		std::cout << errorMessage << "\n\n\n";
+		logErrorMessage(errorMessage);
+		openNewSavedFile();
+	}
+
 }
 
 void StorageController::openLastSavedFile(){
@@ -131,4 +145,13 @@ std::string StorageController::getFileName(){
 
 vector<string> StorageController::returnTask() {
 	return TaskList;
+}
+
+std::string StorageController::getErrorInvalidFileFormatMessage(){
+	return MESSAGE_ERROR_INVALID_FILE_FORMAT;
+}
+
+void StorageController::logErrorMessage(std::string errorMessage){
+	std::string buffer = MESSAGE_ERROR_LOCATION + getErrorInvalidFileFormatMessage();
+	taskLog->updateTaskLog(buffer);
 }

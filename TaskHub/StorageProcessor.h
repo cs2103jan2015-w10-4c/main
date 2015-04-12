@@ -22,6 +22,7 @@ public:
 	Task convertStringIntoTask();
 
 	std::string processFileDirectory(std::string inputString);
+	bool isValidFileFormat(std::string input);
 
 };
 

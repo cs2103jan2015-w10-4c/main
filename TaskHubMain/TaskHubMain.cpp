@@ -12,7 +12,6 @@ const int COLOR_SYSTEM_FEEDBACK = 252;
 
 int main() {
 	UI::programmeInitialising();
-	StorageController* dataStorage = new StorageController();
 	
 	string temp;
 	getline(cin,temp);
@@ -24,7 +23,7 @@ int main() {
 		string userCommand = UI::getUserCommand();
 
 		//logging
-		dataStorage->taskLog->updateTaskLog(userCommand);
+		StorageController::taskLog->updateTaskLog(userCommand);
 
 		cout << endl;
 		string output = CommandInterpreter::executeUserCommand(userCommand);
