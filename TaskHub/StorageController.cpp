@@ -18,6 +18,7 @@ StorageController::~StorageController(){
 
 void StorageController::updateSaveFile() {
 	std::string filename = getFileName();
+	assert(&filename != NULL);
 	std::string inputString = _processorObj->convertTaskIntoString();
 	_databaseObj->executeUpdateSaveFile(filename, inputString);
 }
@@ -110,6 +111,7 @@ void StorageController::readSaveFile() {
 }
 
 void StorageController::setFileName(std::string fileName){
+	assert(&fileName != NULL);
 	_fileName = fileName;
 }
 

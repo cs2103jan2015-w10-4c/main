@@ -16,6 +16,7 @@ TaskLog::~TaskLog(){
 
 // Function updates the log file after each action by the user.
 void TaskLog::updateTaskLog(std::string input){
+	assert(&input != NULL);
 	tempLogStorage.push_back(input);
 	updateLogFile();
 }
@@ -24,6 +25,7 @@ void TaskLog::updateTaskLog(std::string input){
 void TaskLog::readLogFile(){
 	std::ifstream openFile;
 	std::string tempString;
+	assert(&openFile != NULL);
 
 	tempLogStorage.clear();
 	openFile.open(_logFileName.c_str());
@@ -35,6 +37,8 @@ void TaskLog::readLogFile(){
 }
 
 std::string TaskLog::removeIndexFromString(std::string logString){
+	assert(&logString != NULL);
+	assert(logString != "");
 	return logString.substr(logString.find_first_of(":") + 2);
 }
 
