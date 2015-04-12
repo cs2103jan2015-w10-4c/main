@@ -4,6 +4,7 @@
 #include <string>
 #include "..\TaskHub\Ui.h"
 #include "..\TaskHub\CommandInterpreter.h"
+#include "..\TaskHub\StorageController.h"
 
 const int COLOR_NORAL_BACKGROUND = 243;
 const int COLOR_WELCOME_MESSAGE = 244;
@@ -11,6 +12,7 @@ const int COLOR_SYSTEM_FEEDBACK = 252;
 
 int main() {
 	UI::programmeInitialising();
+	StorageController* dataStorage = new StorageController();
 	
 	string temp;
 	getline(cin,temp);
@@ -20,6 +22,10 @@ int main() {
 	UI::showToUser("show today");
 	while (true) {
 		string userCommand = UI::getUserCommand();
+
+		//logging
+		dataStorage->taskLog->updateTaskLog(userCommand);
+
 		cout << endl;
 		string output = CommandInterpreter::executeUserCommand(userCommand);
 		UI::displayWelcomeMessage();
