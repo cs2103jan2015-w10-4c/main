@@ -1,4 +1,18 @@
 //@author A0111322E
+//
+//	The Storage Processor is responsible for the processing and conversion of data when the 
+//	Storage Controller needs further processing of the data, similar to Parser unit within the 
+//	Logic component. 
+//
+//	One of the main functions include the ConvertTaskIntoString(), which involves conversion of 
+//	the data from the save file into string, which can be stored within the program.
+//
+//	Other main functions include the processFileDirectory() and the isValidFileFormat, which work 
+//	together to check the validity of the file path to ensure any processing of the tasks can be 
+//	recorded and saved somewhere. 
+//
+//	After processing of the data, the data will be returned to the Storage Controller class.
+//
 
 #pragma once
 
@@ -23,6 +37,13 @@ public:
 
 	std::string processFileDirectory(std::string inputString);
 	bool isValidFileFormat(std::string input);
+
+private:
+	//For readability purposes
+	const int MIN_REQUIRED_FILE_LENGTH = 5;
+	const int FIRST_LETTER_AFTER_QUOTATION = 1;
+	const int NO_OF_QUOTATION_MARKS = 2;
+	const int INDEX_OF_FIRST_CHAR = 0;
 
 };
 
