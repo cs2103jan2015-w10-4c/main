@@ -6,6 +6,8 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <exception>
+#include <assert.h>
 #include "History.h"
 
 class StorageDatabase{

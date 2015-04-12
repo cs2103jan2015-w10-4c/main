@@ -23,6 +23,7 @@ std::string StorageDatabase::getLastSavedFileName(){
 }
 
 void StorageDatabase::setLastSavedFileIntoStorage(std::string newFileName){
+	assert(&newFileName != NULL);
 	std::ofstream file;
 	file.open(_lastSavedFileStorage);
 	file << newFileName;
@@ -38,6 +39,8 @@ void StorageDatabase::readLastSavedFileFromStorage(){
 }
 
 void StorageDatabase::executeUpdateSaveFile(std::string filename, std::string inputString){
+	assert(&filename != NULL);
+	assert(&inputString != NULL);
 	std::ofstream file;
 	file.open(filename);
 	file << inputString;
