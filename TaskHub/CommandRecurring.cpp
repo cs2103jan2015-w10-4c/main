@@ -2,10 +2,12 @@
 #include <fstream>
 #include <string>
 #include <Windows.h>
+#include <algorithm>
 #include "LogicController.h"
 #include "CommandAdd.h"
 #include "CommandUndo.h"
 #include "CommandRecurring.h"
+
 
 const int CommandRecurring::DAYSIZE = 14;
 const int CommandRecurring::DAYOFWEEKSIZE = 10;

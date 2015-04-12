@@ -72,13 +72,13 @@ namespace ParserTest{
 			std::string realOutput = task.getStatus();
 			Assert::AreEqual(realOutput, expectedOutput);
 		}
-			TEST_METHOD(TestgetDeadlineTime){
-			std::string testInput = "Write code -by 12:00 12/04";
-			Task task(testInput);
-			std::string expectedOutput = "12:00";
-			std::string realOutput = task.getDeadlineTime();
-			Assert::AreEqual(realOutput, expectedOutput);
-		}
+//			TEST_METHOD(TestgetDeadlineTime){
+			//std::string testInput = "Write code -by 12:00 12/04";
+			//Task task(testInput);
+			//std::string expectedOutput = "12:00";
+			//std::string realOutput = task.getDeadlineTime();
+			//Assert::AreEqual(realOutput, expectedOutput);
+		//}
 			TEST_METHOD(TestgetVenue){
 			std::string testInput = "Write code @NUS";
 			Task task(testInput);
