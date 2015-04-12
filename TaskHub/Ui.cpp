@@ -28,6 +28,7 @@ const int LENGTH_STATUS=12;
 const int LENGTH_DOUBLE_EMPTY_SPACE = 2;
 const int LENGTH_LEFT_SIDE_FORMAT = 4;
 const int LENGTH_RIGHT_SIDE_FORMAT = 8;
+const int START_OF_A_STRING = 0;
 
 void UI::programmeInitialising() {
 	StorageController::programmeInitialising();
@@ -103,10 +104,15 @@ void UI::displayDetail(string task, string index) {
 
 	cout << "\n Detail of task " << index << " :";
 	cout <<"\n -----------------------------------------------------------------------------";
-	cout << "\n [TASK NAME]: " << temp.getTaskName()
-		 << "\n [DATE]: " << temp.getScheduledDate()
-		 << "\n [TIME]: " << temp.getStartTime() << " - " << temp.getEndTime()
-		 << "\n [VENUE]: " << temp.getVenue()
+	cout << "\n [TASK NAME]: " << temp.getTaskName();
+	if(temp.getTaskType()==SCHEDULED_Task_LABEL){
+		cout << "\n [DATE]: " << temp.getScheduledDate()
+			 << "\n [TIME]: " << temp.getStartTime() << " - " << temp.getEndTime();
+	}
+	else if(temp.getTaskType()==DEADLINE_Task_LABEL){
+		cout << "\n [DEADLINE]: " << temp.getDeadlineDate() << EMPTY_SPACE_DOUBLE << temp.getDeadlineTime;
+	}
+	cout << "\n [VENUE]: " << temp.getVenue()
 		 << "\n [STATUS]: " << temp.getStatus();
 }
 
@@ -120,7 +126,7 @@ void UI::displayDay(vector<string> task, string heading) {
 
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	heading[0]=toupper(heading[0]);
+	heading[START_OF_A_STRING]=toupper(heading[START_OF_A_STRING]);
 	cout << heading << " :";
 	cout <<"\n -----------------------------------------------------------------------------";
 
@@ -177,11 +183,11 @@ void UI::displayDay(vector<string> task, string heading) {
 				if(temporary[i].getTaskType()==FLOATING_Task_LABEL) {
 					time = EMPTY_SPACE_DOUBLE;
 				}
-				cout<< left << setw(LENGTH_INDEX_AND_TASK_NAME) << temporary[i].getTaskName().substr(0,LENGTH_INDEX_AND_TASK_NAME-LENGTH_DOUBLE_EMPTY_SPACE) 
-					<< setw(LENGTH_DATE) << date.substr(0,LENGTH_DATE)
-					<< setw(LENGTH_TIME) << time.substr(0,LENGTH_TIME)
-					<< setw(LENGTH_VENUE) << temporary[i].getVenue().substr(0,LENGTH_VENUE)
-					<< setw(LENGTH_STATUS) << temporary[i].getStatus().substr(0,LENGTH_STATUS);
+				cout<< left << setw(LENGTH_INDEX_AND_TASK_NAME) << temporary[i].getTaskName().substr(START_OF_A_STRING,LENGTH_INDEX_AND_TASK_NAME-LENGTH_DOUBLE_EMPTY_SPACE) 
+					<< setw(LENGTH_DATE) << date.substr(START_OF_A_STRING,LENGTH_DATE)
+					<< setw(LENGTH_TIME) << time.substr(START_OF_A_STRING,LENGTH_TIME)
+					<< setw(LENGTH_VENUE) << temporary[i].getVenue().substr(START_OF_A_STRING,LENGTH_VENUE)
+					<< setw(LENGTH_STATUS) << temporary[i].getStatus().substr(START_OF_A_STRING,LENGTH_STATUS);
 				SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
 				cout << right << setw(LENGTH_RIGHT_SIDE_FORMAT)<<"|";
 			}
