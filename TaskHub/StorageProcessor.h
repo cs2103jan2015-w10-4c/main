@@ -23,7 +23,6 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <cstddef>
 #include "StorageDatabase.h"
 
 class StorageProcessor{

@@ -1,4 +1,12 @@
 //@author A0111322E
+//
+//	This class is meant for logging and the tracking of the user's actions throughout the course
+//	of his/her usage of TaskHub.
+//	
+//	It will also keep track of any errors that have been executed within the different layers of 
+//	TaskHub's architecture. It is standardised that the log file will be saved in the same folder 
+//	of the TaskHub application and named as 'LogFile.txt', for easier access for the user.
+//
 
 #pragma once
 

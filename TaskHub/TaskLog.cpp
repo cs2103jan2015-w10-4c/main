@@ -48,7 +48,7 @@ void TaskLog::printTaskLog(){
 	std::cout << getTaskLog();
 }
 
-//Function allows the user to clear the entire log file.
+// Function allows the user to clear the entire log file.
 void TaskLog::clearTaskLog(){
 	tempLogStorage.clear();
 	printClearedTaskLogMessage();
