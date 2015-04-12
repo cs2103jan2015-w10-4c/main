@@ -1,4 +1,14 @@
 //@author A0111322E
+//	
+//	StorageController acts as the 'brain' or central unit within the storage component.
+//	It essentially handles the storing of the different tasks that have been archived 
+//	by the user.
+//
+//	This class will rely on StorageProcessor and StorageDatabase to execute the different
+//	types of functions within the Storage component. This is done by calling on the two
+//	objects within this class: _databaseObj & _processorObj, each responsible for the 
+//	calling of functions within the respectively assigned classes. 
+//
 
 #ifndef STORAGECONTROLLER_H_
 #define STORAGECONTROLLER_H_
