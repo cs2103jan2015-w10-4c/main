@@ -31,7 +31,9 @@ void StorageController::programmeInitialising(){
 }
 
 void StorageController::displayFileOpeningOperation(){
-	std::cout << "\nOpening file path: " << getFileName() << endl;
+	std::string fileName = getFileName();
+	assert(&fileName != NULL);
+	std::cout << "\nOpening file path: " << fileName << endl;
 	std::cout << "\nPress [Enter] to proceed." << endl;
 }
 
@@ -41,6 +43,7 @@ void StorageController::promptSaveFile(){
 	if (isRetrieveSaveFile()){
 		_databaseObj->readLastSavedFileFromStorage();
 		fileName = _databaseObj->getLastSavedFileName();
+		assert(&fileName != NULL);
 	}
 	else{
 		std::cout << "Enter save file address: ";
@@ -97,6 +100,7 @@ void StorageController::readSaveFile() {
 
 	TaskList.clear();
 	std::string fileName = getFileName();
+	assert(&fileName != NULL);
 	file.open(fileName);
 
 	while(getline(file,currentLine)) {
