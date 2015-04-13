@@ -1,6 +1,4 @@
 //@author: A0115399W
-//UpdateTask: @author A0115793Y
-//updateTaskName: @author A0115793Y
 #include <assert.h>
 #include "Parser.h"
 
@@ -24,9 +22,6 @@ const string EMPTY_SPACE =" ";
 const string EMPTY_STRING = "";
 const string BRACKET = "[";
 const int ADJUSTMENT_ONE = 1;
-const int ADJUSTMENT_FOUR = 4;
-const int ADJUSTMENT_SIX= 6;
-const int LENGTH_OF_TIME = 5;
 const int LENGTH_OF_DATE = 5;
 const int START_OF_STRING = 0;
 const int HOUR_START = 0;
@@ -44,7 +39,7 @@ const int APRIL = 4;
 const int JUN = 6;
 const int SEPT = 9;
 const int NOV = 11;
-
+bool Task::validInput = true;
 Task::Task(){}
 
 Task::Task(string input){
@@ -57,8 +52,8 @@ Task::Task(string input){
 		if (timedTask != string::npos && timedTaskEnd != string::npos && timedTaskEnd - timedTask == 12 && deadlinedTask == string::npos){
 			string scheduledDateTime = input.substr(timedTask);
 			size_t findScheduleDate = scheduledDateTime.find(SLASH);
-			size_t findStartTime = input.find_first_of(COLON);
-		    size_t findEndTime = input.find_last_of(COLON);		
+			size_t findStartTime = scheduledDateTime.find_first_of(COLON);
+			size_t findEndTime = scheduledDateTime.find_last_of(COLON);		
 			cout<<validInput<<endl;
 			//assert(scheduledDateTime != '\0');
 			if(findEndTime - findStartTime == 10 && findScheduleDate != string::npos && findScheduleDate > findEndTime){ cout<<validInput;
@@ -256,67 +251,59 @@ string Task::getTaskName(){
 }
 
 void Task::UpdateTask(string input){
-	input = EMPTY_SPACE+ input;
 
+	input = " " + input;
 	if(!input.empty()) {
-		size_t timed_Task_startTime = input.find(MARK_FROM);
-		size_t timed_Task_endTime = input.find(MARK_TO);
-		size_t deadlined_Task = input.find(MARK_BY);
-		size_t date = input.find(SLASH);
-		size_t venue = input.find(MARK_AT);
-		
-		//update starting time of scheduled task
-		if(timed_Task_startTime!=string::npos) {
-			_startTime = input.substr(timed_Task_startTime + ADJUSTMENT_SIX, LENGTH_OF_TIME);
+		size_t timed_Task_startTime = input.find("-from");
+		size_t timed_Task_endTime = input.find("-to");
+		size_t deadlined_Task = input.find("-by");
+		size_t date = input.find("/");
+		size_t venue = input.find("@");
+
+		if(timed_Task_startTime!=string::npos){
+			_startTime = input.substr(timed_Task_startTime + 6, 5);
 			TimeParser updateInfo(input);
 			_startHour = updateInfo.getStartHour();
 			_startMinute = updateInfo.getStartMinute();
 		}
 
-		//update ending time of scheduled task
-		if(timed_Task_endTime!=string::npos) {
-			_endTime = input.substr(timed_Task_endTime + ADJUSTMENT_FOUR, LENGTH_OF_TIME);
+		if(timed_Task_endTime!=string::npos){
+			_endTime = input.substr(timed_Task_endTime + 4, 5);
 			TimeParser updateInfo(input);
 			_endHour = updateInfo.getEndHour();
 			_endMinute = updateInfo.getEndMinute();
 		}
 
-		//update time of deadline task
-		if(deadlined_Task!=string::npos) {
-			_deadlineTime = input.substr(deadlined_Task + ADJUSTMENT_FOUR, LENGTH_OF_TIME);
-			TimeParser updateInfo(input);
-			_startHour = updateInfo.getStartHour();
-			_startMinute = updateInfo.getStartMinute();
+		if(deadlined_Task!=string::npos){
+				_deadlineTime = input.substr(deadlined_Task + 4, 5);
+				TimeParser updateInfo(input);
+				_startHour = updateInfo.getStartHour();
+				_startMinute = updateInfo.getStartMinute();
 		}
-
-		if(date!=string::npos) {
-			//update date of scheudle dtask
-			if(_TaskType==SCHEDULED_TASK_LABEL) {
+		if(date!=string::npos){
+			if(_TaskType==SCHEDULED_TASK_LABEL){
 				DateParser dateParse(input);
 				_scheduledDate = dateParse.getDate();
 				_integerDay = dateParse.getDay();
 				_integerMonth = dateParse.getMonth();
 			}
-			//update date of deadline task
-			else if(_TaskType==DEADLINE_TASK_LABEL) {
+			else if(_TaskType==DEADLINE_TASK_LABEL){
 				DateParser dateParse(input);
 				_deadlineDate = dateParse.getDate();
 				_integerDay = dateParse.getDay();
 				_integerMonth = dateParse.getMonth();
 			}
 		}
-		//update venue
-		if(venue!=string::npos) {
+		if(venue!=string::npos){
 			_venue = input.substr(venue);
 		}
 
 		string temp;
-		//task name case 1: only change task name  "update 1 meeting"
-		if(timed_Task_endTime==string::npos) {
-			if(timed_Task_startTime==string::npos) {
-				if(deadlined_Task==string::npos) {
-					if(date==string::npos) {
-						if(venue == string::npos) {
+		if(timed_Task_endTime==string::npos){
+			if(timed_Task_startTime==string::npos){
+				if(deadlined_Task==string::npos){
+					if(date==string::npos){
+						if(venue == string::npos){
 							temp = input;
 							_TaskName = temp;
 						}
@@ -324,50 +311,56 @@ void Task::UpdateTask(string input){
 				}
 			}
 		}
-		//task name case 2 "update 1 meeting -by ..." 
-		if(deadlined_Task!=string::npos) {
+		if(deadlined_Task!=string::npos){
 			temp = input.substr(0,deadlined_Task);
-			updateTaskName(temp);
-		}
-		//task name case 3 "update 1 meeting -from ..
-		else if(timed_Task_startTime!=string::npos) {
+			if(temp!=" "){
+				_TaskName = temp;
+			}
+		}else if(timed_Task_startTime!=string::npos){
 			temp = input.substr(0,timed_Task_startTime);
-			updateTaskName(temp);
-		}
-		//task name case 4 "update 1 meeting -to..."
-		else if(timed_Task_endTime!=string::npos) {
+			if(temp!=" "){
+				_TaskName = temp;
+			}
+		}else if(timed_Task_endTime!=string::npos){
 			temp = input.substr(0,timed_Task_endTime);
-			updateTaskName(temp);
-		}
-		//task name case 5 "update 1 meeting 5/4"
-		else if(date!=string::npos) {
-			if(_TaskType==SCHEDULED_TASK_LABEL) {
+			if(temp!=" "){
+				_TaskName = temp;
+			}
+		}else if(date!=string::npos){
+			if(_TaskType==SCHEDULED_TASK_LABEL){
 				size_t temparory = input.find_first_of(_scheduledDate);
-				if(temparory!=0) {
+				if(temparory!=0){
 					temp = input.substr(0,temparory);
-					updateTaskName(temp);
+					if(temp!=" "){
+					_TaskName = temp;
+					}
 				}
+				
 			}
-			else if(_TaskType==DEADLINE_TASK_LABEL) {
+			else if(_TaskType==DEADLINE_TASK_LABEL){
 				size_t temparory = input.find_first_of(_deadlineDate);
-				if(temparory!=0) {
+				if(temparory!=0){
 					temp = input.substr(0,temparory);
-					updateTaskName(temp);
+					if(temp!=" "){
+					_TaskName = temp;
+					}
 				}
+				
+			}
+		}else if(venue!=string::npos){
+			temp = input.substr(0,venue);
+			if(temp!=" "){
+				_TaskName = temp;
 			}
 		}
-		//task name case 6 "update 1 meeting @biz"
-		else if(venue!=string::npos) {
-			temp = input.substr(START_OF_STRING,venue);
-			updateTaskName(temp);
-		}
+		
 	}
+	//checkInputValidation();
+	
 }
-void Task::updateTaskName(string input){
-	if(input!=EMPTY_SPACE){
-		_TaskName = input;
-	}
-}
+
+
+
 void Task::MarkDone(){
 	_status = FINISHED_TASK_LABEL;
 }
@@ -396,8 +389,8 @@ void Task::checkInputValidation(){
 		start_mins = atoi(_startTime.substr(get__startTime + 1, 2).c_str());
 		end_hour = atoi(_endTime.substr(0, get__endTime).c_str());
 		end_mins = atoi(_endTime.substr(get__endTime + 1, 2).c_str());
-		if ((start_hour >= 0 && start_hour <= 23) && (start_mins >= 0 && start_mins <= 59) && (end_hour >= 0 && end_hour <= 23) && (end_mins >= 0 && end_mins <= 59)){
-			if (start_hour <= end_hour && start_mins < end_mins){
+		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60) && (end_hour >= 0 && end_hour <= 24) && (end_mins >= 0 && end_mins <= 60)){
+			if (start_hour < end_hour){
 				valid_time = true;
 			}
 			else{
@@ -422,7 +415,7 @@ void Task::checkInputValidation(){
 		size_t get_time = _deadlineTime.find(":");
 		start_hour = atoi(_deadlineTime.substr(0, get_time).c_str());
 		start_mins = atoi(_deadlineTime.substr(get_time + 1, 2).c_str());
-		if ((start_hour >= 0 && start_hour <= 23) && (start_mins >= 0 && start_mins <= 59)){
+		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60)){
 			valid_time = true;
 		}
 		else{
