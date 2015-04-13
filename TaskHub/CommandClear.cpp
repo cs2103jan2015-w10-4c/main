@@ -23,19 +23,20 @@ CommandClear::CommandClear () {
 CommandClear::~CommandClear () {
 
 }
-/*
+
 bool isValidInput(string taskIndex) {
 	
 	bool isValid=true;
 	for(unsigned int i=0; i<taskIndex.size()&&isValid;i++){
-		if(taskIndex[i]<'0' || taskIndex[i]>'9' ) //) ||taskIndex[i] != '-')
+		if(taskIndex[i]<'0' || taskIndex[i]>'9' )
+			if (taskIndex[i] != '-')
 			isValid=false;
 	}
 
 	return isValid;
 }
 
-*/
+
 string CommandClear::clearTask(string input) {
 
 	vector <Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
@@ -72,10 +73,10 @@ string CommandClear::clearTask(string input) {
 		sprintf_s(Logic::messageDisplayed, MESSAGE_CLEAR_UNCOMPLETED.c_str());
 	} else { // delete continuously
 		size_t get_task_index = input.find("-");
-		//if (!isValidInput(input)) {
-		//	sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_ERROR.c_str());
-		//	return Logic::messageDisplayed;
-		//}
+		if (!isValidInput(input)) {
+			sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_ERROR.c_str());
+			return Logic::messageDisplayed;
+		}
 
 		if (get_task_index != string::npos) {
 			assert (get_task_index != string::npos);
