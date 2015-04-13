@@ -36,7 +36,7 @@ const int APRIL = 4;
 const int JUN = 6;
 const int SEPT = 9;
 const int NOV = 11;
-
+bool Task::validInput = false;
 Task::Task(){}
 
 Task::Task(string input){
