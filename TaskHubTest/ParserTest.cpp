@@ -139,7 +139,7 @@ namespace ParserTest{
 
 
 
-.			TEST_METHOD(TestGetStatus){
+		TEST_METHOD(TestGetStatus){
 			std::string testInput = "Write code -by 12:00 12/04";
 			Task task(testInput);
 			std::string expectedOutput = "progressing";
