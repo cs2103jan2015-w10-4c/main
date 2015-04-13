@@ -5,7 +5,7 @@
 std::vector<std::string> StorageController::TaskList;
 std::string StorageController::_fileName;
 const std::string StorageController::_lastSaveFileName = "LastSaveFile.txt";
-const std::string StorageController::MESSAGE_ERROR_INVALID_FILE_FORMAT = "ERROR: Invalid File Format.";
+const std::string StorageController::MESSAGE_ERROR_INVALID_FILE_FORMAT = "\n\tERROR: Invalid File Format.";
 const std::string StorageController::MESSAGE_ERROR_LOCATION = "DETECTED AT STORAGE LEVEL - ";
 
 
@@ -51,30 +51,40 @@ void StorageController::promptSaveFile(){
 	}
 }
 
-void StorageController::printAddressPrompt(){
+void StorageController::printAddressPromptMessage(){
 	std::cout << "Enter save file address: ";
 }
 
+void StorageController::printExceptionMessage(std::string message){
+	assert(&message != NULL);
+	std::cout << message << "\n\n\n";
+}
+
+void StorageController::fileNameSettingOperation(std::string fileName){
+	assert(&fileName != NULL);
+	_databaseObj->setLastSavedFileName(fileName);
+	_databaseObj->setLastSavedFileIntoStorage(fileName);
+	setFileName(fileName);
+}
+
 void StorageController::openNewSavedFile(){
-	printAddressPrompt();
+	printAddressPromptMessage();
 	std::string fileName;
 	std::string temp;
 	std::getline(cin, temp);
 
 	try{
 		if (!_processorObj->isValidFileFormat(temp)){
-			throw getErrorInvalidFileFormatMessage();
+			throw InvalidInputException(MESSAGE_ERROR_INVALID_FILE_FORMAT);
 		}
-		fileName = _processorObj->processFileDirectory(temp);
 
+		fileName = _processorObj->processFileDirectory(temp);
 		assert(&fileName != NULL);
-		_databaseObj->setLastSavedFileName(fileName);
-		_databaseObj->setLastSavedFileIntoStorage(fileName);
-		setFileName(fileName);
+		fileNameSettingOperation(fileName);
 	}
-	catch(std::string errorMessage){
-		std::cout << errorMessage << "\n\n\n";
-		logErrorMessage(errorMessage);
+	catch(InvalidInputException& e){
+		printExceptionMessage(e.what());
+		logErrorMessage(e.what());
 		openNewSavedFile();
 	}
 }
@@ -150,11 +160,7 @@ vector<string> StorageController::returnTask() {
 	return TaskList;
 }
 
-std::string StorageController::getErrorInvalidFileFormatMessage(){
-	return MESSAGE_ERROR_INVALID_FILE_FORMAT;
-}
-
 void StorageController::logErrorMessage(std::string errorMessage){
-	std::string buffer = MESSAGE_ERROR_LOCATION + getErrorInvalidFileFormatMessage();
+	std::string buffer = MESSAGE_ERROR_LOCATION + MESSAGE_ERROR_INVALID_FILE_FORMAT;
 	taskLog->updateTaskLog(buffer);
 }

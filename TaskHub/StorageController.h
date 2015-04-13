@@ -34,9 +34,10 @@ private:
 
 	static const std::string MESSAGE_ERROR_INVALID_FILE_FORMAT;
 	static const std::string MESSAGE_ERROR_LOCATION;
-	static std::string getErrorInvalidFileFormatMessage();
 	static void logErrorMessage(std::string errorMessage);
-	static void printAddressPrompt();
+	static void printAddressPromptMessage();
+	static void printExceptionMessage(std::string message);
+	static void fileNameSettingOperation(std::string fileName);
 
 public:
 	StorageController();
