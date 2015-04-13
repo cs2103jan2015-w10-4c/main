@@ -51,9 +51,13 @@ void StorageController::promptSaveFile(){
 	}
 }
 
-void StorageController::openNewSavedFile(){
-	std::string fileName;
+void StorageController::printAddressPrompt(){
 	std::cout << "Enter save file address: ";
+}
+
+void StorageController::openNewSavedFile(){
+	printAddressPrompt();
+	std::string fileName;
 	std::string temp;
 	std::getline(cin, temp);
 
@@ -73,7 +77,6 @@ void StorageController::openNewSavedFile(){
 		logErrorMessage(errorMessage);
 		openNewSavedFile();
 	}
-
 }
 
 void StorageController::openLastSavedFile(){

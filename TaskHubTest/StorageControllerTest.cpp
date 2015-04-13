@@ -20,13 +20,13 @@ namespace TaskHubTest{
 			std::string testResult1 = test->getFileName();
 			Assert::AreEqual(expectedResult1, testResult1);
 
-			//test case 2
+			//test case 2:	empty string
 			std::string expectedResult2("");
 			test->setFileName("");
 			std::string testResult2 = test->getFileName();
 			Assert::AreEqual(expectedResult2, testResult2);
 
-			//test case 3
+			//test case 3:	longer string with non numerical or alphabetical symbols
 			test->setFileName("adasfd.fdfdg\\dfggdfg");
 			std::string testResult3 = test->getFileName();
 			std::string expectedResult3("adasfd.fdfdg\\dfggdfg");

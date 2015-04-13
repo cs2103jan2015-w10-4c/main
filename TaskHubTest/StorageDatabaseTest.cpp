@@ -20,13 +20,13 @@ namespace TaskHubTest{
 			std::string expectedResult1("a.txt");
 			Assert::AreEqual(testResult1, expectedResult1);
 
-			//test case 2
+			//test case 2:	empty string
 			test->setLastSavedFileName("");
 			std::string testResult2 = test->getLastSavedFileName();
 			std::string expectedResult2("");
 			Assert::AreEqual(testResult2, expectedResult2);
 
-			//test case 3
+			//test case 3	file directory
 			test->setLastSavedFileName("C:\\Desktop\\MyFolder\\my.txt");
 			std::string testResult3 = test->getLastSavedFileName();
 			std::string expectedResult3("C:\\Desktop\\MyFolder\\my.txt");
@@ -34,7 +34,7 @@ namespace TaskHubTest{
 			Assert::AreNotEqual(testResult1, expectedResult2);
 			Assert::AreNotEqual(testResult3, expectedResult2);
 
-			//test case 4
+			//test case 4	single char
 			test->setLastSavedFileName("x");
 			std::string testResult4 = test->getLastSavedFileName();
 			std::string expectedResult4("x");
