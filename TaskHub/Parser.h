@@ -1,3 +1,11 @@
+//@author A0115399W
+//**********************************************************
+//                           class Parser
+//     this class will receive input from logic class, and its job is to extract various information from
+//     user input. It can determine task type and task status,  extract task description, extract date and time for timed tasks
+//     and deadline tasks. It also checks input from users are in correct format and valid information.
+//
+//******************************************************************
 #ifndef PARSER_H_
 #define PARSER_H_
 

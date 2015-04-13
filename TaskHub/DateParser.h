@@ -1,3 +1,10 @@
+//@author A0115399W
+//**********************************************************
+//                         class DateParser
+//     this class will receive input from parser class, and its job is to extract out date in form of string
+//     as well as integer and return the values back to parser class
+//
+//******************************************************************
 #ifndef DATEPARSER_H
 #define DATEPARSER_H
 #include <string>
