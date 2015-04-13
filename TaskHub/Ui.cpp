@@ -131,6 +131,7 @@ void UI::displayDay(vector<string> task, string heading) {
 	cout <<"\n -----------------------------------------------------------------------------";
 
 	if(task.empty()) {
+		assert(!task.empty());
 		if(search!=string::npos) {
 			cout << "\n                         SORRY NOTHING IS FOUND T_T                            " << endl;
 		}
