@@ -7,3 +7,4 @@ ipch/
 *.filters
 *.vcxproj
 TestResults/TaskHub.TE.Tests_log.ldf
+TestResults/TaskHub.TE.Tests.mdf
