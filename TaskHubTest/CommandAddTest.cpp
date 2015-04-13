@@ -31,12 +31,12 @@ namespace CommandAddTest{
 				CommandClear::clearTask("all");
 				Assert::AreEqual(expectedOutput3, actualOutput3);
 
-				/*//test case 4
+				//test case 4
 				CommandAdd::addMessage ("cs meeting -from 13:00 -to 14:00 11/4");
 				std::string expectedOutput4 = "Task: \" cs meeting [ 11/4 13:00 - 14:00 ]  progressing \" added";
 				std::string actualOutput4 = Logic::messageDisplayed;
 				Assert::AreEqual(expectedOutput4, actualOutput4);
-				CommandClear::clearTask("all");*/
+				CommandClear::clearTask("all");
 				
 			}
 
