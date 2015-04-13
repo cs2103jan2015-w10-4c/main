@@ -6,3 +6,4 @@ TaskHub.opensdf
 ipch/
 *.filters
 *.vcxproj
+TestResults/TaskHub.TE.Tests_log.ldf
