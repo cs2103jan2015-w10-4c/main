@@ -443,6 +443,7 @@ void Task::checkInputValidation(){
 		    else{
 			    cout << MESSAGE_INVALID_DATE <<endl;
 			    getline(cin,_deadlineDate);
+				cout<<_deadlineDate<<"POSB"<<endl;
 		    }
 			
 		}
