@@ -400,7 +400,7 @@ void Task::checkInputValidation(){
 		end_hour = atoi(_endTime.substr(START_OF_STRING, get__endTime).c_str());
 		end_mins = atoi(_endTime.substr(get__endTime + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
 		if ((start_hour >= HOUR_START && start_hour <= HOUR_END) && (start_mins >= MINUTE_START && start_mins <= MINUTE_END) && (end_hour >= HOUR_START && end_hour <= HOUR_END) && (end_mins >= MINUTE_START && end_mins <= MINUTE_END)){
-			if (start_hour <= end_hour && start_mins < end_mins){
+			if (start_hour <= end_hour){
 				valid_time = true;
 			}
 			else{
