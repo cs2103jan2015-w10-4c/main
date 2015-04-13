@@ -89,7 +89,7 @@ namespace ParserTest{
 			std::string expectedOutput = "04/12";
 			std::string realOutput = task.getScheduledDateReverse();
 			Assert::AreEqual(realOutput, expectedOutput);
-		}
+			}
 
 			TEST_METHOD(TestGetDeadlineDate){
 			//test case 1: lower boundary
