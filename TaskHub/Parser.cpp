@@ -52,8 +52,8 @@ Task::Task(string input){
 		if (timedTask != string::npos && timedTaskEnd != string::npos && timedTaskEnd - timedTask == 12 && deadlinedTask == string::npos){
 			string scheduledDateTime = input.substr(timedTask);
 			size_t findScheduleDate = scheduledDateTime.find(SLASH);
-			size_t findStartTime = input.find_first_of(COLON);
-		    size_t findEndTime = input.find_last_of(COLON);		
+			size_t findStartTime = scheduledDateTime.find_first_of(COLON);
+			size_t findEndTime = scheduledDateTime.find_last_of(COLON);		
 			cout<<validInput<<endl;
 			//assert(scheduledDateTime != '\0');
 			if(findEndTime - findStartTime == 10 && findScheduleDate != string::npos && findScheduleDate > findEndTime){ cout<<validInput;
