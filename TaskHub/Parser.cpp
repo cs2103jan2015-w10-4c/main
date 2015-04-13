@@ -39,7 +39,7 @@ const int APRIL = 4;
 const int JUN = 6;
 const int SEPT = 9;
 const int NOV = 11;
-bool Task::validInput = true;
+
 Task::Task(){}
 
 Task::Task(string input){
@@ -389,8 +389,8 @@ void Task::checkInputValidation(){
 		start_mins = atoi(_startTime.substr(get__startTime + 1, 2).c_str());
 		end_hour = atoi(_endTime.substr(0, get__endTime).c_str());
 		end_mins = atoi(_endTime.substr(get__endTime + 1, 2).c_str());
-		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60) && (end_hour >= 0 && end_hour <= 24) && (end_mins >= 0 && end_mins <= 60)){
-			if (start_hour < end_hour){
+		if ((start_hour >= 0 && start_hour <= 23) && (start_mins >= 0 && start_mins <= 59) && (end_hour >= 0 && end_hour <= 23) && (end_mins >= 0 && end_mins <= 59)){
+			if (start_hour <= end_hour && start_mins < end_mins){
 				valid_time = true;
 			}
 			else{
@@ -415,7 +415,7 @@ void Task::checkInputValidation(){
 		size_t get_time = _deadlineTime.find(":");
 		start_hour = atoi(_deadlineTime.substr(0, get_time).c_str());
 		start_mins = atoi(_deadlineTime.substr(get_time + 1, 2).c_str());
-		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60)){
+		if ((start_hour >= 0 && start_hour <= 23) && (start_mins >= 0 && start_mins <= 59)){
 			valid_time = true;
 		}
 		else{
