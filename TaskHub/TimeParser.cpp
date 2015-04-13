@@ -1,13 +1,13 @@
 //@author: A0115399W
 #include "TimeParser.h"
-
+const string COLON = ":";
 
 TimeParser::TimeParser(void){
 }
 
 TimeParser::TimeParser(string input){
-	size_t startTime = input.find_first_of(":");
-	size_t endTime = input.find_last_of(":");
+	size_t startTime = input.find_first_of(COLON);
+	size_t endTime = input.find_last_of(COLON);
 	 //both start time and end time found, scheduled task
 	if(startTime != endTime){  
 		_startTime = input.substr(startTime-2, 5);
