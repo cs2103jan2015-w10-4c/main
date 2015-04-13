@@ -71,7 +71,6 @@ public:
 	void MarkUndone();
 	void checkInputValidation();
 	void markUncompleted();
-	static bool validInput;
 };
 
 #endif

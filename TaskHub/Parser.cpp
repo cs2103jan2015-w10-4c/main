@@ -48,7 +48,6 @@ const int APRIL = 4;
 const int JUN = 6;
 const int SEPT = 9;
 const int NOV = 11;
-bool Task::validInput = true;
 Task::Task(){}
 
 Task::Task(string input){
@@ -63,9 +62,8 @@ Task::Task(string input){
 			size_t findScheduleDate = scheduledDateTime.find(SLASH);
 			size_t findStartTime = scheduledDateTime.find_first_of(COLON);
 			size_t findEndTime = scheduledDateTime.find_last_of(COLON);		
-			cout<<validInput<<endl;
-			//assert(scheduledDateTime != '\0');
-			if(findEndTime - findStartTime == 10 && findScheduleDate != string::npos && findScheduleDate > findEndTime){ cout<<validInput;
+	
+			if(findEndTime - findStartTime == 10 && findScheduleDate != string::npos && findScheduleDate > findEndTime){
 				
 		        DateParser parseDate(scheduledDateTime);
 				TimeParser parseTime(scheduledDateTime);
