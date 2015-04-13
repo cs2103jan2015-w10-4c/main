@@ -92,5 +92,6 @@ std::string StorageProcessor::extractExtensionTypeString(std::string fileInput){
 }
 
 char StorageProcessor::convertToUpperCase(char input){
+	assert(&input != NULL);
 	return toupper(input);
 }

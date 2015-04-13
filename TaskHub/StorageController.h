@@ -23,31 +23,6 @@
 #include "StorageDatabase.h"
 
 class StorageController {
-private:
-	static std::vector<std::string> TaskList;
-	static std::string _fileName;
-	const static std::string _lastSaveFileName;
-
-	//objects to execute database and processor functions
-	static StorageDatabase* _databaseObj;
-	static StorageProcessor* _processorObj;
-
-	// for readability purposes
-	static const std::string MESSAGE_ERROR_INVALID_FILE_FORMAT;
-	static const std::string MESSAGE_ERROR_LOCATION;
-	static const std::string MESSAGE_ERROR_INVALID_ANSWER_INPUT;
-	static const std::string MESSAGE_ERROR_INVALID_RESUME_COMMAND_INPUT;
-	static const std::string MESSAGE_TERMINATING_PROGRAM;
-
-	static void logErrorMessage(std::string errorMessage);
-	static void printAddressPromptMessage();
-	static void printRetrieveFilePromptMessage();
-	static void printResumeProgramPromptMessage();
-	static void printExceptionMessage(std::string message);
-	static void fileNameSettingOperation(std::string fileName);
-	static bool isRetrieveFileInvalidCaseOperation();
-	static bool isValidAnswer(char ans);
-	static bool isAnswerYes(char ans);
 
 public:
 	StorageController();
@@ -58,6 +33,12 @@ public:
 	static void constructTaskLog();
 	static void destructTaskLog();
 
+	//setters and getters
+	static void setFileName(std::string fileName);
+	static std::string getFileName();
+	static void setLastSaveFile(std::string newFileName);
+	static std::string getLastSaveFileName();
+
 	static void programmeInitialising();
 	static void updateSaveFile(); 
 	static void readSaveFile();
@@ -65,17 +46,50 @@ public:
 	static void displayFileOpeningOperation();
 	static std::vector<std::string> returnTask();
 
-	static void setFileName(std::string fileName);
-	static std::string getFileName();
-	static void setLastSaveFile(std::string newFileName);
-	static std::string getLastSaveFileName();
-
 	static std::string convertTaskIntoString();
 	static bool isRetrieveSaveFile();
 
 	static void openLastSavedFile();
 	static void openNewSavedFile();
-	
+
+private:
+	static char buffer[255];
+	static std::vector<std::string> TaskList;
+	static std::string _fileName;
+	const static std::string _lastSaveFileName;
+
+	//objects to execute database and processor functions
+	static StorageDatabase* _databaseObj;
+	static StorageProcessor* _processorObj;
+
+	// string messages for readability purposes
+	static const std::string MESSAGE_ANSWER_PROMPT;
+	static const std::string MESSAGE_RESUME_PROGRAM_PROMPT;
+	static const std::string MESSAGE_OPEN_FILE_PROMPT;
+	static const std::string MESSAGE_ENTER_KEY_PROMPT;
+	static const std::string MESSAGE_DETECTED_LAST_SAVED_FILE;
+	static const std::string MESSAGE_OPENING_FILE_PATH;
+
+	// error messages for readability purposes
+	static const std::string MESSAGE_ERROR_INVALID_FILE_FORMAT;
+	static const std::string MESSAGE_ERROR_LOCATION;
+	static const std::string MESSAGE_ERROR_INVALID_ANSWER_INPUT;
+	static const std::string MESSAGE_ERROR_INVALID_RESUME_COMMAND_INPUT;
+	static const std::string MESSAGE_TERMINATING_PROGRAM;
+
+	static void printAddressPromptMessage();
+	static void printRetrieveFilePromptMessage();
+	static void printResumeProgramPromptMessage();
+	static void printExceptionMessage(std::string message);
+	static void fileNameSettingOperation(std::string fileName);
+	static bool isRetrieveFileInvalidCaseOperation();
+	static bool isValidAnswer(char ans);
+	static bool isAnswerYes(char ans);
+	static std::string getOpeningFilePathMessage();
+
+	//logging function
+	static void logErrorMessage(std::string errorMessage);
+
 };
 
 // exception class

@@ -2,23 +2,57 @@
 
 #include "StorageController.h"
 
-std::vector<std::string> StorageController::TaskList;
-std::string StorageController::_fileName;
+//const string messages.
 const std::string StorageController::_lastSaveFileName = "LastSaveFile.txt";
 const std::string StorageController::MESSAGE_ERROR_INVALID_FILE_FORMAT = "\n\tERROR: Invalid File Format.";
 const std::string StorageController::MESSAGE_ERROR_LOCATION = "DETECTED AT STORAGE FILE INITIALISATION LEVEL - ";
 const std::string StorageController::MESSAGE_ERROR_INVALID_ANSWER_INPUT = "ERROR: Invalid Response Input.";
-const std::string StorageController::MESSAGE_ERROR_INVALID_RESUME_COMMAND_INPUT = "ERROR: Invalid Resume Command";
-const std::string StorageController::MESSAGE_TERMINATING_PROGRAM = "Terminating program..";
+const std::string StorageController::MESSAGE_ERROR_INVALID_RESUME_COMMAND_INPUT = "ERROR: Invalid Resume Command.";
+const std::string StorageController::MESSAGE_TERMINATING_PROGRAM = " Terminating program..";
+const std::string StorageController::MESSAGE_ANSWER_PROMPT = "Enter save file address: ";
+const std::string StorageController::MESSAGE_RESUME_PROGRAM_PROMPT = "If you want to continue using TaskHub, enter Y : ";
+const std::string StorageController::MESSAGE_OPEN_FILE_PROMPT = "\n\n\nDo you want to open it??  Y/N	";
+const std::string StorageController::MESSAGE_ENTER_KEY_PROMPT = "\nPress [Enter] to proceed.";
+const std::string StorageController::MESSAGE_DETECTED_LAST_SAVED_FILE = "\nTaskHub detected a previously saved file:\n\n   ";
+const std::string StorageController::MESSAGE_OPENING_FILE_PATH = "\nOpening file path: %s";
 
+//objects and attributes to facilitate execution of functions
+std::vector<std::string> StorageController::TaskList;
+std::string StorageController::_fileName;
 TaskLog* StorageController::taskLog;
 StorageDatabase* StorageController::_databaseObj = new StorageDatabase();
 StorageProcessor* StorageController::_processorObj = new StorageProcessor();
+char StorageController::buffer[255];
 
 StorageController::StorageController(){
 }
 
 StorageController::~StorageController(){
+}
+
+void StorageController::displayFileOpeningOperation(){
+	std::cout << getOpeningFilePathMessage() << endl;
+	std::cout << MESSAGE_ENTER_KEY_PROMPT << endl;
+}
+
+void StorageController::printRetrieveFilePromptMessage(){
+	std::cout << MESSAGE_DETECTED_LAST_SAVED_FILE;
+	std::cout << _databaseObj->getLastSavedFileName();
+	std::cout << MESSAGE_OPEN_FILE_PROMPT;
+}
+
+void StorageController::printResumeProgramPromptMessage(){
+	std::cout << MESSAGE_RESUME_PROGRAM_PROMPT;
+}
+
+void StorageController::printAddressPromptMessage(){
+	std::cout << MESSAGE_ANSWER_PROMPT;
+}
+
+std::string StorageController::getOpeningFilePathMessage(){
+	sprintf_s(buffer, MESSAGE_OPENING_FILE_PATH.c_str(), getFileName().c_str());
+	assert(&buffer != NULL);
+	return buffer;
 }
 
 void StorageController::updateSaveFile() {
@@ -36,13 +70,6 @@ void StorageController::programmeInitialising(){
 	displayFileOpeningOperation();
 }
 
-void StorageController::displayFileOpeningOperation(){
-	std::string fileName = getFileName();
-	assert(&fileName != NULL);
-	std::cout << "\nOpening file path: " << fileName << endl;
-	std::cout << "\nPress [Enter] to proceed." << endl;
-}
-
 void StorageController::promptSaveFile(){
 	if (isRetrieveSaveFile()){
 		openLastSavedFile();
@@ -51,10 +78,6 @@ void StorageController::promptSaveFile(){
 		cin.ignore();
 		openNewSavedFile();
 	}
-}
-
-void StorageController::printAddressPromptMessage(){
-	std::cout << "Enter save file address: ";
 }
 
 void StorageController::printExceptionMessage(std::string message){
@@ -100,25 +123,6 @@ void StorageController::openLastSavedFile(){
 	assert(&fileName != NULL);
 
 	setFileName(fileName);
-}
-
-bool StorageController::isValidAnswer(char input){
-	return (input == 'Y' || input == 'N');
-}
-
-bool StorageController::isAnswerYes(char input){
-	return (input == 'Y');
-}
-
-void StorageController::printRetrieveFilePromptMessage(){
-	std::cout << "\nTaskHub detected a previously saved file:\n\n   ";
-	std::cout << _databaseObj->getLastSavedFileName();
-	std::cout << "\n\n\nDo you want to open it??  Y/N	";
-}
-
-
-void StorageController::printResumeProgramPromptMessage(){
-	std::cout << "If you want to continue using TaskHub, enter Y : ";
 }
 
 bool StorageController::isRetrieveSaveFile(){
@@ -203,6 +207,14 @@ std::string StorageController::getFileName(){
 
 vector<string> StorageController::returnTask() {
 	return TaskList;
+}
+
+bool StorageController::isValidAnswer(char input){
+	return (input == 'Y' || input == 'N');
+}
+
+bool StorageController::isAnswerYes(char input){
+	return (input == 'Y');
 }
 
 void StorageController::logErrorMessage(std::string errorMessage){

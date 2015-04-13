@@ -38,7 +38,6 @@ public:
 	std::string processFileDirectory(std::string inputString);
 	bool isValidFileFormat(std::string input);
 
-
 private:
 	//For readability purposes
 	const unsigned int MIN_REQUIRED_FILE_LENGTH = 5;
