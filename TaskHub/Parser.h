@@ -36,6 +36,7 @@ private:
 	int _startMinute;
 	int _endHour;
 	int _endMinute;
+	void updateTaskName(string input);
 
 
 
