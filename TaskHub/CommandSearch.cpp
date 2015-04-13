@@ -1,5 +1,3 @@
-//@author A0115365J
-
 #include <algorithm>
 #include "LogicController.h"
 #include "Parser.h"
@@ -61,12 +59,3 @@ string CommandSearch::searchMessage (string input) {
 
 	}
 }
-/*
-string CommandSearch::printVector(vector<string> output){
-	ostringstream oss;
-	for (unsigned int i = 0; i < output.size(); i++){
-		oss << output[i];
-	}
-	return oss.str();
-}
-*/

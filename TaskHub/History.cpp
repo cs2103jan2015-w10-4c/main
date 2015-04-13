@@ -1,5 +1,3 @@
-//@author A0115365J
-
 #include "History.h"
 #include "LogicController.h"
 
@@ -13,7 +11,7 @@ History::~History(void) {
 
 void History::setLastChangedTaskIndex( int index) {
 
-	lastChangedTaskIndex= index-1;
+	lastChangedTaskIndex= index - 1;
 }
 
 void History::setLastChangedTask(Task changedTask) {

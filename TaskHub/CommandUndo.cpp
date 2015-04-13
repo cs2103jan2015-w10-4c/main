@@ -1,5 +1,3 @@
-//@author A0115365J
-
 #include "LogicController.h"
 #include "CommandUndo.h"
 
@@ -26,7 +24,6 @@ string undoChange::undo() {
 	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
 
 	if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_ADD) {
-		//temporary=StorageDatabase::taskHistory.getBackUpStorage();
 		temporary.pop_back();
 		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
 		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_ADD.c_str());

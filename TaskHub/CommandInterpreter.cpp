@@ -1,5 +1,3 @@
-//@author A0115365J
-
 #include "CommandInterpreter.h"
 
 const string CommandInterpreter::MESSAGE_TERMINATION = "Programme terminated.";

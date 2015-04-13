@@ -1,5 +1,3 @@
-//@author A0115365J
-
 #include "LogicController.h"
 #include "Parser.h"
 #include "CommandDelete.h"
@@ -17,7 +15,7 @@ CommandDelete::~CommandDelete () {
 }
 
 
-bool checkInput(string taskIndex) {
+bool isValid(string taskIndex) {
 	
 	bool isValid=true;
 	for(unsigned int i=0; i<taskIndex.size()&&isValid;i++){
@@ -30,7 +28,7 @@ bool checkInput(string taskIndex) {
 
 string CommandDelete::deleteMessage(string input) {
 
-	if (!checkInput(input)) {
+	if (!isValid(input)) {
 		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
 		return Logic::messageDisplayed;
 	}

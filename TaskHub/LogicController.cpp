@@ -1,5 +1,3 @@
-//@author A0115365J
-
 #include <sstream>
 #include <fstream>
 #include "LogicController.h"

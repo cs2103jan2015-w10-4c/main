@@ -1,5 +1,3 @@
-//@author A0115365J
-
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -222,6 +220,8 @@ void CommandRecurring::InterpretInput (string input, size_t &get_year, size_t &g
 	
 	if (get_End_Time != string::npos) {
 		endingTime = input.substr(get_End_Time - HRORMINWIDTH, TIMEWIDTH);
+	} else {
+		endingTime = to_string(DEFAULTENDINGHOUR) + ":" +to_string(DEFAULTENDINGMINUTE);
 	}
 
 	
@@ -440,7 +440,7 @@ int CommandRecurring::setStartingDay (string input, string dayOfWeek, Time curre
 							currentTimeData._dayOfWeek = intSUNDAY;
 						}
 						startingDay = startingDay+weekday - currentTimeData._dayOfWeek;// get last date with the same day of week
-						startingDay += NOOFDAYSPERWEEK;//get next date with the same day of week this one correct
+						startingDay += NOOFDAYSPERWEEK;//get next date with the same day of week 
 					}
 			}
 	}
