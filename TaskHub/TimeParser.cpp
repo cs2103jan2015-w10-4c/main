@@ -1,7 +1,15 @@
 //@author: A0115399W
 #include "TimeParser.h"
-const string COLON = ":";
 
+const string COLON = ":";
+const int LENGTH_TWO_DIGIT = 2;
+const int LENGTH_TIME = 5;
+const int MIN_POSITION = 3;
+const int HOUR_POSITION = 0;
+const int POSITION_ADJUSTMENT_THREE = 3;
+const int LENGTH_ONE_DIGIT = 1;
+const string EMPTY_SPACE = " ";
+const string EMPTY_STRING = "";
 TimeParser::TimeParser(void){
 }
 
@@ -10,19 +18,19 @@ TimeParser::TimeParser(string input){
 	size_t endTime = input.find_last_of(COLON);
 	 //both start time and end time found, scheduled task
 	if(startTime != endTime){  
-		_startTime = input.substr(startTime-2, 5);
-		_endTime = input.substr(endTime-2, 5);
-		_startHour = atoi(_startTime.substr(0, 2).c_str());
-		_startMinute = atoi(_startTime.substr(3, 2).c_str());
-		_endHour = atoi(_endTime.substr(0, 2).c_str());
-		_endMinute = atoi(_endTime.substr(3, 2).c_str());
+		_startTime = input.substr(startTime-LENGTH_TWO_DIGIT, LENGTH_TIME);
+		_endTime = input.substr(endTime-LENGTH_TWO_DIGIT, LENGTH_TIME);
+		_startHour = atoi(_startTime.substr(HOUR_POSITION, LENGTH_TWO_DIGIT).c_str());
+		_startMinute = atoi(_startTime.substr(MIN_POSITION, LENGTH_TWO_DIGIT).c_str());
+		_endHour = atoi(_endTime.substr(HOUR_POSITION, LENGTH_TWO_DIGIT).c_str());
+		_endMinute = atoi(_endTime.substr(MIN_POSITION, LENGTH_TWO_DIGIT).c_str());
 	}
 	//only one time is found, deadline task
 	if(startTime == endTime){ 
-		_startTime = input.substr(startTime-2, 5);
-		_endTime = "";
-		_startHour = atoi(_startTime.substr(0, 2).c_str());
-		_startMinute = atoi(_startTime.substr(3, 2).c_str());
+		_startTime = input.substr(startTime-LENGTH_TWO_DIGIT, LENGTH_TIME);
+		_endTime = EMPTY_STRING;
+		_startHour = atoi(_startTime.substr(HOUR_POSITION, LENGTH_TWO_DIGIT).c_str());
+		_startMinute = atoi(_startTime.substr(MIN_POSITION, LENGTH_TWO_DIGIT).c_str());
 	}
 }
 
