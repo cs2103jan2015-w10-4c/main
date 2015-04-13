@@ -32,11 +32,17 @@ private:
 	static StorageDatabase* _databaseObj;
 	static StorageProcessor* _processorObj;
 
+	// for readability purposes
 	static const std::string MESSAGE_ERROR_INVALID_FILE_FORMAT;
 	static const std::string MESSAGE_ERROR_LOCATION;
+	static const std::string MESSAGE_ERROR_INVALID_ANSWER_INPUT;
+	static const std::string MESSAGE_ERROR_INVALID_RESUME_COMMAND_INPUT;
+	static const std::string MESSAGE_TERMINATING_PROGRAM;
+
 	static void logErrorMessage(std::string errorMessage);
 	static void printAddressPromptMessage();
 	static void printRetrieveFilePromptMessage();
+	static void printResumeProgramPromptMessage();
 	static void printExceptionMessage(std::string message);
 	static void fileNameSettingOperation(std::string fileName);
 	static bool isRetrieveFileInvalidCaseOperation();

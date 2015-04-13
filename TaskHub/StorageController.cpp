@@ -6,8 +6,10 @@ std::vector<std::string> StorageController::TaskList;
 std::string StorageController::_fileName;
 const std::string StorageController::_lastSaveFileName = "LastSaveFile.txt";
 const std::string StorageController::MESSAGE_ERROR_INVALID_FILE_FORMAT = "\n\tERROR: Invalid File Format.";
-const std::string StorageController::MESSAGE_ERROR_LOCATION = "DETECTED AT STORAGE LEVEL - ";
-
+const std::string StorageController::MESSAGE_ERROR_LOCATION = "DETECTED AT STORAGE FILE INITIALISATION LEVEL - ";
+const std::string StorageController::MESSAGE_ERROR_INVALID_ANSWER_INPUT = "ERROR: Invalid Response Input.";
+const std::string StorageController::MESSAGE_ERROR_INVALID_RESUME_COMMAND_INPUT = "ERROR: Invalid Resume Command";
+const std::string StorageController::MESSAGE_TERMINATING_PROGRAM = "Terminating program..";
 
 TaskLog* StorageController::taskLog;
 StorageDatabase* StorageController::_databaseObj = new StorageDatabase();
@@ -69,6 +71,7 @@ void StorageController::fileNameSettingOperation(std::string fileName){
 
 void StorageController::openNewSavedFile(){
 	printAddressPromptMessage();
+
 	std::string fileName;
 	std::string temp;
 	std::getline(cin, temp);
@@ -108,12 +111,19 @@ bool StorageController::isAnswerYes(char input){
 }
 
 void StorageController::printRetrieveFilePromptMessage(){
-	std::cout << "\nTaskHub detected a previously saved file:\n\n   " << _databaseObj->getLastSavedFileName();
+	std::cout << "\nTaskHub detected a previously saved file:\n\n   ";
+	std::cout << _databaseObj->getLastSavedFileName();
 	std::cout << "\n\n\nDo you want to open it??  Y/N	";
+}
+
+
+void StorageController::printResumeProgramPromptMessage(){
+	std::cout << "If you want to continue using TaskHub, enter Y : ";
 }
 
 bool StorageController::isRetrieveSaveFile(){
 	printRetrieveFilePromptMessage();
+
 	char input;
 	std::cin >> input;
 
@@ -122,47 +132,22 @@ bool StorageController::isRetrieveSaveFile(){
 		assert(&ans != NULL);
 
 		if (!isValidAnswer(ans)){
-			throw InvalidInputException("Invalid response input.");
+			throw InvalidInputException(MESSAGE_ERROR_INVALID_ANSWER_INPUT);
 		}
 
 		assert(ans == 'Y' || ans == 'N');
-		if (isAnswerYes(ans)){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return isAnswerYes(ans);
 	}
 	catch (InvalidInputException& e){
 		printExceptionMessage(e.what());
 		logErrorMessage(e.what());
 		return isRetrieveFileInvalidCaseOperation();
 	}
-	/*
-	if (toupper(ans) == 'Y'){
-		return true;
-	}
-	else if (toupper(ans) == 'N'){
-		return false;
-	}
-	else{
-		std::cout << "Invalid input. If you want to continue with TaskHub, enter Y : ";
-		char input; 
-		std::cin >> input;
-		std::cout << endl;
-		if (toupper(input) == 'Y'){
-			system("CLS");
-			return isRetrieveSaveFile();
-		}
-		else{
-			exit(1);		//exit the program
-		}
-	}
-	*/
 }
 
 bool StorageController::isRetrieveFileInvalidCaseOperation(){
-	std::cout << "If you want to continue using TaskHub, enter Y : ";
+	printResumeProgramPromptMessage();
+
 	char input;
 	std::cin >> input;
 	std::cout << endl;
@@ -173,7 +158,8 @@ bool StorageController::isRetrieveFileInvalidCaseOperation(){
 			return isRetrieveSaveFile();
 		}
 		else{
-			throw InvalidInputException("Invalid resume command. Exiting function");
+			throw InvalidInputException(MESSAGE_ERROR_INVALID_RESUME_COMMAND_INPUT 
+										+ MESSAGE_TERMINATING_PROGRAM);
 		}
 	}
 	catch (InvalidInputException& e){
