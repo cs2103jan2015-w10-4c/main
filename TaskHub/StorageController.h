@@ -65,4 +65,19 @@ public:
 	
 };
 
+class InvalidInputException : public std::exception{
+private:
+	std::string _message;
+
+public:
+	InvalidInputException(std::string msg){
+		_message = msg;
+	}
+
+	//overwrite the what function
+	virtual const char* what() const throw(){
+		return _message.c_str();
+	}
+};
+
 #endif
