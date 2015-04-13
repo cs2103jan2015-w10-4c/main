@@ -1,0 +1,1475 @@
+//@author: a0115793y
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandClash.cpp
+	 */
+
+#include "CommandClash.h"
+
+const string MESSAGE_CLASH = " clashes with existing tasks";
+const string MESSAGE_DOES_NOT_CLASH = " does not clash with existing tasks";
+const int START_OF_FOR_LOOP = 0;
+const int TIME_CONVERSION_FACTOR = 100;
+
+bool CommandClash::isTwoClash(int startTime1, int endTime1,int startTime2, int endTime2 ) {
+	return !(startTime2>=endTime1 || startTime1>=endTime2);
+}
+
+vector<Task> CommandClash::getDayTasks(vector<Task> allTask,int day, int month) {
+	vector<Task> dayTask;
+	for (unsigned int i=START_OF_FOR_LOOP;i<allTask.size();i++) {
+		if (month==allTask[i].getIntegerMonth()) {
+			if (day==allTask[i].getIntegerDay()) {
+				dayTask.push_back(allTask[i]);
+			}
+		}
+	}
+	return dayTask;
+}
+string CommandClash::clash(string input) {
+	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+	size_t scheduled_date = input.find("/");
+	Task temp;
+	int _endTime;
+	int _startTime;
+	int day,month;
+	
+	//If user indicate date, set the date as required by the user
+	if(scheduled_date!=string::npos) {
+		Task temp1(input);
+		temp = temp1;
+		_startTime=temp.getStartHour()*TIME_CONVERSION_FACTOR+temp.getStartMinute();
+		_endTime=temp.getEndHour()*TIME_CONVERSION_FACTOR+temp.getEndMinute();
+		day=temp.getIntegerDay();
+		month=temp.getIntegerMonth();
+	}
+	//If user never indicate date, by default the date is today's date
+	else {
+		SYSTEMTIME lt;
+		localTime timeNow;
+		GetLocalTime(&lt);
+  
+		timeNow._day=lt.wDay;
+		timeNow._mon=lt.wMonth;
+		day=timeNow._day;
+		month=timeNow._mon;
+		
+		Task temp1(input+to_string(day)+"/"+to_string(month));
+		temp = temp1;
+		_startTime=temp.getStartHour()*TIME_CONVERSION_FACTOR+temp.getStartMinute();
+		_endTime=temp.getEndHour()*TIME_CONVERSION_FACTOR+temp.getEndMinute();
+		day=temp.getIntegerDay();
+		month=temp.getIntegerMonth();
+	}
+
+	//Retrieve all tasks on the selected date from storage
+	temporary=getDayTasks(temporary,day,month);
+	
+	//Check whether the input time perieod clashes with the existing tasks
+	bool clash=false;
+	for (unsigned int i=START_OF_FOR_LOOP;i<temporary.size() && !clash;i++) {
+		
+		clash=isTwoClash(temporary[i].getStartHour()*100+temporary[i].getStartMinute(), temporary[i].getEndHour()*100+temporary[i].getEndMinute(), _startTime,_endTime);
+	}
+	
+	if(clash) {
+		return input + MESSAGE_CLASH ;
+	}
+	else {
+		return input + MESSAGE_DOES_NOT_CLASH;
+	}
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandClash.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandClash.h
+	 */
+
+//
+//************************************************
+//				Class CommandClash
+//this class is to check whether the given time period
+//on a given day or by default today clashes with existing tasks.
+//
+//************************************************
+#ifndef CLASH_H_
+#define CLASH_H_
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <windows.h>
+#include <algorithm>
+#include "LogicController.h"
+#include "Parser.h"
+#include "ShowDailyTask.h"
+
+using namespace std;
+
+class CommandClash
+{
+private:
+	static bool isTwoClash(int startTime1, int endTime1,int startTime2, int endTime2);
+public:
+	static string clash(string input);
+	static vector<Task> getDayTasks(vector<Task> allTask, int day, int month);
+};
+
+#endif
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandClash.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDetail.cpp
+	 */
+
+#include "CommandDetail.h"
+#include "LogicController.h"
+#include "Parser.h"
+
+const string CommandDetail::MESSAGE_COMMAND_TYPE="detail";
+const string CommandDetail::MESSAGE_INVALID_INDEX="The index is invalid";
+const string CommandDetail::MESSAGE_DETAIL="Task detail is shown";
+string CommandDetail::FEEDBACK_SYSTEM;
+const char INTEGER_ZERO = '0';
+const char INTEGER_NINE = '9';
+
+string CommandDetail::detailMessage(string taskIndex) {
+	FEEDBACK_SYSTEM.clear();
+	
+	//If input is valid
+	if(checkInputValidation(taskIndex)) {
+		unsigned int index;
+		istringstream in(taskIndex);
+		in >> index;
+		
+		//If input is within the range of all task 
+		if (index > StorageDatabase::taskHistory.getVectorTextStorage().size() || index <= 0) {
+			FEEDBACK_SYSTEM = MESSAGE_INVALID_INDEX;
+			return "";
+		}
+		//If inout is out of range of all tasks
+		else {
+			vector<Task> temp=StorageDatabase::taskHistory.getVectorTextStorage();
+			FEEDBACK_SYSTEM = MESSAGE_DETAIL;
+			return temp[index -1].ToString();
+		}
+	}
+	//If input is not valid
+	else {
+		FEEDBACK_SYSTEM = MESSAGE_INVALID_INDEX;
+		return "";	
+	}
+}
+
+//checkInputValidation will return true only if input only consists of integers
+bool CommandDetail::checkInputValidation(string taskIndex) {
+	bool isValid=true;
+
+	for(unsigned int i=0; i<taskIndex.size()&&isValid;i++) {
+		if(taskIndex[i]<INTEGER_ZERO || taskIndex[i]>INTEGER_NINE) {
+			isValid=false;
+		}
+	}
+	return isValid;
+}
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDetail.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDetail.h
+	 */
+
+//
+//************************************************
+//				Class CommandDetail
+//this class is to display the detail of a task of 
+//specific index.
+//
+//
+//************************************************
+#ifndef COMMANDDETAIL_H_
+#define COMMANDDETAIL_H_
+
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class CommandDetail{
+
+public:
+	static string detailMessage(string taskIndex);
+	static bool checkInputValidation(string taskIndex);
+	static string FEEDBACK_SYSTEM;
+
+private:
+	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_INVALID_INDEX;
+	static const string MESSAGE_DETAIL;
+
+};
+
+#endif
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDetail.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+	 */
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+	 */
+
+#include <assert.h>
+#include "Parser.h"
+
+
+const int Task_LEN = 250;
+const string SCHEDULED_TASK_LABEL = "timed";
+const string DEADLINE_TASK_LABEL = "deadline";
+const string FLOATING_TASK_LABEL = "floating";
+const string PROGRESSING_TASK_LABEL = "progressing";
+const string FINISHED_TASK_LABEL = "done";
+const string UNCOMPLETED_TASK_LABEL = "uncompleted";
+const string MESSAGE_INVALID_DATE = "Invalid date, provide valid date";
+const string MESSAGE_INVALID_TIME = "Invalid time, provide valid time";
+const string MESSAGE_START_TIME = "starting time:";
+const string MESSAGE_END_TIME = "ending time:";
+const string MESSAGE_DEADLINE_TIME = "deadline time:";
+const string MARK_FROM = "-from";
+const string MARK_TO = "-to";
+const string MARK_BY = "-by";
+const string MARK_AT = "@";
+const string SLASH = "/";
+const string COLON = ":";
+const string EMPTY_SPACE =" ";
+const string EMPTY_STRING = "";
+const string BRACKET = "[";
+const int ADJUSTMENT_ONE = 1;
+const int ADJUSTMENT_FOUR = 4;
+const int ADJUSTMENT_SIX= 6;
+const int LENGTH_TIME = 2;
+const int LENGTH_OF_TIME = 5;
+const int LENGTH_OF_DATE = 5;
+const int START_OF_STRING = 0;
+const int HOUR_START = 0;
+const int HOUR_END = 23;
+const int MINUTE_START = 0;
+const int MINUTE_END = 59;
+const int MONTH_START = 1;
+const int MONTH_END = 12;
+const int DAY_START = 1;
+const int FEB_END = 29;
+const int DAY_30_END = 30;
+const int DAY_31_END = 31;
+const int FEB = 2;
+const int APRIL = 4;
+const int JUN = 6;
+const int SEPT = 9;
+const int NOV = 11;
+Task::Task(){}
+
+Task::Task(string input){
+	if (!input.empty()){
+		size_t timedTask = input.find(MARK_FROM);
+		size_t timedTaskEnd = input.find(MARK_TO);
+		size_t deadlinedTask = input.find(MARK_BY);
+		size_t venueTask = input.find(MARK_AT);
+		
+		if (timedTask != string::npos && timedTaskEnd != string::npos && timedTaskEnd - timedTask == 12 && deadlinedTask == string::npos){
+			string scheduledDateTime = input.substr(timedTask);
+			size_t findScheduleDate = scheduledDateTime.find(SLASH);
+			size_t findStartTime = scheduledDateTime.find_first_of(COLON);
+			size_t findEndTime = scheduledDateTime.find_last_of(COLON);		
+	
+			if(findEndTime - findStartTime == 10 && findScheduleDate != string::npos && findScheduleDate > findEndTime){
+				
+		        DateParser parseDate(scheduledDateTime);
+				TimeParser parseTime(scheduledDateTime);
+
+				_TaskType = SCHEDULED_TASK_LABEL;
+				_TaskName = input.substr(START_OF_STRING, timedTask - ADJUSTMENT_ONE);
+				_startTime = parseTime.getStartTime();
+				_endTime = parseTime.getEndTime();
+				_deadlineTime = EMPTY_STRING;
+				_scheduledDate = parseDate.getDate();
+				_deadlineDate = EMPTY_STRING;
+				_integerDay = parseDate.getDay();
+				_integerMonth = parseDate.getMonth();
+				_startHour = parseTime.getStartHour();
+				_startMinute = parseTime.getStartMinute();
+				_endHour = parseTime.getEndHour();
+				_endMinute = parseTime.getEndMinute();
+				_scheduledDateReverse = parseDate.getDateReverse();
+			}
+		}
+		if (deadlinedTask != string::npos && timedTask == string::npos && timedTaskEnd == string::npos){
+			string deadlineDateTime = input.substr(deadlinedTask);	
+			size_t findDeadlineDate = deadlineDateTime.find(SLASH);
+			size_t findStartTime = deadlineDateTime.find_first_of(COLON);
+			size_t findEndTime = deadlineDateTime.find_last_of(COLON);
+
+			if(findStartTime == findEndTime && findStartTime == 6 && findDeadlineDate != string::npos && findDeadlineDate > findStartTime){
+				
+				DateParser parseDate(deadlineDateTime);
+				TimeParser parseTime(deadlineDateTime);
+
+				_TaskType = DEADLINE_TASK_LABEL;
+				_TaskName = input.substr(START_OF_STRING, deadlinedTask - ADJUSTMENT_ONE);
+				_startTime = EMPTY_STRING;
+				_endTime = EMPTY_STRING;
+				_deadlineTime =	parseTime.getStartTime();
+				_startHour = parseTime.getStartHour();
+				_startMinute = parseTime.getStartMinute();
+				_scheduledDate = EMPTY_STRING;
+				_deadlineDate = parseDate.getDate();
+				_integerDay = parseDate.getDay();
+				_integerMonth = parseDate.getMonth();
+			}
+		}
+		if(timedTask == string::npos && timedTaskEnd == string::npos && deadlinedTask == string::npos){
+			_TaskType = FLOATING_TASK_LABEL;
+			_TaskName = input;
+			_startTime = EMPTY_STRING;
+			_endTime = EMPTY_STRING;
+			_deadlineTime = EMPTY_STRING;
+			_scheduledDate = EMPTY_STRING;
+			_deadlineDate = EMPTY_STRING;
+			_scheduledDateReverse = EMPTY_STRING;
+			
+		}
+		_status = PROGRESSING_TASK_LABEL;
+		
+		if (venueTask != string::npos){
+			VenueParser parseVenue(input);
+		    _venue = parseVenue.getVenue();
+		}
+		else{
+			_venue = EMPTY_STRING;
+		}
+	}
+		checkInputValidation();
+}
+
+Task::~Task(){}
+
+Task::Task(string Task, string input){
+	if (!Task.empty()){
+
+		//store _status
+		size_t find__status = Task.find(PROGRESSING_TASK_LABEL);
+		if (find__status != string::npos){
+			_status = PROGRESSING_TASK_LABEL;
+		}
+		else{
+			 find__status = Task.find(FINISHED_TASK_LABEL);
+			if (find__status != string::npos){
+				_status = FINISHED_TASK_LABEL;
+			}
+			
+			else{
+				 find__status = Task.find(UNCOMPLETED_TASK_LABEL);
+				if (find__status != string::npos){
+					_status = UNCOMPLETED_TASK_LABEL;
+				}
+				else{
+				_status = EMPTY_SPACE;
+			    }
+		   }
+		}
+
+		//classify Tasks into scheduled, deadlined or floating
+		size_t find_bracket = Task.find(BRACKET);
+		string temp;	//to store remaining part of the Task arguement to check whether there is a time included there
+		if (find_bracket != string::npos){	//date found, Task is either scheduled or deadlined.
+			//assume double digit date
+				
+
+
+			size_t find_time = Task.find(COLON); 
+			temp = Task.substr(find_time + 2);
+			size_t find_ending_time = temp.find(COLON);	//check if there's an ending time ie. seperate deadlined Task and scheduled Task
+
+			if ((find_time != string::npos) && (find_ending_time != string::npos)){
+				TimeParser parseTime(Task);
+				DateParser parseDate(Task);
+	
+				_TaskType = SCHEDULED_TASK_LABEL;
+				_TaskName = Task.substr(START_OF_STRING, find_bracket - ADJUSTMENT_ONE);
+				_startTime = parseTime.getStartTime();
+				_endTime = parseTime.getEndTime();
+				_deadlineTime = EMPTY_STRING;
+				_scheduledDate = parseDate.getDate();
+				_deadlineDate = EMPTY_STRING;
+				_startHour = parseTime.getStartHour();
+			    _startMinute = parseTime.getStartMinute();
+			    _endHour = parseTime.getEndHour();
+			    _endMinute = parseTime.getEndMinute();
+				_scheduledDateReverse = parseDate.getDateReverse();
+				_integerDay = parseDate.getDay();
+			    _integerMonth = parseDate.getMonth();
+			    //_alphaMonth = parseDate.getAlphaMonth();
+			}
+			else if (find_time != string::npos){
+				DateParser parseDate(Task);
+				TimeParser parseTime(Task);
+
+				_TaskName = Task.substr(START_OF_STRING, find_bracket - ADJUSTMENT_ONE);
+				_TaskType = DEADLINE_TASK_LABEL;
+				_startTime = EMPTY_STRING;
+				_endTime = EMPTY_STRING;
+				_deadlineTime = parseTime.getStartTime();
+				_scheduledDate = EMPTY_STRING;
+				_deadlineDate = parseDate.getDate();
+				_venue = EMPTY_STRING;
+			}
+
+		}
+		else{
+			_TaskType = FLOATING_TASK_LABEL;
+			if (Task.find(MARK_AT) == string::npos){
+				_TaskName = Task.substr(START_OF_STRING, find__status);
+			}
+			else{
+				_TaskName = Task.substr(START_OF_STRING, Task.find(MARK_AT));
+			}
+			_startTime = EMPTY_STRING;
+			_endTime = EMPTY_STRING;
+			_deadlineTime = EMPTY_STRING;
+			_scheduledDate = EMPTY_STRING;
+			_deadlineDate = EMPTY_STRING;
+			_scheduledDateReverse = EMPTY_STRING;
+		}
+		size_t venueTask = Task.find(MARK_AT);
+		size_t status_mark = Task.find_last_of(EMPTY_SPACE);
+		if (venueTask != string::npos){
+			VenueParser parseVenue(Task);
+			string tempVenue;
+			tempVenue = parseVenue.getVenue();
+			
+			_venue = tempVenue.substr(START_OF_STRING, status_mark - venueTask);
+		}
+		else{
+			_venue = EMPTY_STRING;
+		}
+	}
+	//checkInputValidation();
+}
+
+string Task::ToString(){
+	char Task[Task_LEN];
+	string output;
+	strcpy_s(Task, _TaskName.c_str());
+	if (_TaskType == DEADLINE_TASK_LABEL){
+		output = Task+EMPTY_SPACE+" [due "+_deadlineDate.c_str()+EMPTY_SPACE+_deadlineTime.c_str()+"] "+_venue.c_str()+EMPTY_SPACE+ _status.c_str();
+	}
+	else if (_TaskType == SCHEDULED_TASK_LABEL){
+		output = Task+EMPTY_SPACE+"[ "+ _scheduledDate.c_str()+EMPTY_SPACE+_startTime.c_str()+" - " + _endTime.c_str()+" ] "+_venue.c_str()+EMPTY_SPACE+ _status.c_str();
+	}
+	else if (_TaskType == FLOATING_TASK_LABEL){
+		output = Task+EMPTY_SPACE+_venue.c_str()+EMPTY_SPACE+_status.c_str();
+	}
+	return output;
+}
+
+string Task::getTaskName(){
+	return _TaskName;
+}
+
+void Task::UpdateTask(string input){
+	input = EMPTY_SPACE+ input;
+
+	if(!input.empty()) {
+		size_t timed_Task_startTime = input.find(MARK_FROM);
+		size_t timed_Task_endTime = input.find(MARK_TO);
+		size_t deadlined_Task = input.find(MARK_BY);
+		size_t date = input.find(SLASH);
+		size_t venue = input.find(MARK_AT);
+		
+		//update starting time of scheduled task
+		if(timed_Task_startTime!=string::npos) {
+			_startTime = input.substr(timed_Task_startTime + ADJUSTMENT_SIX, LENGTH_OF_TIME);
+			TimeParser updateInfo(input);
+			_startHour = updateInfo.getStartHour();
+			_startMinute = updateInfo.getStartMinute();
+		}
+
+		//update ending time of scheduled task
+		if(timed_Task_endTime!=string::npos) {
+			_endTime = input.substr(timed_Task_endTime + ADJUSTMENT_FOUR, LENGTH_OF_TIME);
+			TimeParser updateInfo(input);
+			_endHour = updateInfo.getEndHour();
+			_endMinute = updateInfo.getEndMinute();
+		}
+
+		//update time of deadline task
+		if(deadlined_Task!=string::npos) {
+			_deadlineTime = input.substr(deadlined_Task + ADJUSTMENT_FOUR, LENGTH_OF_TIME);
+			TimeParser updateInfo(input);
+			_startHour = updateInfo.getStartHour();
+			_startMinute = updateInfo.getStartMinute();
+		}
+
+		if(date!=string::npos) {
+			//update date of scheudle dtask
+			if(_TaskType==SCHEDULED_TASK_LABEL) {
+				DateParser dateParse(input);
+				_scheduledDate = dateParse.getDate();
+				_integerDay = dateParse.getDay();
+				_integerMonth = dateParse.getMonth();
+			}
+			//update date of deadline task
+			else if(_TaskType==DEADLINE_TASK_LABEL) {
+				DateParser dateParse(input);
+				_deadlineDate = dateParse.getDate();
+				_integerDay = dateParse.getDay();
+				_integerMonth = dateParse.getMonth();
+			}
+		}
+		//update venue
+		if(venue!=string::npos) {
+			_venue = input.substr(venue);
+		}
+
+		string temp;
+		//task name case 1: only change task name  "update 1 meeting"
+		if(timed_Task_endTime==string::npos) {
+			if(timed_Task_startTime==string::npos) {
+				if(deadlined_Task==string::npos) {
+					if(date==string::npos) {
+						if(venue == string::npos) {
+							temp = input;
+							_TaskName = temp;
+						}
+					}
+				}
+			}
+		}
+		//task name case 2 "update 1 meeting -by ..." 
+		if(deadlined_Task!=string::npos) {
+			temp = input.substr(0,deadlined_Task);
+			updateTaskName(temp);
+		}
+		//task name case 3 "update 1 meeting -from ..
+		else if(timed_Task_startTime!=string::npos) {
+			temp = input.substr(0,timed_Task_startTime);
+			updateTaskName(temp);
+		}
+		//task name case 4 "update 1 meeting -to..."
+		else if(timed_Task_endTime!=string::npos) {
+			temp = input.substr(0,timed_Task_endTime);
+			updateTaskName(temp);
+		}
+		//task name case 5 "update 1 meeting 5/4"
+		else if(date!=string::npos) {
+			if(_TaskType==SCHEDULED_TASK_LABEL) {
+				size_t temparory = input.find_first_of(_scheduledDate);
+				if(temparory!=0) {
+					temp = input.substr(0,temparory);
+					updateTaskName(temp);
+				}
+			}
+			else if(_TaskType==DEADLINE_TASK_LABEL) {
+				size_t temparory = input.find_first_of(_deadlineDate);
+				if(temparory!=0) {
+					temp = input.substr(0,temparory);
+					updateTaskName(temp);
+				}
+			}
+		}
+		//task name case 6 "update 1 meeting @biz"
+		else if(venue!=string::npos) {
+			temp = input.substr(START_OF_STRING,venue);
+			updateTaskName(temp);
+		}
+	}
+}
+void Task::updateTaskName(string input){
+	if(input!=EMPTY_SPACE){
+		_TaskName = input;
+	}
+}
+
+void Task::MarkDone(){
+	_status = FINISHED_TASK_LABEL;
+}
+
+void Task::MarkUndone(){
+	_status = PROGRESSING_TASK_LABEL;
+}
+
+void Task::markUncompleted(){
+	_status = UNCOMPLETED_TASK_LABEL;
+}
+
+void Task::checkInputValidation(){
+	//check for valid time frame
+	bool valid_time = false;
+	int start_hour; //deadline Task use this to store time
+	int start_mins; //deadline Task use this to store time
+	int end_hour;
+	int end_mins;
+
+	//check time frame in scheduled Task
+	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_time)){
+		size_t get__startTime = _startTime.find(COLON);
+		size_t get__endTime = _endTime.find(COLON);
+		start_hour = atoi(_startTime.substr(START_OF_STRING, get__startTime).c_str());
+		start_mins = atoi(_startTime.substr(get__startTime + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
+		end_hour = atoi(_endTime.substr(START_OF_STRING, get__endTime).c_str());
+		end_mins = atoi(_endTime.substr(get__endTime + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
+		if ((start_hour >= HOUR_START && start_hour <= HOUR_END) && (start_mins >= MINUTE_START && start_mins <= MINUTE_END) && (end_hour >= HOUR_START && end_hour <= HOUR_END) && (end_mins >= MINUTE_START && end_mins <= MINUTE_END)){
+			if (start_hour <= end_hour){
+				valid_time = true;
+			}
+			else{
+				cout << MESSAGE_INVALID_TIME << endl;
+				cout << MESSAGE_START_TIME;
+				cin >> _startTime;
+				cout << MESSAGE_END_TIME;
+				cin >> _endTime;
+			}
+		}
+		else{
+			cout << MESSAGE_INVALID_TIME << endl;
+			cout << MESSAGE_START_TIME;
+			cin >> _startTime;
+			cout << MESSAGE_END_TIME;
+			cin >> _endTime;
+		}
+	}
+
+	//check time frame in deadline Task
+	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_time)){
+		size_t get_time = _deadlineTime.find(COLON);
+		start_hour = atoi(_deadlineTime.substr(START_OF_STRING, get_time).c_str());
+		start_mins = atoi(_deadlineTime.substr(get_time + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
+		if ((start_hour >= HOUR_START && start_hour <= HOUR_END) && (start_mins >= MINUTE_START && start_mins <= MINUTE_END)){
+			valid_time = true;
+		}
+		else{
+			cout << MESSAGE_INVALID_TIME << endl;
+			cout << MESSAGE_DEADLINE_TIME;
+			cin >> _deadlineTime;
+		}
+	}
+
+	//check for valid date
+	bool valid_date = false;
+	int month;
+	int date;
+
+	//check date for deadline Task
+	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_date)){
+		size_t get_date = _deadlineDate.find(SLASH);
+		date = atoi(_deadlineDate.substr(START_OF_STRING, get_date).c_str());
+		month = atoi(_deadlineDate.substr(get_date + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
+		if ((date >= DAY_START && date <= DAY_31_END) && (month >= MONTH_START && month <= MONTH_END)){
+			valid_date = true;
+		}
+		else{
+			cout << MESSAGE_INVALID_DATE << endl;
+			cin >> _deadlineDate;
+		}
+	}
+
+	//check date for schedule Task
+	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_date)){
+		size_t get_date = _scheduledDate.find(SLASH);
+		date = atoi(_scheduledDate.substr(START_OF_STRING, get_date).c_str());
+		month = atoi(_scheduledDate.substr(get_date + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
+		if ((date >= DAY_START && date <= DAY_31_END) && (month >= MONTH_START && month <= MONTH_END)){
+			valid_date = true;
+		}
+		else{
+			cout << MESSAGE_INVALID_DATE << endl;
+			cin >> _scheduledDate;
+		}
+	}
+}
+
+
+string Task::getTaskType(){
+	return _TaskType;
+}
+
+string Task::getStartTime(){
+	return _startTime;
+}
+
+string Task::getEndTime(){
+	return _endTime;
+}
+
+string Task::getDeadlineTime(){
+	return _deadlineTime;
+}
+
+string Task::getScheduledDate(){
+	return _scheduledDate;
+}
+
+
+string Task::getScheduledDateReverse(){
+	return _scheduledDateReverse;
+}
+
+string Task::getDeadlineDate(){
+	return _deadlineDate;
+}
+
+string Task::getStatus(){
+	return _status;
+}
+
+string Task::getVenue(){
+	return _venue;
+}
+
+int Task::getIntegerDay(){
+	return _integerDay;
+}
+
+int Task::getIntegerMonth(){
+	return _integerMonth;
+}
+
+int Task::getStartHour(){
+	return _startHour;
+}
+
+int Task::getStartMinute(){
+	return _startMinute;
+}
+
+int Task::getEndHour(){
+	return _endHour;
+}
+
+int Task::getEndMinute(){
+	return _endMinute;
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.h
+	 */
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.h
+	 */
+
+//**********************************************************
+//                           class Parser
+//     this class will receive input from logic class, and its job is to extract various information from
+//     user input. It can determine task type and task status,  extract task description, extract date and time for timed tasks
+//     and deadline tasks. It also checks input from users are in correct format and valid information.
+//
+//******************************************************************
+#ifndef PARSER_H_
+#define PARSER_H_
+
+#include <iostream>
+#include <string>
+#include "DateParser.h"
+#include "TimeParser.h"
+#include "VenueParser.h"
+using namespace std;
+
+class Task{
+
+private:
+	string _TaskName;
+	string _TaskType;
+	string _startTime;
+	string _endTime;
+	string _deadlineTime;
+	string _scheduledDate;
+	string _scheduledDateReverse;
+	string _deadlineDate;
+	string _status;
+	string _venue;
+	string _alphaMonth;
+	int _integerDay;
+	int _integerMonth;
+	int _startHour;
+	int _startMinute;
+	int _endHour;
+	int _endMinute;
+	void updateTaskName(string input);
+
+
+
+public:
+	//vector<string> Task;
+	Task();
+	Task(string input);
+	~Task();
+	Task(string Task, string input);
+	string ToString();
+	string getTaskName();
+	string getTaskType();
+	string getStartTime();
+	string getEndTime();
+	string getDeadlineTime();
+	string getScheduledDate();
+	string getScheduledDateReverse();
+	string getDeadlineDate();
+	string getStatus();
+	string getVenue();
+	string getAlphaMonth();
+	int getIntegerDay();
+	int getIntegerMonth();
+	int getStartHour();
+	int getStartMinute();
+	int getEndHour();
+	int getEndMinute();
+	void UpdateTask(string input);
+	void MarkDone();
+	void MarkUndone();
+	void checkInputValidation();
+	void markUncompleted();
+};
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Ui.cpp
+	 */
+
+#include "UI.h"
+
+const string UI::MESSAGE_WELCOME = "Welcome to Taskhub";
+const string SCHEDULED_Task_LABEL = "timed";
+const string DEADLINE_Task_LABEL = "deadline";
+const string FLOATING_Task_LABEL = "floating";
+const string PROCESSING_Task_LABEL = "progressing";
+const string FINISHED_Task_LABEL = "done";
+const string UNCOMPLETED_TASK_LABLE = "uncompleted";
+const string EMPTY_SPACE_DOUBLE ="  ";
+const string DUMMY_INPUT_FOR_SECOND_TASK_CONSTRUCTOR = "00";
+const string COMMAND_TYPE_SHOW = "show";
+const string COMMAND_TYPE_DISPLAY = "display";
+const string COMMAND_TYPE_SORT = "sort";
+const string COMMAND_TYPE_SEARCH = "search";
+const string COMMAND_TYPE_DETAIL = "detail";
+const string COMMAND_MESSAGE_TODAY = "today";
+const string COMMAND_MESSAGE_FREE = "free";
+const int COLOR_FINISHED_TASK = 250;
+const int COLOR_UNCOMPLETED_TASK = 249;
+const int COLOR_NORAL_BACKGROUND = 243;
+const int COLOR_WELCOME_MESSAGE = 244;
+const int LENGTH_INDEX_AND_TASK_NAME=18;
+const int LENGTH_DATE=10;
+const int LENGTH_TIME=15;
+const int LENGTH_VENUE=13;
+const int LENGTH_STATUS=12;
+const int LENGTH_DOUBLE_EMPTY_SPACE = 2;
+const int LENGTH_LEFT_SIDE_FORMAT = 4;
+const int LENGTH_RIGHT_SIDE_FORMAT = 8;
+const int START_OF_A_STRING = 0;
+
+void UI::programmeInitialising() {
+	StorageController::programmeInitialising();
+	Logic::getStorage();
+}
+
+void UI::displayWelcomeMessage() {
+	HANDLE  hConsole= GetStdHandle(STD_OUTPUT_HANDLE);
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, COLOR_WELCOME_MESSAGE);
+
+	cout    <<"\n                              WELCOME TO TASKHUB ^-^                          "
+			<<"\n INPUT FORMAT:   "
+			<<"\n	Scheduled Task: add meeting -from 13:00 -to 14:00 11/12 @utown  "
+			<<"\n	Deadline Task: add meeting -by 13:00 11/12 @utown   "
+			<<"\n	Floating Task: add meeting   "
+			<<"\n	Recurring Task: recurring meeting 11/12 08:00 09:00 -every mon   "
+			<<"\n ******************************************************************************      "
+			<<endl<<endl;
+
+	SetConsoleTextAttribute(hConsole,COLOR_NORAL_BACKGROUND);
+}
+
+void UI::showToUser(string userCommand) {
+	string command = Logic::getFirstWord(userCommand);
+	string message = Logic::removeFirstWord(userCommand);
+
+	//Show daily task
+	if(command==COMMAND_TYPE_SHOW){
+		string aa= ShowDailyTask::showDayTask(message);
+		vector<string> task = ShowDailyTask::messageDisplayed;
+		size_t free = message.find(COMMAND_MESSAGE_FREE);
+
+		//show today's task
+		if(message==COMMAND_MESSAGE_TODAY) {
+			UI::displayDay(task,COMMAND_MESSAGE_TODAY);
+		}
+
+		//show free slots 
+		else if(free!=string::npos) {
+			UI::displayDay(task, message);
+		}
+
+		//show tasks on a given date
+		else {
+			UI::displayDay(task,message);
+		}
+	}
+
+	//show all tasks
+	else if(command==COMMAND_TYPE_DISPLAY) {
+		vector<string> task = CommandDisplay::messageDisplayed;
+		UI::displayDay(task,COMMAND_TYPE_DISPLAY);
+	}
+	//show tasks after sort
+	else if(command==COMMAND_TYPE_SORT) {
+		vector<string> task = CommandDisplay::messageDisplayed;
+		UI::displayDay(task,userCommand);
+	}
+	//show search result
+	else if(command==COMMAND_TYPE_SEARCH) {
+		string temp= CommandSearch::searchMessage(message);
+		vector<string> task = CommandSearch::messageDisplayed;
+		UI::displayDay(task,userCommand);
+	}
+	//show detail of a task
+	else if(command==COMMAND_TYPE_DETAIL) {
+		string task = CommandDetail::detailMessage(message);
+		if(!task.empty()) {
+		UI::displayDetail(task,message);
+		}
+	}
+	//By default show today's task
+	else {
+		string temp= ShowDailyTask::showDayTask(COMMAND_MESSAGE_TODAY);
+		vector<string> task = ShowDailyTask::messageDisplayed;
+		UI::displayDay(task, COMMAND_MESSAGE_TODAY);
+	}
+	cout << "\n -----------------------------------------------------------------------------" 
+		 << endl;
+}
+
+void UI::displayDetail(string task, string index) {
+	Task temp(task,DUMMY_INPUT_FOR_SECOND_TASK_CONSTRUCTOR);
+
+	cout << "\n Detail of task " << index << " :";
+	cout <<"\n -----------------------------------------------------------------------------";
+	cout << "\n [TASK NAME]: " << temp.getTaskName();
+
+	//show details of a scheduled task
+	if(temp.getTaskType()==SCHEDULED_Task_LABEL){
+		cout << "\n [DATE]: " << temp.getScheduledDate()
+			 << "\n [TIME]: " << temp.getStartTime() << " - " << temp.getEndTime();
+	}
+	//shwo detaiils of a deadline task
+	else if(temp.getTaskType()==DEADLINE_Task_LABEL){
+		cout << "\n [DEADLINE]: " << temp.getDeadlineDate() << EMPTY_SPACE_DOUBLE << temp.getDeadlineTime();
+	}
+	cout << "\n [VENUE]: " << temp.getVenue()
+		 << "\n [STATUS]: " << temp.getStatus();
+}
+
+void UI::displayDay(vector<string> task, string heading) {
+	vector<Task> temporary;
+	string date;
+	string time;
+	size_t free = heading.find(COMMAND_MESSAGE_FREE);
+	size_t search = heading.find(COMMAND_TYPE_SEARCH);
+	HANDLE  hConsole;
+
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	heading[START_OF_A_STRING]=toupper(heading[START_OF_A_STRING]);
+	cout << heading << " :";
+	cout <<"\n -----------------------------------------------------------------------------";
+
+	if(task.empty()) {
+		if(search!=string::npos) {
+			cout << "\n                         SORRY NOTHING IS FOUND T_T                            " << endl;
+		}
+		else {
+			cout << "\n                              YAY! YOU ARE FREE! ^-^                           " ;
+		}
+	}
+	else {
+		for(unsigned int i=0; i<task.size(); i++) {
+			Task temp(task[i],DUMMY_INPUT_FOR_SECOND_TASK_CONSTRUCTOR);
+			temporary.push_back(temp);
+	    }
+		//special format for show free slots 
+		if(free!=string::npos) {
+			for(unsigned int i=0;i<task.size();i++) {
+				cout << task[i] << endl;
+			}
+		}
+		//show daily task format
+		else {
+			for(unsigned int i=0; i<temporary.size();i++) {
+				cout<< left << setw(LENGTH_LEFT_SIDE_FORMAT) <<"\n|";
+
+				//change console color for finished task
+				if(temporary[i].getStatus()==FINISHED_Task_LABEL) {
+					SetConsoleTextAttribute(hConsole,COLOR_FINISHED_TASK);
+				}
+				else {
+					SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
+				}
+
+				//change console color for uncompleted task
+				if(temporary[i].getStatus()==UNCOMPLETED_TASK_LABLE) {
+					SetConsoleTextAttribute(hConsole,COLOR_UNCOMPLETED_TASK);
+				}
+				else {
+					SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
+				}
+
+				//format date output
+				if(temporary[i].getTaskType()==DEADLINE_Task_LABEL) {
+					date = "due "+ temporary[i].getDeadlineDate();
+				}
+				if(temporary[i].getTaskType()==SCHEDULED_Task_LABEL) {
+					date = temporary[i].getScheduledDate();
+				}
+				if(temporary[i].getTaskType()==FLOATING_Task_LABEL) {
+					date = EMPTY_SPACE_DOUBLE;
+				}
+
+				//format time output
+				if(temporary[i].getTaskType()==DEADLINE_Task_LABEL) {
+					time = temporary[i].getDeadlineTime();
+				}
+				if(temporary[i].getTaskType()==SCHEDULED_Task_LABEL) {
+					time = temporary[i].getStartTime()+" - " + temporary[i].getEndTime();
+				}
+				if(temporary[i].getTaskType()==FLOATING_Task_LABEL) {
+					time = EMPTY_SPACE_DOUBLE;
+				}
+
+				//information display formatting
+				cout<< left << setw(LENGTH_INDEX_AND_TASK_NAME) << temporary[i].getTaskName().substr(START_OF_A_STRING,LENGTH_INDEX_AND_TASK_NAME-LENGTH_DOUBLE_EMPTY_SPACE) 
+					<< setw(LENGTH_DATE) << date.substr(START_OF_A_STRING,LENGTH_DATE)
+					<< setw(LENGTH_TIME) << time.substr(START_OF_A_STRING,LENGTH_TIME)
+					<< setw(LENGTH_VENUE) << temporary[i].getVenue().substr(START_OF_A_STRING,LENGTH_VENUE)
+					<< setw(LENGTH_STATUS) << temporary[i].getStatus().substr(START_OF_A_STRING,LENGTH_STATUS);
+				SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
+				cout << right << setw(LENGTH_RIGHT_SIDE_FORMAT)<<"|";
+			}
+		}
+	}
+}
+
+void UI::systemFeedback(string text) {
+	cout << text;
+}
+
+string UI::getUserCommand() {
+	string userCommand;
+
+	cout << "command: ";
+	getline(cin, userCommand);
+	system("CLS");
+	return userCommand;
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Ui.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Ui.h
+	 */
+
+//************************************************
+//				Class UI
+//This class is to display user interface. 
+//It will display all task, task on a specific day, search result, detail of a task.
+//It will display system feedback(whether the command is successfully excecuded) to user.
+//
+//
+//************************************************
+#ifndef UI_H_
+#define UI_H_
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <algorithm>
+#include <sstream>
+#include <stdio.h>
+#include <vector>
+#include <iterator>
+#include <sstream>
+#include <time.h>
+#include <iomanip>
+#include <Windows.h>
+#include <iostream>
+#include "LogicController.h"
+#include "StorageController.h"
+#include "CommandInterpreter.h"
+#include "CommandDisplay.h"
+#include "CommandSearch.h"
+#include "CommandDetail.h"
+#include "ShowDailyTask.h"
+#include "Parser.h"
+
+using namespace std;
+
+class UI {
+
+private:
+	static const string MESSAGE_WELCOME;
+	
+public:
+	static void programmeInitialising();
+	static void displayWelcomeMessage();
+	static string getUserCommand();
+	static void showToUser(string userCommand);
+	static void systemFeedback(string text);
+	static void displayDay(vector<string> task, string heading);
+	static void displayDetail(string task, string index);
+};
+#endif
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Ui.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubMain\TaskHubMain.cpp
+	 */
+
+#include <stdlib.h>
+#include <Windows.h>
+#include <string>
+#include "..\TaskHub\Ui.h"
+#include "..\TaskHub\CommandInterpreter.h"
+#include "..\TaskHub\StorageController.h"
+
+const int COLOR_NORAL_BACKGROUND = 243;
+const int COLOR_WELCOME_MESSAGE = 244;
+const int COLOR_SYSTEM_FEEDBACK = 252;
+
+int main() {
+	
+	UI::programmeInitialising();
+	//get dummay input because of user file prompt 
+	string temp;
+	getline(cin,temp);
+	
+	system("CLS");
+	
+	//display to user
+	UI::displayWelcomeMessage();
+	UI::showToUser("show today");
+	
+	while (true) {
+		string userCommand = UI::getUserCommand();
+
+		//logging
+		StorageController::taskLog->updateTaskLog(userCommand);
+
+		//execute user command
+		cout << endl;
+		string output = CommandInterpreter::executeUserCommand(userCommand);
+		
+		//display to user
+		UI::displayWelcomeMessage();
+		UI::showToUser(userCommand);
+		cout << endl << endl << endl;
+
+		//change color to show system feedback 
+		HANDLE  hConsole= GetStdHandle(STD_OUTPUT_HANDLE);
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(hConsole, COLOR_SYSTEM_FEEDBACK);
+		UI::systemFeedback(output);
+		SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
+		cout << "\n==============================================================================" << endl;;
+	}
+	return 0;
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubMain\TaskHubMain.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandClashTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace std;
+
+namespace TaskHubTest
+{
+	TEST_CLASS(CommandClashTest)
+	{
+	public:
+		
+		TEST_METHOD(TestIsClash)
+		{
+			string input="-from 13:00 -to 14:00 12/4 @utown";
+			Task temp(input);
+			//DateParser::checkValidation(input);
+			//Assert::IsTrue(temp.isValid);
+			//test case 1
+			CommandAdd::addMessage("meeting -from 13:00 -to 14:00 19/4");
+			string testSentence1 = "-from 13:00 -to 14:00";
+			string actualOutput1 = CommandClash::clash(testSentence1);
+			string expectedOutput1 = "-from 13:00 -to 14:00 does not clash with existing tasks";
+			Assert::AreEqual(expectedOutput1,actualOutput1);
+			CommandClear::clearTask("all");
+			//test case 2
+			CommandAdd::addMessage("meeting -from 13:00 -to 14:00 12/4");
+			string testSentence2 = "-from 13:00 -to 14:00 12/4";
+			string actualOutput2 = CommandClash::clash(testSentence2);
+			string expectedOutput2 = "-from 13:00 -to 14:00 12/4 clashes with existing tasks";
+			Assert::AreEqual(expectedOutput2,actualOutput2); 
+
+			CommandClear::clearTask("all");
+		}
+		TEST_METHOD(TestGetDayTasks)
+		{
+			//test case 1
+			CommandAdd::addMessage("meeting -from 13:00 -to 14:00 12/4");
+			CommandAdd::addMessage("cs meeting -from 13:00 -to 15:00 13/4");
+			CommandAdd::addMessage("ie meeting -from 15:00 -to 18:00 12/4");
+			vector<Task> temporary1 = StorageDatabase::taskHistory.getVectorTextStorage();
+			int day1 = 12;
+			int month1 = 4;
+			vector<Task> actualOutput1 = CommandClash::getDayTasks(temporary1,day1,month1);
+			vector<Task> expectedOutput1;
+			Task temp1("meeting -from 13:00 -to 14:00 12/4");
+			Task temp2("ie meeting -from 15:00 -to 18:00 12/4");
+			expectedOutput1.push_back(temp1);
+			expectedOutput1.push_back(temp2);
+			for(unsigned int i=0;i<actualOutput1.size();i++) {
+				Assert::AreEqual(expectedOutput1[i].ToString(),actualOutput1[i].ToString());
+			}
+			CommandClear::clearTask("all");
+			
+			//test case 2
+			CommandAdd::addMessage("meeting -from 13:00 -to 14:00 12/4");
+			CommandAdd::addMessage("cs meeting -from 13:00 -to 15:00 13/4");
+			CommandAdd::addMessage("ie meeting -from 15:00 -to 18:00 12/4");
+			vector<Task> temporary2 = StorageDatabase::taskHistory.getVectorTextStorage();
+			int day2 = 14;
+			int month2 = 4;
+			vector<Task> actualOutput2 = CommandClash::getDayTasks(temporary2,day2,month2);
+			Assert::IsTrue(actualOutput2.empty());
+
+			CommandClear::clearTask("all");
+		}
+
+
+	};
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandClashTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandDetailTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace TaskHubTest{
+
+	TEST_CLASS(CommandDetailTest){
+
+	public:
+		
+		TEST_METHOD(TestDetailMessage) {
+			//test case 1
+			std::string testSentence1 = "0";
+			std::string testResult1 = CommandDetail::detailMessage(testSentence1);
+			std::string actualResult1("");
+			Assert::AreEqual(actualResult1, testResult1);
+			//test case 2
+			std::string testSentence2 = "1dkjsdf jdfks";
+			std::string testResult2 = CommandDetail::detailMessage(testSentence2);
+			std::string actualResult2("");
+			Assert::AreEqual(actualResult2, testResult2);
+		}
+		TEST_METHOD(TestCheckInputValidation) {
+			//test case 1
+			std::string testSentence1 = "0";
+			Assert::IsTrue(CommandDetail::checkInputValidation(testSentence1));
+			//test case 2
+			std::string testSentence2 = "1dkjsdf jdfks";
+			Assert::IsFalse(CommandDetail::checkInputValidation(testSentence2));
+		}
+
+	};
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandDetailTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\PaserUpdateTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace TaskHubTest
+{
+	TEST_CLASS(PaserUpdateTest)
+	{
+	public:
+		
+		TEST_METHOD(TestUpdateTask)
+		{
+			Task scheduledTask("meeting -from 13:00 -to 15:00 12/4 @utown");
+			Task deadlineTask("meeting -by 15:00 12/4 @biz");
+			Task floatingTask("meeting");
+			
+			//test case 1
+			string input1 = "-from 13:30";
+			scheduledTask.UpdateTask(input1);
+			string actualOutput1 = scheduledTask.getStartTime();
+			string expectedOutput1 ="13:30";
+			Assert::AreEqual(actualOutput1,expectedOutput1);
+
+			//test case 2
+			string input2 = "-to 15:30";
+			scheduledTask.UpdateTask(input2);
+			string actualOutput2 = scheduledTask.getEndTime();
+			string expectedOutput2 = "15:30";
+			Assert::AreEqual(actualOutput2,expectedOutput2);
+
+			//test case 3
+			string input3 = "-from 13:30 -to 15:30";
+			scheduledTask.UpdateTask(input3);
+			string actualOutput3 = scheduledTask.getStartTime();
+			string expectedOutput3 ="13:30";
+			Assert::AreEqual(actualOutput3,expectedOutput3);
+
+			//test case 4
+			string input4 = "-from 13:30 -to 15:30";
+			scheduledTask.UpdateTask(input4);
+			string actualOutput4 = scheduledTask.getEndTime();
+			string expectedOutput4 ="15:30";
+			Assert::AreEqual(actualOutput4,expectedOutput4);
+
+			//test case 5
+			string input5 = "13/4";
+			scheduledTask.UpdateTask(input5);
+			string actualOutput5 = scheduledTask.getScheduledDate();
+			string expectedOutput5 = "13/4";
+			Assert::AreEqual(actualOutput5,expectedOutput5);
+
+			//test case 6
+			string input6 = "@computing";
+			scheduledTask.UpdateTask(input6);
+			string actualOutput6 = scheduledTask.getVenue();
+			string expectedOutput6 = "@computing";
+			Assert::AreEqual(actualOutput6,expectedOutput6);
+
+			//test case 7
+			string input7 = "2nd meeting";
+			scheduledTask.UpdateTask(input7);
+			string actualOutput7 = scheduledTask.getTaskName();
+			string expectedOutput7 = " 2nd meeting";
+			Assert::AreEqual(expectedOutput7,actualOutput7);
+
+			//test case 8
+			string input8 = "-by 13:30 13/4 @computing";
+			deadlineTask.UpdateTask(input8);
+			string actualOutput8 = deadlineTask.getDeadlineTime();
+			string expectedOutput8 ="13:30";
+			Assert::AreEqual(actualOutput8,expectedOutput8);
+
+			//test case 9
+			//string input9 = "-by 13:30 13/4 @computing";
+			deadlineTask.UpdateTask(input8);
+			string actualOutput9 = deadlineTask.getDeadlineDate();
+			string expectedOutput9 ="13/4";
+			Assert::AreEqual(actualOutput9,expectedOutput9);
+
+			//test case 10
+			deadlineTask.UpdateTask(input8);
+			string actualOutput10 = deadlineTask.getVenue();
+			string expectedOutput10 ="@computing";
+			Assert::AreEqual(actualOutput10,expectedOutput10);
+
+			//test case 11
+			string input11 = "meeting agenda";
+			floatingTask.UpdateTask(input11);
+			string actualOutput11 = floatingTask.getTaskName();
+			string expectedOutput11 = " meeting agenda";
+			Assert::AreEqual(actualOutput11,expectedOutput11);
+
+		}
+
+	};
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\PaserUpdateTest.cpp
+
+
+
+
+

@@ -1,0 +1,1091 @@
+//@author: a0111322e
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageController.cpp
+	 */
+
+
+#include "StorageController.h"
+
+//const string messages.
+const std::string StorageController::_lastSaveFileName = "LastSaveFile.txt";
+const std::string StorageController::MESSAGE_ERROR_INVALID_FILE_FORMAT = "\n\tERROR: Invalid File Format.";
+const std::string StorageController::MESSAGE_ERROR_LOCATION = "DETECTED AT STORAGE FILE INITIALISATION LEVEL - ";
+const std::string StorageController::MESSAGE_ERROR_INVALID_ANSWER_INPUT = "ERROR: Invalid Response Input.";
+const std::string StorageController::MESSAGE_ERROR_INVALID_RESUME_COMMAND_INPUT = "ERROR: Invalid Resume Command.";
+const std::string StorageController::MESSAGE_TERMINATING_PROGRAM = " Terminating program..";
+const std::string StorageController::MESSAGE_ANSWER_PROMPT = "Enter save file address: ";
+const std::string StorageController::MESSAGE_RESUME_PROGRAM_PROMPT = "If you want to continue using TaskHub, enter Y : ";
+const std::string StorageController::MESSAGE_OPEN_FILE_PROMPT = "\n\n\nDo you want to open it??  Y/N	";
+const std::string StorageController::MESSAGE_ENTER_KEY_PROMPT = "\nPress [Enter] to proceed.";
+const std::string StorageController::MESSAGE_DETECTED_LAST_SAVED_FILE = "\nTaskHub detected a previously saved file:\n\n   ";
+const std::string StorageController::MESSAGE_OPENING_FILE_PATH = "\nOpening file path: %s";
+
+//objects and attributes to facilitate execution of functions
+std::vector<std::string> StorageController::TaskList;
+std::string StorageController::_fileName;
+TaskLog* StorageController::taskLog;
+StorageDatabase* StorageController::_databaseObj = new StorageDatabase();
+StorageProcessor* StorageController::_processorObj = new StorageProcessor();
+char StorageController::buffer[255];
+
+StorageController::StorageController(){
+}
+
+StorageController::~StorageController(){
+}
+
+void StorageController::displayFileOpeningOperation(){
+	std::cout << getOpeningFilePathMessage() << endl;
+	std::cout << MESSAGE_ENTER_KEY_PROMPT << endl;
+}
+
+void StorageController::printRetrieveFilePromptMessage(){
+	std::cout << MESSAGE_DETECTED_LAST_SAVED_FILE;
+	std::cout << _databaseObj->getLastSavedFileName();
+	std::cout << MESSAGE_OPEN_FILE_PROMPT;
+}
+
+void StorageController::printResumeProgramPromptMessage(){
+	std::cout << MESSAGE_RESUME_PROGRAM_PROMPT;
+}
+
+void StorageController::printAddressPromptMessage(){
+	std::cout << MESSAGE_ANSWER_PROMPT;
+}
+
+std::string StorageController::getOpeningFilePathMessage(){
+	sprintf_s(buffer, MESSAGE_OPENING_FILE_PATH.c_str(), getFileName().c_str());
+	assert(&buffer != NULL);
+	return buffer;
+}
+
+void StorageController::updateSaveFile() {
+	std::string filename = getFileName();
+	assert(&filename != NULL);
+	std::string inputString = _processorObj->convertTaskIntoString();
+	_databaseObj->executeUpdateSaveFile(filename, inputString);
+}
+
+void StorageController::programmeInitialising(){
+	constructTaskLog();
+	_databaseObj->readLastSavedFileFromStorage();
+	promptSaveFile();
+	readSaveFile();
+	displayFileOpeningOperation();
+}
+
+void StorageController::promptSaveFile(){
+	if (isRetrieveSaveFile()){
+		openLastSavedFile();
+	}
+	else{
+		cin.ignore();
+		openNewSavedFile();
+	}
+}
+
+void StorageController::printExceptionMessage(std::string message){
+	assert(&message != NULL);
+	std::cout << message << "\n\n\n";
+}
+
+void StorageController::fileNameSettingOperation(std::string fileName){
+	assert(&fileName != NULL);
+	_databaseObj->setLastSavedFileName(fileName);
+	_databaseObj->setLastSavedFileIntoStorage(fileName);
+	setFileName(fileName);
+}
+
+void StorageController::openNewSavedFile(){
+	printAddressPromptMessage();
+
+	std::string fileName;
+	std::string temp;
+	std::getline(cin, temp);
+
+	try{
+		if (!_processorObj->isValidFileFormat(temp)){
+			throw InvalidInputException(MESSAGE_ERROR_INVALID_FILE_FORMAT);
+		}
+
+		fileName = _processorObj->processFileDirectory(temp);
+		assert(&fileName != NULL);
+		fileNameSettingOperation(fileName);
+	}
+	catch(InvalidInputException& e){
+		printExceptionMessage(e.what());
+		logErrorMessage(e.what());
+		openNewSavedFile();
+	}
+}
+
+void StorageController::openLastSavedFile(){
+	_databaseObj->readLastSavedFileFromStorage();
+	std::string fileName = _databaseObj->getLastSavedFileName();
+	assert(&fileName != NULL);
+	setFileName(fileName);
+}
+
+bool StorageController::isRetrieveSaveFile(){
+	printRetrieveFilePromptMessage();
+
+	char input;
+	std::cin >> input;
+
+	try{
+		char ans = _processorObj->convertToUpperCase(input);
+		assert(&ans != NULL);
+
+		if (!isValidAnswer(ans)){
+			throw InvalidInputException(MESSAGE_ERROR_INVALID_ANSWER_INPUT);
+		}
+
+		assert(ans == 'Y' || ans == 'N');
+		return isAnswerYes(ans);
+	}
+	catch (InvalidInputException& e){
+		printExceptionMessage(e.what());
+		logErrorMessage(e.what());
+		return isRetrieveFileInvalidCaseOperation();
+	}
+}
+
+bool StorageController::isRetrieveFileInvalidCaseOperation(){
+	printResumeProgramPromptMessage();
+
+	char input;
+	std::cin >> input;
+	std::cout << endl;
+
+	try{
+		if (toupper(input) == 'Y'){
+			system("CLS");
+			return isRetrieveSaveFile();
+		}
+		else{
+			throw InvalidInputException(MESSAGE_ERROR_INVALID_RESUME_COMMAND_INPUT 
+										+ MESSAGE_TERMINATING_PROGRAM);
+		}
+	}
+	catch (InvalidInputException& e){
+		printExceptionMessage(e.what());
+		logErrorMessage(e.what());
+		exit(1);
+	}
+}
+
+void StorageController::constructTaskLog(){
+	taskLog = new TaskLog();
+}
+
+void StorageController::destructTaskLog(){
+	taskLog->~TaskLog();
+}
+
+void StorageController::readSaveFile() {
+	ifstream file;
+	std::string currentLine;
+
+	TaskList.clear();
+	std::string fileName = getFileName();
+	assert(&fileName != NULL);
+	file.open(fileName);
+
+	while(getline(file,currentLine)) {
+		TaskList.push_back(currentLine);
+	}
+
+	file.close();
+}
+
+void StorageController::setFileName(std::string fileName){
+	assert(&fileName != NULL);
+	_fileName = fileName;
+}
+
+std::string StorageController::getFileName(){
+	return _fileName;
+}
+
+vector<string> StorageController::returnTask() {
+	return TaskList;
+}
+
+bool StorageController::isValidAnswer(char input){
+	return (input == 'Y' || input == 'N');
+}
+
+bool StorageController::isAnswerYes(char input){
+	return (input == 'Y');
+}
+
+void StorageController::logErrorMessage(std::string errorMessage){
+	std::string buffer = MESSAGE_ERROR_LOCATION + errorMessage;
+	taskLog->updateTaskLog(buffer);
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageController.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageController.h
+	 */
+
+//	
+//	StorageController acts as the 'brain' or central unit within the storage component.
+//	It essentially handles the storing of the different tasks that have been archived 
+//	by the user.
+//
+//	This class will rely on StorageProcessor and StorageDatabase to execute the different
+//	types of functions within the Storage component. This is done by calling on the two
+//	objects within this class: _databaseObj & _processorObj, each responsible for the 
+//	calling of functions within the respectively assigned classes. 
+//
+
+#ifndef STORAGECONTROLLER_H_
+#define STORAGECONTROLLER_H_
+
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <fstream>
+#include "TaskLog.h"
+#include "StorageProcessor.h"
+#include "StorageDatabase.h"
+
+class StorageController {
+
+public:
+	StorageController();
+	~StorageController();
+
+	// for logging
+	static TaskLog* taskLog;;					
+	static void constructTaskLog();
+	static void destructTaskLog();
+
+	//setters and getters
+	static void setFileName(std::string fileName);
+	static std::string getFileName();
+	static void setLastSaveFile(std::string newFileName);
+	static std::string getLastSaveFileName();
+
+	static void programmeInitialising();
+	static void updateSaveFile(); 
+	static void readSaveFile();
+	static void promptSaveFile();
+	static void displayFileOpeningOperation();
+	static std::vector<std::string> returnTask();
+
+	static std::string convertTaskIntoString();
+	static bool isRetrieveSaveFile();
+
+	static void openLastSavedFile();
+	static void openNewSavedFile();
+
+private:
+	static char buffer[255];
+	static std::vector<std::string> TaskList;
+	static std::string _fileName;
+	const static std::string _lastSaveFileName;
+
+	//objects to execute database and processor functions
+	static StorageDatabase* _databaseObj;
+	static StorageProcessor* _processorObj;
+
+	// string messages for readability purposes
+	static const std::string MESSAGE_ANSWER_PROMPT;
+	static const std::string MESSAGE_RESUME_PROGRAM_PROMPT;
+	static const std::string MESSAGE_OPEN_FILE_PROMPT;
+	static const std::string MESSAGE_ENTER_KEY_PROMPT;
+	static const std::string MESSAGE_DETECTED_LAST_SAVED_FILE;
+	static const std::string MESSAGE_OPENING_FILE_PATH;
+
+	// error messages for readability purposes
+	static const std::string MESSAGE_ERROR_INVALID_FILE_FORMAT;
+	static const std::string MESSAGE_ERROR_LOCATION;
+	static const std::string MESSAGE_ERROR_INVALID_ANSWER_INPUT;
+	static const std::string MESSAGE_ERROR_INVALID_RESUME_COMMAND_INPUT;
+	static const std::string MESSAGE_TERMINATING_PROGRAM;
+
+	static void printAddressPromptMessage();
+	static void printRetrieveFilePromptMessage();
+	static void printResumeProgramPromptMessage();
+	static void printExceptionMessage(std::string message);
+	static void fileNameSettingOperation(std::string fileName);
+	static bool isRetrieveFileInvalidCaseOperation();
+	static bool isValidAnswer(char ans);
+	static bool isAnswerYes(char ans);
+	static std::string getOpeningFilePathMessage();
+
+	//logging function
+	static void logErrorMessage(std::string errorMessage);
+
+};
+
+// exception class
+class InvalidInputException : public std::exception{
+private:
+	std::string _message;
+
+public:
+	InvalidInputException(std::string msg){
+		_message = msg;
+	}
+
+	//overwrite the what function
+	virtual const char* what() const throw(){
+		return _message.c_str();
+	}
+};
+
+#endif
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageController.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageDatabase.cpp
+	 */
+
+//
+//	Description is in StorageDatabase.h
+//
+
+#include "StorageDatabase.h"
+
+
+const std::string StorageDatabase::_lastSavedFileStorage = "LastSavedFile.txt";	
+
+History StorageDatabase::taskHistory;
+
+StorageDatabase::StorageDatabase(){
+}
+
+StorageDatabase::~StorageDatabase(){
+}
+
+void StorageDatabase::setLastSavedFileName(std::string filename){
+	assert(&filename != NULL);
+	_lastSavedfile = filename;
+}
+
+std::string StorageDatabase::getLastSavedFileName(){
+	return _lastSavedfile;
+}
+
+void StorageDatabase::setLastSavedFileIntoStorage(std::string newFileName){
+	assert(&newFileName != NULL);
+	std::ofstream file;
+	file.open(_lastSavedFileStorage);
+	file << newFileName;
+	file.close();
+}
+
+void StorageDatabase::readLastSavedFileFromStorage(){
+	std::ifstream file;
+	std::string readString;
+	file.open(_lastSavedFileStorage);
+	getline(file, readString);
+	setLastSavedFileName(readString);
+}
+
+void StorageDatabase::executeUpdateSaveFile(std::string filename, std::string inputString){
+	assert(&filename != NULL);
+	assert(&inputString != NULL);
+	std::ofstream file;
+	file.open(filename);
+	file << inputString;
+	file.close();
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageDatabase.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageDatabase.h
+	 */
+
+//
+//	StorageDatabase is the class responsible for reading and writing of file
+//	to Database. Files will be saved as .txt file format in local database 
+//	such that the user can directly edit the .txt file after initialising the
+//	programme. 
+//
+//	One of its main function is to execute the updating of the save file.
+//
+//	This class is also responsible for the feature in which the system will archive 
+//	the name and location of the previously saved file, and allow the user to open it 
+//	upon starting TaskHub just by inputting 'Y'.
+//
+//	_lastSavedFileStorage represents the file name of the text file that contains
+//	the previously saved file.
+//
+
+#pragma once
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <exception>
+#include <assert.h>
+#include "History.h"
+
+class StorageDatabase{
+
+public:
+	StorageDatabase();
+	~StorageDatabase();
+	static History taskHistory;
+
+	void setLastSavedFileName(std::string filename);
+	void setLastSavedFileIntoStorage(std::string newFilename);
+	void readLastSavedFileFromStorage();
+	std::string getLastSavedFileName();
+
+	void executeUpdateSaveFile(std::string filename, std::string inputString);
+
+private:
+	std::string _lastSavedfile;
+	static const std::string _lastSavedFileStorage;
+
+};
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageDatabase.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageProcessor.cpp
+	 */
+
+//
+// Description is in StorageProcessor.h
+//
+
+#include "StorageProcessor.h"
+
+//for readability purposes
+const unsigned int StorageProcessor::FIRST_LETTER_AFTER_QUOTATION = 1;
+const unsigned int StorageProcessor::INDEX_OF_FIRST_CHAR = 0;
+const unsigned int StorageProcessor::MIN_REQUIRED_FILE_LENGTH = 5;
+const unsigned int StorageProcessor::NO_OF_QUOTATION_MARKS = 2;
+const std::string StorageProcessor::TXT_FILE_FORMAT = ".txt";
+
+StorageProcessor::StorageProcessor(){
+}
+
+StorageProcessor::~StorageProcessor(){
+}
+
+std::string StorageProcessor::convertTaskIntoString(){
+	std::vector<Task> fileStorage = StorageDatabase::taskHistory.getVectorTextStorage();
+
+	if (isFileStorageEmpty(fileStorage)){
+		return "";
+	}
+	else{
+		return convertTaskIntoStringOperation(fileStorage);
+	}
+}
+
+std::string StorageProcessor::convertTaskIntoStringOperation(std::vector<Task>& FileStorage){
+	assert(&FileStorage != NULL);
+	std::ostringstream oss;
+	std::vector<Task>::iterator iter;
+	int taskIndex = 1;
+
+	for (iter = FileStorage.begin(); iter != FileStorage.end(); iter++){
+		oss << taskIndex << ". " << iter->ToString();
+		if (iter != FileStorage.end() - 1){
+			oss << std::endl;
+			taskIndex++;
+		}
+	}
+	return oss.str();
+}
+
+bool StorageProcessor::isFileStorageEmpty(std::vector<Task>& FileStorage){
+	assert(&FileStorage != NULL);
+	return FileStorage.empty();
+}
+
+//	Function removes the quotation marks, in the event when the user copy and paste the file address as 
+//	a file path.
+//	The input string is left untouched if there is no quotation marks. 
+//	Condition: it is assumed that all file paths does not contain any quotation marks.
+std::string StorageProcessor::processFileDirectory(std::string inputString){
+	assert(&inputString != NULL);
+
+	if (inputString[INDEX_OF_FIRST_CHAR] == '\"'){
+		int stringLength = inputString.size();
+		return inputString.substr(FIRST_LETTER_AFTER_QUOTATION, stringLength - NO_OF_QUOTATION_MARKS);
+	}
+	return inputString;
+}
+
+// Function checks if the desired file to be opened or created is a txt file to ensure that 
+// any added tasks can be saved and accessed somewhere on the user's computer.
+bool StorageProcessor::isValidFileFormat(std::string input){
+	assert(&input != NULL);
+	std::string fileinput = processFileDirectory(input);
+
+	return (isMinRequiredNameLength(fileinput) && isTextFileFormat(fileinput));
+}
+
+bool StorageProcessor::isMinRequiredNameLength(std::string fileInput){
+	assert(&fileInput != NULL);
+	return (fileInput.size() >= MIN_REQUIRED_FILE_LENGTH);
+}
+
+bool StorageProcessor::isContainExtensionType(std::string fileInput){
+	assert(&fileInput != NULL);
+	return (fileInput.find_last_of(".") != std::string::npos);
+}
+
+bool StorageProcessor::isTextFileFormat(std::string fileInput){
+	assert(&fileInput != NULL);
+
+	if (!isContainExtensionType(fileInput)){
+		return false;
+	}
+
+	std::string extensionType = extractExtensionTypeString(fileInput);
+
+	return (extensionType == TXT_FILE_FORMAT);
+}
+
+std::string StorageProcessor::extractExtensionTypeString(std::string fileInput){
+	assert(&fileInput != NULL);
+	return fileInput.substr(fileInput.find_last_of("."));
+}
+
+char StorageProcessor::convertToUpperCase(char input){
+	assert(&input != NULL);
+	return toupper(input);
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageProcessor.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageProcessor.h
+	 */
+
+//
+//	The Storage Processor is responsible for the processing and conversion of data when the 
+//	Storage Controller needs further processing of the data, similar to Parser unit within the 
+//	Logic component. 
+//
+//	One of the main functions include the ConvertTaskIntoString(), which involves conversion of 
+//	the data from the save file into string, which can be stored within the program.
+//
+//	Other main functions include the processFileDirectory() and the isValidFileFormat, which work 
+//	together to check the validity of the file path to ensure any processing of the tasks can be 
+//	recorded and saved somewhere. 
+//
+//	After processing of the data, the data will be returned to the Storage Controller class.
+//
+
+#pragma once
+
+#ifndef STORAGEPROCESSOR_H_
+#define STORAGEPROCESSOR_H_
+
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include "StorageDatabase.h"
+
+class StorageProcessor{
+
+public:
+	StorageProcessor();
+	~StorageProcessor();
+
+	std::string convertTaskIntoString();
+	Task convertStringIntoTask();
+	char convertToUpperCase(char input);
+
+	std::string processFileDirectory(std::string inputString);
+	bool isValidFileFormat(std::string input);
+
+private:
+	//For readability purposes
+	static const unsigned int MIN_REQUIRED_FILE_LENGTH;
+	static const unsigned int FIRST_LETTER_AFTER_QUOTATION;
+	static const unsigned int NO_OF_QUOTATION_MARKS;
+	static const unsigned int INDEX_OF_FIRST_CHAR;
+	static const std::string TXT_FILE_FORMAT;
+
+	bool isFileStorageEmpty(std::vector<Task>& FileStorage);
+	std::string convertTaskIntoStringOperation(std::vector<Task>& FileStorage);
+
+	//Sub-functions for isValidFileFormat()
+	bool isMinRequiredNameLength(std::string fileInput);
+	bool isContainExtensionType(std::string fileInput);
+	bool isTextFileFormat(std::string fileInput);
+	std::string extractExtensionTypeString(std::string fileInput);
+};
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\StorageProcessor.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\TaskLog.cpp
+	 */
+
+// Purpose of this class is to keep track of the actions done by the user over the course of the program's usage
+
+#include "TaskLog.h"
+
+const std::string MESSAGE_TASKLOG_CLEARED = "Logging history has been cleared";
+
+TaskLog::TaskLog(){
+	_logFileName = "LogFile.txt";
+	readLogFile();
+}
+
+TaskLog::~TaskLog(){
+	tempLogStorage.clear();
+}
+
+// Function updates the log file after each action by the user.
+void TaskLog::updateTaskLog(std::string input){
+	assert(&input != NULL);
+	tempLogStorage.push_back(input);
+	updateLogFile();
+}
+
+// The function is to get retrieve all prior logging history of the user upon the start up of the program
+void TaskLog::readLogFile(){
+	std::ifstream openFile;
+	std::string tempString;
+	assert(&openFile != NULL);
+
+	tempLogStorage.clear();
+	openFile.open(_logFileName.c_str());
+
+	while (getline(openFile, tempString)){
+		tempLogStorage.push_back(removeIndexFromString(tempString));
+	}
+	openFile.close();
+}
+
+std::string TaskLog::removeIndexFromString(std::string logString){
+	assert(&logString != NULL);
+	assert(logString != "");
+	return logString.substr(logString.find_first_of(":") + 2);
+}
+
+// Function shows the user the entire logging history
+void TaskLog::printTaskLog(){
+	std::cout << "Log history:" << std::endl;
+	std::cout << getTaskLog();
+}
+
+// Function allows the user to clear the entire log file.
+void TaskLog::clearTaskLog(){
+	tempLogStorage.clear();
+	printClearedTaskLogMessage();
+}
+
+std::string TaskLog::getTaskLog(){
+	std::ostringstream oss;
+	std::vector<std::string>::iterator iter;
+	int index = 1;
+
+	for (iter = tempLogStorage.begin(); iter != tempLogStorage.end(); iter++){
+		oss << index << ": " << *iter;
+		if (iter != tempLogStorage.end() - 1){
+			oss << std::endl;
+			index++;
+		}
+	}
+	return oss.str();
+}
+
+void TaskLog::updateLogFile(){
+	std::ofstream file;
+	file.open(getLogFileName());
+	file << getTaskLog();
+	
+	file.close();
+}
+
+void TaskLog::printClearedTaskLogMessage(){
+	std::cout << MESSAGE_TASKLOG_CLEARED << std::endl;
+}
+
+std::string TaskLog::getLogFileName(){
+	return _logFileName;
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\TaskLog.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\TaskLog.h
+	 */
+
+//
+//	This class is meant for logging and the tracking of the user's actions throughout the course
+//	of his/her usage of TaskHub.
+//	
+//	It will also keep track of any errors that have been executed within the different layers of 
+//	TaskHub's architecture. It is standardised that the log file will be saved in the same folder 
+//	of the TaskHub application and named as 'LogFile.txt', for easier access for the user.
+//
+
+#pragma once
+
+#include <string>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <assert.h>
+
+class TaskLog{
+
+public:
+	TaskLog();
+	~TaskLog();
+	
+	void updateTaskLog(std::string input);
+	void printTaskLog();
+	void clearTaskLog();
+
+	void readLogFile();
+	void updateLogFile();
+	void printClearedTaskLogMessage();
+
+	std::string removeIndexFromString(std::string logString);
+	std::string getTaskLog();
+	std::string getLogFileName();
+
+private:
+	char buffer[255];
+	std::string _logFileName;
+	std::string MESSAGE_TASKLOG_CLEARED;
+	std::vector<std::string> tempLogStorage;
+
+};
+
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\TaskLog.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\LogicTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace LogicTest{		
+
+	TEST_CLASS(HistoryTest){
+    public:
+
+		TEST_METHOD(TestGetFirstWord){
+			//test case 1
+			std::string testSentence1 = "cs2103 is difficult";
+			std::string testResult1 = Logic::getFirstWord(testSentence1);
+			std::string actualResult1("cs2103");
+			Assert::AreEqual(actualResult1, testResult1);
+
+			//test case 2 : empty string
+			std::string testSentence2 = "";
+			std::string testResult2 = Logic::getFirstWord(testSentence2);
+			std::string actualResult2("");
+			Assert::AreEqual(actualResult2, testResult2);
+			Assert::AreNotEqual(actualResult1, testResult2);
+		}
+
+		TEST_METHOD(TestRemoveFirstWord){
+			//test case 1
+			std::string testSentence1("project is due");
+			std::string testResult1 = Logic::removeFirstWord(testSentence1);
+			std::string actualResult1("is due");
+			Assert::AreEqual(testResult1, actualResult1);
+			
+			//test case 2 : empty string
+			std::string testSentence2("project is due");
+			std::string testResult2 = Logic::removeFirstWord(testSentence2);
+			std::string actualResult2("is due");
+			Assert::AreEqual(testResult2, actualResult2);
+		}
+
+		TEST_METHOD(TestLastChangedIndex){
+			History* test = new History();
+
+			test->setLastChangedTaskIndex(1);
+			int testResult = test->getLastChangedTaskIndex();
+			Assert::AreEqual(testResult, 0);
+
+			delete test;
+		}
+
+		TEST_METHOD(TestLastCommandType){
+			History* test = new History();
+
+			// test case 1: previous action taken is the addition of a new task.
+			test->setLastCommandType("add");
+			std::string expectedResult("add");
+			std::string actualResult = test->getLastCommandType();
+			Assert::AreEqual(expectedResult, actualResult);
+
+			// test case 2: previous action is a deletion of a new task. 
+			test->setLastCommandType("delete");
+			std::string expectedResult2("delete");
+			std::string actualResult2 = test->getLastCommandType();
+			Assert::AreEqual(expectedResult2, actualResult2);
+
+			delete test;
+		}
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\LogicTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\StorageControllerTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace TaskHubTest{
+
+	TEST_CLASS(StorageControllerTest) {
+	public:
+		
+		TEST_METHOD(TestSetFileName){
+			StorageController* test = new StorageController();
+			
+			//test case 1
+			std::string fileName1("a.txt");
+			std::string expectedResult1("a.txt");
+			test->setFileName(fileName1);
+			std::string testResult1 = test->getFileName();
+			Assert::AreEqual(expectedResult1, testResult1);
+
+			//test case 2:	empty string
+			std::string expectedResult2("");
+			test->setFileName("");
+			std::string testResult2 = test->getFileName();
+			Assert::AreEqual(expectedResult2, testResult2);
+
+			//test case 3:	longer string with non numerical or alphabetical symbols
+			test->setFileName("adasfd.fdfdg\\dfggdfg");
+			std::string testResult3 = test->getFileName();
+			std::string expectedResult3("adasfd.fdfdg\\dfggdfg");
+			Assert::AreEqual(testResult3, expectedResult3);
+			Assert::AreNotEqual(testResult1, expectedResult3);
+
+			delete test;
+		}
+
+	};
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\StorageControllerTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\StorageDatabaseTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace TaskHubTest{
+
+	TEST_CLASS(StorageDatabaseTest)	{
+
+	public:
+		
+		TEST_METHOD(TestSetLastSavedFile){
+			StorageDatabase* test = new StorageDatabase();
+			
+			//test case 1
+			test->setLastSavedFileName("a.txt");
+			std::string testResult1 = test->getLastSavedFileName();
+			std::string expectedResult1("a.txt");
+			Assert::AreEqual(testResult1, expectedResult1);
+
+			//test case 2:	empty string
+			test->setLastSavedFileName("");
+			std::string testResult2 = test->getLastSavedFileName();
+			std::string expectedResult2("");
+			Assert::AreEqual(testResult2, expectedResult2);
+
+			//test case 3	file directory
+			test->setLastSavedFileName("C:\\Desktop\\MyFolder\\my.txt");
+			std::string testResult3 = test->getLastSavedFileName();
+			std::string expectedResult3("C:\\Desktop\\MyFolder\\my.txt");
+			Assert::AreEqual(testResult3, expectedResult3);
+			Assert::AreNotEqual(testResult1, expectedResult2);
+			Assert::AreNotEqual(testResult3, expectedResult2);
+
+			//test case 4	single char
+			test->setLastSavedFileName("x");
+			std::string testResult4 = test->getLastSavedFileName();
+			std::string expectedResult4("x");
+			Assert::AreEqual(testResult4, expectedResult4);
+
+			delete test;
+		}
+
+	};
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\StorageDatabaseTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\StorageProcessorTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace TaskHubTest{
+
+	TEST_CLASS(StorageProcessorTest) {
+
+	public:
+		
+		TEST_METHOD(TestProcessFileDirectory){
+			StorageProcessor* test = new StorageProcessor();
+
+			//test case 1	w/o quotation marks
+			std::string testResult1 = test->processFileDirectory("abc.txt");
+			std::string expectedResult1("abc.txt");
+			Assert::IsNotNull(&testResult1);
+			Assert::AreEqual(testResult1, expectedResult1);
+
+			//test case 2	with quotation marks
+			std::string testString("\"abc.txt\"");
+			std::string testResult2 = test->processFileDirectory(testString);
+			Assert::AreEqual(testResult2, expectedResult1);
+			Assert::AreEqual(testResult1, testResult2);
+			Assert::AreNotEqual(testString, testResult2);
+
+			delete test;
+		}
+
+		// The following test method tests the correctness of the function, isValidFileFormat(),
+		// which utilises other private functions such as isMinRequiredNameLength() and
+		// isTextFileFormat.
+		// The feasibility and the robustness of this function would suggest the private functions 
+		// are also working correctly.
+		TEST_METHOD(TestIsValidFileFormat){
+			StorageProcessor* test = new StorageProcessor();
+
+			//test case 1	empty file name
+			std::string file1("");
+			Assert::IsFalse(test->isValidFileFormat(file1));
+
+			//test case 2:	file name too short
+			std::string file2("a");
+			Assert::IsFalse(test->isValidFileFormat(file2));
+
+			//test case 3:	no extension in file name
+			std::string file3("thisfilename");
+			Assert::IsFalse(test->isValidFileFormat(file3));
+
+			//test case 4:	invalid extension 
+			std::string file4("storage.exe");
+			Assert::IsFalse(test->isValidFileFormat(file4));
+
+			//test case 5:	lower boundary case
+			std::string file5("a.txt");
+			Assert::IsTrue(test->isValidFileFormat(file5));
+
+			//test case 6:	file path directory
+			std::string file6("C:\\Desktop\\MapleStory\\save.txt");
+			Assert::IsTrue(test->isValidFileFormat(file6));
+
+			delete test;
+		}
+
+		TEST_METHOD(TestConvertToUpperCase){
+			StorageProcessor* test = new StorageProcessor();
+
+			//test case 1:	lower to upper case
+			char result1 = test->convertToUpperCase('a');
+			Assert::AreEqual(result1, 'A');
+			Assert::AreNotEqual(result1, 'a');
+
+			//test case 2:	upper case remains untouched
+			char result2 = test->convertToUpperCase('A');
+			Assert::AreEqual(result2, 'A');
+			Assert::AreEqual(result1, result2);
+
+			//test case 3:	non-alphabetical char remains untouched
+			char result3 = test->convertToUpperCase('2');
+			Assert::AreEqual(result3, '2');
+			char result4 = test->convertToUpperCase('?');
+			Assert::AreEqual(result4, '?');
+
+			delete test;
+		}
+	};
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\StorageProcessorTest.cpp
+
+
+
+
+

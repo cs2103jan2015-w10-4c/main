@@ -1,0 +1,3511 @@
+//@author: a0115365j
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAdd.cpp
+	 */
+
+
+#include <algorithm>
+#include <assert.h>
+#include "LogicController.h"
+#include "Parser.h"
+#include "CommandAdd.h"
+#include "CommandClash.h"
+#include "CommandAutoSort.h"
+
+const string CommandAdd::MESSAGE_COMMAND_TYPE = "add";
+const string CommandAdd::MESSAGE_ADDED = "Task: \" %s \" added";
+const string CommandAdd::MESSAGE_INDICATING_EMPTY = "The input is empty.";
+const string CommandAdd::MESSAGE_CLASH = " clashes with existing tasks";
+const string CommandAdd::MESSAGE_INVALID_INPUT = "invalid input";
+
+CommandAdd::CommandAdd () {
+
+}
+
+CommandAdd::~CommandAdd () {
+
+}
+
+string CommandAdd::addMessage (string input) {
+
+	StorageDatabase::taskHistory.setLastCommandType (MESSAGE_COMMAND_TYPE);
+
+	bool isWhiteSpace = all_of(input.begin(), input.end(), isspace);
+
+
+
+	// this is to make sure if user just key in empty space or nothing except an "add", nothing will be done
+	if (!isWhiteSpace && input != MESSAGE_COMMAND_TYPE ) {
+		assert (isWhiteSpace != true); 
+		Task newTask (input);
+			string message = CommandClash::clash(input);
+			if (message == (input + MESSAGE_CLASH)) {
+				sprintf_s(Logic::messageDisplayed,MESSAGE_CLASH.c_str());
+				return Logic::messageDisplayed;
+
+			} else {
+			Task newTask(input);
+			StorageDatabase::taskHistory.setVectorTextStorage(newTask);
+			StorageDatabase::taskHistory.setLastChangedTask(newTask);
+			sprintf_s(Logic::messageDisplayed, MESSAGE_ADDED.c_str(),newTask.ToString().c_str());
+			}
+
+		} else {
+			sprintf_s(Logic::messageDisplayed,MESSAGE_INDICATING_EMPTY.c_str());
+		}
+	return Logic::messageDisplayed;
+
+}
+string CommandAdd::addOperation(string input) {
+	string feedback = CommandAdd::addMessage(input);
+	StorageController::updateSaveFile();
+	return feedback;
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAdd.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAdd.h
+	 */
+
+//
+//************************************************
+//				Class CommandAdd
+//this class is to add new messages into the vector after constructing the messages in Parser
+//this class will also check whether the new messages with existing ones by calling CommandClash function. If clashes occur
+//nothing will be added.
+//
+//
+//
+//
+//************************************************
+
+
+#ifndef COMMANDADD_H_
+#define COMMANDADD_H_
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+class CommandAdd {
+public:
+	CommandAdd ();
+	~CommandAdd ();
+	static string addMessage(string input);
+	static string addOperation(string input);
+	static const string MESSAGE_INDICATING_EMPTY;
+private:
+	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_ADDED;
+	static const string MESSAGE_CLASH;
+	static const string MESSAGE_INVALID_INPUT;
+};
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAdd.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAutoSort.cpp
+	 */
+
+#include <algorithm> 
+#include "CommandAutoSort.h"
+
+const int MAX_TIME_LENGTH = 14;		//for yyyymmddhhmm
+const string CommandAutoSort::STATUS_DONE = "done";
+const string CommandAutoSort::STATUS_UNCOMPLETED = "uncompleted";
+const string CommandAutoSort::STATUS_FLOATING = "floating";
+const string CommandAutoSort::MESSAGE_SORT_SUCCESSFUL = "sort successful";
+const char CommandAutoSort::NULL_TERMINATION_CHARACTER = '\0';
+
+CommandAutoSort::CommandAutoSort () {
+}
+
+CommandAutoSort::~CommandAutoSort () {
+
+}
+
+bool CommandAutoSort::compareCriteria(Task firstTask, Task secondTask) {
+
+	//uncompleted tasks sorted after done / undo tasks
+	if((firstTask.getStatus() == STATUS_UNCOMPLETED) && (secondTask.getStatus() != STATUS_UNCOMPLETED)){                          
+		return false;
+	} else if ((firstTask.getStatus() != STATUS_UNCOMPLETED) && (secondTask.getStatus() == STATUS_UNCOMPLETED)){
+		return true;
+	} else if ((firstTask.getStatus() == STATUS_UNCOMPLETED) && (secondTask.getStatus()) == STATUS_UNCOMPLETED){
+		return false;
+	} else if((firstTask.getStatus() != STATUS_UNCOMPLETED) && (secondTask.getStatus() != STATUS_UNCOMPLETED)){
+	
+	
+	//done tasks sorted after undone tasks
+	if((firstTask.getStatus() == STATUS_DONE) && (secondTask.getStatus() != STATUS_DONE)){                          
+		return false;
+	} else if ((firstTask.getStatus() != STATUS_DONE) && (secondTask.getStatus() == STATUS_DONE)){
+		return true;
+	} else if ((firstTask.getStatus() == STATUS_DONE) && (secondTask.getStatus()) == STATUS_DONE){
+		return false;
+	} else if((firstTask.getStatus() != STATUS_DONE) && (secondTask.getStatus() != STATUS_DONE)){
+
+		//for undone tasks
+		//floating tasks sorted after timed and deadline tasks
+		if((firstTask.getTaskType() == STATUS_FLOATING) && (secondTask.getTaskType() != STATUS_FLOATING)){
+			return false;															
+		} else if ((firstTask.getTaskType() != STATUS_FLOATING) && (secondTask.getTaskType() == STATUS_FLOATING)){
+			return true;
+		} else if ((firstTask.getTaskType() == STATUS_FLOATING) && (secondTask.getTaskType() == STATUS_FLOATING)){
+			return false;
+		} else if((firstTask.getTaskType() != STATUS_FLOATING) && (secondTask.getTaskType() != STATUS_FLOATING)){
+			
+			//for timed and deadline tasks
+			//they are sorted by their starting time
+			char firstTaskTime[MAX_TIME_LENGTH];
+			char secondTaskTime[MAX_TIME_LENGTH];
+
+			sprintf_s(firstTaskTime, (firstTask.getScheduledDateReverse() + firstTask.getStartTime()).c_str());
+			sprintf_s(secondTaskTime, (secondTask.getScheduledDateReverse() + secondTask.getStartTime()).c_str());
+
+			int i = 0;
+			while(firstTaskTime[i] != NULL_TERMINATION_CHARACTER){
+				while(secondTaskTime[i] != NULL_TERMINATION_CHARACTER){
+					if(firstTaskTime[i] < secondTaskTime[i]){
+						return true;
+					} else if(firstTaskTime[i] > secondTaskTime[i]){
+						return false;
+					}
+					i++;
+				}
+				return false;
+			}
+			return false;
+		}
+	}
+	return false;
+}
+	return false;
+}
+
+string CommandAutoSort::autoSort () {
+	
+	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+
+	stable_sort(temporary.begin(),temporary.end(),CommandAutoSort::compareCriteria);
+
+	StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+	
+	return MESSAGE_SORT_SUCCESSFUL;
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAutoSort.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAutoSort.h
+	 */
+
+//
+//************************************************
+//				Class CommandAutoSort
+//this class is to sort messages in the following orders:
+//Undone timed task by date -> undone deadline tasks by date-> floating tasks -> done tasks -> uncompleted tasks
+//after that the timed tasks will be sorted by its date and time, in acending order
+//
+//
+//
+//
+//************************************************
+
+
+#ifndef COMMANDAUTOSORT_H_
+#define COMMANDAUTOSORT_H_
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include "LogicController.h"
+#include "Parser.h"
+using namespace std;
+
+class CommandAutoSort {
+
+private:
+	static const string STATUS_DONE;
+	static const string STATUS_UNCOMPLETED;
+	static const string STATUS_FLOATING;
+	static const string MESSAGE_SORT_SUCCESSFUL;
+	static const char NULL_TERMINATION_CHARACTER;
+
+public:
+	CommandAutoSort ();
+	~CommandAutoSort ();
+	static void sortTask(std::vector<Task> storage);
+	static string autoSort ();
+	static bool compareCriteria(Task first, Task second);
+
+};
+
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAutoSort.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandClear.cpp
+	 */
+
+#include <assert.h>
+#include "CommandClear.h"
+#include "CommandDelete.h"
+
+const int FIRSTINDEX = 1;
+
+const string CommandClear::MESSAGE_CLEAR_ALL = "All messages have been clear";
+const string CommandClear::MESSAGE_CLEAR_FROM_TO = "Message with index from %s to %s have been clear";
+const string CommandClear::MESSAGE_CLEAR_ERROR = "Invalid Task Index";
+const string CommandClear::MESSAGE_CLEAR_DONE = "All the done tasks have been removed";
+const string CommandClear::MESSAGE_CLEAR_UNCOMPLETED = "All the uncompleted tasks have been removed";
+const string CommandClear::MESSAGE_CLEAR_COMMAND = "clear";
+const string CommandClear::MESSAGE_ALL = "all";
+const string CommandClear::MESSAGE_CLEAR = "clear";
+const string CommandClear::MESSAGE_UNCOMPLETE = "uncompleted";
+const string CommandClear::MESSAGE_DONE = "done";
+
+CommandClear::CommandClear () {
+
+}
+
+CommandClear::~CommandClear () {
+
+}
+
+bool isValidInput(string taskIndex) {
+	
+	bool isValid=true;
+	for(unsigned int i=0; i<taskIndex.size()&&isValid;i++){
+		if(taskIndex[i]<'0' || taskIndex[i]>'9' )
+			if (taskIndex[i] != '-')
+			isValid=false;
+	}
+
+	return isValid;
+}
+
+
+string CommandClear::clearTask(string input) {
+
+	vector <Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+
+	transform(input.begin(),input.end(),input.begin(),::tolower);
+
+	if (input == MESSAGE_ALL||input == MESSAGE_CLEAR) {// when just clear is entered, by default is to clear all
+		assert(input == MESSAGE_ALL||input == MESSAGE_CLEAR);
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_CLEAR_COMMAND);
+		temporary.clear();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_CLEAR_ALL.c_str());
+
+	} else if (input == MESSAGE_DONE) {
+		assert (input == MESSAGE_DONE);
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_CLEAR_COMMAND);
+		for (unsigned int i = 0; i < temporary.size(); i++) {
+			if (temporary[i].getStatus() == MESSAGE_DONE) {
+				string s = to_string(i+1);
+				s = CommandDelete::deleteMessage(s);
+			}
+		}
+		sprintf_s(Logic::messageDisplayed, MESSAGE_CLEAR_DONE.c_str());
+
+	} else if (input == MESSAGE_UNCOMPLETE) {
+		assert (input == MESSAGE_UNCOMPLETE);
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_CLEAR_COMMAND);
+		for (unsigned int i = 0; i < temporary.size(); i++) {
+			if (temporary[i].getStatus() == MESSAGE_UNCOMPLETE) {
+				string s = to_string(i + 1);
+				s = CommandDelete::deleteMessage(s);
+			}
+		}
+		sprintf_s(Logic::messageDisplayed, MESSAGE_CLEAR_UNCOMPLETED.c_str());
+	} else { // delete continuously
+		size_t get_task_index = input.find("-");
+		if (!isValidInput(input)) {
+			sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_ERROR.c_str());
+			return Logic::messageDisplayed;
+		}
+
+		if (get_task_index != string::npos) {
+			assert (get_task_index != string::npos);
+			unsigned int endIndex = atoi(input.substr(get_task_index+1,2).c_str());
+			unsigned int beginIndex = atoi(input.substr(0,get_task_index).c_str());
+			if ((beginIndex >= FIRSTINDEX) && (beginIndex < temporary.size()) && (endIndex >= beginIndex) && (endIndex <= temporary.size())) {
+				vector<Task>::iterator itr = temporary.begin()+beginIndex - 1;
+				if (endIndex != temporary.size()) {
+					temporary.erase(itr, itr + endIndex - beginIndex + 1);
+					
+				} else {
+					temporary.erase(itr, temporary.end());
+				}
+				StorageDatabase::taskHistory.setLastCommandType(MESSAGE_CLEAR_COMMAND);
+				StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+				sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_FROM_TO.c_str(),input.substr(0,get_task_index).c_str(),input.substr(get_task_index+1,2).c_str());
+			} else {
+			
+				sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_ERROR.c_str());
+			}
+		} else {
+			sprintf_s(Logic::messageDisplayed,MESSAGE_CLEAR_ERROR.c_str());
+		}
+	}
+	StorageController::updateSaveFile();
+	return Logic::messageDisplayed;
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandClear.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandClear.h
+	 */
+
+
+//
+//************************************************
+//				Class CommandClear
+//this class is used when the clear command is called
+//it can clear all tasks, clear tasks with adjacent index, clear all uncompleted tasks, and all done tasks
+//
+//
+//************************************************
+
+
+#ifndef CLEARALL_H_
+#define CLEARALL_H_
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include "LogicController.h"
+using namespace std;
+
+class CommandClear {
+
+public:
+	CommandClear ();
+	~CommandClear ();
+	static string clearTask(string input);
+private:
+	static const string MESSAGE_CLEAR_ALL;
+	static const string MESSAGE_CLEAR_FROM_TO;
+	static const string MESSAGE_CLEAR_ERROR;
+	static const string MESSAGE_CLEAR_DONE;
+	static const string MESSAGE_CLEAR_UNCOMPLETED;
+	static const string MESSAGE_CLEAR_COMMAND;
+	static const string MESSAGE_ALL;
+	static const string MESSAGE_CLEAR;
+	static const string MESSAGE_DONE;
+	static const string MESSAGE_UNCOMPLETE;
+};
+
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandClear.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDelete.cpp
+	 */
+
+#include "LogicController.h"
+#include "Parser.h"
+#include "CommandDelete.h"
+
+
+const string CommandDelete::MESSAGE_COMMAND_TYPE = "delete";
+const string CommandDelete::MESSAGE_DELETED = "Message \" %s \" is deleted";
+const string CommandDelete::MESSAGE_INVALID_INDEX = "Invalid index";
+
+CommandDelete::CommandDelete () {
+
+}
+CommandDelete::~CommandDelete () {
+
+}
+
+
+bool isValid(string taskIndex) {
+	
+	bool isValid=true;
+	for(unsigned int i=0; i<taskIndex.size()&&isValid;i++){
+		if(taskIndex[i]<'0' || taskIndex[i]>'9')
+			isValid=false;
+	}
+
+	return isValid;
+}
+
+string CommandDelete::deleteMessage(string input) {
+
+	if (!isValid(input)) {
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+		return Logic::messageDisplayed;
+	}
+
+	unsigned int index;
+	istringstream in(input);
+	in >> index;
+	if (index > 0 && index <= StorageDatabase::taskHistory.getVectorTextStorage().size()) {
+      
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex(index);
+		StorageDatabase::taskHistory.setLastUnchangedTask (StorageDatabase::taskHistory.getVectorTextStorage()[index - 1]);
+		
+		vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+		Task taskDeleted = temporary[index - 1];
+		temporary.erase(temporary.begin() + index - 1);
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		
+		sprintf_s(Logic::messageDisplayed,MESSAGE_DELETED.c_str(), taskDeleted.ToString().c_str());
+
+	} else {
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+	}
+		return Logic::messageDisplayed;
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDelete.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDelete.h
+	 */
+
+//
+//************************************************
+//				Class CommandDelete
+//this class is used when the delete command is called
+//it can delete tasks with valid index
+//
+//
+//************************************************
+
+
+#ifndef COMMANDDELETE_H_
+#define COMMANDDELETE_H_
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+class CommandDelete {
+public:
+	static string deleteMessage(string input);
+	CommandDelete ();
+	~CommandDelete ();
+
+private:
+	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_DELETED;
+	static const string MESSAGE_INVALID_INDEX;
+};
+
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDelete.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDisplay.cpp
+	 */
+
+#include "LogicController.h"
+#include "Parser.h"
+#include "CommandDisplay.h"
+#include "CommandAutoSort.h"
+
+
+const string CommandDisplay::MESSAGE_ALL = "all";
+const string CommandDisplay::MESSAGE_DISPLAY_WORD = "display";
+const string CommandDisplay::MESSAGE_COMMAND_TYPE = "display";
+const string CommandDisplay::MESSAGE_INVALID_COMMAND = "invalid display command";
+const string CommandDisplay::MESSAGE_EMPTY_FILE = "The file is now empty";
+const string CommandDisplay::MESSAGE_DISPLAYED = "Displayed successful";
+const string CommandDisplay::STATUS_UNCOMPLETE = "uncompleted";
+const string CommandDisplay::STATUS_DONE = "done";
+const string CommandDisplay::TASK_TYPE_TIMED = "timed";
+const string CommandDisplay::TASK_TYPE_DEADLINE = "deadline";
+const string CommandDisplay::TASK_TYPE_FLOATING = "floating";
+const string CommandDisplay::DOT = ". ";
+
+vector <string> CommandDisplay::messageDisplayed;
+
+CommandDisplay::CommandDisplay () {
+
+}
+CommandDisplay::~CommandDisplay() {
+
+}
+
+string CommandDisplay::display(string message) {
+		messageDisplayed.clear();
+	if (StorageDatabase::taskHistory.getVectorTextStorage().empty()){
+		sprintf_s(Logic::messageDisplayed,MESSAGE_EMPTY_FILE.c_str());
+		return Logic::messageDisplayed;
+
+	} else {
+		
+		transform(message.begin(),message.end(),message.begin(), ::tolower);
+		if (message == MESSAGE_ALL||message == MESSAGE_DISPLAY_WORD) {
+		
+			for (unsigned int i = 0; i < StorageDatabase::taskHistory.getVectorTextStorage().size() - 1; i++){
+				ostringstream oss;
+				
+				oss << i + 1 << DOT << StorageDatabase::taskHistory.getVectorTextStorage()[i].ToString() << endl;
+				string TaskDisplay = oss.str();
+				messageDisplayed.push_back( TaskDisplay);
+		}
+		ostringstream oss;
+		
+		int size = StorageDatabase::taskHistory.getVectorTextStorage().size();
+		oss << size << DOT << StorageDatabase::taskHistory.getVectorTextStorage()[size - 1].ToString();
+		string TaskDisplay = oss.str();
+		messageDisplayed.push_back( TaskDisplay);
+		
+		} else if (message == TASK_TYPE_FLOATING) {
+			int taskNo = 1;
+			messageDisplayed.clear();
+			for (unsigned int i = 0; i < StorageDatabase::taskHistory.getVectorTextStorage().size() ; i++){
+			ostringstream oss;
+			if (StorageDatabase::taskHistory.getVectorTextStorage()[i].getTaskType() == TASK_TYPE_FLOATING)
+				oss << taskNo << DOT << StorageDatabase::taskHistory.getVectorTextStorage()[i].ToString() << endl;
+				string TaskDisplay = oss.str();
+				messageDisplayed.push_back( TaskDisplay);
+				taskNo++;
+			}
+
+		} else if (message == TASK_TYPE_DEADLINE) {
+			int taskNo = 1;
+			messageDisplayed.clear();
+			for (unsigned int i = 0; i < StorageDatabase::taskHistory.getVectorTextStorage().size() ; i++){
+			ostringstream oss;
+			if (StorageDatabase::taskHistory.getVectorTextStorage()[i].getTaskType() == TASK_TYPE_DEADLINE)
+				oss << taskNo << DOT << StorageDatabase::taskHistory.getVectorTextStorage()[i].ToString() << endl;
+				string TaskDisplay = oss.str();
+				messageDisplayed.push_back( TaskDisplay);
+				taskNo++;
+			}
+
+		} else if (message == TASK_TYPE_TIMED) {
+			int taskNo=1;
+			messageDisplayed.clear();
+			for (unsigned int i = 0; i < StorageDatabase::taskHistory.getVectorTextStorage().size(); i++){
+			ostringstream oss;
+			if (StorageDatabase::taskHistory.getVectorTextStorage()[i].getTaskType() == TASK_TYPE_TIMED)
+				oss << taskNo << DOT << StorageDatabase::taskHistory.getVectorTextStorage()[i].ToString() << endl;
+				string TaskDisplay = oss.str();
+				messageDisplayed.push_back( TaskDisplay);
+				taskNo++;
+			}
+
+		} else if (message == STATUS_DONE) {
+			int taskNo = 1;
+			messageDisplayed.clear();
+			for (unsigned int i = 0; i < StorageDatabase::taskHistory.getVectorTextStorage().size(); i++){
+			ostringstream oss;
+			if (StorageDatabase::taskHistory.getVectorTextStorage()[i].getStatus() == STATUS_DONE)
+				oss << taskNo << DOT << StorageDatabase::taskHistory.getVectorTextStorage()[i].ToString() << endl;
+				string TaskDisplay = oss.str();
+				messageDisplayed.push_back( TaskDisplay);
+				taskNo++;
+			}
+
+		} else if (message == STATUS_UNCOMPLETE) {
+			int taskNo = 1;
+			messageDisplayed.clear();
+			for (unsigned int i = 0; i < StorageDatabase::taskHistory.getVectorTextStorage().size(); i++){
+			ostringstream oss;
+			if (StorageDatabase::taskHistory.getVectorTextStorage()[i].getStatus() == STATUS_UNCOMPLETE)
+				oss << taskNo << DOT << StorageDatabase::taskHistory.getVectorTextStorage()[i].ToString() << endl;
+				string TaskDisplay = oss.str();
+				messageDisplayed.push_back( TaskDisplay);
+				taskNo++;
+			}
+
+		} else {
+
+			return MESSAGE_INVALID_COMMAND;
+		}
+	
+		return CommandDisplay::MESSAGE_DISPLAYED;
+	}
+	
+}
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDisplay.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDisplay.h
+	 */
+
+
+//
+//************************************************
+//				Class CommandDisplay
+//this class is used when the clear command is called
+//it can display all tasks, display all uncompleted tasks only, and all done tasks only, all timed tasks only, all deadline tasks only
+//and all floating tasks only
+//
+//************************************************
+
+#ifndef COMMANDDISPLAY_H_
+#define COMMANDDISPLAY_H_
+
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+class CommandDisplay {
+public:
+	CommandDisplay ();
+	~CommandDisplay();
+	static string display(string message);
+	static vector<string> messageDisplayed;
+private:
+	static const string MESSAGE_ALL;
+	static const string MESSAGE_DISPLAY_WORD;
+	static const string MESSAGE_DISPLAYED;
+	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_EMPTY_FILE;
+	static const string MESSAGE_INVALID_COMMAND;
+	static const string STATUS_UNCOMPLETE;
+	static const string STATUS_DONE;
+	static const string TASK_TYPE_TIMED;
+	static const string TASK_TYPE_DEADLINE;
+	static const string TASK_TYPE_FLOATING;
+	static const string DOT;
+
+	
+};
+
+
+#endif
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDisplay.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.cpp
+	 */
+
+#include "CommandInterpreter.h"
+
+const string CommandInterpreter::MESSAGE_TERMINATION = "Programme terminated.";
+const string CommandInterpreter::MESSAGE_ERROR = "Invalid command.";
+const string CommandInterpreter::COMMAND_ADD = "add";
+const string CommandInterpreter::COMMAND_DELETE = "delete";
+const string CommandInterpreter::COMMAND_CLEAR = "clear";
+const string CommandInterpreter::COMMAND_UPDATE = "update";
+const string CommandInterpreter::COMMAND_REDO = "redo";
+const string CommandInterpreter::COMMAND_UNDO = "undo";
+const string CommandInterpreter::COMMAND_SORT = "sort";
+const string CommandInterpreter::COMMAND_CLASH = "clash";
+const string CommandInterpreter::COMMAND_DONE = "done";
+const string CommandInterpreter::COMMAND_SHOW = "show";
+const string CommandInterpreter::COMMAND_SEARCH = "search";
+const string CommandInterpreter::COMMAND_UNCOMPLETE = "uncompleted";
+const string CommandInterpreter::COMMAND_DISPLAY = "display";
+const string CommandInterpreter::COMMAND_RECURRING = "recurring";
+const string CommandInterpreter::COMMAND_HELP = "help";
+const string CommandInterpreter::COMMAND_EXIT = "exit";
+const string CommandInterpreter::COMMAND_DETAIL = "detail";
+
+CommandInterpreter::CommandInterpreter () {
+
+}
+
+CommandInterpreter::~CommandInterpreter () {
+
+}
+
+string CommandInterpreter::executeUserCommand(string userCommand) {
+	string commandTypeString;
+	string TaskString;
+
+	commandTypeString = getFirstWord(userCommand);
+	TaskString = removeFirstWord(userCommand);
+
+	transform(commandTypeString.begin(), commandTypeString.end(), commandTypeString.begin(), ::tolower);
+	
+	COMMAND_TYPE commandType;
+	commandType = determineCommandType(commandTypeString, TaskString);
+
+	switch (commandType) {
+	case SHOW:
+		return Logic::show(TaskString);
+	case RECURRING:
+		return Logic::recurTask(TaskString);
+	case HELP:
+		return Logic::help();
+	case CLEAR:
+		return Logic::clearAll(TaskString);
+	case ADD_TASK:
+		return Logic::addTask(TaskString);
+	case UPDATE:
+		return Logic::updateTask(TaskString);
+	case SORT:
+		return Logic::sort();
+	case DELETE_TASK:
+		return Logic::deleteTask(TaskString);
+	case DISPLAY_TASK:
+		return Logic::display(TaskString);
+	case MARK_DONE:
+		return Logic::MarkDone(TaskString);
+	case UNCONPLETE:
+		return Logic::markUncompleted(TaskString);
+	case SEARCH:
+		return Logic::search(TaskString);
+	case DETAIL:
+		return Logic::getDetail(TaskString);
+	case CHECK:
+		return Logic::checkClash(TaskString);
+	case UNDO:
+		return Logic::undo();
+	case REDO:
+		return Logic::redo();
+	case EXIT:
+		StorageController::updateSaveFile();
+		cout << MESSAGE_TERMINATION << endl;;
+		exit(0);
+	case INVALID:
+	default:
+		return MESSAGE_ERROR;
+	}
+}
+
+CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string commandTypeString, string TaskString) {
+	if (commandTypeString == COMMAND_HELP) {
+		return COMMAND_TYPE::HELP;
+	}
+	else if (commandTypeString == COMMAND_ADD) {
+		return COMMAND_TYPE::ADD_TASK;
+	} 
+	else if (commandTypeString == COMMAND_CLEAR) {
+		return COMMAND_TYPE::CLEAR;
+	}
+	else if (commandTypeString == COMMAND_UPDATE) {
+		return COMMAND_TYPE::UPDATE;
+	}
+	else if (commandTypeString == COMMAND_RECURRING) {
+		return COMMAND_TYPE::RECURRING;
+	}
+	else if (commandTypeString == COMMAND_DELETE) {
+		return COMMAND_TYPE::DELETE_TASK;
+	}
+	else if (commandTypeString == COMMAND_SEARCH) {
+		return COMMAND_TYPE::SEARCH;
+	}
+	else if (commandTypeString == COMMAND_DISPLAY) {
+		return COMMAND_TYPE::DISPLAY_TASK;
+	}
+	else if (commandTypeString == COMMAND_SHOW) {
+		return COMMAND_TYPE::SHOW;
+	} 
+	else if (commandTypeString == COMMAND_DETAIL) {
+		return COMMAND_TYPE::DETAIL;
+	}
+	else if (commandTypeString == COMMAND_SORT) {
+		return COMMAND_TYPE::SORT;
+	}
+	else if (commandTypeString == COMMAND_DONE) {
+		return COMMAND_TYPE::MARK_DONE;
+	}
+	else if (commandTypeString == COMMAND_UNDO) {
+		return COMMAND_TYPE::UNDO;
+	} 
+	else if (commandTypeString == COMMAND_CLASH) {
+		return COMMAND_TYPE::CHECK;
+	}
+	else if (commandTypeString == COMMAND_REDO) {
+		return COMMAND_TYPE::REDO;
+	}
+	else if (commandTypeString == COMMAND_UNCOMPLETE) {
+		return COMMAND_TYPE::UNCONPLETE;
+	}
+	else if (commandTypeString == COMMAND_EXIT) {
+		return COMMAND_TYPE::EXIT;
+	}
+	else{
+		return COMMAND_TYPE::INVALID;
+	}
+}
+
+string CommandInterpreter::getFirstWord(string userCommand) {
+	return userCommand.substr(0, userCommand.find(' '));
+}
+
+string CommandInterpreter::removeFirstWord(string userCommand) {
+	return userCommand.substr(userCommand.find_first_of(" ") + 1);
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.h
+	 */
+
+
+//
+//************************************************
+//				Class CommandInterpreter
+//this class is used when user key in something
+//it will determine the command type for the message and pass it to LogicController for further implementation
+//
+//the following commands are supported:
+//HELP, ADD_TASK, CLEAR, UPDATE, RECURRING, DELETE_TASK, SEARCH, CHECK, SORT, DISPLAY_TASK, 
+//		DETAIL, MARK_DONE, UNCONPLETE, UNDO, REDO, SHOW, EXIT, INVALID
+//
+//************************************************
+
+#ifndef COMMANDINTERPRETER_H_
+#define COMMANDINTERPRETER_H_
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include "LogicController.h"
+using namespace std;
+
+class CommandInterpreter {
+	public:
+		CommandInterpreter ();
+		~CommandInterpreter ();
+	enum COMMAND_TYPE {
+		HELP, ADD_TASK, CLEAR, UPDATE, RECURRING, DELETE_TASK, SEARCH, CHECK, SORT, DISPLAY_TASK, 
+		DETAIL, MARK_DONE, UNCONPLETE, UNDO, REDO, SHOW, EXIT, INVALID
+	};
+	static string executeUserCommand(string userCommand);
+private:
+	
+	static string getFirstWord(string userCommand);
+	static string removeFirstWord(string userCommand);
+	static string getMessage(string TaskString);
+	static COMMAND_TYPE determineCommandType(string commandTypeString, string TaskString);
+	
+	static const string MESSAGE_ERROR;
+	static const string MESSAGE_TERMINATION;
+	static const string COMMAND_ADD;
+	static const string COMMAND_DELETE;
+	static const string COMMAND_UPDATE;
+	static const string COMMAND_CLEAR;
+	static const string COMMAND_SHOW;
+	static const string COMMAND_SEARCH;
+	static const string COMMAND_SORT;
+	static const string COMMAND_REDO;
+	static const string COMMAND_UNDO;
+	static const string COMMAND_RECURRING;
+	static const string COMMAND_UNCOMPLETE;
+	static const string COMMAND_CLASH;
+	static const string COMMAND_DISPLAY;
+	static const string COMMAND_DONE;
+	static const string COMMAND_HELP;
+	static const string COMMAND_EXIT;
+	static const string COMMAND_DETAIL;
+
+};
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkDone.cpp
+	 */
+
+#include "LogicController.h"
+#include "CommandMarkDone.h"
+
+const string markingDoneMessage::MESSAGE_COMMAND_TYPE = "done";
+const string markingDoneMessage::MESSAGE_MARK_DONE = "Task \" %s \" is completed";
+const string markingDoneMessage::MESSAGE_INVALID_INDEX = "Invalid index";
+
+markingDoneMessage::markingDoneMessage () {
+
+}
+
+markingDoneMessage::~markingDoneMessage () {
+
+}
+
+string markingDoneMessage::markMessageDone(string input) {
+
+	unsigned int index;
+	istringstream in(input);
+	in >> index;
+	
+	if (index > 0 && index <= StorageDatabase::taskHistory.getVectorTextStorage().size()) {
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex (index);
+
+		vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+		temporary[index - 1].MarkDone();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		Task taskMarked = temporary[index - 1];
+		
+		sprintf_s(Logic::messageDisplayed,MESSAGE_MARK_DONE.c_str(),taskMarked.ToString().c_str());
+
+	} else {
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+	}
+
+	return Logic::messageDisplayed;
+
+}
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkDone.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkDone.h
+	 */
+
+//
+//************************************************
+//				Class markingDoneMessage
+//this class is used when the done command is called
+//it will change the tasks' status to done
+//
+//************************************************
+
+#ifndef COMMANDMARKDONE_H_
+#define COMMANDMARKDONE_H_
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+class markingDoneMessage {
+public:
+	markingDoneMessage ();
+	~markingDoneMessage ();
+	static string markMessageDone(string input);
+private:
+	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_MARK_DONE;
+	static const string MESSAGE_INVALID_INDEX;
+};
+
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkDone.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkUncomplete.cpp
+	 */
+
+#include "LogicController.h"
+#include "CommandMarkUncomplete.h"
+
+const string markingMessageUncomplete::MESSAGE_COMMAND_TYPE = "uncomplete";
+const string markingMessageUncomplete::MESSAGE_MARK_UNCOMPLETE = "Task \" %s \" is marked";
+const string markingMessageUncomplete::MESSAGE_INVALID_INDEX = "Invalid index";
+
+markingMessageUncomplete::markingMessageUncomplete () {
+
+}
+
+markingMessageUncomplete::~markingMessageUncomplete () {
+
+}
+
+string markingMessageUncomplete::markMessageUncompleted(string input) {
+
+	unsigned int index;
+	istringstream in(input);
+	in >> index;
+	
+	if (index > 0 && index <= StorageDatabase::taskHistory.getVectorTextStorage().size()) {
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex (index);
+
+		vector<Task> temporary=StorageDatabase::taskHistory.getVectorTextStorage();
+		temporary[index - 1].markUncompleted();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		Task taskMarked = temporary[index - 1];
+		
+		sprintf_s(Logic::messageDisplayed,MESSAGE_MARK_UNCOMPLETE.c_str(),taskMarked.ToString().c_str());
+
+	} else {
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+	}
+
+	return Logic::messageDisplayed;
+
+}
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkUncomplete.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkUncomplete.h
+	 */
+
+
+//
+//************************************************
+//				Class markingMessageUncompleted
+//this class is used when the uncompleted command is called
+//it will change the tasks' status to uncompleted
+//
+//************************************************
+
+#ifndef COMMANDMARKUNCOMPLETE_H_
+#define COMMANDMARKUNCOMPLETE_H_
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+class markingMessageUncomplete {
+public:
+	markingMessageUncomplete ();
+	~markingMessageUncomplete ();
+	static string markMessageUncompleted(string input);
+private:
+	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_MARK_UNCOMPLETE;
+	static const string MESSAGE_INVALID_INDEX;
+};
+
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkUncomplete.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRecurring.cpp
+	 */
+
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <Windows.h>
+#include <algorithm>
+#include "LogicController.h"
+#include "CommandAdd.h"
+#include "CommandUndo.h"
+#include "CommandRecurring.h"
+
+
+const int CommandRecurring::DAYSIZE = 14;
+const int CommandRecurring::DAYOFWEEKSIZE = 10;
+const int CommandRecurring::DEFAULT = 7;
+const int CommandRecurring::MONTHLY = 9;
+const int CommandRecurring::MAX_BUFFERING_CAPACITY = 256;
+const int CommandRecurring::DEFAULTENDINGHOUR = 23;
+const int CommandRecurring::DEFAULTENDINGMINUTE = 59;
+
+const int CommandRecurring::NOOFDAYSPERWEEK = 7;
+const int CommandRecurring::YEARWIDTH = 4;
+const int CommandRecurring::TIMEWIDTH = 5;
+const int CommandRecurring::DATEWIDTH= 5;
+const int CommandRecurring::HRORMINWIDTH = 2;
+const int CommandRecurring::MONORDAYWIDTH = 2;
+const int CommandRecurring::CORRECTPLACE = 1;
+const int CommandRecurring::intSUNDAY = 7;
+const int CommandRecurring::intJan = 1;
+const int CommandRecurring::FIRSTDAYINAMONTH = 1;
+const int CommandRecurring::MONTHNOPERYEAR = 12;
+
+const int CommandRecurring::JAN = 1;
+const int CommandRecurring::FEB= 2;
+const int CommandRecurring::MAR = 3;
+const int CommandRecurring::APR= 4;
+const int CommandRecurring::MAY = 5;
+const int CommandRecurring::JUN = 6;
+const int CommandRecurring::JULY = 7;
+const int CommandRecurring::AUG = 8;
+const int CommandRecurring::SEP = 9;
+const int CommandRecurring::OCT = 10;
+const int CommandRecurring::NOV = 11;
+const int CommandRecurring::DEC = 12;
+const int CommandRecurring::SOLARMONTH = 31;
+const int CommandRecurring::LUNARMONTH = 30;
+const int CommandRecurring::FEBURARYDAY = 28;
+const int CommandRecurring::LEAPFEBURARYDAY = 29;
+
+const string CommandRecurring::COMMAND_TYPE="recurring";
+const string CommandRecurring::MESSAGE_RECURRING_TASK_SET="Recurring tasks have been set";
+const string CommandRecurring::MESSAGE_WRONG="Wrong message";
+const string CommandRecurring::MESSAGE_INVALID="invalid";
+const string CommandRecurring::MESSAGE_DEFAULT="default";
+const string CommandRecurring::EMPTY_SPACE=" ";
+const string CommandRecurring::MONDAY="1";
+const string CommandRecurring::TUESDAY="2";		
+const string CommandRecurring::WEDNESDAY="3";
+const string CommandRecurring::THURSDAY="4";
+const string CommandRecurring::FRIDAY="5";
+const string CommandRecurring::SATURDAY="6";
+const string CommandRecurring::SUNDAY="7";
+
+
+CommandRecurring::CommandRecurring (string input) {
+	
+}
+
+CommandRecurring::~CommandRecurring () {
+	
+}
+
+string CommandRecurring::determineDayOfWeek (string input) {
+	string dayOfWeek;
+	dayOfWeek=input.substr(7,3);
+	transform(dayOfWeek.begin(),dayOfWeek.end(),dayOfWeek.begin(), ::tolower);
+	
+	if (dayOfWeek=="mon") {
+		return MONDAY;
+	} else if (dayOfWeek=="tue") {
+		return TUESDAY;
+	} else if (dayOfWeek=="wed") {
+		return WEDNESDAY;
+	} else if (dayOfWeek=="thu") {
+		return THURSDAY;
+	} else if(dayOfWeek=="fri") {
+		return FRIDAY;
+	} else if (dayOfWeek=="sat") {
+		return SATURDAY;
+	} else if (dayOfWeek=="sun") {
+		return SUNDAY;
+	} else {
+		return"invalid";
+	}
+}
+
+void CommandRecurring::getTime (Time &time) {
+
+	SYSTEMTIME lt;
+    GetLocalTime(&lt);
+  
+	time._day = lt.wDay;
+	time._mon = lt.wMonth;
+	time._hour = lt.wHour;
+	time._min = lt.wMinute;
+	time._dayOfWeek = lt.wDayOfWeek;
+	time._year = lt.wYear;
+
+}
+
+
+bool CommandRecurring::isLeapYear (int year) {
+	bool isLeapYear = false;
+	if ((year % 4 == 0)&&(year % 100 != 0)||(year % 400 == 0)) {
+		isLeapYear = true;
+	}
+
+	return isLeapYear;
+}
+
+int CommandRecurring::getDayNumberInOneMonth (int month, int year) {
+
+	if (month == JAN || month == MAR || month == MAY || month == JULY || month == AUG || month == OCT || month == DEC) {
+		return SOLARMONTH;
+	} else if (month == APR || month == JUN || month == SEP || month == NOV) {
+		return LUNARMONTH;
+	} else if (isLeapYear(year)) {
+		return LEAPFEBURARYDAY;
+	} else {
+		return FEBURARYDAY;
+	}
+}
+
+void CommandRecurring::checkWithinRange (int &startingDay, int &startingMonth,int &year) {
+	if (startingMonth == JAN || startingMonth == MAR || startingMonth == MAY || startingMonth == JULY || startingMonth == AUG || startingMonth == OCT) {
+		if (startingDay > SOLARMONTH) {
+			startingDay -= SOLARMONTH;
+			startingMonth += 1;
+		}
+	} else if (startingMonth == DEC)  {
+		if (startingDay > SOLARMONTH) {
+			startingDay -= SOLARMONTH;
+			startingMonth = 1;
+			year++;
+		}
+	}
+	else if (startingMonth == APR || startingMonth == JUN || startingMonth == SEP || startingMonth == NOV)  {
+		if (startingDay > LUNARMONTH) {
+			startingDay -= LUNARMONTH;
+			startingMonth += 1;
+		}
+	} else if (isLeapYear(year)){
+		if (startingDay > LEAPFEBURARYDAY) {
+			startingDay -= LEAPFEBURARYDAY;
+			startingMonth += 1;
+		}
+	} else if (!isLeapYear(year)) {
+		if (startingDay > FEBURARYDAY) {
+			startingDay -= FEBURARYDAY;
+			startingMonth += 1;
+		}
+	}
+
+	return;
+}
+
+
+bool CommandRecurring::isValidDay (int day, int month, int year) {
+	bool isValid = false;
+	if (month == JAN || month == MAR || month == MAY || month == JULY || month == AUG || month == OCT || month == DEC) {
+		if(day <= SOLARMONTH) {
+			isValid = true;
+		}
+	} else if (month == APR || month == JUN || month == SEP || month == NOV) {
+		if (day <= LUNARMONTH) {
+			isValid = true;
+		}
+	} else if (isLeapYear(year)){
+		if (day <= LEAPFEBURARYDAY) {
+			isValid = true;
+		}
+	} else if (!isLeapYear(year)){
+		if (day <= FEBURARYDAY) {
+			isValid = true;
+		}
+	}
+	return isValid;
+}
+
+void CommandRecurring::InterpretInput (string input, size_t &get_year, size_t &get_Start_Date, size_t &get_End_Date, size_t &get_Start_Time, size_t &get_End_Time,
+									   size_t &get_Venue, size_t &get_day_of_week, size_t &get_TaskName, size_t &get_deadline, Time &currentTimeData,
+									   int &startingYear, int &endingYear, int &startingMonth, int &endingMonth, int &startingDay, int &endingDay, int &interval,
+									   int &startingHour, int &endingHour, int &startingMinute, int &endingMinute, string &startingDate,
+										string &dayOfWeek,string &startingTime, string &endingTime, string &taskName, string &venue) {
+	get_year = input.find_last_of("~");
+	get_Start_Date = input.find("/");
+	get_End_Date = input.find_last_of("/");
+	get_Start_Time = input.find_first_of(":");
+	get_End_Time = input.find_last_of(":");
+	get_Venue = input.find("@");
+	get_day_of_week = input.find("-every");
+	get_TaskName = input.find_first_of("/");
+	get_deadline = input.find("-by");
+
+	if (get_TaskName != string::npos) {
+		string temp = input.substr(0,get_TaskName);
+		taskName = input.substr(0,temp.find_last_of(" "));
+	} else {
+		taskName = input;
+	}
+	
+	if (get_Start_Date != string::npos) {
+		startingDate=input.substr(get_Start_Date - MONORDAYWIDTH, DATEWIDTH);
+	} 
+
+	
+	if (get_Start_Time != string::npos) {
+		startingTime = input.substr(get_Start_Time - HRORMINWIDTH, TIMEWIDTH);
+	}
+	
+	
+	if (get_End_Time != string::npos) {
+		endingTime = input.substr(get_End_Time - HRORMINWIDTH, TIMEWIDTH);
+	} else {
+		endingTime = to_string(DEFAULTENDINGHOUR) + ":" +to_string(DEFAULTENDINGMINUTE);
+	}
+
+	
+	if (get_End_Time != string::npos) {
+		endingHour = atoi(input.substr(get_End_Time - HRORMINWIDTH, HRORMINWIDTH).c_str());
+		endingMinute = atoi(input.substr(get_End_Time + CORRECTPLACE, HRORMINWIDTH).c_str());
+	} else {
+		endingHour = DEFAULTENDINGHOUR;
+		endingMinute = DEFAULTENDINGMINUTE;
+	}
+
+	
+	if (get_End_Date != string::npos) {
+		endingDay = atoi(input.substr(get_End_Date - MONORDAYWIDTH, MONORDAYWIDTH).c_str());
+		endingMonth = atoi(input.substr(get_End_Date + CORRECTPLACE, MONORDAYWIDTH).c_str());
+	} else {
+		endingDay = currentTimeData._day;
+		endingMonth = currentTimeData._mon;
+	}
+	
+	
+	if(get_year != string::npos) {
+		if ((input.substr(get_year - CORRECTPLACE, CORRECTPLACE) != " ")) {
+			startingYear = atoi(input.substr(get_year - YEARWIDTH, YEARWIDTH).c_str());
+		} else {
+			startingYear = currentTimeData._year;
+		}
+		endingYear = atoi(input.substr(get_year + CORRECTPLACE, YEARWIDTH).c_str());
+	} else {
+			startingYear = currentTimeData._year;
+			endingYear = currentTimeData._year;
+	}
+
+	
+	if ((get_Start_Date != string::npos)&&(get_Start_Date != get_End_Date)) {
+		startingDay = atoi(input.substr(get_Start_Date - MONORDAYWIDTH, MONORDAYWIDTH).c_str());
+		startingMonth = atoi(input.substr(get_Start_Date + CORRECTPLACE, MONORDAYWIDTH).c_str());
+	} else {
+		startingDay = currentTimeData._day;
+		startingMonth = currentTimeData._mon;
+	}
+
+	
+	if ((get_Start_Time != string::npos)&&(get_Start_Time != get_End_Time)) {
+		startingHour = atoi(input.substr(get_Start_Time - HRORMINWIDTH, HRORMINWIDTH).c_str());
+		startingMinute = atoi(input.substr(get_Start_Time + CORRECTPLACE, HRORMINWIDTH).c_str());;
+	} else {
+		startingHour = currentTimeData._hour;
+		startingMinute = currentTimeData._min;
+		startingTime = to_string(startingHour) + ":" + to_string(startingMinute);
+	}
+
+	
+	if (get_Venue != string::npos) {
+		size_t venueLength;
+		if (input.find("-every") != string::npos) {
+			venueLength = input.find("-every");
+			venue = input.substr(get_Venue,venueLength - get_Venue);
+		} else {
+			venue = input.substr(get_Venue);
+		}
+		
+	} else {
+		venue = "";
+	}
+
+	if (get_day_of_week != string::npos) {
+		dayOfWeek = input.substr(get_day_of_week);
+	}
+	else {
+		dayOfWeek = MESSAGE_DEFAULT;
+	}
+
+	if (get_day_of_week != string::npos) {
+		interval = NOOFDAYSPERWEEK;
+	} else {
+		interval = CORRECTPLACE;
+	}
+
+}
+
+string CommandRecurring::setRecurringTask(string input) {
+
+	Time currentTimeData;
+	getTime(currentTimeData);
+
+	size_t get_Start_Time;
+	size_t get_Start_Date;
+	size_t get_End_Time;
+	size_t get_End_Date;
+	size_t get_Venue;
+	size_t get_TaskName;
+	size_t get_year;
+	size_t get_day_of_week;
+	size_t get_deadline;
+
+	string taskName;
+	string startingDate;
+	string startingTime;
+	string endingTime;
+	string venue;
+	string dayOfWeek;
+
+	int interval;
+	int endingHour;
+	int endingMinute;
+	int startingHour;
+	int startingMinute;
+	int endingDay;
+	int endingMonth;
+	int startingDay;
+	int startingMonth;
+	int startingYear;
+	int endingYear;
+	
+	InterpretInput (input, get_year, get_Start_Date, get_End_Date, get_Start_Time, get_End_Time,
+					get_Venue, get_day_of_week, get_TaskName, get_deadline, currentTimeData,
+					startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay, interval,
+					startingHour, endingHour, startingMinute, endingMinute, startingDate,
+					dayOfWeek,startingTime, endingTime, taskName, venue);
+	
+	if (startingHour > 24 || endingHour > 24 || startingMonth > 12 || endingMonth> 12 || startingDay > 31 || endingDay > 31 || startingMinute >60 ||
+		endingMinute > 60) {
+		return MESSAGE_WRONG;
+	}
+
+
+	if (get_day_of_week != string::npos) {
+		
+		switch (dayOfWeek.size())
+		{
+		case (DAYOFWEEKSIZE):
+			startingDay = setStartingDay ( input, dayOfWeek, currentTimeData, startingDay, startingMonth,
+									   get_day_of_week, startingYear) ;
+			
+			//recur weekly and daily
+			recDayOrWeek (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
+				interval, dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time, get_deadline);
+			
+			StorageController::updateSaveFile();
+			return MESSAGE_RECURRING_TASK_SET;
+
+		case (MONTHLY)://recur monthly
+			recMonth (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay, interval,
+				dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time, get_deadline);
+			StorageController::updateSaveFile();
+			return MESSAGE_RECURRING_TASK_SET;
+
+		case (DAYSIZE)://any days as interval
+			int interval; 
+			interval = atoi(dayOfWeek.substr(7,2).c_str());
+			recDayOrWeek (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
+			interval, dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time, get_deadline);
+			StorageController::updateSaveFile();
+			return MESSAGE_RECURRING_TASK_SET;
+
+		default:
+			return MESSAGE_WRONG;
+		}
+	} else { // by default every day
+			if (dayOfWeek.size() == DEFAULT) {
+			recDayDefault (startingYear, endingYear, startingMonth, endingMonth, startingDay, endingDay,
+				dayOfWeek, startingTime, endingTime, taskName, venue, get_End_Time, get_deadline);
+			StorageController::updateSaveFile();
+			return MESSAGE_RECURRING_TASK_SET;
+			} else {
+				return MESSAGE_WRONG;
+			}
+	}
+	
+}
+
+int CommandRecurring::setStartingDay (string input, string dayOfWeek, Time currentTimeData, int startingDay, int startingMonth,
+									  size_t get_day_of_week, int startingYear) {
+	int weekday;
+	if (dayOfWeek.size() == DAYOFWEEKSIZE){
+			dayOfWeek = determineDayOfWeek(input.substr(get_day_of_week));
+			if( dayOfWeek != MESSAGE_INVALID) {
+			weekday = atoi(dayOfWeek.c_str());
+			} else {
+				weekday = currentTimeData._dayOfWeek;
+			}
+
+			if (startingDay == currentTimeData._day&&startingMonth == currentTimeData._mon) {
+				startingDay = startingDay + weekday - currentTimeData._dayOfWeek;// get last date with the same day of week
+
+				if (weekday < currentTimeData._dayOfWeek) {
+					startingDay += DEFAULT;//get next date with the same day of week
+				}
+				checkWithinRange(startingDay,startingMonth,startingYear);
+			} else {
+				//set to correct day of the week for the starting day, week task only up to this year
+				int dayAdvanced = 0;
+				if ((startingMonth != currentTimeData._mon)) {
+					int tempMonth = currentTimeData._mon;
+					while (tempMonth < startingMonth) {
+						dayAdvanced += getDayNumberInOneMonth(tempMonth,currentTimeData._year);
+						tempMonth++;
+					}
+					dayAdvanced = dayAdvanced + startingDay - currentTimeData._day;
+			
+					int tempDayOfWeek = currentTimeData._dayOfWeek;
+					currentTimeData._dayOfWeek=(currentTimeData._dayOfWeek+dayAdvanced) % NOOFDAYSPERWEEK;
+			
+					if (currentTimeData._dayOfWeek == 0) {
+						currentTimeData._dayOfWeek = tempDayOfWeek;
+					}
+					startingDay = startingDay + abs(currentTimeData._dayOfWeek-weekday);
+					} else if ((startingMonth == currentTimeData._mon)&&(startingDay != currentTimeData._day)) {
+		
+						dayAdvanced=startingDay - currentTimeData._day;
+						int tempDayOfWeek = currentTimeData._dayOfWeek;
+						currentTimeData._dayOfWeek += dayAdvanced;
+						currentTimeData._dayOfWeek = currentTimeData._dayOfWeek % NOOFDAYSPERWEEK;
+						if (currentTimeData._dayOfWeek == 0) {
+							currentTimeData._dayOfWeek = intSUNDAY;
+						}
+						startingDay = startingDay+weekday - currentTimeData._dayOfWeek;// get last date with the same day of week
+						startingDay += NOOFDAYSPERWEEK;//get next date with the same day of week 
+					}
+			}
+	}
+	return startingDay;
+}
+
+void CommandRecurring::recMonth ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay, int interval,
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline) {
+
+		int recurringDay = atoi(dayOfWeek.substr(7,2).c_str());
+		for (int k = startingYear; k <= endingYear; k++) {
+			int monthNumber;
+			if (k != endingYear) {
+				monthNumber = MONTHNOPERYEAR;
+			} else {
+			monthNumber = endingMonth;
+			}
+			for (int j = startingMonth; j <= monthNumber; j++) {
+			
+				startingDay = recurringDay;
+				if (isValidDay(startingDay,j,k)) {
+					char taskname[MAX_BUFFERING_CAPACITY];
+					strcpy_s(taskname, taskName.c_str());
+				if (get_deadline == string::npos) {
+					if (found != string::npos) {
+						string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + " " + to_string(startingDay) + "/" + to_string(j) + " " + venue;
+				
+						CommandAdd::addMessage(message);
+						} else {
+						string message = taskname;
+						CommandAdd::addMessage(message);
+						}
+	
+					} else {
+						string message = taskname + EMPTY_SPACE + "-by " + endingTime + " " +  to_string(startingDay) + "/" + to_string(j) + " " + venue;
+						CommandAdd::addMessage(message);
+				}
+				}
+			
+			}
+			startingMonth = intJan;
+		}
+
+		if (endingDay < recurringDay) {
+
+			undoChange::undo();
+		}
+
+}
+
+void CommandRecurring::recDayOrWeek ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay,
+							   int interval, string dayOfWeek, string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline) {
+
+			int i;
+			int j;
+			int k;
+			for ( k = startingYear; k <= endingYear; k++) {
+				int monthNumber;
+				if (k != endingYear) {
+					monthNumber = MONTHNOPERYEAR;
+				} else {
+					monthNumber = endingMonth;
+			}
+			
+			for ( j = startingMonth;j <= monthNumber; j++) {
+				int dayNumber;
+				if (j != endingMonth) {
+					dayNumber = getDayNumberInOneMonth(j,k);
+					} else {
+						dayNumber = endingDay;
+				}
+
+			for ( i = startingDay; i <= dayNumber;i = i + interval) {
+				char taskname[MAX_BUFFERING_CAPACITY];
+				strcpy_s(taskname, taskName.c_str());
+				if (get_deadline == string::npos) {
+					if (found != string::npos) {
+						string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + " " + to_string(i) + "/" + to_string(j) + " " + venue;
+				
+						CommandAdd::addMessage(message);
+						} else {
+						string message = taskname;
+						CommandAdd::addMessage(message);
+						}
+	
+					} else {
+						string message = taskname + EMPTY_SPACE + "-by " + endingTime + " " +  to_string(i) + "/" + to_string(j) + " " + venue;
+						CommandAdd::addMessage(message);
+				}
+			}
+				startingDay = i - dayNumber;
+			}
+			startingMonth = intJan;
+		}
+}
+//everyday
+void CommandRecurring::recDayDefault ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay,
+							   string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline) {
+					   
+		int i;
+		int j;
+		int k;
+		int interval; 
+		interval = atoi(dayOfWeek.substr(7,2).c_str());
+		for ( k = startingYear; k <= endingYear; k++) {
+			int monthNumber;
+			if (k != endingYear) {
+				monthNumber = MONTHNOPERYEAR;
+			} else {
+				monthNumber = endingMonth;
+			}
+			for ( j = startingMonth;j <= monthNumber; j++) {
+				int dayNumber;
+				if (j != endingMonth) {
+					dayNumber = getDayNumberInOneMonth(j,k);
+				} else {
+					dayNumber = endingDay;
+				}
+
+				for ( i = startingDay; i <= dayNumber; i++) {
+					char taskname[MAX_BUFFERING_CAPACITY];
+					strcpy_s(taskname, taskName.c_str());
+					if (get_deadline == string::npos) {
+					if (found != string::npos) {
+						string message = taskname + EMPTY_SPACE + " -from " + startingTime + " -to " + endingTime + " " + to_string(i) + "/" + to_string(j) + " " + venue;
+				
+						CommandAdd::addMessage(message);
+						} else {
+						string message = taskname;
+						CommandAdd::addMessage(message);
+						}
+	
+					} else {
+						
+						string message = taskname + EMPTY_SPACE + "-by " + endingTime + " " +  to_string(i) + "/" + to_string(j) + " " + venue;
+						CommandAdd::addMessage(message);
+				}
+	
+				}
+				startingDay = FIRSTDAYINAMONTH;
+			}
+			startingMonth = intJan;
+	}
+
+}
+
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRecurring.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRecurring.h
+	 */
+
+
+//
+//************************************************
+//				Class CommandRecurring
+//this class is used when the recurring command is called
+//the following task type can be recurred: timed and deadline tasks
+//
+//the interval of recurring can be monthly, weekly, daily, or any days as interval, by default recurring interval is everyday
+//
+//when no time or date or year is keyed in, by default it is current time, date and year
+//
+//************************************************
+
+#ifndef COMMANDRECURRING_H_
+#define COMMANDRECURRING_H_
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+struct Time {
+	int _day;
+	int _mon;
+	int _hour;
+	int _min;
+	int _year;
+	int _dayOfWeek;
+};
+
+class CommandRecurring {
+
+public:
+	CommandRecurring (string input);
+	~CommandRecurring ();
+
+	static int getDayNumberInOneMonth (int Month, int year);
+	
+	static bool isLeapYear (int year);
+	static bool isValidDay (int day, int month, int year);
+	static string setRecurringTask (string input);
+	static string determineDayOfWeek (string input);
+	static void getTime (Time &time);
+	static void checkWithinRange (int &startingDay, int &startingMonth,int &year);
+	static void getParameters (string input);
+	
+	static void InterpretInput (string input, size_t &get_year, size_t &get_Start_Date, size_t &get_End_Date, size_t &get_Start_Time, size_t &get_End_Time,
+									   size_t &get_Venue, size_t &get_day_of_week, size_t &get_TaskName, size_t &get_deadline, Time &currentTimeData,
+									   int &startingYear, int &endingYear, int &startingMonth, int &endingMonth, int &startingDay, int &endingDay, int &interval,
+									   int &startingHour, int &endingHour, int &startingMinute, int &endingMinute, string &startingDate,
+										string &dayOfWeek,string &startingTime, string &endingTime, string &taskName, string &venue);
+
+	static void recDayDefault ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay,
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline);
+
+	static void recDayOrWeek ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay, int interval,
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline);
+
+	static void recMonth ( int startingYear, int endingYear, int startingMonth, int endingMonth, int startingDay, int endingDay, int interval,
+					string dayOfWeek,string startingTime, string endingTime, string taskName, string venue, size_t found, size_t get_deadline);
+
+	static int setStartingDay (string input, string dayOfWeek, Time currentTimeData, int startingDay, int startingMonth,
+									  size_t get_day_of_week, int startingYear);
+private:
+	static const string COMMAND_TYPE;
+	static const string MESSAGE_RECURRING_TASK_SET;
+	static const string MESSAGE_WRONG;
+	static const string MESSAGE_INVALID;
+	static const string MESSAGE_DEFAULT;
+	static const string EMPTY_SPACE;
+	static const string MONDAY;
+	static const string TUESDAY;
+	static const string WEDNESDAY;
+	static const string THURSDAY;
+	static const string FRIDAY;
+	static const string SATURDAY;
+	static const string SUNDAY;
+	
+	static const int DAYSIZE;
+	static const int DAYOFWEEKSIZE;
+	static const int DEFAULT;
+	static const int MONTHLY;
+	static const int MAX_BUFFERING_CAPACITY;
+
+	static const int JAN;
+	static const int FEB;
+	static const int MAR;
+	static const int APR;
+	static const int MAY;
+	static const int JUN;
+	static const int JULY;
+	static const int AUG;
+	static const int SEP;
+	static const int OCT;
+	static const int NOV;
+	static const int DEC;
+
+	static const int SOLARMONTH;
+	static const int LUNARMONTH;
+	static const int FEBURARYDAY;
+	static const int LEAPFEBURARYDAY;
+
+	static const int TIMEWIDTH;
+	static const int DATEWIDTH;
+	static const int HRORMINWIDTH;
+	static const int MONORDAYWIDTH;
+	static const int CORRECTPLACE;
+	static const int YEARWIDTH;
+	static const int NOOFDAYSPERWEEK;
+	static const int intSUNDAY;
+	static const int MONTHNOPERYEAR;
+	static const int intJan;
+	static const int FIRSTDAYINAMONTH;
+	static const int DEFAULTENDINGHOUR;
+	static const int DEFAULTENDINGMINUTE;
+
+};
+
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRecurring.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRedo.cpp
+	 */
+
+#include "LogicController.h"
+#include "CommandRedo.h"
+
+
+const string redoChange::MESSAGE_COMMAND_REDO = "%s command is redone";
+const string redoChange::MESSAGE_ERROR = "previous action cannot be redo";
+const string redoChange::COMMAND_TYPE_ADD = "add";
+const string redoChange::COMMAND_TYPE_UPDATE = "update";
+const string redoChange::COMMAND_TYPE_CLEAR = "clear";
+const string redoChange::COMMAND_TYPE_DONE = "done";
+const string redoChange::COMMAND_TYPE_UNCOMPLETE = "uncomplete";
+const string redoChange::COMMAND_TYPE_DELETE = "delete";
+
+redoChange::redoChange () {
+
+}
+redoChange::~redoChange () {
+
+}
+
+string redoChange::redo() {
+
+	vector<Task> temporary=StorageDatabase::taskHistory.getVectorTextStorage();
+
+	if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_ADD){
+		
+		temporary.push_back(StorageDatabase::taskHistory.getLastChangedTask());
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_ADD.c_str());
+		return Logic::messageDisplayed;
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType()  == COMMAND_TYPE_UPDATE){
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()] = StorageDatabase::taskHistory.getLastChangedTask();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_UPDATE.c_str());
+		return Logic::messageDisplayed;
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType()  == COMMAND_TYPE_DELETE){
+		temporary.erase(temporary.begin() + StorageDatabase::taskHistory.getLastChangedTaskIndex());
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_DELETE.c_str());
+		return Logic::messageDisplayed;
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType()  == COMMAND_TYPE_CLEAR){
+		temporary=StorageDatabase::taskHistory.getBackUpStorage();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_CLEAR.c_str());
+		return Logic::messageDisplayed;
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType()  == COMMAND_TYPE_UNCOMPLETE){
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()].markUncompleted();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_UNCOMPLETE.c_str());
+		return Logic::messageDisplayed;
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType()  == COMMAND_TYPE_DONE){
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()].MarkDone();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_DONE.c_str());
+		return Logic::messageDisplayed;
+	}
+	else{
+		return MESSAGE_ERROR;
+	}
+
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRedo.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRedo.h
+	 */
+
+
+//
+//************************************************
+//				Class redoChange
+//this class is used when the redo command is called
+//it will undo the previous "undo" commands
+//
+//************************************************
+
+#ifndef COMMANDREDO_H_
+#define COMMANDREDO_H_
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+class redoChange {
+public:
+	redoChange ();
+	~redoChange ();
+	static string redo();
+private:
+	static const string MESSAGE_COMMAND_REDO;
+	static const string MESSAGE_ERROR;
+	static const string COMMAND_TYPE_ADD;
+	static const string COMMAND_TYPE_DELETE;
+	static const string COMMAND_TYPE_CLEAR;
+	static const string COMMAND_TYPE_UPDATE;
+	static const string COMMAND_TYPE_DONE;
+	static const string COMMAND_TYPE_UNCOMPLETE;
+};
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRedo.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.cpp
+	 */
+
+#include <algorithm>
+#include "LogicController.h"
+#include "Parser.h"
+#include "CommandSearch.h"
+
+
+const string CommandSearch::MESSAGE_COMMAND_TYPE = "search";
+const string CommandSearch::MESSAGE_CANNOT_FIND = "Cannot find message";
+const string CommandSearch::MESSAGE_EMPTY_FILE = "The file is empty";
+const string CommandSearch::MESSAGE_IS_SHOWN = "Message is shown";
+vector <string> CommandSearch::messageDisplayed;
+
+CommandSearch::CommandSearch () {
+
+}
+
+CommandSearch::~CommandSearch () {
+
+}
+
+string CommandSearch::searchMessage (string input) {
+
+	if (StorageDatabase::taskHistory.getVectorTextStorage().empty()){
+		sprintf_s(Logic::messageDisplayed,MESSAGE_EMPTY_FILE.c_str());
+		return Logic::messageDisplayed;
+	}
+	else{
+		vector<string> output;
+		vector<Task> temp = StorageDatabase::taskHistory.getVectorTextStorage();
+		vector<string> description;
+
+		transform(input.begin(),input.end(),input.begin(),:: tolower);
+
+		for (unsigned int i = 0; i < temp.size(); i++){
+			string _Taskname = (temp[i]).getTaskName();
+			transform(_Taskname.begin(),_Taskname.end(),_Taskname.begin(),:: tolower);
+			description.push_back(_Taskname);
+		}
+
+		for (unsigned int j = 0; j < description.size(); j++){
+			size_t found= description[j].find(input);	
+			if (found != string::npos){
+					ostringstream oss;
+					oss << j + 1 << "." << temp[j].ToString() << endl;
+					string TaskDisplay = oss.str();
+					output.push_back(TaskDisplay);
+				}
+			}
+		
+		if (output.empty()) {
+			sprintf_s(Logic::messageDisplayed, MESSAGE_CANNOT_FIND.c_str());
+			return Logic::messageDisplayed;
+		} else {
+			CommandSearch::messageDisplayed.clear();
+			CommandSearch::messageDisplayed = output;
+			sprintf_s(Logic::messageDisplayed, MESSAGE_IS_SHOWN.c_str());
+			return Logic::messageDisplayed;
+		}	
+
+	}
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.h
+	 */
+
+
+//
+//************************************************
+//				Class CommandSearch
+//this class is used when the search command is called
+//the task name witht the specific task name or simialr taskname will be shown
+//
+//************************************************
+
+#ifndef COMMANDSEARCH_H_
+#define COMMANDSEARCH_H_
+
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class CommandSearch {
+public:
+	CommandSearch ();
+	~CommandSearch ();
+	static string searchMessage(string input);
+	static vector <string> messageDisplayed;
+
+private:
+	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_CANNOT_FIND;
+	static const string MESSAGE_EMPTY_FILE;
+	static const string MESSAGE_IS_SHOWN;
+};
+
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUndo.cpp
+	 */
+
+#include "LogicController.h"
+#include "CommandUndo.h"
+
+
+const string undoChange::MESSAGE_COMMAND_UNDO = "%s is undo";
+const string undoChange::COMMAND_TYPE_ADD = "add";
+const string undoChange::MESSAGE_ERROR = "previous action cannot be redo";
+const string undoChange::COMMAND_TYPE_UPDATE = "update";
+const string undoChange::COMMAND_TYPE_CLEAR = "clear";
+const string undoChange::COMMAND_TYPE_DONE = "done";
+const string undoChange::COMMAND_TYPE_UNCOMPLETE = "uncomplete";
+const string undoChange::COMMAND_TYPE_DELETE = "delete";
+
+undoChange::undoChange () {
+
+}
+
+undoChange::~undoChange () {
+
+}
+
+string undoChange::undo() {
+
+	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+
+	if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_ADD) {
+		temporary.pop_back();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_ADD.c_str());
+		
+	}
+
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_UPDATE) {
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()] = StorageDatabase::taskHistory.getLastUnchangedTask();
+		
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_UPDATE.c_str());
+		
+	} 
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_CLEAR) {
+		temporary=StorageDatabase::taskHistory.getBackUpStorage();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+	
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_CLEAR.c_str());
+		
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_DELETE) {
+		
+		temporary.insert(temporary.begin() + StorageDatabase::taskHistory.getLastChangedTaskIndex(), StorageDatabase::taskHistory.getLastUnchangedTask());
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_DELETE.c_str());
+		
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_UNCOMPLETE) {
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()].MarkUndone();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_UNCOMPLETE.c_str());
+		
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_DONE) {
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()].MarkUndone();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+	
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_DONE.c_str());
+		
+	}
+	else{
+		sprintf_s(Logic::messageDisplayed,MESSAGE_ERROR.c_str());
+		
+	}
+	return Logic::messageDisplayed;
+}
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUndo.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUndo.h
+	 */
+
+
+//
+//************************************************
+//				Class redoChange
+//this class is used when the redo command is called
+//it will undo the previous commands like add, delete, clear etc
+//
+//************************************************
+
+#ifndef COMMANDUNDO_H_
+#define COMMANDUNDO_H_
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+class undoChange {
+public:
+	undoChange ();
+	~undoChange ();
+	static string undo();
+private:
+	static const string MESSAGE_COMMAND_UNDO;
+	static const string MESSAGE_ERROR;
+	static const string COMMAND_TYPE_ADD;
+	static const string COMMAND_TYPE_DELETE;
+	static const string COMMAND_TYPE_CLEAR;
+	static const string COMMAND_TYPE_UPDATE;
+	static const string COMMAND_TYPE_DONE;
+	static const string COMMAND_TYPE_UNCOMPLETE;
+};
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUndo.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUpdate.cpp
+	 */
+
+#include "CommandUpdate.h"
+#include "LogicController.h"
+#include "Parser.h"
+
+const string CommandUpdate::MESSAGE_COMMAND_TYPE = "update";
+const string CommandUpdate::MESSAGE_INVALID_INDEX = "The index is invalid";
+const string CommandUpdate::MESSAGE_UPDATED = "Task: %s is updated";
+
+CommandUpdate::CommandUpdate () {
+
+}
+
+CommandUpdate::~CommandUpdate () {
+
+}
+
+
+bool checkInputValidation(string taskIndex){
+	
+	bool isValid=true;
+	for(unsigned int i=0; i<taskIndex.size()&&isValid;i++){
+		if(taskIndex[i]<'0' || taskIndex[i]>'9')
+			isValid=false;
+	}
+
+	return isValid;
+}
+
+
+
+string CommandUpdate::updateMessage(string input) {
+
+	string TaskIndex = Logic::getFirstWord(input);
+	string TaskInfo = Logic::removeFirstWord(input);
+
+	if (!checkInputValidation(TaskIndex)) {
+
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+		return Logic::messageDisplayed;
+	}
+
+	unsigned int index;
+	istringstream in(TaskIndex);
+	in >> index;
+
+
+	if (index > StorageDatabase::taskHistory.getVectorTextStorage().size() || index <= 0){
+		
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+		
+	}
+	else{
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex (index);
+		vector<Task> temp = StorageDatabase::taskHistory.getVectorTextStorage();
+
+		StorageDatabase::taskHistory.setLastUnchangedTask (temp[index - 1]);
+
+		temp[index - 1].UpdateTask(TaskInfo);
+
+		StorageDatabase::taskHistory.setLastChangedTask(temp[index - 1]);
+
+		StorageDatabase::taskHistory.setVectorTextStorage(temp);
+
+		sprintf_s(Logic::messageDisplayed,MESSAGE_UPDATED.c_str(),temp[index-1].ToString().c_str());
+		
+	}
+
+	return Logic::messageDisplayed;
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUpdate.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUpdate.h
+	 */
+
+
+//
+//************************************************
+//				Class Update
+//this class is used when the update command is called
+//it will update the tasks, can be only task name, staring time, ending time, venue or all of them
+//
+//************************************************
+
+#ifndef COMMANDUPDATE_H_
+#define COMMANDUPDATE_H_
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+class CommandUpdate {
+public:
+	CommandUpdate ();
+	~CommandUpdate ();
+	static string updateMessage(string input);
+private:
+	static const string MESSAGE_COMMAND_TYPE;
+	static const string MESSAGE_INVALID_INDEX;
+	static const string MESSAGE_UPDATED;
+};
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUpdate.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\History.cpp
+	 */
+
+#include "History.h"
+#include "LogicController.h"
+
+History::History(void) {
+
+}
+
+History::~History(void) {
+
+}
+
+void History::setLastChangedTaskIndex( int index) {
+
+	lastChangedTaskIndex= index - 1;
+}
+
+void History::setLastChangedTask(Task changedTask) {
+
+	lastChangedTask=changedTask;
+}
+
+void History::setLastCommandType(string changedCommandType) {
+
+	lastCommandType=changedCommandType;
+}
+
+void History::setLastUnchangedTask(Task unChangedTask) {
+
+	lastUnchangedTask=unChangedTask;
+}
+
+void History::setVectorTextStorage (Task taskString) {
+	backUpStorage=textStorage;
+	textStorage.push_back(taskString);
+	
+}
+
+int History::getLastChangedTaskIndex() {
+
+	return lastChangedTaskIndex;
+}
+
+Task History::getLastChangedTask() {
+	return lastChangedTask;
+}
+
+Task History::getLastUnchangedTask() {
+	return lastUnchangedTask;
+}
+
+vector<Task> History::getVectorTextStorage() {
+	
+	return textStorage;
+}
+
+string History::getLastCommandType() {
+	return lastCommandType;
+}
+
+void History::setVectorTextStorage(vector<Task> sample) {
+	backUpStorage=textStorage;
+	textStorage=sample;
+	
+
+}
+vector <Task> History::getBackUpStorage() {
+	return backUpStorage;
+}
+/*
+string History::printToString() {
+	ostringstream totalTask;
+	for (unsigned int i=0;i<StorageDatabase::taskHistory.getVectorTextStorage().size();i++) {
+		ostringstream oss;
+		Task temp=StorageDatabase::taskHistory.getVectorTextStorage()[i];
+		string taskName=temp.getTaskName();
+		string taskType=temp.getTaskType();
+		
+		if (taskType == "deadline"){
+			string deadlineDate= temp.getDeadlineDate();
+			string deadlineTime= temp.getDeadlineTime();
+			string deadlineVenue=temp.getVenue();
+			string status=temp.getStatus();
+			oss<< taskName <<" "<<deadlineDate<<" "<<deadlineTime<<" "<<deadlineVenue<<" "<<endl;
+			string TaskDisplay = oss.str();
+			totalTask << TaskDisplay;
+	}
+		else if (taskType == "timed"){
+			string scheduledDate=temp.getScheduledStartDate();
+			string startTime=temp.getStartTime();
+			string endTime=temp.getEndTime();
+			string venue=temp.getVenue();
+			string status=temp.getStatus();
+			oss<< taskName <<" "<< scheduledDate <<" "<<startTime<<" "<<endTime<<" "<<venue<<" "<<status<<endl;
+			string TaskDisplay = oss.str();
+			totalTask << TaskDisplay;
+	}
+		else if (taskType == "floating"){
+			string venue=temp.getVenue();
+			string status=temp.getStatus();
+			oss<< taskName<<" "<<venue<<" "<<status<<endl;
+			string TaskDisplay = oss.str();
+			totalTask << TaskDisplay;
+	}
+	}
+
+	return totalTask.str();
+}
+*/
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\History.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\History.h
+	 */
+
+
+//
+//************************************************
+//				Class History
+//this class is used to temporarily store the messages in Task form during running
+//it provides the basics of what the redo and undo command need
+//
+//************************************************
+
+#ifndef HISTORY_H_
+#define HISTORY_H_
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include "Parser.h"
+using namespace std;
+class History {
+private:
+	vector<Task> textStorage;
+	string lastCommandType;
+	int lastChangedTaskIndex;
+	Task lastChangedTask;
+	Task lastUnchangedTask;
+	vector<Task> backUpStorage;
+public:
+	History();
+	~History();
+	string printToString();
+	void setVectorTextStorage(Task);
+	void setVectorTextStorage(vector<Task>);
+	void setLastCommandType (string);
+	void setLastChangedTaskIndex (int);
+	void setLastChangedTask(Task);
+	void setLastUnchangedTask(Task);
+
+	int getLastChangedTaskIndex();
+	vector<Task> getVectorTextStorage();
+	vector<Task> getBackUpStorage();
+	Task getLastChangedTask();
+	Task getLastUnchangedTask();
+	string getLastCommandType();
+
+
+};
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\History.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\LogicController.cpp
+	 */
+
+#include <sstream>
+#include <fstream>
+#include "LogicController.h"
+#include "CommandAdd.h"
+#include "CommandUpdate.h"
+#include "CommandDelete.h"
+#include "CommandSearch.h"
+#include "CommandDisplay.h"
+#include "CommandMarkDone.h"
+#include "CommandMarkUncomplete.h"
+#include "CommandUndo.h"
+#include "CommandRedo.h"
+#include "ShowDailyTask.h"
+#include "CommandClear.h"
+#include "CommandAutoSort.h"
+#include "CommandRecurring.h"
+#include "CommandClash.h"
+#include "CommandDetail.h"
+
+char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY] = "";
+
+void Logic::getStorage(){
+	vector<string> Logic = StorageController::returnTask();
+	for (unsigned int i = 0; i < Logic.size(); i++){
+		string TaskString = removeFirstWord(Logic[i]);
+		Task newTask(TaskString, "regain");
+		StorageDatabase::taskHistory.setVectorTextStorage(newTask);
+	}
+	
+}
+
+string Logic::getDetail (string input) {
+
+	string temp = CommandDetail::detailMessage(input);
+	return CommandDetail::FEEDBACK_SYSTEM;
+}
+
+string Logic::addTask(string input){
+	
+	 return CommandAdd::addOperation(input);
+}
+
+string Logic::updateTask(string input){
+	
+	return CommandUpdate::updateMessage(input); 
+}
+
+string Logic::deleteTask(string input){
+	
+	return CommandDelete::deleteMessage(input);
+}
+
+string Logic::search(string input){	
+	
+	return CommandSearch::searchMessage (input);
+}
+
+string Logic::display(string input){
+	
+	return CommandDisplay::display(input);
+}
+
+string Logic::MarkDone(string input){
+	
+	return markingDoneMessage::markMessageDone(input);
+}
+
+string Logic::markUncompleted (string input) {
+	return markingMessageUncomplete::markMessageUncompleted (input);
+}
+string Logic::undo(){
+	
+	return undoChange::undo();
+}
+
+string Logic::redo(){
+	
+	return redoChange::redo();
+}
+
+string Logic::show(string input) {
+
+	return ShowDailyTask::showDayTask(input);
+}
+
+string Logic::clearAll(string input) {
+	return CommandClear::clearTask(input);
+}
+string Logic::recurTask (string input) {
+
+	return CommandRecurring::setRecurringTask(input);
+}
+string Logic::sort () {
+	return CommandAutoSort::autoSort();
+}
+
+string Logic::checkClash(string input) {
+	return CommandClash::clash(input);
+}
+
+string Logic::getFirstWord(string input)
+{
+	return input.substr(0, input.find(' '));
+}
+
+string Logic::removeFirstWord(string input)
+{
+	return input.substr(input.find_first_of(" ") + 1);
+}
+
+
+string Logic::help() {
+
+	cout << "Some examples:\n";
+
+	cout << "Add: add meeting -from 12:00 -to 14:00 25/12\n";
+	cout << "Display all: display or display all\n";
+	cout << "Display timed Tasks: display timed\n";
+	cout << "Display Deadline Tasks: display deadline\n";
+	cout << "Display Unfinished Tasks: display uncompleted\n";
+	cout << "Display Finished Tasks: display done\n";
+	cout << "Display Floating Tasks: display floating\n";
+	cout <<  "Show today task: show today"<<endl;
+	cout << "Show today tomorrow: show tomorrow"<<endl;
+	cout << "Show today now: show now"<<endl;
+	cout << "Show task on a paticular date: show 12/12 (dd/mm)"<<endl;
+	cout << "search task: search cs meeting\n";
+	cout << "mark task completed: done 1\n";
+	cout << "mark task uncompleted: uncomplete 1\n";
+	cout << "clear all tasks: clear all or clear\n";
+	cout << "clear timed tasks: clear timed\n";
+	cout << "clear done: clear done\n";
+	cout << "clear uncompleted tasks: clear uncompleted\n";
+	cout << "clear tasks continuously: clear 1-10\n";
+	cout << "Update: Update 1 -from 14:00 -to 15:00 23/12\n";
+	cout << "Search: search meeting\n";
+	cout << "Delete: delete 1\n";
+	
+	cout << "Undo: undo\n";
+	cout << "Redo: redo\n";
+	cout << "Exit: exit\n";
+
+	return "";
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\LogicController.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\LogicController.h
+	 */
+
+
+//
+//************************************************
+//				Class Logic
+//this class is used for internal traffic flow, it will direct to the messages to appropriate commands
+//
+//
+//************************************************
+
+#ifndef LOGIC_H_
+#define LOGIC_H_
+
+#include <vector>
+#include <string>
+#include "Parser.h"
+#include "StorageController.h"
+#include "History.h"
+using namespace std;
+
+const int MAX_BUFFERRING_CAPACITY=10086;
+class Logic{
+
+public:
+	
+	static char messageDisplayed[MAX_BUFFERRING_CAPACITY];
+	static string getFirstWord(string input);
+	static string removeFirstWord(string input);
+	
+	static string checkClash(string input);
+	static string addTask(string input);
+	static string updateTask(string input);
+	static string deleteTask(string input);
+	static string search(string input);
+	static string clearAll (string input);
+	static string display(string message);
+	static string MarkDone(string input);
+	static string markUncompleted (string input);
+	static string undo();
+	static string redo();
+	static string sort();
+	static string help();
+	static string recurTask(string input);
+	static string show(string input);
+	static string getDetail(string input);
+	
+	static vector<Task> textStorage;
+	static string lastCommandType;
+	static int lastChangedTaskIndex;
+	static Task lastUnchangedTask;
+	static Task lastChangedTask;
+
+	static void getStorage();
+};
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\LogicController.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\ShowDailyTask.cpp
+	 */
+
+#include <windows.h>
+#include <vector>
+#include <algorithm>
+#include "LogicController.h"
+#include "ShowDailyTask.h"
+
+const string ShowDailyTask::MESSAGE_TODAY = "today";
+const string ShowDailyTask::MESSAGE_SHOW = "show";
+const string ShowDailyTask::MESSAGE_TOMORROW = "tomorrow";
+const string ShowDailyTask::MESSAGE_SECOND_COMMAND = "free";
+const string ShowDailyTask::MESSAGE_NOW = "now";
+const string ShowDailyTask::MESSAGE_EMPTY = "Nothing found on that day";
+const string ShowDailyTask::MESSAGE_FREE_SLOT_SHOWN = "free slot shown";
+const string ShowDailyTask::MESSAGE_TASK_SHOWN = "Task is shown";
+
+vector<string> ShowDailyTask::messageDisplayed;
+
+ShowDailyTask::ShowDailyTask () {
+
+}
+
+ShowDailyTask::~ShowDailyTask () {
+
+}
+
+void ShowDailyTask::getSystemTime(localTime &timevalue) {
+
+	SYSTEMTIME lt;
+    GetLocalTime(&lt);
+  
+	timevalue._day = lt.wDay;
+	timevalue._mon = lt.wMonth;
+	timevalue._hour = lt.wHour;
+	timevalue._min = lt.wMinute;
+
+}
+
+
+vector <string> ShowDailyTask::ShowTask (vector <int> taskIndex) {
+		
+		for (unsigned int i = 0; i < taskIndex.size() ; i++){
+			ostringstream oss;
+			oss << taskIndex[i] + 1 << ". " << StorageDatabase::taskHistory.getVectorTextStorage()[taskIndex[i]].ToString() << endl;
+			string TaskDisplay = oss.str();
+			ShowDailyTask::messageDisplayed.push_back(TaskDisplay);
+			
+			
+		}
+		
+		return ShowDailyTask::messageDisplayed;
+
+}
+
+vector <string> ShowDailyTask::checkFreeSlot (vector <int> taskIndex) {
+		
+		vector<Task> temp = StorageDatabase::taskHistory.getVectorTextStorage();
+		vector<string> tempfreeSlot;
+		
+		int dayStartingHour = 0;
+		int dayStartintMin = 0;
+		int dayEndingHour = 24;
+		int dayEndingMin = 00;
+		int defaultStartingHour = 0;
+		int defaultStartingMin = 0;
+		int currentEndingHour;
+		int currentEndingMin;
+
+		for (unsigned int i = 0;i < taskIndex.size(); i++) {
+			currentEndingHour = temp[taskIndex[i]].getStartHour();
+			currentEndingMin = temp[taskIndex[i]].getStartMinute();
+			ostringstream oss;
+			oss<< "free slot: " << i + 1 <<". from "<< defaultStartingHour<<":"<< defaultStartingMin;
+			oss<<" to "<< currentEndingHour <<":"<< currentEndingMin <<endl;
+			tempfreeSlot.push_back(oss.str());
+			defaultStartingHour = temp[taskIndex[i]].getEndHour();
+			defaultStartingMin = temp[taskIndex[i]].getEndMinute();
+		}
+			currentEndingHour = temp[taskIndex.back()].getEndHour();
+			currentEndingMin = temp[taskIndex.back()].getEndMinute();
+			
+			
+			if ((currentEndingHour == dayEndingHour)&&(currentEndingMin == dayEndingMin)){
+				return tempfreeSlot;
+			} else {
+
+			ostringstream oss;
+			oss<< "free slot: " <<taskIndex.size() + 1 <<". from "<< currentEndingHour <<":"<<currentEndingMin;
+			oss<<" to "<< dayEndingHour <<":"<< dayEndingMin <<endl;
+			tempfreeSlot.push_back(oss.str());
+			return tempfreeSlot;
+}
+}
+
+void ShowDailyTask::getDayTask (vector <Task> & temporary, vector <int> &taskIndex, int currentMonth, int currentDay) {
+	int size = temporary.size();
+	if (!temporary.empty()) {
+		for ( int i = 0; i < size; i++) {
+			if (currentMonth == temporary[i].getIntegerMonth()) {
+				
+				if (currentDay == temporary[i].getIntegerDay()) {
+					
+					taskIndex.push_back(i);
+				}
+			}
+
+		}
+		}
+}
+
+void ShowDailyTask::getHourTask (vector <Task> &temporary, vector <int> &taskIndex, int currentMonth, int currentDay, int currentHour) {
+	int size = temporary.size();
+	if (!temporary.empty()) {
+	for (int i = 0; i < size; i++) {
+			if (currentMonth == temporary[i].getIntegerMonth()) {
+				if (currentDay == temporary[i].getIntegerDay()) {
+					if (currentHour == temporary[i].getStartHour()) {
+							taskIndex.push_back(i);
+					}
+				}
+			}
+		}
+	}
+}
+
+string ShowDailyTask::showDayTask (string userMessage) {
+
+	transform(userMessage.begin(),userMessage.end(),userMessage.begin(),::tolower);
+	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+	
+	vector<int> taskIndex;
+	localTime timeNow;
+	ShowDailyTask::getSystemTime(timeNow);
+
+	int currentDay = timeNow._day;
+	int currentMonth = timeNow._mon;
+	int currentMinute = timeNow._min;
+	int currentHour = timeNow._hour;
+	int size = temporary.size();
+
+	string secondCommand = Logic::getFirstWord(userMessage);
+	ShowDailyTask::messageDisplayed.clear();
+
+	if (userMessage == MESSAGE_TODAY || userMessage == MESSAGE_SHOW) {
+		//get into that day and display
+		getDayTask(temporary, taskIndex, currentMonth, currentDay);
+		
+	} else if (userMessage == MESSAGE_TOMORROW) {
+		//get into that day and display
+		currentDay++;
+		getDayTask(temporary, taskIndex, currentMonth, currentDay);
+
+	} else if (userMessage == MESSAGE_NOW) {
+
+		//get into that hour and display
+		getHourTask (temporary, taskIndex, currentMonth, currentDay, currentHour);
+
+	} else {
+		size_t get_date = userMessage.find("/");
+		
+		if (get_date != string::npos) {
+			userMessage= " "+userMessage;
+			DateParser getDate (userMessage);
+			currentMonth = getDate.getMonth();
+			currentDay = getDate.getDay();
+		
+		} 
+		
+		size_t get_time = userMessage.find(":");
+		if (get_time != string::npos) {
+			
+			userMessage= " "+userMessage;
+			TimeParser getTime(userMessage);
+			currentHour = getTime.getStartHour();
+			currentMinute = getTime.getStartMinute();
+
+		
+		} 
+		
+		if ((get_time == string::npos)&&(get_date != string::npos)) {
+			//show a particular day tasks
+			getDayTask(temporary, taskIndex, currentMonth, currentDay);
+		
+		} //when no dates are enter, by default it is today	
+		else if ((get_time != string::npos)&&(get_date == string::npos)) {
+			getHourTask (temporary, taskIndex, currentMonth, currentDay, currentHour);
+
+		} else if ((get_time != string::npos)&&(get_date != string::npos)) {
+			//show tasks of a particular time on a particular day
+			getHourTask (temporary, taskIndex, currentMonth, currentDay, currentHour);
+		}
+	}
+
+	if (taskIndex.empty()) {
+		return MESSAGE_EMPTY;
+
+	} else if (secondCommand == MESSAGE_SECOND_COMMAND) {
+			ShowDailyTask::messageDisplayed = checkFreeSlot(taskIndex);
+			return MESSAGE_FREE_SLOT_SHOWN;
+	}
+	else {
+		ShowTask(taskIndex);	
+		return MESSAGE_TASK_SHOWN;
+	}
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\ShowDailyTask.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\ShowDailyTask.h
+	 */
+
+
+//
+//************************************************
+//				Class ShowDailyTask
+//this class is used when the show command is called
+//it can show tasks on today, tomorrow, or now
+//it can also show tasks on any other date with dd/mm format
+//by default it shows today
+//
+//
+//it can also show free slots of any other date, with format dd/mm
+//************************************************
+
+#ifndef SHOWDAILYTASK_H_
+#define SHOWDAILYTASK_H_
+
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct localTime{
+		int _day;
+		int _mon;
+		int _hour;
+		int _min;
+	};
+
+class ShowDailyTask {
+public:
+	ShowDailyTask ();
+	~ShowDailyTask ();
+	
+	static vector <string> messageDisplayed;
+
+	static string showDayTask(string userMessage);
+	static vector <string> ShowTask (vector <int> taskIndex);
+	static vector <string> checkFreeSlot (vector <int> taskIndex);
+
+	static void getDayTask (vector <Task> & temporary, vector <int> &taskIndex, int currentMonth, int currentDay);
+	static void getHourTask (vector <Task> &temporary, vector <int> &taskIndex, int currentMonth, int currentDay, int currentHour);
+private:
+	static void getSystemTime(localTime &time);
+	
+	static const string MESSAGE_TODAY;
+	static const string MESSAGE_SHOW;
+	static const string MESSAGE_TOMORROW;
+	static const string MESSAGE_SECOND_COMMAND;
+	static const string MESSAGE_NOW;
+	static const string MESSAGE_EMPTY;
+	static const string MESSAGE_FREE_SLOT_SHOWN;
+	static const string MESSAGE_TASK_SHOWN;
+};
+
+#endif
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\ShowDailyTask.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandAddTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace CommandAddTest{
+
+	TEST_CLASS(CommandAddTest){
+
+	public:
+
+			TEST_METHOD(TestAdd){
+				//test case 1
+				CommandAdd::addMessage ("");
+				std::string expectedOutput1 = "The input is empty.";
+				std::string actualOutput1 = Logic::messageDisplayed;
+				Assert::AreEqual(expectedOutput1, actualOutput1);
+
+				//test case 2
+				CommandAdd::addMessage ("add");
+				std::string expectedOutput2 = "The input is empty.";
+				std::string actualOutput2 = Logic::messageDisplayed;
+				Assert::AreEqual(expectedOutput2, actualOutput2);
+				
+				//test case 3
+				CommandAdd::addMessage ("                                                             ");
+				std::string expectedOutput3 = "The input is empty.";
+				std::string actualOutput3 = Logic::messageDisplayed;
+				CommandClear::clearTask("all");
+				Assert::AreEqual(expectedOutput3, actualOutput3);
+
+				//test case 4
+				CommandAdd::addMessage ("cs meeting -from 13:00 -to 14:00 11/4");
+				std::string expectedOutput4 = "Task: \" cs meeting [ 11/4 13:00 - 14:00 ]  progressing \" added";
+				std::string actualOutput4 = Logic::messageDisplayed;
+				Assert::AreEqual(expectedOutput4, actualOutput4);
+				CommandClear::clearTask("all");
+				
+			}
+
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandAddTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandClearTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace CommandClearTest{
+
+	TEST_CLASS(CommandClearTest){
+
+	public:
+
+		TEST_METHOD(TestClear){
+			//test case 1
+			CommandClear::clearTask ("all");
+			std::string expectedOutput = "All messages have been clear";
+			std::string actualOutput = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput, actualOutput);
+
+			//test case 2
+			CommandAdd::addOperation("cs meeting");
+			CommandAdd::addOperation("cs meeting and tutorial");
+			CommandClear::clearTask ("1-2");
+			std::string expectedOutput2 = "Message with index from 1 to 2 have been clear";
+			std::string actualOutput2 = Logic::messageDisplayed;
+			CommandClear::clearTask("all");
+			Assert::AreEqual(expectedOutput2, actualOutput2);
+			CommandClear::clearTask("all");
+			//test case 3
+			CommandAdd::addOperation("cs meeting");
+			CommandAdd::addOperation("cs meeting and tutorial");
+			CommandClear::clearTask ("1-4");
+			std::string expectedOutput3 = "Invalid Task Index";
+			std::string actualOutput3 = Logic::messageDisplayed;
+			CommandClear::clearTask("all");
+			Assert::AreEqual(expectedOutput3, actualOutput3);
+
+		}
+
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandClearTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandDeleteTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace CommandDeleteTest{
+
+	TEST_CLASS(CommandDeleteTest){
+
+	public:
+
+		TEST_METHOD(TestDelete){
+			//test case 1
+			CommandDelete::deleteMessage("1");
+			std::string expectedOutput = "Invalid index";
+			std::string actualOutput = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput, actualOutput);
+
+			//test case 2
+			CommandAdd::addOperation("cs meeting");
+			CommandDelete::deleteMessage("1");
+			std::string expectedOutput2 = "Message \" cs meeting  progressing \" is deleted";
+			std::string actualOutput2 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput2, actualOutput2);
+
+			//test case 3
+			CommandDelete::deleteMessage("1000000000");
+			std::string expectedOutput3 = "Invalid index";
+			std::string actualOutput3 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput3, actualOutput3);
+
+		}
+
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandDeleteTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandMarkDoneTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace CommandMarkDoneTest{
+
+	TEST_CLASS(CommandMarkDoneTest){
+
+	public:
+
+		TEST_METHOD(TestMarkDone){
+			//test case 1
+			markingDoneMessage::markMessageDone("1");
+			std::string expectedOutput = "Invalid index";
+			std::string actualOutput = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput, actualOutput);
+
+			//test case 2
+			CommandAdd::addOperation("cs meeting");
+			markingDoneMessage::markMessageDone("1");
+			std::string expectedOutput2 = "Task \" cs meeting  done \" is completed";
+			std::string actualOutput2 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput2, actualOutput2);
+			CommandDelete::deleteMessage("1");
+
+		}
+
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandMarkDoneTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandMarkUncompleteTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace CommandMarkUncompleteTest{
+
+	TEST_CLASS(CommandMarkUncompleteTest){
+
+	public:
+
+		TEST_METHOD(TestMarkUncomplete){
+
+			//test case 1
+			markingMessageUncomplete::markMessageUncompleted("1");
+			std::string expectedOutput = "Invalid index";
+			std::string actualOutput = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput, actualOutput);
+
+			//test case 2
+			CommandAdd::addOperation("cs meeting");
+			markingMessageUncomplete::markMessageUncompleted("1");
+			std::string expectedOutput2 = "Task \" cs meeting  uncompleted \" is marked";
+			std::string actualOutput2 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput2, actualOutput2);
+			CommandDelete::deleteMessage("1");
+
+		}
+
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandMarkUncompleteTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandSearchTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace CommandSearchTest{
+
+	TEST_CLASS(CommandSearchTest){
+
+	public:
+
+		TEST_METHOD(TestSearch){
+
+			CommandAdd::addMessage ("cs meeting -from 13:00 -to 14:00 11/4");
+			CommandSearch::searchMessage("cs");
+			std::string expectedOutput = "Message is shown";
+			std::string expectedOutput2 = "Message is shown";
+			std::string expectedOutput3 = "Message is shown";
+			std::string actualOutput = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput, actualOutput);
+			CommandSearch::searchMessage("cs meeting");
+			std::string actualOutput2 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput2, actualOutput);
+			CommandSearch::searchMessage("CS MEETING");
+			std::string actualOutput3 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput3, actualOutput);
+			CommandClear::clearTask("all");
+			
+			CommandAdd::addMessage ("WHAT");
+			CommandSearch::searchMessage("cs");
+			std::string expectedOutput4 = "Cannot find message";
+			std::string expectedOutput5 = "Message is shown";
+			std::string expectedOutput6 = "Message is shown";
+			std::string actualOutput4 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput4, actualOutput4);
+			CommandSearch::searchMessage("WHAT");
+			std::string actualOutput5 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput5, actualOutput);
+			CommandSearch::searchMessage("what");
+			std::string actualOutput6 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput6, actualOutput);
+			CommandClear::clearTask("all");
+
+			CommandSearch::searchMessage("cs meeting");
+			std::string expectedOutput7 = "The file is empty";
+			std::string actualOutput7 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput7, actualOutput7);
+		}
+
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandSearchTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandUndoTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace CommandUndoTest{
+
+	TEST_CLASS(CommandUndoTest){
+
+	public:
+
+		TEST_METHOD(TestUndo){
+			CommandAdd::addOperation("cs meeting");
+			undoChange::undo();
+			std::string expectedOutput = "add is undo";
+			std::string actualOutput = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput, actualOutput);
+
+			CommandAdd::addOperation("cs meeting");
+			CommandDelete::deleteMessage("1");
+			undoChange::undo();
+			std::string expectedOutput2 = "delete is undo";
+			std::string actualOutput2 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput2, actualOutput2);
+			CommandDelete::deleteMessage("1");
+
+			CommandAdd::addOperation("cs meeting");
+			CommandClear::clearTask("all");
+			undoChange::undo();
+			std::string expectedOutput3 = "clear is undo";
+			std::string actualOutput3 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput3, actualOutput3);
+			CommandDelete::deleteMessage("1");
+
+			CommandAdd::addOperation("cs meeting -from 14:00 -to 17:00 12/4");
+			CommandUpdate::updateMessage("1 -from 14:30");
+			undoChange::undo();
+			std::string expectedOutput4 = "update is undo";
+			std::string actualOutput4 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput4, actualOutput4);
+			CommandDelete::deleteMessage("1");
+
+			CommandAdd::addOperation("cs meeting -from 14:00 -to 17:00 12/4");
+			markingDoneMessage::markMessageDone("1");
+			undoChange::undo();
+			std::string expectedOutput5 = "done is undo";
+			std::string actualOutput5 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput5, actualOutput5);
+			CommandDelete::deleteMessage("1");
+
+			CommandAdd::addOperation("cs meeting -from 14:00 -to 17:00 12/4");
+			markingMessageUncomplete::markMessageUncompleted("1");
+			undoChange::undo();
+			std::string expectedOutput6 = "uncomplete is undo";
+			std::string actualOutput6 = Logic::messageDisplayed;
+			Assert::AreEqual(expectedOutput6, actualOutput6);
+			CommandDelete::deleteMessage("1");
+		}
+
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandUndoTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandUpdateTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace CommandUpdateTest{
+
+	TEST_CLASS(CommandUpdateTest){
+
+	public:
+
+		TEST_METHOD(TestUpdate){
+			CommandAdd::addMessage ("cs meeting -from 13:00 -to 18:00 11/4");
+			CommandUpdate::updateMessage("1 -from 14:00");
+			std::string expectedOutput = "Task: cs meeting [ 11/4 14:00 - 18:00 ]  progressing is updated";
+			std::string actualOutput = Logic::messageDisplayed;
+			CommandClear::clearTask("all");
+			Assert::AreEqual(expectedOutput, actualOutput);
+
+			CommandAdd::addMessage ("cs meeting -from 13:00 -to 18:00 11/4");
+			CommandUpdate::updateMessage("1 -from 14:00 -to 15:00");
+			std::string expectedOutput2 = "Task: cs meeting [ 11/4 14:00 - 15:00 ]  progressing is updated";
+			std::string actualOutput2 = Logic::messageDisplayed;
+			CommandClear::clearTask("all");
+			Assert::AreEqual(expectedOutput2, actualOutput2);
+
+			CommandAdd::addMessage ("cs meeting -from 13:00 -to 18:00 11/4");
+			CommandUpdate::updateMessage("1 -from 14:00 -to 15:00 12/4");
+			std::string expectedOutput3 = "Task: cs meeting [ 12/4 14:00 - 15:00 ]  progressing is updated";
+			std::string actualOutput3 = Logic::messageDisplayed;
+			CommandClear::clearTask("all");
+			Assert::AreEqual(expectedOutput3, actualOutput3);
+
+			CommandAdd::addMessage ("cs meeting -from 13:00 -to 18:00 11/4");
+			CommandUpdate::updateMessage("1 cs lecture -from 14:00 -to 15:00 12/4");
+			std::string expectedOutput4 = "Task:  cs lecture  [ 12/4 14:00 - 15:00 ]  progressing is updated";
+			std::string actualOutput4 = Logic::messageDisplayed;
+			CommandClear::clearTask("all");
+			Assert::AreEqual(expectedOutput4, actualOutput4);
+
+			CommandAdd::addMessage ("cs meeting -from 13:00 -to 18:00 11/4");
+			CommandUpdate::updateMessage("1 cs lecture");
+			std::string expectedOutput5 = "Task:  cs lecture [ 11/4 13:00 - 18:00 ]  progressing is updated";
+			std::string actualOutput5 = Logic::messageDisplayed;
+			CommandClear::clearTask("all");
+			Assert::AreEqual(expectedOutput5, actualOutput5);
+		}
+
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\CommandUpdateTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\ShowDailyTaskTest.cpp
+	 */
+
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace CommandShowDailyTaskTest{
+
+	TEST_CLASS(CommandShowDailyTaskTest){
+
+public:
+
+	TEST_METHOD(TestShow){
+		CommandAdd::addOperation("cs meeting");
+		ShowDailyTask::showDayTask("all");
+		std::string expectedOutput = "Nothing found on that day";
+		std::string actualOutput = ShowDailyTask::showDayTask("all");
+		Assert::AreEqual(expectedOutput, actualOutput);
+		CommandClear::clearTask("all");
+
+		CommandAdd::addOperation("cs meeting -from 14:00 -to 15:00 5/5");
+		ShowDailyTask::showDayTask("5/5");
+		std::string expectedOutput2 = "Task is shown";//"cs meeting [ 5/5 14:00 -to 15:00 ]  progressing";
+		std::string actualOutput2 = ShowDailyTask::showDayTask("5/5");
+		Assert::AreEqual(expectedOutput2, actualOutput2);
+		CommandClear::clearTask("all");
+
+		CommandAdd::addOperation("cs meeting -from 14:00 -to 15:00 5/5");
+		ShowDailyTask::showDayTask("5/5");
+		std::string expectedOutput3 = "1. cs meeting [ 5/5 14:00 - 15:00 ]  progressing\n";
+		std::string actualOutput3 = ShowDailyTask::showDayTask("5/5");
+		std::vector <string> actualString = ShowDailyTask::messageDisplayed;
+		Assert::AreEqual(expectedOutput3, actualString[0]);
+		CommandClear::clearTask("all");
+
+	}
+
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\ShowDailyTaskTest.cpp
+
+
+
+
+

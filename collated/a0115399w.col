@@ -1,0 +1,558 @@
+//@author: a0115399w
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\DateParser.cpp
+	 */
+
+#include "DateParser.h"
+#include <string>
+using namespace std;
+const int LENGTH_OF_FOUR_DIGIT_DATE = 5;
+const int LENGTH_OF_THREE_DIGIT_DATE = 4;
+const int LENGTH_OF_TWO_DIGIT_DATE = 3;
+const int POSITION_ADJUSTMENT_THREE = 3;
+const int POSITION_ADJUSTMENT_TWO = 2;
+const int POSITION_ADJUSTMENT_ONE = 1;
+const int LENGTH_MONTH_DOUBLE = 2;
+const int LENGTH_MONTH_SINGLE = 1;
+const int LENGTH_DAY_DOUBLE = 2;
+const int LENGTH_DAY_SINGLE = 1;
+const int LENGTH_ONE_DIGIT = 1;
+const string EMPTY_SPACE = " ";
+const string SLASH = "/";
+const string ZERO = "0";
+const string START_OF_DOUBLE = "01";
+const string MONTH_END_DOUBLE = "12";
+const string DAY_END_DOUBLE = "31";
+const string START_OF_SINGLE = "1";
+const string END_OF_SINGLE = "9";
+
+DateParser::DateParser(void){
+}
+
+DateParser::DateParser(string input){
+	size_t get_date = input.find(SLASH);
+	if(get_date != string::npos){
+			if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+			//  format:  dd/mm
+				if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+					_date = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_OF_FOUR_DIGIT_DATE);
+					_day = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
+					_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_DOUBLE);
+					_integerDay = atoi(_day.c_str());
+					_integerMonth = atoi(_month.c_str());
+				}
+			// format:  dd/m
+				if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
+					_date = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_OF_THREE_DIGIT_DATE);
+					_day = input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_DAY_DOUBLE);
+					_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_SINGLE);
+					_integerDay = atoi(_day.c_str());
+					_integerMonth = atoi(_month.c_str());
+				}
+			
+			}
+			else{
+				if(input.substr(get_date-POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
+				// format: d/mm
+					if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) != EMPTY_SPACE){
+						_date = input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_OF_THREE_DIGIT_DATE);
+						_day = ZERO + input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
+						_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_DOUBLE);
+						_integerDay = atoi(_day.c_str());
+						_integerMonth = atoi(_month.c_str());
+					}
+					// format: d/m
+					if(input.substr(get_date+POSITION_ADJUSTMENT_TWO, LENGTH_ONE_DIGIT) == EMPTY_SPACE){
+						_date = input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_OF_TWO_DIGIT_DATE);
+						_day = ZERO + input.substr(get_date-POSITION_ADJUSTMENT_ONE, LENGTH_DAY_SINGLE);
+						_month = input.substr(get_date+POSITION_ADJUSTMENT_ONE, LENGTH_MONTH_SINGLE);
+						_integerDay = atoi(_day.c_str());
+						_integerMonth = atoi(_month.c_str());
+					}
+				}
+			}
+	 }
+	
+ }
+
+
+string DateParser::getDate(){
+	return _date;
+}
+
+string DateParser::getDateReverse(){
+	return _month + "/" + _day;
+}
+
+int DateParser::getDay(){
+	return _integerDay;
+}
+
+int DateParser::getMonth(){
+	return _integerMonth;
+}
+
+string DateParser::getAlphaMonth(){
+	int i=1;
+	vector<string> months;
+	months.push_back("Jan");
+	months.push_back("Feb");
+	months.push_back("Mar");
+	months.push_back("April");
+	months.push_back("May");
+	months.push_back("Jun");
+	months.push_back("Jul");
+	months.push_back("Aug");
+	months.push_back("Sept");
+	months.push_back("Oct");
+	months.push_back("Nov");
+	months.push_back("Dec");
+	while(i != _integerMonth){
+		i++;
+	}
+	_alphaMonth = months[i-1];
+
+	return _alphaMonth;
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\DateParser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\DateParser.h
+	 */
+
+//**********************************************************
+//                         class DateParser
+//     this class will receive input from parser class, and its job is to extract out date in form of string
+//     as well as integer and return the values back to parser class
+//
+//******************************************************************
+#ifndef DATEPARSER_H
+#define DATEPARSER_H
+#include <string>
+#include <sstream>
+#include <vector>
+#include <Windows.h>
+using namespace std;
+class DateParser{
+
+public:
+	DateParser();
+	DateParser(string input);
+	string getDate();
+	string getDateReverse();
+	string getAlphaMonth();
+	int getDay();
+	int getMonth();
+private:
+	string _date;
+	string _day;
+	string _month;
+	string _alphaMonth;
+	int _integerDay;
+	int _integerMonth;
+
+};
+#endif
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\DateParser.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+	 */
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.h
+	 */
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\TimeParser.cpp
+	 */
+
+#include "TimeParser.h"
+
+const string COLON = ":";
+const int LENGTH_TWO_DIGIT = 2;
+const int LENGTH_TIME = 5;
+const int MIN_POSITION = 3;
+const int HOUR_POSITION = 0;
+const int POSITION_ADJUSTMENT_THREE = 3;
+const int LENGTH_ONE_DIGIT = 1;
+const string EMPTY_SPACE = " ";
+const string EMPTY_STRING = "";
+TimeParser::TimeParser(void){
+}
+
+TimeParser::TimeParser(string input){
+	size_t startTime = input.find_first_of(COLON);
+	size_t endTime = input.find_last_of(COLON);
+	 //both start time and end time found, scheduled task
+	if(startTime != endTime){  
+		_startTime = input.substr(startTime-LENGTH_TWO_DIGIT, LENGTH_TIME);
+		_endTime = input.substr(endTime-LENGTH_TWO_DIGIT, LENGTH_TIME);
+		_startHour = atoi(_startTime.substr(HOUR_POSITION, LENGTH_TWO_DIGIT).c_str());
+		_startMinute = atoi(_startTime.substr(MIN_POSITION, LENGTH_TWO_DIGIT).c_str());
+		_endHour = atoi(_endTime.substr(HOUR_POSITION, LENGTH_TWO_DIGIT).c_str());
+		_endMinute = atoi(_endTime.substr(MIN_POSITION, LENGTH_TWO_DIGIT).c_str());
+	}
+	//only one time is found, deadline task
+	if(startTime == endTime){ 
+		_startTime = input.substr(startTime-LENGTH_TWO_DIGIT, LENGTH_TIME);
+		_endTime = EMPTY_STRING;
+		_startHour = atoi(_startTime.substr(HOUR_POSITION, LENGTH_TWO_DIGIT).c_str());
+		_startMinute = atoi(_startTime.substr(MIN_POSITION, LENGTH_TWO_DIGIT).c_str());
+	}
+}
+
+string TimeParser::getStartTime(){
+	return _startTime;
+}
+
+string TimeParser::getEndTime(){
+	return _endTime;
+}
+
+
+int TimeParser::getStartHour(){
+	return _startHour;
+}
+
+int TimeParser::getStartMinute(){
+	return _startMinute;
+}
+
+int TimeParser::getEndHour(){
+	return _endHour;
+}
+
+int TimeParser::getEndMinute(){
+	return _endMinute;
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\TimeParser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\TimeParser.h
+	 */
+
+//**********************************************************
+//                        class TimeParser
+//     this class will receive input from parser class, and its job is to extract out time in form of string
+//     as well as integer and return the values back to parser class. It can return hour and minute seperately.
+//
+//******************************************************************
+#ifndef TIMEPARSER_H
+#define TIMEPARSER_H
+#include <string>
+using namespace std;
+
+class TimeParser{
+
+public:
+	TimeParser();
+	TimeParser(string input);
+	string getStartTime();
+	string getEndTime();
+	int getStartHour();
+	int getStartMinute();
+	int getEndHour();
+	int getEndMinute();
+private:
+	string _startTime;
+	string _endTime;
+	int _startHour;
+	int _startMinute;
+	int _endHour;
+	int _endMinute;
+};
+#endif
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\TimeParser.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\VenueParser.cpp
+	 */
+
+#include "VenueParser.h"
+#include <string>
+const string AT = "@";
+
+VenueParser::VenueParser(void){
+}
+
+
+VenueParser::VenueParser(string input){
+	_venue = input.substr(input.find(AT));
+}
+
+string VenueParser::getVenue(){
+	return _venue;
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\VenueParser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\VenueParser.h
+	 */
+
+//**********************************************************
+//                      class VenueParser
+//     this class will receive input from parser class, and its job is to extract out veune in form of string
+//     and return the values back to parser class.
+//
+//******************************************************************
+#ifndef VENUEPARSER_H
+#define VENUEPARSER_H
+#include <string>
+using namespace std;
+class VenueParser
+{
+public:
+	VenueParser(void);
+	VenueParser(string input);
+	string getVenue();
+private:
+	string _venue;
+};
+#endif
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\VenueParser.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\ParserTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ParserTest{
+
+	TEST_CLASS(ParserTest){
+	public:
+
+
+		TEST_METHOD(TestGetTaskName){
+			//test case 1: deadline task
+			std::string testInput1 = "Write code -by 12:00 12/04";
+			Task task1(testInput1);
+			std::string expectedOutput1 = "Write code";
+			std::string realOutput1 = task1.getTaskName();
+			Assert::AreEqual(expectedOutput1,realOutput1);
+
+			//test case 2: floating task
+			std::string testInput2 = "Write code";
+			Task task2(testInput2);
+			std::string expectedOutput2 = "Write code";
+			std::string realOutput2 = task2.getTaskName();
+			Assert::AreEqual(expectedOutput2,realOutput2);
+		}
+
+		TEST_METHOD(TestGetTaskType){
+			//test case 1: deadline task
+			std::string testInput1 = "Write code -by 12:00 12/04";
+			Task task1(testInput1);
+			std::string expectedOutput1 = "deadline";
+			std::string realOutput1 = task1.getTaskType();
+			Assert::AreEqual(expectedOutput1,realOutput1);
+
+			//test case 2: timed task
+			std::string testInput2 = "Write code -from 12:00 -to 14:00 12/04";
+			Task task2(testInput2);
+			std::string expectedOutput2 = "timed";
+			std::string realOutput2 = task2.getTaskType();
+			Assert::AreEqual(expectedOutput2,realOutput2);
+
+			//test case 3: floating task
+			std::string testInput3 = "Write code";
+			Task task3(testInput3);
+			std::string expectedOutput3 = "floating";
+			std::string realOutput3 = task3.getTaskType();
+			Assert::AreEqual(expectedOutput3,realOutput3);
+		}
+
+
+		TEST_METHOD(TestGetStartTime){
+			//test case 1: lower boundary case
+			std::string testInput = "Write code -from 00:00 -to 19:00 12/04";
+			Task task(testInput);
+			std::string expectedOutput = "00:00";
+			std::string realOutput = task.getStartTime();
+			Assert::AreEqual( expectedOutput, realOutput);
+		}
+
+			TEST_METHOD(TestGetEndTime){
+			//test case 1: upper boundary case
+			std::string testInput = "Write code -from 12:00 -to 23:59 12/04";
+			Task task(testInput);
+			std::string expectedOutput = "23:59";
+			std::string realOutput = task.getEndTime();
+			Assert::AreEqual(expectedOutput,realOutput);
+		}
+
+			TEST_METHOD(TestGetScheduledDate){
+			//test case 1: lower boundary case
+			std::string testInput1 = "Write code -from 12:00 -to 19:00 01/01";
+			Task task1(testInput1);
+			std::string expectedOutput1 = "01/01";
+			std::string realOutput1 = task1.getScheduledDate();
+			Assert::AreEqual(expectedOutput1,realOutput1);
+
+			//test case 2: upper boundary case
+			std::string testInput2 = "Write code -from 12:00 -to 19:00 31/12";
+			Task task2(testInput2);
+			std::string expectedOutput2 = "19:00";
+			std::string realOutput2 = task2.getEndTime();
+			Assert::AreEqual( expectedOutput2,realOutput2);
+		}
+
+			TEST_METHOD(TestGetScheduledDateReverse){
+			std::string testInput = "Write code -from 12:00 -to 19:00 12/04";
+			Task task(testInput);
+			std::string expectedOutput = "04/12";
+			std::string realOutput = task.getScheduledDateReverse();
+			Assert::AreEqual( expectedOutput,realOutput);
+			}
+
+			TEST_METHOD(TestGetDeadlineDate){
+			//test case 1: lower boundary
+			std::string testInput1 = "Write code -by 12:00 01/01";
+			Task task1(testInput1);
+			std::string expectedOutput1 = "01/01";
+			std::string realOutput1 = task1.getDeadlineDate();
+			Assert::AreEqual(expectedOutput1,realOutput1);
+
+			//test case 2: upper boundary
+			std::string testInput2 = "Write code -by 12:00 31/12";
+			Task task2(testInput2);
+			std::string expectedOutput2 = "31/12";
+			std::string realOutput2 = task2.getDeadlineDate();
+			Assert::AreEqual( expectedOutput2,realOutput2);
+		}
+
+			TEST_METHOD(TestGetDeadlineTime){
+			//test case 1: lower boundary
+			std::string testInput1 = "Write code -by 00:00 12/04";
+			Task task1(testInput1);
+			std::string expectedOutput1 = "00:00";
+			std::string realOutput1 = task1.getDeadlineTime();
+			Assert::AreEqual(expectedOutput1,realOutput1);
+
+			//test case 2: upper boundary
+			std::string testInput2 = "Write code -by 23:59 12/04";
+			Task task2(testInput2);
+			std::string expectedOutput2 = "23:59";
+			std::string realOutput2 = task2.getDeadlineTime();
+			Assert::AreEqual(expectedOutput2,realOutput2);
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		TEST_METHOD(TestGetStatus){
+			std::string testInput = "Write code -by 12:00 12/04";
+			Task task(testInput);
+			std::string expectedOutput = "progressing";
+			std::string realOutput = task.getStatus();
+			Assert::AreEqual( expectedOutput,realOutput);
+		}
+
+
+			TEST_METHOD(TestGetVenue){
+			//test case 1: floating task
+			std::string testInput1 = "Write code @NUS";
+			Task task1(testInput1);
+			std::string expectedOutput1 = "@NUS";
+			std::string realOutput1 = task1.getVenue();
+			Assert::AreEqual(realOutput1, expectedOutput1);
+
+			//test case 2: timed task
+			std::string testInput2 = "Write code -from 12:00 -to 19:00 12/04 @NUS";
+			Task task2(testInput2);
+			std::string expectedOutput2 = "@NUS";
+			std::string realOutput2 = task2.getVenue();
+			Assert::AreEqual( expectedOutput2,realOutput2);
+
+			//test case 3: deadline task
+			std::string testInput3 = "Write code -by 12:00 12/04 @NUS";
+			Task task3(testInput3);
+			std::string expectedOutput3 = "@NUS";
+			std::string realOutput3 = task3.getVenue();
+			Assert::AreEqual( expectedOutput3,realOutput3);
+		}
+
+			TEST_METHOD(TestGetIntegerDay){
+			//test case 1: deadline task
+			std::string testInput1 = "Write code -by 12:00 12/04";
+			Task task1(testInput1);
+			int expectedOutput1 = 12;
+			int realOutput1 = task1.getIntegerDay();
+			Assert::AreEqual(expectedOutput1,realOutput1);
+
+			//test case 2: timed task
+			std::string testInput2 = "Write code -from 12:00 -to 15:00 12/04";
+			Task task2(testInput2);
+			int expectedOutput2 = 12;
+			int realOutput2 = task2.getIntegerDay();
+			Assert::AreEqual( expectedOutput2,realOutput2);
+		}   
+	};
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHubTest\ParserTest.cpp
+
+
+
+
+
