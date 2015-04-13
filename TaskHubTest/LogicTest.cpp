@@ -22,6 +22,7 @@ namespace LogicTest{
 			std::string testResult2 = Logic::getFirstWord(testSentence2);
 			std::string actualResult2("");
 			Assert::AreEqual(actualResult2, testResult2);
+			Assert::AreNotEqual(actualResult1, testResult2);
 		}
 
 		TEST_METHOD(TestRemoveFirstWord){
