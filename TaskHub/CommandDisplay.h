@@ -1,5 +1,14 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class CommandDisplay
+//this class is used when the clear command is called
+//it can display all tasks, display all uncompleted tasks only, and all done tasks only, all timed tasks only, all deadline tasks only
+//and all floating tasks only
+//
+//************************************************
+
 #ifndef COMMANDDISPLAY_H_
 #define COMMANDDISPLAY_H_
 

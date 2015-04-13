@@ -1,5 +1,17 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class CommandInterpreter
+//this class is used when user key in something
+//it will determine the command type for the message and pass it to LogicController for further implementation
+//
+//the following commands are supported:
+//HELP, ADD_TASK, CLEAR, UPDATE, RECURRING, DELETE_TASK, SEARCH, CHECK, SORT, DISPLAY_TASK, 
+//		DETAIL, MARK_DONE, UNCONPLETE, UNDO, REDO, SHOW, EXIT, INVALID
+//
+//************************************************
+
 #ifndef COMMANDINTERPRETER_H_
 #define COMMANDINTERPRETER_H_
 

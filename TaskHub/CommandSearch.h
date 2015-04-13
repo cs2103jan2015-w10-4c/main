@@ -1,5 +1,13 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class CommandSearch
+//this class is used when the search command is called
+//the task name witht the specific task name or simialr taskname will be shown
+//
+//************************************************
+
 #ifndef COMMANDSEARCH_H_
 #define COMMANDSEARCH_H_
 

@@ -9,14 +9,14 @@ namespace TaskHubTest
 	{
 	public:
 		
-		TEST_METHOD(TestCheckValidation)
+		TEST_METHOD(Test)
 		{
 			//test case 1
 			
 			string input =  "-from 13:00 -to 14:00 12/4 @tuown";
 			DateParser temp(input);
-//			temp.checkValidation(input);
-			//Assert::IsTrue(temp.isValidDate());
+
+			
 		}
 
 	};

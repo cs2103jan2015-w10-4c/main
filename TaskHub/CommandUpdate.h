@@ -1,5 +1,13 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class Update
+//this class is used when the update command is called
+//it will update the tasks, can be only task name, staring time, ending time, venue or all of them
+//
+//************************************************
+
 #ifndef COMMANDUPDATE_H_
 #define COMMANDUPDATE_H_
 

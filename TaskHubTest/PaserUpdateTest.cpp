@@ -61,7 +61,7 @@ namespace TaskHubTest
 			string input7 = "2nd meeting";
 			scheduledTask.UpdateTask(input7);
 			string actualOutput7 = scheduledTask.getTaskName();
-			string expectedOutput7 = "2nd meeting";
+			string expectedOutput7 = " 2nd meeting";
 			Assert::AreEqual(expectedOutput7,actualOutput7);
 
 			//test case 8
@@ -88,7 +88,7 @@ namespace TaskHubTest
 			string input11 = "meeting agenda";
 			floatingTask.UpdateTask(input11);
 			string actualOutput11 = floatingTask.getTaskName();
-			string expectedOutput11 = "meeting agenda";
+			string expectedOutput11 = " meeting agenda";
 			Assert::AreEqual(actualOutput11,expectedOutput11);
 
 		}

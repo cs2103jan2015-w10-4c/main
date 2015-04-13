@@ -1,5 +1,13 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class History
+//this class is used to temporarily store the messages in Task form during running
+//it provides the basics of what the redo and undo command need
+//
+//************************************************
+
 #ifndef HISTORY_H_
 #define HISTORY_H_
 
