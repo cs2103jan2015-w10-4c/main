@@ -17,11 +17,19 @@ namespace ParserTest{
 			Assert::AreEqual(realOutput, expectedOutput);
 		}
 		TEST_METHOD(TestGetTaskType){
+			//deadline tasks
 			std::string testInput = "Write code -by 12:00 12/04";
 			Task task(testInput);
 			std::string expectedOutput = "deadline";
 			std::string realOutput = task.getTaskType();
 			Assert::AreEqual(realOutput, expectedOutput);
+
+			//floating tasks
+			std::string testInput2 = "CS Project";
+			Task task2(testInput2);
+			std::string expectedOutput2 = "floating";
+			std::string realOutput2 = task2.getTaskType();
+			Assert::AreEqual(realOutput2, expectedOutput2);
 		}
 		TEST_METHOD(TestGetStartTime){
 			std::string testInput = "Write code -from 12:00 -to 19:00 12/04";
