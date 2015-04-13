@@ -1,3 +1,10 @@
+//@author A0115399W
+//**********************************************************
+//                        class TimeParser
+//     this class will receive input from parser class, and its job is to extract out time in form of string
+//     as well as integer and return the values back to parser class. It can return hour and minute seperately.
+//
+//******************************************************************
 #ifndef TIMEPARSER_H
 #define TIMEPARSER_H
 #include <string>

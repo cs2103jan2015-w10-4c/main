@@ -1,5 +1,4 @@
 //@author A0115365J
-
 #include <algorithm> 
 #include "CommandAutoSort.h"
 
@@ -40,7 +39,7 @@ bool CommandAutoSort::compareCriteria(Task firstTask, Task secondTask) {
 
 		//for undone tasks
 		//floating tasks sorted after timed and deadline tasks
-		if((firstTask.getTaskType() == STATUS_FLOATING) && (secondTask.getTaskType() != STATUS_FLOATING)){                //floating sorted after timed
+		if((firstTask.getTaskType() == STATUS_FLOATING) && (secondTask.getTaskType() != STATUS_FLOATING)){
 			return false;															
 		} else if ((firstTask.getTaskType() != STATUS_FLOATING) && (secondTask.getTaskType() == STATUS_FLOATING)){
 			return true;
@@ -49,7 +48,7 @@ bool CommandAutoSort::compareCriteria(Task firstTask, Task secondTask) {
 		} else if((firstTask.getTaskType() != STATUS_FLOATING) && (secondTask.getTaskType() != STATUS_FLOATING)){
 			
 			//for timed and deadline tasks
-			//they are sorted by time, where the start time a timed task is used
+			//they are sorted by their starting time
 			char firstTaskTime[MAX_TIME_LENGTH];
 			char secondTaskTime[MAX_TIME_LENGTH];
 

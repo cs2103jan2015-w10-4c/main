@@ -1,3 +1,4 @@
+//@author: A0115399W
 #include "DateParser.h"
 #include <string>
 using namespace std;
@@ -69,21 +70,7 @@ DateParser::DateParser(string input){
 	 }
 	
  }
-/*	else{
-		SYSTEMTIME lt;
-		GetLocalTime(&lt);
-		_integerDay = lt.wDay;
-		_integerMonth = lt.wMonth;
-		ostringstream oss;
-		oss << _integerDay;
-		_day = oss.str();
-		oss.clear();
-		oss << _integerDay;
-		_month = oss.str();
-		oss.clear();
-		_date = _day + "/" + _month;
-	}*/
-//}
+
 
 string DateParser::getDate(){
 	return _date;

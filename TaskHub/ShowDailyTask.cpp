@@ -1,5 +1,4 @@
 //@author A0115365J
-
 #include <windows.h>
 #include <vector>
 #include <algorithm>
@@ -165,11 +164,8 @@ string ShowDailyTask::showDayTask (string userMessage) {
 			currentMonth = getDate.getMonth();
 			currentDay = getDate.getDay();
 		
-		} //try date parser
-		/*
-		currentMonth = atoi(userMessage.substr(get_date+1,2).c_str());
-		currentDay = atoi(userMessage.substr(get_date-2,2).c_str());
-		*/
+		} 
+		
 		size_t get_time = userMessage.find(":");
 		if (get_time != string::npos) {
 			
@@ -178,9 +174,8 @@ string ShowDailyTask::showDayTask (string userMessage) {
 			currentHour = getTime.getStartHour();
 			currentMinute = getTime.getStartMinute();
 
-		//currentHour = atoi(userMessage.substr(get_time-2,2).c_str());
-		//currentMinute = atoi(userMessage.substr(get_time+1,2).c_str());
-		} //try time parser
+		
+		} 
 		
 		if ((get_time == string::npos)&&(get_date != string::npos)) {
 			//show a particular day tasks

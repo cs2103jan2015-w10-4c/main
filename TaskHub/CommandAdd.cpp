@@ -1,6 +1,7 @@
 //@author A0115365J
 
 #include <algorithm>
+#include <assert.h>
 #include "LogicController.h"
 #include "Parser.h"
 #include "CommandAdd.h"
@@ -27,20 +28,21 @@ string CommandAdd::addMessage (string input) {
 
 	bool isWhiteSpace = all_of(input.begin(), input.end(), isspace);
 
+
+
 	// this is to make sure if user just key in empty space or nothing except an "add", nothing will be done
 	if (!isWhiteSpace && input != MESSAGE_COMMAND_TYPE ) {
+		assert (isWhiteSpace != true); 
 		Task newTask (input);
 			string message = CommandClash::clash(input);
 			if (message == (input + MESSAGE_CLASH)) {
 				sprintf_s(Logic::messageDisplayed,MESSAGE_CLASH.c_str());
 				return Logic::messageDisplayed;
+
 			} else {
 			Task newTask(input);
-
 			StorageDatabase::taskHistory.setVectorTextStorage(newTask);
 			StorageDatabase::taskHistory.setLastChangedTask(newTask);
-
-
 			sprintf_s(Logic::messageDisplayed, MESSAGE_ADDED.c_str(),newTask.ToString().c_str());
 			}
 

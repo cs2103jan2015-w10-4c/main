@@ -3,7 +3,7 @@
 //
 //************************************************
 //				Class Logic
-//this class is used for internal traffic flow, it will direct to the message to appropriate commands
+//this class is used for internal traffic flow, it will direct to the messages to appropriate commands
 //
 //
 //************************************************
