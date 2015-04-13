@@ -120,7 +120,7 @@ namespace ParserTest{
 			Task task2(testInput2);
 			std::string expectedOutput2 = "23:59";
 			std::string realOutput2 = task2.getDeadlineTime();
-			Assert::AreEqual(expectedOutput2,realOutput2,);
+			Assert::AreEqual(expectedOutput2,realOutput2);
 		}
 
 			TEST_METHOD(TestGetStatus){
@@ -169,7 +169,7 @@ namespace ParserTest{
 			int expectedOutput2 = 12;
 			int realOutput2 = task2.getIntegerDay();
 			Assert::AreEqual( expectedOutput2,realOutput2);
-		}
+		}   
 	};
 
 }
