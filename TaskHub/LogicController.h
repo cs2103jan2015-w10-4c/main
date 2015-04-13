@@ -43,7 +43,6 @@ public:
 	static Task lastChangedTask;
 
 	static void getStorage();
-//	static History history;
 };
 
 #endif

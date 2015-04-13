@@ -30,6 +30,11 @@ namespace TaskHubTest{
 			delete test;
 		}
 
+		// The following test method tests the correctness of the function, isValidFileFormat(),
+		// which utilises other private functions such as isMinRequiredNameLength() and
+		// isTextFileFormat.
+		// The feasibility and the robustness of this function would suggest the private functions 
+		// are also working correctly.
 		TEST_METHOD(TestIsValidFileFormat){
 			StorageProcessor* test = new StorageProcessor();
 
@@ -53,12 +58,33 @@ namespace TaskHubTest{
 			std::string file5("a.txt");
 			Assert::IsTrue(test->isValidFileFormat(file5));
 
-			//test case 6:
+			//test case 6:	file path directory
 			std::string file6("C:\\Desktop\\MapleStory\\save.txt");
 			Assert::IsTrue(test->isValidFileFormat(file6));
 
 			delete test;
 		}
 
+		TEST_METHOD(TestConvertToUpperCase){
+			StorageProcessor* test = new StorageProcessor();
+
+			//test case 1:	lower to upper case
+			char result1 = test->convertToUpperCase('a');
+			Assert::AreEqual(result1, 'A');
+			Assert::AreNotEqual(result1, 'a');
+
+			//test case 2:	upper case remains untouched
+			char result2 = test->convertToUpperCase('A');
+			Assert::AreEqual(result2, 'A');
+			Assert::AreEqual(result1, result2);
+
+			//test case 3:	non-alphabetical char remains untouched
+			char result3 = test->convertToUpperCase('2');
+			Assert::AreEqual(result3, '2');
+			char result4 = test->convertToUpperCase('?');
+			Assert::AreEqual(result4, '?');
+
+			delete test;
+		}
 	};
 }

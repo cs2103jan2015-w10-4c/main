@@ -117,11 +117,8 @@ void StorageController::openNewSavedFile(){
 
 void StorageController::openLastSavedFile(){
 	_databaseObj->readLastSavedFileFromStorage();
-
-	std::string fileName;
-	fileName = _databaseObj->getLastSavedFileName();
+	std::string fileName = _databaseObj->getLastSavedFileName();
 	assert(&fileName != NULL);
-
 	setFileName(fileName);
 }
 
@@ -193,6 +190,7 @@ void StorageController::readSaveFile() {
 	while(getline(file,currentLine)) {
 		TaskList.push_back(currentLine);
 	}
+
 	file.close();
 }
 

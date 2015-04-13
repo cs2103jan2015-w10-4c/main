@@ -5,6 +5,12 @@
 
 #include "StorageProcessor.h"
 
+//for readability purposes
+const unsigned int StorageProcessor::FIRST_LETTER_AFTER_QUOTATION = 1;
+const unsigned int StorageProcessor::INDEX_OF_FIRST_CHAR = 0;
+const unsigned int StorageProcessor::MIN_REQUIRED_FILE_LENGTH = 5;
+const unsigned int StorageProcessor::NO_OF_QUOTATION_MARKS = 2;
+const std::string StorageProcessor::TXT_FILE_FORMAT = ".txt";
 
 StorageProcessor::StorageProcessor(){
 }
@@ -79,10 +85,13 @@ bool StorageProcessor::isContainExtensionType(std::string fileInput){
 
 bool StorageProcessor::isTextFileFormat(std::string fileInput){
 	assert(&fileInput != NULL);
+
 	if (!isContainExtensionType(fileInput)){
 		return false;
 	}
+
 	std::string extensionType = extractExtensionTypeString(fileInput);
+
 	return (extensionType == TXT_FILE_FORMAT);
 }
 

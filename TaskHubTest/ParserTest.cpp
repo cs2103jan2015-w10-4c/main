@@ -19,7 +19,7 @@ namespace ParserTest{
 		TEST_METHOD(TestGetTaskType){
 			std::string testInput = "Write code -by 12:00 12/04";
 			Task task(testInput);
-			std::string expectedOutput = "timed";
+			std::string expectedOutput = "deadline";
 			std::string realOutput = task.getTaskType();
 			Assert::AreEqual(realOutput, expectedOutput);
 		}
