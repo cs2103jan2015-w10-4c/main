@@ -1,3 +1,5 @@
+//@author A0115365J
+
 #ifndef COMMANDRECURRING_H_
 #define COMMANDRECURRING_H_
 

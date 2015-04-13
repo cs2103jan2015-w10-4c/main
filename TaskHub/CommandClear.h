@@ -1,3 +1,5 @@
+//@author A0115365J
+
 #ifndef CLEARALL_H_
 #define CLEARALL_H_
 
