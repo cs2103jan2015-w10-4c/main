@@ -1,3 +1,5 @@
+//UpdateTask: @author A0115793Y
+//updateTaskName: @author A0115793Y
 #ifndef PARSER_H_
 #define PARSER_H_
 
@@ -28,6 +30,7 @@ private:
 	int _startMinute;
 	int _endHour;
 	int _endMinute;
+	void updateTaskName(string input);
 
 
 

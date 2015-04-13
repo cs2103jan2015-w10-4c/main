@@ -1,3 +1,11 @@
+//@author A0115793Y
+//
+//************************************************
+//				Class CommandClash
+//this class is to check whether the given time period
+//on a given day or by default today clashes with existing tasks.
+//
+//************************************************
 #ifndef CLASH_H_
 #define CLASH_H_
 

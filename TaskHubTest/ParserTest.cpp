@@ -103,8 +103,8 @@ namespace ParserTest{
 			std::string testInput2 = "Write code -by 12:00 31/12";
 			Task task2(testInput2);
 			std::string expectedOutput2 = "31/12";
-			std::string realOutput2 = task2.getEndTime();
-			Assert::AreEqual(realOutput2, expectedOutput2);
+			std::string realOutput2 = task2.getDeadlineDate();
+			Assert::AreEqual(expectedOutput2, realOutput2);
 		}
 
 			TEST_METHOD(TestGetDeadlineTime){
