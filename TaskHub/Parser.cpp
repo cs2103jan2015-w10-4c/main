@@ -47,12 +47,14 @@ Task::Task(string input){
 		size_t venueTask = input.find(MARK_AT);
 		
 		if (timedTask != string::npos && timedTaskEnd != string::npos && timedTaskEnd - timedTask == 12 && deadlinedTask == string::npos){
+			
 			string scheduledDateTime = input.substr(timedTask);
 			size_t findScheduleDate = scheduledDateTime.find(SLASH);
 			size_t findStartTime = input.find_first_of(COLON);
 		    size_t findEndTime = input.find_last_of(COLON);		
 
 			if(findEndTime - findStartTime == 10 && findScheduleDate != string::npos && findScheduleDate > findEndTime){
+				validInput = true;
 		        DateParser parseDate(scheduledDateTime);
 				TimeParser parseTime(scheduledDateTime);
 
@@ -73,29 +75,32 @@ Task::Task(string input){
 			}
 		}
 		if (deadlinedTask != string::npos && timedTask == string::npos && timedTaskEnd == string::npos){
+
 			string deadlineDateTime = input.substr(deadlinedTask);	
 			size_t findDeadlineDate = deadlineDateTime.find(SLASH);
 			size_t findStartTime = deadlineDateTime.find_first_of(COLON);
 			size_t findEndTime = deadlineDateTime.find_last_of(COLON);
 
 			if(findStartTime == findEndTime && findStartTime == 6 && findDeadlineDate != string::npos && findDeadlineDate > findStartTime){
-			DateParser parseDate(deadlineDateTime);
-			TimeParser parseTime(deadlineDateTime);
+				validInput = true;
+				DateParser parseDate(deadlineDateTime);
+				TimeParser parseTime(deadlineDateTime);
 
-			_TaskType = DEADLINE_TASK_LABEL;
-			_TaskName = input.substr(START_OF_STRING, deadlinedTask - ADJUSTMENT_ONE);
-			_startTime = EMPTY_STRING;
-			_endTime = EMPTY_STRING;
-			_deadlineTime =	parseTime.getStartTime();
-			_startHour = parseTime.getStartHour();
-			_startMinute = parseTime.getStartMinute();
-			_scheduledDate = EMPTY_STRING;
-			_deadlineDate = parseDate.getDate();
-			_integerDay = parseDate.getDay();
-			_integerMonth = parseDate.getMonth();
+				_TaskType = DEADLINE_TASK_LABEL;
+				_TaskName = input.substr(START_OF_STRING, deadlinedTask - ADJUSTMENT_ONE);
+				_startTime = EMPTY_STRING;
+				_endTime = EMPTY_STRING;
+				_deadlineTime =	parseTime.getStartTime();
+				_startHour = parseTime.getStartHour();
+				_startMinute = parseTime.getStartMinute();
+				_scheduledDate = EMPTY_STRING;
+				_deadlineDate = parseDate.getDate();
+				_integerDay = parseDate.getDay();
+				_integerMonth = parseDate.getMonth();
 			}
 		}
 		if(timedTask == string::npos && timedTaskEnd == string::npos && deadlinedTask == string::npos){
+			validInput = true;
 			_TaskType = FLOATING_TASK_LABEL;
 			_TaskName = input;
 			_startTime = EMPTY_STRING;
@@ -175,7 +180,6 @@ Task::Task(string Task, string input){
 				_scheduledDateReverse = parseDate.getDateReverse();
 				_integerDay = parseDate.getDay();
 			    _integerMonth = parseDate.getMonth();
-			    //_alphaMonth = parseDate.getAlphaMonth();
 			}
 			else if (find_time != string::npos){
 				DateParser parseDate(Task);
@@ -425,7 +429,7 @@ void Task::checkInputValidation(){
 
 	//check date for deadline Task
 	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_date)){
-		size_t get_date = _deadlineDate.find("/");
+		size_t get_date = _deadlineDate.find(SLASH);
 		
 		if (get_date != string::npos){
 			date = atoi(_deadlineDate.substr(0, get_date).c_str());
