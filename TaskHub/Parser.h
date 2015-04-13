@@ -1,4 +1,6 @@
 //@author A0115399W
+//UpdateTask: @author A0115793Y
+//updateTaskName: @author A0115793Y
 //**********************************************************
 //                           class Parser
 //     this class will receive input from logic class, and its job is to extract various information from
@@ -36,6 +38,7 @@ private:
 	int _startMinute;
 	int _endHour;
 	int _endMinute;
+	void updateTaskName(string input);
 
 
 

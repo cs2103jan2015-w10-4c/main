@@ -1,3 +1,4 @@
+//@author A0115793Y
 #include "UI.h"
 
 const string UI::MESSAGE_WELCOME = "Welcome to Taskhub";
@@ -56,40 +57,52 @@ void UI::showToUser(string userCommand) {
 	string command = Logic::getFirstWord(userCommand);
 	string message = Logic::removeFirstWord(userCommand);
 
+	//Show daily task
 	if(command==COMMAND_TYPE_SHOW){
 		string aa= ShowDailyTask::showDayTask(message);
 		vector<string> task = ShowDailyTask::messageDisplayed;
 		size_t free = message.find(COMMAND_MESSAGE_FREE);
 
+		//show today's task
 		if(message==COMMAND_MESSAGE_TODAY) {
 			UI::displayDay(task,COMMAND_MESSAGE_TODAY);
 		}
+
+		//show free slots 
 		else if(free!=string::npos) {
 			UI::displayDay(task, message);
 		}
+
+		//show tasks on a given date
 		else {
 			UI::displayDay(task,message);
 		}
 	}
+
+	//show all tasks
 	else if(command==COMMAND_TYPE_DISPLAY) {
 		vector<string> task = CommandDisplay::messageDisplayed;
 		UI::displayDay(task,COMMAND_TYPE_DISPLAY);
 	}
+	//show tasks after sort
 	else if(command==COMMAND_TYPE_SORT) {
 		vector<string> task = CommandDisplay::messageDisplayed;
 		UI::displayDay(task,userCommand);
 	}
+	//show search result
 	else if(command==COMMAND_TYPE_SEARCH) {
 		string temp= CommandSearch::searchMessage(message);
 		vector<string> task = CommandSearch::messageDisplayed;
 		UI::displayDay(task,userCommand);
 	}
+	//show detail of a task
 	else if(command==COMMAND_TYPE_DETAIL) {
 		string task = CommandDetail::detailMessage(message);
 		if(!task.empty()) {
 		UI::displayDetail(task,message);
 		}
 	}
+	//By default show today's task
 	else {
 		string temp= ShowDailyTask::showDayTask(COMMAND_MESSAGE_TODAY);
 		vector<string> task = ShowDailyTask::messageDisplayed;
@@ -105,10 +118,13 @@ void UI::displayDetail(string task, string index) {
 	cout << "\n Detail of task " << index << " :";
 	cout <<"\n -----------------------------------------------------------------------------";
 	cout << "\n [TASK NAME]: " << temp.getTaskName();
+
+	//show details of a scheduled task
 	if(temp.getTaskType()==SCHEDULED_Task_LABEL){
 		cout << "\n [DATE]: " << temp.getScheduledDate()
 			 << "\n [TIME]: " << temp.getStartTime() << " - " << temp.getEndTime();
 	}
+	//shwo detaiils of a deadline task
 	else if(temp.getTaskType()==DEADLINE_Task_LABEL){
 		cout << "\n [DEADLINE]: " << temp.getDeadlineDate() << EMPTY_SPACE_DOUBLE << temp.getDeadlineTime();
 	}
@@ -143,27 +159,34 @@ void UI::displayDay(vector<string> task, string heading) {
 			Task temp(task[i],DUMMY_INPUT_FOR_SECOND_TASK_CONSTRUCTOR);
 			temporary.push_back(temp);
 	    }
+		//special format for show free slots 
 		if(free!=string::npos) {
 			for(unsigned int i=0;i<task.size();i++) {
 				cout << task[i] << endl;
 			}
 		}
+		//show daily task format
 		else {
 			for(unsigned int i=0; i<temporary.size();i++) {
 				cout<< left << setw(LENGTH_LEFT_SIDE_FORMAT) <<"\n|";
+
+				//change console color for finished task
 				if(temporary[i].getStatus()==FINISHED_Task_LABEL) {
 					SetConsoleTextAttribute(hConsole,COLOR_FINISHED_TASK);
 				}
 				else {
 					SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
 				}
+
+				//change console color for uncompleted task
 				if(temporary[i].getStatus()==UNCOMPLETED_TASK_LABLE) {
 					SetConsoleTextAttribute(hConsole,COLOR_UNCOMPLETED_TASK);
 				}
 				else {
 					SetConsoleTextAttribute(hConsole, COLOR_NORAL_BACKGROUND);
 				}
-				//check date
+
+				//format date output
 				if(temporary[i].getTaskType()==DEADLINE_Task_LABEL) {
 					date = "due "+ temporary[i].getDeadlineDate();
 				}
@@ -173,7 +196,8 @@ void UI::displayDay(vector<string> task, string heading) {
 				if(temporary[i].getTaskType()==FLOATING_Task_LABEL) {
 					date = EMPTY_SPACE_DOUBLE;
 				}
-				//check time
+
+				//format time output
 				if(temporary[i].getTaskType()==DEADLINE_Task_LABEL) {
 					time = temporary[i].getDeadlineTime();
 				}
@@ -183,6 +207,8 @@ void UI::displayDay(vector<string> task, string heading) {
 				if(temporary[i].getTaskType()==FLOATING_Task_LABEL) {
 					time = EMPTY_SPACE_DOUBLE;
 				}
+
+				//information display formatting
 				cout<< left << setw(LENGTH_INDEX_AND_TASK_NAME) << temporary[i].getTaskName().substr(START_OF_A_STRING,LENGTH_INDEX_AND_TASK_NAME-LENGTH_DOUBLE_EMPTY_SPACE) 
 					<< setw(LENGTH_DATE) << date.substr(START_OF_A_STRING,LENGTH_DATE)
 					<< setw(LENGTH_TIME) << time.substr(START_OF_A_STRING,LENGTH_TIME)

@@ -1,3 +1,12 @@
+//@author A0115793Y
+//
+//************************************************
+//				Class CommandDetail
+//this class is to display the detail of a task of 
+//specific index.
+//
+//
+//************************************************
 #ifndef COMMANDDETAIL_H_
 #define COMMANDDETAIL_H_
 

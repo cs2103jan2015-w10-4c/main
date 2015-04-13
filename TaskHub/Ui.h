@@ -1,4 +1,12 @@
-
+//@author A0115793Y
+//************************************************
+//				Class UI
+//This class is to display user interface. 
+//It will display all task, task on a specific day, search result, detail of a task.
+//It will display system feedback(whether the command is successfully excecuded) to user.
+//
+//
+//************************************************
 #ifndef UI_H_
 #define UI_H_
 
