@@ -1,4 +1,16 @@
 //@author A0115365J
+//
+//************************************************
+//				Class CommandAdd
+//this class is to add new messages into the vector after constructing the messages in Parser
+//this class will also check whether the new messages with existing ones by calling CommandClash function. If clashes occur
+//nothing will be added.
+//
+//
+//
+//
+//************************************************
+
 
 #ifndef COMMANDADD_H_
 #define COMMANDADD_H_

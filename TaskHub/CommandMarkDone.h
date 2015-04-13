@@ -1,4 +1,11 @@
 //@author A0115365J
+//
+//************************************************
+//				Class markingDoneMessage
+//this class is used when the done command is called
+//it will change the tasks' status to done
+//
+//************************************************
 
 #ifndef COMMANDMARKDONE_H_
 #define COMMANDMARKDONE_H_

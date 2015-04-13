@@ -1,5 +1,17 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class CommandRecurring
+//this class is used when the recurring command is called
+//the following task type can be recurred: timed and deadline tasks
+//
+//the interval of recurring can be monthly, weekly, daily, or any days as interval, by default recurring interval is everyday
+//
+//when no time or date or year is keyed in, by default it is current time, date and year
+//
+//************************************************
+
 #ifndef COMMANDRECURRING_H_
 #define COMMANDRECURRING_H_
 
