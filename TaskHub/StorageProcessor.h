@@ -40,10 +40,10 @@ public:
 
 private:
 	//For readability purposes
-	const int MIN_REQUIRED_FILE_LENGTH = 5;
-	const int FIRST_LETTER_AFTER_QUOTATION = 1;
-	const int NO_OF_QUOTATION_MARKS = 2;
-	const int INDEX_OF_FIRST_CHAR = 0;
+	const unsigned int MIN_REQUIRED_FILE_LENGTH = 5;
+	const unsigned int FIRST_LETTER_AFTER_QUOTATION = 1;
+	const unsigned int NO_OF_QUOTATION_MARKS = 2;
+	const unsigned int INDEX_OF_FIRST_CHAR = 0;
 	const std::string TXT_FILE_FORMAT = ".txt";
 
 	bool isFileStorageEmpty(std::vector<Task>& FileStorage);

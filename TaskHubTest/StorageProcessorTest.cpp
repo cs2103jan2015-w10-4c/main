@@ -17,6 +17,7 @@ namespace TaskHubTest{
 			//test case 1	w/o quotation marks
 			std::string testResult1 = test->processFileDirectory("abc.txt");
 			std::string expectedResult1("abc.txt");
+			Assert::IsNotNull(&testResult1);
 			Assert::AreEqual(testResult1, expectedResult1);
 
 			//test case 2	with quotation marks
