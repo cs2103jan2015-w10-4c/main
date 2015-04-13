@@ -1,5 +1,7 @@
 //@author: A0115399W
+#include <assert.h>
 #include "Parser.h"
+
 
 const int Task_LEN = 250;
 const string SCHEDULED_TASK_LABEL = "timed";
@@ -37,7 +39,7 @@ const int APRIL = 4;
 const int JUN = 6;
 const int SEPT = 9;
 const int NOV = 11;
-bool Task::validInput = false;
+bool Task::validInput = true;
 Task::Task(){}
 
 Task::Task(string input){
@@ -48,14 +50,14 @@ Task::Task(string input){
 		size_t venueTask = input.find(MARK_AT);
 		
 		if (timedTask != string::npos && timedTaskEnd != string::npos && timedTaskEnd - timedTask == 12 && deadlinedTask == string::npos){
-			
 			string scheduledDateTime = input.substr(timedTask);
 			size_t findScheduleDate = scheduledDateTime.find(SLASH);
 			size_t findStartTime = input.find_first_of(COLON);
 		    size_t findEndTime = input.find_last_of(COLON);		
-
-			if(findEndTime - findStartTime == 10 && findScheduleDate != string::npos && findScheduleDate > findEndTime){
-				validInput = true;
+			cout<<validInput<<endl;
+			//assert(scheduledDateTime != '\0');
+			if(findEndTime - findStartTime == 10 && findScheduleDate != string::npos && findScheduleDate > findEndTime){ cout<<validInput;
+				
 		        DateParser parseDate(scheduledDateTime);
 				TimeParser parseTime(scheduledDateTime);
 
@@ -76,14 +78,13 @@ Task::Task(string input){
 			}
 		}
 		if (deadlinedTask != string::npos && timedTask == string::npos && timedTaskEnd == string::npos){
-
 			string deadlineDateTime = input.substr(deadlinedTask);	
 			size_t findDeadlineDate = deadlineDateTime.find(SLASH);
 			size_t findStartTime = deadlineDateTime.find_first_of(COLON);
 			size_t findEndTime = deadlineDateTime.find_last_of(COLON);
 
 			if(findStartTime == findEndTime && findStartTime == 6 && findDeadlineDate != string::npos && findDeadlineDate > findStartTime){
-				validInput = true;
+				
 				DateParser parseDate(deadlineDateTime);
 				TimeParser parseTime(deadlineDateTime);
 
@@ -101,7 +102,6 @@ Task::Task(string input){
 			}
 		}
 		if(timedTask == string::npos && timedTaskEnd == string::npos && deadlinedTask == string::npos){
-			validInput = true;
 			_TaskType = FLOATING_TASK_LABEL;
 			_TaskName = input;
 			_startTime = EMPTY_STRING;
@@ -113,6 +113,7 @@ Task::Task(string input){
 			
 		}
 		_status = PROGRESSING_TASK_LABEL;
+		
 		if (venueTask != string::npos){
 			VenueParser parseVenue(input);
 		    _venue = parseVenue.getVenue();
@@ -181,6 +182,7 @@ Task::Task(string Task, string input){
 				_scheduledDateReverse = parseDate.getDateReverse();
 				_integerDay = parseDate.getDay();
 			    _integerMonth = parseDate.getMonth();
+			    //_alphaMonth = parseDate.getAlphaMonth();
 			}
 			else if (find_time != string::npos){
 				DateParser parseDate(Task);
@@ -374,52 +376,52 @@ void Task::markUncompleted(){
 void Task::checkInputValidation(){
 	//check for valid time frame
 	bool valid_time = false;
-	int startHour; //deadline Task use this to store time
-	int startMin; //deadline Task use this to store time
-	int endHour;
-	int endMin;
+	int start_hour; //deadline Task use this to store time
+	int start_mins; //deadline Task use this to store time
+	int end_hour;
+	int end_mins;
 
 	//check time frame in scheduled Task
 	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_time)){
 		size_t get__startTime = _startTime.find(":");
 		size_t get__endTime = _endTime.find(":");
-		startHour = atoi(_startTime.substr(0, get__startTime).c_str());
-		startMin = atoi(_startTime.substr(get__startTime + 1, 2).c_str());
-		endHour = atoi(_endTime.substr(0, get__endTime).c_str());
-		endMin = atoi(_endTime.substr(get__endTime + 1, 2).c_str());
-		if ((startHour >= HOUR_START && startHour <= HOUR_END) && (startMin >= MINUTE_START && startMin <= MINUTE_END) && (endHour >= HOUR_START && endHour <= HOUR_END) && (endMin >= MINUTE_START && endMin <= MINUTE_END)){
-			if (startHour <= endHour && startMin < endMin){
+		start_hour = atoi(_startTime.substr(0, get__startTime).c_str());
+		start_mins = atoi(_startTime.substr(get__startTime + 1, 2).c_str());
+		end_hour = atoi(_endTime.substr(0, get__endTime).c_str());
+		end_mins = atoi(_endTime.substr(get__endTime + 1, 2).c_str());
+		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60) && (end_hour >= 0 && end_hour <= 24) && (end_mins >= 0 && end_mins <= 60)){
+			if (start_hour < end_hour){
 				valid_time = true;
 			}
 			else{
 				cout << MESSAGE_INVALID_TIME << endl;
 				cout << "starting time:";
-				getline (cin, _startTime);
+				cin >> _startTime;
 				cout << "ending time:";
-				getline(cin,_endTime);
+				cin >> _endTime;
 			}
 		}
 		else{
 			cout << MESSAGE_INVALID_TIME << endl;
 			cout << "starting time:";
-			getline (cin, _startTime);
+			cin >> _startTime;
 			cout << "ending time:";
-			getline(cin,_endTime);
+			cin >> _endTime;
 		}
 	}
 
 	//check time frame in deadline Task
 	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_time)){
 		size_t get_time = _deadlineTime.find(":");
-		startHour = atoi(_deadlineTime.substr(0, get_time).c_str());
-		startMin = atoi(_deadlineTime.substr(get_time + 1, 2).c_str());
-		if ((startHour >= HOUR_START && startHour <= HOUR_END) && (startMin >= MINUTE_START && startMin <= MINUTE_END)){
+		start_hour = atoi(_deadlineTime.substr(0, get_time).c_str());
+		start_mins = atoi(_deadlineTime.substr(get_time + 1, 2).c_str());
+		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60)){
 			valid_time = true;
 		}
 		else{
 			cout << MESSAGE_INVALID_TIME << endl;
 			cout << "deadline time:";
-			getline (cin ,_deadlineTime);
+			cin >> _deadlineTime;
 		}
 	}
 
@@ -430,54 +432,31 @@ void Task::checkInputValidation(){
 
 	//check date for deadline Task
 	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_date)){
-		size_t get_date = _deadlineDate.find(SLASH);
-		
-		if (get_date != string::npos){
-			date = atoi(_deadlineDate.substr(0, get_date).c_str());
-		    month = atoi(_deadlineDate.substr(get_date + 1, 2).c_str());
-		    cout << date << "+"<<month;
-		    if ((date >= DAY_START && date <= DAY_31_END) && (month >= MONTH_START && month <= MONTH_END)){ cout << "111\n";
-				valid_date = true;
-				if((month == FEB && date > FEB_END) || (month == APRIL && date > DAY_30_END) || (month == JUN && date > DAY_30_END) || (month == SEPT && date > DAY_30_END) || (month == NOV && date > DAY_30_END)){ cout << "222\n";
-					valid_date = false;
-				}
-				else{cout << "333\n";
-					valid_date = true;
-				}
-		    }
-		    else{
-			    cout << MESSAGE_INVALID_DATE <<endl;
-			    getline(cin,_deadlineDate);
-				cout<<_deadlineDate<<"POSB"<<endl;
-		    }
-			
+		size_t get_date = _deadlineDate.find("/");
+		date = atoi(_deadlineDate.substr(0, get_date).c_str());
+		month = atoi(_deadlineDate.substr(get_date + 1, 2).c_str());
+		if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
+			valid_date = true;
 		}
-		
+		else{
+			cout << MESSAGE_INVALID_DATE << endl;
+			cin >> _deadlineDate;
+		}
 	}
 
 	//check date for schedule Task
 	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_date)){
 		size_t get_date = _scheduledDate.find("/");
-		if(get_date != string::npos){
-			date = atoi(_scheduledDate.substr(0, get_date).c_str());
-		    month = atoi(_scheduledDate.substr(get_date + 1, 2).c_str());
-			cout << date << "+"<<month;
-		    if ((date >= DAY_START && date <= DAY_31_END) && (month >= MONTH_START && month <= MONTH_END)){ cout << "111\n";
-				valid_date = true;
-				if((month == FEB && date > FEB_END) || (month == APRIL && date > DAY_30_END) || (month == JUN && date > DAY_30_END) || (month == SEPT && date > DAY_30_END) || (month == NOV && date > DAY_30_END)){ cout << "222\n";
-					valid_date = false;
-				}
-				else{cout << "333\n";
-					valid_date = true;
-				}
-		    }
-		    else{
-			    cout << MESSAGE_INVALID_DATE << endl;
-			    getline(cin, _scheduledDate);
-		    }
+		date = atoi(_scheduledDate.substr(0, get_date).c_str());
+		month = atoi(_scheduledDate.substr(get_date + 1, 2).c_str());
+		if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
+			valid_date = true;
+		}
+		else{
+			cout << MESSAGE_INVALID_DATE << endl;
+			cin >> _scheduledDate;
 		}
 	}
-	
 }
 
 
