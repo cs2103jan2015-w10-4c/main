@@ -34,7 +34,7 @@ namespace ParserTest{
 			Assert::AreEqual(expectedOutput1,realOutput1);
 
 			//test case 2: timed task
-			std::string testInput2 = "Write code -from 12:00 -to 00:00 12/04";
+			std::string testInput2 = "Write code -from 12:00 -to 14:00 12/04";
 			Task task2(testInput2);
 			std::string expectedOutput2 = "timed";
 			std::string realOutput2 = task2.getTaskType();
@@ -103,7 +103,7 @@ namespace ParserTest{
 			std::string testInput2 = "Write code -by 12:00 31/12";
 			Task task2(testInput2);
 			std::string expectedOutput2 = "31/12";
-			std::string realOutput2 = task2.getEndTime();
+			std::string realOutput2 = task2.getDeadlineDate();
 			Assert::AreEqual( expectedOutput2,realOutput2);
 		}
 

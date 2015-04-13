@@ -14,6 +14,9 @@ const string FINISHED_TASK_LABEL = "done";
 const string UNCOMPLETED_TASK_LABEL = "uncompleted";
 const string MESSAGE_INVALID_DATE = "Invalid date, provide valid date";
 const string MESSAGE_INVALID_TIME = "Invalid time, provide valid time";
+const string MESSAGE_START_TIME = "starting time:";
+const string MESSAGE_END_TIME = "ending time:";
+const string MESSAGE_DEADLINE_TIME = "deadline time:";
 const string MARK_FROM = "-from";
 const string MARK_TO = "-to";
 const string MARK_BY = "-by";
@@ -26,6 +29,7 @@ const string BRACKET = "[";
 const int ADJUSTMENT_ONE = 1;
 const int ADJUSTMENT_FOUR = 4;
 const int ADJUSTMENT_SIX= 6;
+const int LENGTH_TIME = 2;
 const int LENGTH_OF_TIME = 5;
 const int LENGTH_OF_DATE = 5;
 const int START_OF_STRING = 0;
@@ -391,44 +395,44 @@ void Task::checkInputValidation(){
 
 	//check time frame in scheduled Task
 	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_time)){
-		size_t get__startTime = _startTime.find(":");
-		size_t get__endTime = _endTime.find(":");
-		start_hour = atoi(_startTime.substr(0, get__startTime).c_str());
-		start_mins = atoi(_startTime.substr(get__startTime + 1, 2).c_str());
-		end_hour = atoi(_endTime.substr(0, get__endTime).c_str());
-		end_mins = atoi(_endTime.substr(get__endTime + 1, 2).c_str());
-		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60) && (end_hour >= 0 && end_hour <= 24) && (end_mins >= 0 && end_mins <= 60)){
-			if (start_hour < end_hour){
+		size_t get__startTime = _startTime.find(COLON);
+		size_t get__endTime = _endTime.find(COLON);
+		start_hour = atoi(_startTime.substr(START_OF_STRING, get__startTime).c_str());
+		start_mins = atoi(_startTime.substr(get__startTime + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
+		end_hour = atoi(_endTime.substr(START_OF_STRING, get__endTime).c_str());
+		end_mins = atoi(_endTime.substr(get__endTime + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
+		if ((start_hour >= HOUR_START && start_hour <= HOUR_END) && (start_mins >= MINUTE_START && start_mins <= MINUTE_END) && (end_hour >= HOUR_START && end_hour <= HOUR_END) && (end_mins >= MINUTE_START && end_mins <= MINUTE_END)){
+			if (start_hour <= end_hour && start_mins < end_mins){
 				valid_time = true;
 			}
 			else{
 				cout << MESSAGE_INVALID_TIME << endl;
-				cout << "starting time:";
+				cout << MESSAGE_START_TIME;
 				cin >> _startTime;
-				cout << "ending time:";
+				cout << MESSAGE_END_TIME;
 				cin >> _endTime;
 			}
 		}
 		else{
 			cout << MESSAGE_INVALID_TIME << endl;
-			cout << "starting time:";
+			cout << MESSAGE_START_TIME;
 			cin >> _startTime;
-			cout << "ending time:";
+			cout << MESSAGE_END_TIME;
 			cin >> _endTime;
 		}
 	}
 
 	//check time frame in deadline Task
 	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_time)){
-		size_t get_time = _deadlineTime.find(":");
-		start_hour = atoi(_deadlineTime.substr(0, get_time).c_str());
-		start_mins = atoi(_deadlineTime.substr(get_time + 1, 2).c_str());
-		if ((start_hour >= 0 && start_hour <= 24) && (start_mins >= 0 && start_mins <= 60)){
+		size_t get_time = _deadlineTime.find(COLON);
+		start_hour = atoi(_deadlineTime.substr(START_OF_STRING, get_time).c_str());
+		start_mins = atoi(_deadlineTime.substr(get_time + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
+		if ((start_hour >= HOUR_START && start_hour <= HOUR_END) && (start_mins >= MINUTE_START && start_mins <= MINUTE_END)){
 			valid_time = true;
 		}
 		else{
 			cout << MESSAGE_INVALID_TIME << endl;
-			cout << "deadline time:";
+			cout << MESSAGE_DEADLINE_TIME;
 			cin >> _deadlineTime;
 		}
 	}
@@ -440,10 +444,10 @@ void Task::checkInputValidation(){
 
 	//check date for deadline Task
 	while ((_TaskType == DEADLINE_TASK_LABEL) && (!valid_date)){
-		size_t get_date = _deadlineDate.find("/");
-		date = atoi(_deadlineDate.substr(0, get_date).c_str());
-		month = atoi(_deadlineDate.substr(get_date + 1, 2).c_str());
-		if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
+		size_t get_date = _deadlineDate.find(SLASH);
+		date = atoi(_deadlineDate.substr(START_OF_STRING, get_date).c_str());
+		month = atoi(_deadlineDate.substr(get_date + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
+		if ((date >= DAY_START && date <= DAY_31_END) && (month >= MONTH_START && month <= MONTH_END)){
 			valid_date = true;
 		}
 		else{
@@ -454,10 +458,10 @@ void Task::checkInputValidation(){
 
 	//check date for schedule Task
 	while ((_TaskType == SCHEDULED_TASK_LABEL) && (!valid_date)){
-		size_t get_date = _scheduledDate.find("/");
-		date = atoi(_scheduledDate.substr(0, get_date).c_str());
-		month = atoi(_scheduledDate.substr(get_date + 1, 2).c_str());
-		if ((date >= 1 && date <= 31) && (month >= 1 && month <= 12)){
+		size_t get_date = _scheduledDate.find(SLASH);
+		date = atoi(_scheduledDate.substr(START_OF_STRING, get_date).c_str());
+		month = atoi(_scheduledDate.substr(get_date + ADJUSTMENT_ONE, LENGTH_TIME).c_str());
+		if ((date >= DAY_START && date <= DAY_31_END) && (month >= MONTH_START && month <= MONTH_END)){
 			valid_date = true;
 		}
 		else{
