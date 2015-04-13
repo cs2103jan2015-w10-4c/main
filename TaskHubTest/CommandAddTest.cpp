@@ -28,6 +28,7 @@ namespace CommandAddTest{
 				CommandAdd::addMessage ("                                                             ");
 				std::string expectedOutput3 = "The input is empty.";
 				std::string actualOutput3 = Logic::messageDisplayed;
+				CommandClear::clearTask("all");
 				Assert::AreEqual(expectedOutput3, actualOutput3);
 
 				//test case 4

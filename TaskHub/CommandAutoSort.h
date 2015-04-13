@@ -1,4 +1,16 @@
-////@author A0115365J
+//@author A0115365J
+//
+//************************************************
+//				Class CommandAutoSort
+//this class is to sort messages in the following orders:
+//Undone timed task by date -> undone deadline tasks by date-> floating tasks -> done tasks -> uncompleted tasks
+//after that the timed tasks will be sorted by its date and time, in acending order
+//
+//
+//
+//
+//************************************************
+
 
 #ifndef COMMANDAUTOSORT_H_
 #define COMMANDAUTOSORT_H_

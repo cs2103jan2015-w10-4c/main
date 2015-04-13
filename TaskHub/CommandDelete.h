@@ -1,4 +1,13 @@
 //@author A0115365J
+//
+//************************************************
+//				Class CommandDelete
+//this class is used when the delete command is called
+//it can delete tasks with valid index
+//
+//
+//************************************************
+
 
 #ifndef COMMANDDELETE_H_
 #define COMMANDDELETE_H_

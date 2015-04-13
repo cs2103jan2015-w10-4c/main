@@ -1,5 +1,13 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class Logic
+//this class is used for internal traffic flow, it will direct to the message to appropriate commands
+//
+//
+//************************************************
+
 #ifndef LOGIC_H_
 #define LOGIC_H_
 

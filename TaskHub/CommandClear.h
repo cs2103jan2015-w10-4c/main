@@ -1,5 +1,15 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class CommandClear
+//this class is used when the clear command is called
+//it can clear all tasks, clear tasks with adjacent index, clear all uncompleted tasks, and all done tasks
+//
+//
+//************************************************
+
+
 #ifndef CLEARALL_H_
 #define CLEARALL_H_
 

@@ -1,5 +1,17 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class ShowDailyTask
+//this class is used when the show command is called
+//it can show tasks on today, tomorrow, or now
+//it can also show tasks on any other date with dd/mm format
+//by default it shows today
+//
+//
+//it can also show free slots of any other date, with format dd/mm
+//************************************************
+
 #ifndef SHOWDAILYTASK_H_
 #define SHOWDAILYTASK_H_
 

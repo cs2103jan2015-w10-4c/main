@@ -1,5 +1,13 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class redoChange
+//this class is used when the redo command is called
+//it will undo the previous "undo" commands
+//
+//************************************************
+
 #ifndef COMMANDREDO_H_
 #define COMMANDREDO_H_
 

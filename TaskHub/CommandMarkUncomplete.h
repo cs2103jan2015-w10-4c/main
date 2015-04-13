@@ -1,5 +1,13 @@
 //@author A0115365J
 
+//
+//************************************************
+//				Class markingMessageUncompleted
+//this class is used when the uncompleted command is called
+//it will change the tasks' status to uncompleted
+//
+//************************************************
+
 #ifndef COMMANDMARKUNCOMPLETE_H_
 #define COMMANDMARKUNCOMPLETE_H_
 
