@@ -33,6 +33,7 @@ public:
 
 	std::string convertTaskIntoString();
 	Task convertStringIntoTask();
+	char convertToUpperCase(char input);
 
 	std::string processFileDirectory(std::string inputString);
 	bool isValidFileFormat(std::string input);

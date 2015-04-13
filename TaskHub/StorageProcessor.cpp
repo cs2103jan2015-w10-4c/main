@@ -90,3 +90,7 @@ std::string StorageProcessor::extractExtensionTypeString(std::string fileInput){
 	assert(&fileInput != NULL);
 	return fileInput.substr(fileInput.find_last_of("."));
 }
+
+char StorageProcessor::convertToUpperCase(char input){
+	return toupper(input);
+}

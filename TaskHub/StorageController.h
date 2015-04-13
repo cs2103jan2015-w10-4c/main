@@ -36,8 +36,12 @@ private:
 	static const std::string MESSAGE_ERROR_LOCATION;
 	static void logErrorMessage(std::string errorMessage);
 	static void printAddressPromptMessage();
+	static void printRetrieveFilePromptMessage();
 	static void printExceptionMessage(std::string message);
 	static void fileNameSettingOperation(std::string fileName);
+	static bool isRetrieveFileInvalidCaseOperation();
+	static bool isValidAnswer(char ans);
+	static bool isAnswerYes(char ans);
 
 public:
 	StorageController();
@@ -59,13 +63,16 @@ public:
 	static std::string getFileName();
 	static void setLastSaveFile(std::string newFileName);
 	static std::string getLastSaveFileName();
+
 	static std::string convertTaskIntoString();
 	static bool isRetrieveSaveFile();
+
 	static void openLastSavedFile();
 	static void openNewSavedFile();
 	
 };
 
+// exception class
 class InvalidInputException : public std::exception{
 private:
 	std::string _message;
