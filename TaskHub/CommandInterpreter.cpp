@@ -28,7 +28,7 @@ CommandInterpreter::CommandInterpreter () {
 CommandInterpreter::~CommandInterpreter () {
 
 }
-
+//@author A0115365J-reused
 string CommandInterpreter::executeUserCommand(string userCommand) {
 	string commandTypeString;
 	string TaskString;
@@ -83,7 +83,7 @@ string CommandInterpreter::executeUserCommand(string userCommand) {
 		return MESSAGE_ERROR;
 	}
 }
-
+//@author A0115365J-reused
 CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string commandTypeString, string TaskString) {
 	if (commandTypeString == COMMAND_HELP) {
 		return COMMAND_TYPE::HELP;
@@ -140,11 +140,11 @@ CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string
 		return COMMAND_TYPE::INVALID;
 	}
 }
-
+//@author A0115365J-reused
 string CommandInterpreter::getFirstWord(string userCommand) {
 	return userCommand.substr(0, userCommand.find(' '));
 }
-
+//@author A0115365J-reused
 string CommandInterpreter::removeFirstWord(string userCommand) {
 	return userCommand.substr(userCommand.find_first_of(" ") + 1);
 }

@@ -171,6 +171,149 @@ private:
 	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
 	 */
 
+//Subtantial changes are made to the reused code segments so that they can fit in our programme 
+#include <assert.h>
+#include "Parser.h"
+
+
+const int Task_LEN = 250;
+const string SCHEDULED_TASK_LABEL = "timed";
+const string DEADLINE_TASK_LABEL = "deadline";
+const string FLOATING_TASK_LABEL = "floating";
+const string PROGRESSING_TASK_LABEL = "progressing";
+const string FINISHED_TASK_LABEL = "done";
+const string UNCOMPLETED_TASK_LABEL = "uncompleted";
+const string MESSAGE_INVALID_DATE = "Invalid date, provide valid date";
+const string MESSAGE_INVALID_TIME = "Invalid time, provide valid time";
+const string MESSAGE_START_TIME = "starting time:";
+const string MESSAGE_END_TIME = "ending time:";
+const string MESSAGE_DEADLINE_TIME = "deadline time:";
+const string MARK_FROM = "-from";
+const string MARK_TO = "-to";
+const string MARK_BY = "-by";
+const string MARK_AT = "@";
+const string SLASH = "/";
+const string COLON = ":";
+const string EMPTY_SPACE =" ";
+const string EMPTY_STRING = "";
+const string BRACKET = "[";
+const int ADJUSTMENT_ONE = 1;
+const int ADJUSTMENT_FOUR = 4;
+const int ADJUSTMENT_SIX= 6;
+const int LENGTH_TIME = 2;
+const int LENGTH_OF_TIME = 5;
+const int LENGTH_OF_DATE = 5;
+const int START_OF_STRING = 0;
+const int HOUR_START = 0;
+const int HOUR_END = 23;
+const int MINUTE_START = 0;
+const int MINUTE_END = 59;
+const int MONTH_START = 1;
+const int MONTH_END = 12;
+const int DAY_START = 1;
+const int FEB_END = 29;
+const int DAY_30_END = 30;
+const int DAY_31_END = 31;
+const int FEB = 2;
+const int APRIL = 4;
+const int JUN = 6;
+const int SEPT = 9;
+const int NOV = 11;
+Task::Task(){}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+	 */
+
+void Task::MarkDone(){
+	_status = FINISHED_TASK_LABEL;
+}
+
+void Task::MarkUndone(){
+	_status = PROGRESSING_TASK_LABEL;
+}
+
+void Task::markUncompleted(){
+	_status = UNCOMPLETED_TASK_LABEL;
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+	 */
+
+string Task::getTaskType(){
+	return _TaskType;
+}
+
+string Task::getStartTime(){
+	return _startTime;
+}
+
+string Task::getEndTime(){
+	return _endTime;
+}
+
+string Task::getDeadlineTime(){
+	return _deadlineTime;
+}
+
+string Task::getScheduledDate(){
+	return _scheduledDate;
+}
+
+
+string Task::getScheduledDateReverse(){
+	return _scheduledDateReverse;
+}
+
+string Task::getDeadlineDate(){
+	return _deadlineDate;
+}
+
+string Task::getStatus(){
+	return _status;
+}
+
+string Task::getVenue(){
+	return _venue;
+}
+
+int Task::getIntegerDay(){
+	return _integerDay;
+}
+
+int Task::getIntegerMonth(){
+	return _integerMonth;
+}
+
+int Task::getStartHour(){
+	return _startHour;
+}
+
+int Task::getStartMinute(){
+	return _startMinute;
+}
+
+int Task::getEndHour(){
+	return _endHour;
+}
+
+int Task::getEndMinute(){
+	return _endMinute;
+}
+
 	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
 
 
@@ -181,6 +324,80 @@ private:
 	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.h
 	 */
 
+
+//**********************************************************
+//                           class Parser
+//     this class will receive input from logic class, and its job is to extract various information from
+//     user input. It can determine task type and task status,  extract task description, extract date and time for timed tasks
+//     and deadline tasks. It also checks input from users are in correct format and valid information.
+//
+//******************************************************************
+#ifndef PARSER_H_
+#define PARSER_H_
+
+#include <iostream>
+#include <string>
+#include "DateParser.h"
+#include "TimeParser.h"
+#include "VenueParser.h"
+using namespace std;
+
+class Task{
+
+private:
+	string _TaskName;
+	string _TaskType;
+	string _startTime;
+	string _endTime;
+	string _deadlineTime;
+	string _scheduledDate;
+	string _scheduledDateReverse;
+	string _deadlineDate;
+	string _status;
+	string _venue;
+	string _alphaMonth;
+	int _integerDay;
+	int _integerMonth;
+	int _startHour;
+	int _startMinute;
+	int _endHour;
+	int _endMinute;
+	void updateTaskName(string input);
+
+
+
+public:
+	//vector<string> Task;
+	Task();
+	Task(string input);
+	~Task();
+	Task(string Task, string input);
+	string ToString();
+	string getTaskName();
+	string getTaskType();
+	string getStartTime();
+	string getEndTime();
+	string getDeadlineTime();
+	string getScheduledDate();
+	string getScheduledDateReverse();
+	string getDeadlineDate();
+	string getStatus();
+	string getVenue();
+	string getAlphaMonth();
+	int getIntegerDay();
+	int getIntegerMonth();
+	int getStartHour();
+	int getStartMinute();
+	int getEndHour();
+	int getEndMinute();
+	void UpdateTask(string input);
+	void MarkDone();
+	void MarkUndone();
+	void checkInputValidation();
+	void markUncompleted();
+};
+
+#endif
 	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.h
 
 

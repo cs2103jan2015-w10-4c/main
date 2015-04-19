@@ -1,4 +1,4 @@
-//@author: A0115399W
+//@author A0115399W
 #include "TimeParser.h"
 
 const string COLON = ":";

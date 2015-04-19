@@ -1,4 +1,4 @@
-//@author: A0115399W
+//@author A0115399W
 #include "VenueParser.h"
 #include <string>
 const string AT = "@";

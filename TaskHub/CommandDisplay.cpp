@@ -29,12 +29,12 @@ CommandDisplay::~CommandDisplay() {
 
 string CommandDisplay::display(string message) {
 		messageDisplayed.clear();
-	if (StorageDatabase::taskHistory.getVectorTextStorage().empty()){
+	if (StorageDatabase::taskHistory.getVectorTextStorage().empty()){//@author A0115365J-reused
 		sprintf_s(Logic::messageDisplayed,MESSAGE_EMPTY_FILE.c_str());
 		return Logic::messageDisplayed;
 
 	} else {
-		
+		//@author A0115365J-reused
 		transform(message.begin(),message.end(),message.begin(), ::tolower);
 		if (message == MESSAGE_ALL||message == MESSAGE_DISPLAY_WORD) {
 		
@@ -52,7 +52,8 @@ string CommandDisplay::display(string message) {
 		string TaskDisplay = oss.str();
 		messageDisplayed.push_back( TaskDisplay);
 		
-		} else if (message == TASK_TYPE_FLOATING) {
+		} //@author A0115365J
+		else if (message == TASK_TYPE_FLOATING) {
 			int taskNo = 1;
 			messageDisplayed.clear();
 			for (unsigned int i = 0; i < StorageDatabase::taskHistory.getVectorTextStorage().size() ; i++){

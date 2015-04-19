@@ -1,6 +1,8 @@
 //@author A0115365J
 #include "History.h"
 #include "LogicController.h"
+//@author A0115365J-reused
+
 
 History::History(void) {
 

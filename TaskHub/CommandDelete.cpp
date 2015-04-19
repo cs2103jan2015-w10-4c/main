@@ -28,7 +28,7 @@ bool isValid(string taskIndex) {
 }
 
 string CommandDelete::deleteMessage(string input) {
-
+	//@author A0115365J-reused
 	if (!isValid(input)) {
 		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
 		return Logic::messageDisplayed;

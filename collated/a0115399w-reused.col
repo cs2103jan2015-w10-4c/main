@@ -1,55 +1,11 @@
-//@author A0115399W
-//Subtantial changes are made to the reused code segments so that they can fit in our programme 
-#include <assert.h>
-#include "Parser.h"
+//@author: a0115399w-reused
 
 
-const int Task_LEN = 250;
-const string SCHEDULED_TASK_LABEL = "timed";
-const string DEADLINE_TASK_LABEL = "deadline";
-const string FLOATING_TASK_LABEL = "floating";
-const string PROGRESSING_TASK_LABEL = "progressing";
-const string FINISHED_TASK_LABEL = "done";
-const string UNCOMPLETED_TASK_LABEL = "uncompleted";
-const string MESSAGE_INVALID_DATE = "Invalid date, provide valid date";
-const string MESSAGE_INVALID_TIME = "Invalid time, provide valid time";
-const string MESSAGE_START_TIME = "starting time:";
-const string MESSAGE_END_TIME = "ending time:";
-const string MESSAGE_DEADLINE_TIME = "deadline time:";
-const string MARK_FROM = "-from";
-const string MARK_TO = "-to";
-const string MARK_BY = "-by";
-const string MARK_AT = "@";
-const string SLASH = "/";
-const string COLON = ":";
-const string EMPTY_SPACE =" ";
-const string EMPTY_STRING = "";
-const string BRACKET = "[";
-const int ADJUSTMENT_ONE = 1;
-const int ADJUSTMENT_FOUR = 4;
-const int ADJUSTMENT_SIX= 6;
-const int LENGTH_TIME = 2;
-const int LENGTH_OF_TIME = 5;
-const int LENGTH_OF_DATE = 5;
-const int START_OF_STRING = 0;
-const int HOUR_START = 0;
-const int HOUR_END = 23;
-const int MINUTE_START = 0;
-const int MINUTE_END = 59;
-const int MONTH_START = 1;
-const int MONTH_END = 12;
-const int DAY_START = 1;
-const int FEB_END = 29;
-const int DAY_30_END = 30;
-const int DAY_31_END = 31;
-const int FEB = 2;
-const int APRIL = 4;
-const int JUN = 6;
-const int SEPT = 9;
-const int NOV = 11;
-Task::Task(){}
 
-//@author A0115399W-reused
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+	 */
+
 Task::Task(string input){
 	if (!input.empty()){
 		size_t timedTask = input.find(MARK_FROM);
@@ -134,7 +90,16 @@ Task::Task(string input){
 
 Task::~Task(){}
 
-//@author A0115399W-reused
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+	 */
+
 Task::Task(string Task, string input){
 	if (!Task.empty()){
 
@@ -238,7 +203,16 @@ Task::Task(string Task, string input){
 	//checkInputValidation();
 }
 
-//@author A0115399W-reused
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+	 */
+
 string Task::ToString(){
 	char Task[Task_LEN];
 	string output;
@@ -259,135 +233,16 @@ string Task::getTaskName(){
 	return _TaskName;
 }
 
-//@author A0115793Y
-void Task::UpdateTask(string input){
-	input = EMPTY_SPACE+ input;
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
 
-	if(!input.empty()) {
-		size_t timed_Task_startTime = input.find(MARK_FROM);
-		size_t timed_Task_endTime = input.find(MARK_TO);
-		size_t deadlined_Task = input.find(MARK_BY);
-		size_t date = input.find(SLASH);
-		size_t venue = input.find(MARK_AT);
-		
-		//update starting time of scheduled task
-		if(timed_Task_startTime!=string::npos) {
-			_startTime = input.substr(timed_Task_startTime + ADJUSTMENT_SIX, LENGTH_OF_TIME);
-			TimeParser updateInfo(input);
-			_startHour = updateInfo.getStartHour();
-			_startMinute = updateInfo.getStartMinute();
-		}
 
-		//update ending time of scheduled task
-		if(timed_Task_endTime!=string::npos) {
-			_endTime = input.substr(timed_Task_endTime + ADJUSTMENT_FOUR, LENGTH_OF_TIME);
-			TimeParser updateInfo(input);
-			_endHour = updateInfo.getEndHour();
-			_endMinute = updateInfo.getEndMinute();
-		}
 
-		//update time of deadline task
-		if(deadlined_Task!=string::npos) {
-			_deadlineTime = input.substr(deadlined_Task + ADJUSTMENT_FOUR, LENGTH_OF_TIME);
-			TimeParser updateInfo(input);
-			_startHour = updateInfo.getStartHour();
-			_startMinute = updateInfo.getStartMinute();
-		}
 
-		if(date!=string::npos) {
-			//update date of scheudle dtask
-			if(_TaskType==SCHEDULED_TASK_LABEL) {
-				DateParser dateParse(input);
-				_scheduledDate = dateParse.getDate();
-				_integerDay = dateParse.getDay();
-				_integerMonth = dateParse.getMonth();
-			}
-			//update date of deadline task
-			else if(_TaskType==DEADLINE_TASK_LABEL) {
-				DateParser dateParse(input);
-				_deadlineDate = dateParse.getDate();
-				_integerDay = dateParse.getDay();
-				_integerMonth = dateParse.getMonth();
-			}
-		}
-		//update venue
-		if(venue!=string::npos) {
-			_venue = input.substr(venue);
-		}
 
-		string temp;
-		//task name case 1: only change task name  "update 1 meeting"
-		if(timed_Task_endTime==string::npos) {
-			if(timed_Task_startTime==string::npos) {
-				if(deadlined_Task==string::npos) {
-					if(date==string::npos) {
-						if(venue == string::npos) {
-							temp = input;
-							_TaskName = temp;
-						}
-					}
-				}
-			}
-		}
-		//task name case 2 "update 1 meeting -by ..." 
-		if(deadlined_Task!=string::npos) {
-			temp = input.substr(0,deadlined_Task);
-			updateTaskName(temp);
-		}
-		//task name case 3 "update 1 meeting -from ..
-		else if(timed_Task_startTime!=string::npos) {
-			temp = input.substr(0,timed_Task_startTime);
-			updateTaskName(temp);
-		}
-		//task name case 4 "update 1 meeting -to..."
-		else if(timed_Task_endTime!=string::npos) {
-			temp = input.substr(0,timed_Task_endTime);
-			updateTaskName(temp);
-		}
-		//task name case 5 "update 1 meeting 5/4"
-		else if(date!=string::npos) {
-			if(_TaskType==SCHEDULED_TASK_LABEL) {
-				size_t temparory = input.find_first_of(_scheduledDate);
-				if(temparory!=0) {
-					temp = input.substr(0,temparory);
-					updateTaskName(temp);
-				}
-			}
-			else if(_TaskType==DEADLINE_TASK_LABEL) {
-				size_t temparory = input.find_first_of(_deadlineDate);
-				if(temparory!=0) {
-					temp = input.substr(0,temparory);
-					updateTaskName(temp);
-				}
-			}
-		}
-		//task name case 6 "update 1 meeting @biz"
-		else if(venue!=string::npos) {
-			temp = input.substr(START_OF_STRING,venue);
-			updateTaskName(temp);
-		}
-	}
-}
-void Task::updateTaskName(string input){
-	if(input!=EMPTY_SPACE){
-		_TaskName = input;
-	}
-}
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
+	 */
 
-//@author A0115399W
-void Task::MarkDone(){
-	_status = FINISHED_TASK_LABEL;
-}
-
-void Task::MarkUndone(){
-	_status = PROGRESSING_TASK_LABEL;
-}
-
-void Task::markUncompleted(){
-	_status = UNCOMPLETED_TASK_LABEL;
-}
-
-//@author A0115399W-reused
 void Task::checkInputValidation(){
 	//check for valid time frame
 	bool valid_time = false;
@@ -474,64 +329,9 @@ void Task::checkInputValidation(){
 	}
 }
 
-//@author A0115399W
-string Task::getTaskType(){
-	return _TaskType;
-}
-
-string Task::getStartTime(){
-	return _startTime;
-}
-
-string Task::getEndTime(){
-	return _endTime;
-}
-
-string Task::getDeadlineTime(){
-	return _deadlineTime;
-}
-
-string Task::getScheduledDate(){
-	return _scheduledDate;
-}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\Parser.cpp
 
 
-string Task::getScheduledDateReverse(){
-	return _scheduledDateReverse;
-}
 
-string Task::getDeadlineDate(){
-	return _deadlineDate;
-}
 
-string Task::getStatus(){
-	return _status;
-}
 
-string Task::getVenue(){
-	return _venue;
-}
-
-int Task::getIntegerDay(){
-	return _integerDay;
-}
-
-int Task::getIntegerMonth(){
-	return _integerMonth;
-}
-
-int Task::getStartHour(){
-	return _startHour;
-}
-
-int Task::getStartMinute(){
-	return _startMinute;
-}
-
-int Task::getEndHour(){
-	return _endHour;
-}
-
-int Task::getEndMinute(){
-	return _endMinute;
-}

@@ -15,7 +15,7 @@ markingDoneMessage::~markingDoneMessage () {
 }
 
 string markingDoneMessage::markMessageDone(string input) {
-
+	//@author A0115365J-reused
 	unsigned int index;
 	istringstream in(input);
 	in >> index;

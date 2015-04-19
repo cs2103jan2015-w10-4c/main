@@ -27,7 +27,7 @@ bool CommandAutoSort::compareCriteria(Task firstTask, Task secondTask) {
 		return false;
 	} else if((firstTask.getStatus() != STATUS_UNCOMPLETED) && (secondTask.getStatus() != STATUS_UNCOMPLETED)){
 	
-	
+	//@author A0115365J-reused
 	//done tasks sorted after undone tasks
 	if((firstTask.getStatus() == STATUS_DONE) && (secondTask.getStatus() != STATUS_DONE)){                          
 		return false;

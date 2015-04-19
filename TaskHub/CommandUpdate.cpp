@@ -30,7 +30,7 @@ bool checkInputValidation(string taskIndex){
 
 
 string CommandUpdate::updateMessage(string input) {
-
+	//@author A0115365J-reused
 	string TaskIndex = Logic::getFirstWord(input);
 	string TaskInfo = Logic::removeFirstWord(input);
 

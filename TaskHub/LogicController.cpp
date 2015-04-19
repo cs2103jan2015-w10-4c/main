@@ -20,7 +20,7 @@
 
 char Logic::messageDisplayed[MAX_BUFFERRING_CAPACITY] = "";
 
-void Logic::getStorage(){
+void Logic::getStorage(){//@author A0115365J-reused
 	vector<string> Logic = StorageController::returnTask();
 	for (unsigned int i = 0; i < Logic.size(); i++){
 		string TaskString = removeFirstWord(Logic[i]);
@@ -30,6 +30,7 @@ void Logic::getStorage(){
 	
 }
 
+//@author A0115365J
 string Logic::getDetail (string input) {
 
 	string temp = CommandDetail::detailMessage(input);
@@ -98,7 +99,7 @@ string Logic::sort () {
 string Logic::checkClash(string input) {
 	return CommandClash::clash(input);
 }
-
+//@author A0115365J-reused
 string Logic::getFirstWord(string input)
 {
 	return input.substr(0, input.find(' '));

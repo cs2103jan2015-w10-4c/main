@@ -39,7 +39,7 @@ string CommandAdd::addMessage (string input) {
 				sprintf_s(Logic::messageDisplayed,MESSAGE_CLASH.c_str());
 				return Logic::messageDisplayed;
 
-			} else {
+			} else {//@author A0115365J-reused
 			Task newTask(input);
 			StorageDatabase::taskHistory.setVectorTextStorage(newTask);
 			StorageDatabase::taskHistory.setLastChangedTask(newTask);
@@ -52,6 +52,8 @@ string CommandAdd::addMessage (string input) {
 	return Logic::messageDisplayed;
 
 }
+
+//@author A0115365J
 string CommandAdd::addOperation(string input) {
 	string feedback = CommandAdd::addMessage(input);
 	StorageController::updateSaveFile();

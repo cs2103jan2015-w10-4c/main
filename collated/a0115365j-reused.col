@@ -1,0 +1,776 @@
+//@author: a0115365j-reused
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAdd.cpp
+	 */
+
+			Task newTask(input);
+			StorageDatabase::taskHistory.setVectorTextStorage(newTask);
+			StorageDatabase::taskHistory.setLastChangedTask(newTask);
+			sprintf_s(Logic::messageDisplayed, MESSAGE_ADDED.c_str(),newTask.ToString().c_str());
+			}
+
+		} else {
+			sprintf_s(Logic::messageDisplayed,MESSAGE_INDICATING_EMPTY.c_str());
+		}
+	return Logic::messageDisplayed;
+
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAdd.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAutoSort.cpp
+	 */
+
+	//done tasks sorted after undone tasks
+	if((firstTask.getStatus() == STATUS_DONE) && (secondTask.getStatus() != STATUS_DONE)){                          
+		return false;
+	} else if ((firstTask.getStatus() != STATUS_DONE) && (secondTask.getStatus() == STATUS_DONE)){
+		return true;
+	} else if ((firstTask.getStatus() == STATUS_DONE) && (secondTask.getStatus()) == STATUS_DONE){
+		return false;
+	} else if((firstTask.getStatus() != STATUS_DONE) && (secondTask.getStatus() != STATUS_DONE)){
+
+		//for undone tasks
+		//floating tasks sorted after timed and deadline tasks
+		if((firstTask.getTaskType() == STATUS_FLOATING) && (secondTask.getTaskType() != STATUS_FLOATING)){
+			return false;															
+		} else if ((firstTask.getTaskType() != STATUS_FLOATING) && (secondTask.getTaskType() == STATUS_FLOATING)){
+			return true;
+		} else if ((firstTask.getTaskType() == STATUS_FLOATING) && (secondTask.getTaskType() == STATUS_FLOATING)){
+			return false;
+		} else if((firstTask.getTaskType() != STATUS_FLOATING) && (secondTask.getTaskType() != STATUS_FLOATING)){
+			
+			//for timed and deadline tasks
+			//they are sorted by their starting time
+			char firstTaskTime[MAX_TIME_LENGTH];
+			char secondTaskTime[MAX_TIME_LENGTH];
+
+			sprintf_s(firstTaskTime, (firstTask.getScheduledDateReverse() + firstTask.getStartTime()).c_str());
+			sprintf_s(secondTaskTime, (secondTask.getScheduledDateReverse() + secondTask.getStartTime()).c_str());
+
+			int i = 0;
+			while(firstTaskTime[i] != NULL_TERMINATION_CHARACTER){
+				while(secondTaskTime[i] != NULL_TERMINATION_CHARACTER){
+					if(firstTaskTime[i] < secondTaskTime[i]){
+						return true;
+					} else if(firstTaskTime[i] > secondTaskTime[i]){
+						return false;
+					}
+					i++;
+				}
+				return false;
+			}
+			return false;
+		}
+	}
+	return false;
+}
+	return false;
+}
+
+string CommandAutoSort::autoSort () {
+	
+	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+
+	stable_sort(temporary.begin(),temporary.end(),CommandAutoSort::compareCriteria);
+
+	StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+	
+	return MESSAGE_SORT_SUCCESSFUL;
+
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAutoSort.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDelete.cpp
+	 */
+
+	if (!isValid(input)) {
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+		return Logic::messageDisplayed;
+	}
+
+	unsigned int index;
+	istringstream in(input);
+	in >> index;
+	if (index > 0 && index <= StorageDatabase::taskHistory.getVectorTextStorage().size()) {
+      
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex(index);
+		StorageDatabase::taskHistory.setLastUnchangedTask (StorageDatabase::taskHistory.getVectorTextStorage()[index - 1]);
+		
+		vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+		Task taskDeleted = temporary[index - 1];
+		temporary.erase(temporary.begin() + index - 1);
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		
+		sprintf_s(Logic::messageDisplayed,MESSAGE_DELETED.c_str(), taskDeleted.ToString().c_str());
+
+	} else {
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+	}
+		return Logic::messageDisplayed;
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDelete.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDisplay.cpp
+	 */
+
+		sprintf_s(Logic::messageDisplayed,MESSAGE_EMPTY_FILE.c_str());
+		return Logic::messageDisplayed;
+
+	} else {
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDisplay.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDisplay.cpp
+	 */
+
+		transform(message.begin(),message.end(),message.begin(), ::tolower);
+		if (message == MESSAGE_ALL||message == MESSAGE_DISPLAY_WORD) {
+		
+			for (unsigned int i = 0; i < StorageDatabase::taskHistory.getVectorTextStorage().size() - 1; i++){
+				ostringstream oss;
+				
+				oss << i + 1 << DOT << StorageDatabase::taskHistory.getVectorTextStorage()[i].ToString() << endl;
+				string TaskDisplay = oss.str();
+				messageDisplayed.push_back( TaskDisplay);
+		}
+		ostringstream oss;
+		
+		int size = StorageDatabase::taskHistory.getVectorTextStorage().size();
+		oss << size << DOT << StorageDatabase::taskHistory.getVectorTextStorage()[size - 1].ToString();
+		string TaskDisplay = oss.str();
+		messageDisplayed.push_back( TaskDisplay);
+		
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandDisplay.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.cpp
+	 */
+
+string CommandInterpreter::executeUserCommand(string userCommand) {
+	string commandTypeString;
+	string TaskString;
+
+	commandTypeString = getFirstWord(userCommand);
+	TaskString = removeFirstWord(userCommand);
+
+	transform(commandTypeString.begin(), commandTypeString.end(), commandTypeString.begin(), ::tolower);
+	
+	COMMAND_TYPE commandType;
+	commandType = determineCommandType(commandTypeString, TaskString);
+
+	switch (commandType) {
+	case SHOW:
+		return Logic::show(TaskString);
+	case RECURRING:
+		return Logic::recurTask(TaskString);
+	case HELP:
+		return Logic::help();
+	case CLEAR:
+		return Logic::clearAll(TaskString);
+	case ADD_TASK:
+		return Logic::addTask(TaskString);
+	case UPDATE:
+		return Logic::updateTask(TaskString);
+	case SORT:
+		return Logic::sort();
+	case DELETE_TASK:
+		return Logic::deleteTask(TaskString);
+	case DISPLAY_TASK:
+		return Logic::display(TaskString);
+	case MARK_DONE:
+		return Logic::MarkDone(TaskString);
+	case UNCONPLETE:
+		return Logic::markUncompleted(TaskString);
+	case SEARCH:
+		return Logic::search(TaskString);
+	case DETAIL:
+		return Logic::getDetail(TaskString);
+	case CHECK:
+		return Logic::checkClash(TaskString);
+	case UNDO:
+		return Logic::undo();
+	case REDO:
+		return Logic::redo();
+	case EXIT:
+		StorageController::updateSaveFile();
+		cout << MESSAGE_TERMINATION << endl;;
+		exit(0);
+	case INVALID:
+	default:
+		return MESSAGE_ERROR;
+	}
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.cpp
+	 */
+
+CommandInterpreter::COMMAND_TYPE CommandInterpreter::determineCommandType(string commandTypeString, string TaskString) {
+	if (commandTypeString == COMMAND_HELP) {
+		return COMMAND_TYPE::HELP;
+	}
+	else if (commandTypeString == COMMAND_ADD) {
+		return COMMAND_TYPE::ADD_TASK;
+	} 
+	else if (commandTypeString == COMMAND_CLEAR) {
+		return COMMAND_TYPE::CLEAR;
+	}
+	else if (commandTypeString == COMMAND_UPDATE) {
+		return COMMAND_TYPE::UPDATE;
+	}
+	else if (commandTypeString == COMMAND_RECURRING) {
+		return COMMAND_TYPE::RECURRING;
+	}
+	else if (commandTypeString == COMMAND_DELETE) {
+		return COMMAND_TYPE::DELETE_TASK;
+	}
+	else if (commandTypeString == COMMAND_SEARCH) {
+		return COMMAND_TYPE::SEARCH;
+	}
+	else if (commandTypeString == COMMAND_DISPLAY) {
+		return COMMAND_TYPE::DISPLAY_TASK;
+	}
+	else if (commandTypeString == COMMAND_SHOW) {
+		return COMMAND_TYPE::SHOW;
+	} 
+	else if (commandTypeString == COMMAND_DETAIL) {
+		return COMMAND_TYPE::DETAIL;
+	}
+	else if (commandTypeString == COMMAND_SORT) {
+		return COMMAND_TYPE::SORT;
+	}
+	else if (commandTypeString == COMMAND_DONE) {
+		return COMMAND_TYPE::MARK_DONE;
+	}
+	else if (commandTypeString == COMMAND_UNDO) {
+		return COMMAND_TYPE::UNDO;
+	} 
+	else if (commandTypeString == COMMAND_CLASH) {
+		return COMMAND_TYPE::CHECK;
+	}
+	else if (commandTypeString == COMMAND_REDO) {
+		return COMMAND_TYPE::REDO;
+	}
+	else if (commandTypeString == COMMAND_UNCOMPLETE) {
+		return COMMAND_TYPE::UNCONPLETE;
+	}
+	else if (commandTypeString == COMMAND_EXIT) {
+		return COMMAND_TYPE::EXIT;
+	}
+	else{
+		return COMMAND_TYPE::INVALID;
+	}
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.cpp
+	 */
+
+string CommandInterpreter::getFirstWord(string userCommand) {
+	return userCommand.substr(0, userCommand.find(' '));
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.cpp
+	 */
+
+string CommandInterpreter::removeFirstWord(string userCommand) {
+	return userCommand.substr(userCommand.find_first_of(" ") + 1);
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandInterpreter.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkDone.cpp
+	 */
+
+	unsigned int index;
+	istringstream in(input);
+	in >> index;
+	
+	if (index > 0 && index <= StorageDatabase::taskHistory.getVectorTextStorage().size()) {
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex (index);
+
+		vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+		temporary[index - 1].MarkDone();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		Task taskMarked = temporary[index - 1];
+		
+		sprintf_s(Logic::messageDisplayed,MESSAGE_MARK_DONE.c_str(),taskMarked.ToString().c_str());
+
+	} else {
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+	}
+
+	return Logic::messageDisplayed;
+
+}
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkDone.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRedo.cpp
+	 */
+
+	vector<Task> temporary=StorageDatabase::taskHistory.getVectorTextStorage();
+
+	if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_ADD){
+		
+		temporary.push_back(StorageDatabase::taskHistory.getLastChangedTask());
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_ADD.c_str());
+		return Logic::messageDisplayed;
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType()  == COMMAND_TYPE_UPDATE){
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()] = StorageDatabase::taskHistory.getLastChangedTask();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_UPDATE.c_str());
+		return Logic::messageDisplayed;
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType()  == COMMAND_TYPE_DELETE){
+		temporary.erase(temporary.begin() + StorageDatabase::taskHistory.getLastChangedTaskIndex());
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_DELETE.c_str());
+		return Logic::messageDisplayed;
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType()  == COMMAND_TYPE_CLEAR){
+		temporary=StorageDatabase::taskHistory.getBackUpStorage();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_CLEAR.c_str());
+		return Logic::messageDisplayed;
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType()  == COMMAND_TYPE_UNCOMPLETE){
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()].markUncompleted();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_UNCOMPLETE.c_str());
+		return Logic::messageDisplayed;
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType()  == COMMAND_TYPE_DONE){
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()].MarkDone();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_REDO.c_str(), COMMAND_TYPE_DONE.c_str());
+		return Logic::messageDisplayed;
+	}
+	else{
+		return MESSAGE_ERROR;
+	}
+
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRedo.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.cpp
+	 */
+
+			string _Taskname = (temp[i]).getTaskName();
+			transform(_Taskname.begin(),_Taskname.end(),_Taskname.begin(),:: tolower);
+			description.push_back(_Taskname);
+		}
+
+		for (unsigned int j = 0; j < description.size(); j++){
+			size_t found= description[j].find(input);	
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.cpp
+	 */
+
+					ostringstream oss;
+					oss << j + 1 << "." << temp[j].ToString() << endl;
+					string TaskDisplay = oss.str();
+					output.push_back(TaskDisplay);
+				}
+			}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.cpp
+	 */
+
+		if (output.empty()) {
+			sprintf_s(Logic::messageDisplayed, MESSAGE_CANNOT_FIND.c_str());
+			return Logic::messageDisplayed;
+		} else {
+			CommandSearch::messageDisplayed.clear();
+			CommandSearch::messageDisplayed = output;
+			sprintf_s(Logic::messageDisplayed, MESSAGE_IS_SHOWN.c_str());
+			return Logic::messageDisplayed;
+		}	
+
+	}
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUndo.cpp
+	 */
+
+	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
+
+	if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_ADD) {
+		temporary.pop_back();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_ADD.c_str());
+		
+	}
+
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_UPDATE) {
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()] = StorageDatabase::taskHistory.getLastUnchangedTask();
+		
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_UPDATE.c_str());
+		
+	} 
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_CLEAR) {
+		temporary=StorageDatabase::taskHistory.getBackUpStorage();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+	
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_CLEAR.c_str());
+		
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_DELETE) {
+		
+		temporary.insert(temporary.begin() + StorageDatabase::taskHistory.getLastChangedTaskIndex(), StorageDatabase::taskHistory.getLastUnchangedTask());
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_DELETE.c_str());
+		
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_UNCOMPLETE) {
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()].MarkUndone();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_UNCOMPLETE.c_str());
+		
+	}
+	else if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_DONE) {
+		temporary[StorageDatabase::taskHistory.getLastChangedTaskIndex()].MarkUndone();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+	
+		sprintf_s(Logic::messageDisplayed, MESSAGE_COMMAND_UNDO.c_str(), COMMAND_TYPE_DONE.c_str());
+		
+	}
+	else{
+		sprintf_s(Logic::messageDisplayed,MESSAGE_ERROR.c_str());
+		
+	}
+	return Logic::messageDisplayed;
+}
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUndo.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUpdate.cpp
+	 */
+
+	string TaskIndex = Logic::getFirstWord(input);
+	string TaskInfo = Logic::removeFirstWord(input);
+
+	if (!checkInputValidation(TaskIndex)) {
+
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+		return Logic::messageDisplayed;
+	}
+
+	unsigned int index;
+	istringstream in(TaskIndex);
+	in >> index;
+
+
+	if (index > StorageDatabase::taskHistory.getVectorTextStorage().size() || index <= 0){
+		
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+		
+	}
+	else{
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex (index);
+		vector<Task> temp = StorageDatabase::taskHistory.getVectorTextStorage();
+
+		StorageDatabase::taskHistory.setLastUnchangedTask (temp[index - 1]);
+
+		temp[index - 1].UpdateTask(TaskInfo);
+
+		StorageDatabase::taskHistory.setLastChangedTask(temp[index - 1]);
+
+		StorageDatabase::taskHistory.setVectorTextStorage(temp);
+
+		sprintf_s(Logic::messageDisplayed,MESSAGE_UPDATED.c_str(),temp[index-1].ToString().c_str());
+		
+	}
+
+	return Logic::messageDisplayed;
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandUpdate.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\History.cpp
+	 */
+
+
+
+History::History(void) {
+
+}
+
+History::~History(void) {
+
+}
+
+void History::setLastChangedTaskIndex( int index) {
+
+	lastChangedTaskIndex= index - 1;
+}
+
+void History::setLastChangedTask(Task changedTask) {
+
+	lastChangedTask=changedTask;
+}
+
+void History::setLastCommandType(string changedCommandType) {
+
+	lastCommandType=changedCommandType;
+}
+
+void History::setLastUnchangedTask(Task unChangedTask) {
+
+	lastUnchangedTask=unChangedTask;
+}
+
+void History::setVectorTextStorage (Task taskString) {
+	backUpStorage=textStorage;
+	textStorage.push_back(taskString);
+	
+}
+
+int History::getLastChangedTaskIndex() {
+
+	return lastChangedTaskIndex;
+}
+
+Task History::getLastChangedTask() {
+	return lastChangedTask;
+}
+
+Task History::getLastUnchangedTask() {
+	return lastUnchangedTask;
+}
+
+vector<Task> History::getVectorTextStorage() {
+	
+	return textStorage;
+}
+
+string History::getLastCommandType() {
+	return lastCommandType;
+}
+
+void History::setVectorTextStorage(vector<Task> sample) {
+	backUpStorage=textStorage;
+	textStorage=sample;
+	
+
+}
+vector <Task> History::getBackUpStorage() {
+	return backUpStorage;
+}
+/*
+string History::printToString() {
+	ostringstream totalTask;
+	for (unsigned int i=0;i<StorageDatabase::taskHistory.getVectorTextStorage().size();i++) {
+		ostringstream oss;
+		Task temp=StorageDatabase::taskHistory.getVectorTextStorage()[i];
+		string taskName=temp.getTaskName();
+		string taskType=temp.getTaskType();
+		
+		if (taskType == "deadline"){
+			string deadlineDate= temp.getDeadlineDate();
+			string deadlineTime= temp.getDeadlineTime();
+			string deadlineVenue=temp.getVenue();
+			string status=temp.getStatus();
+			oss<< taskName <<" "<<deadlineDate<<" "<<deadlineTime<<" "<<deadlineVenue<<" "<<endl;
+			string TaskDisplay = oss.str();
+			totalTask << TaskDisplay;
+	}
+		else if (taskType == "timed"){
+			string scheduledDate=temp.getScheduledStartDate();
+			string startTime=temp.getStartTime();
+			string endTime=temp.getEndTime();
+			string venue=temp.getVenue();
+			string status=temp.getStatus();
+			oss<< taskName <<" "<< scheduledDate <<" "<<startTime<<" "<<endTime<<" "<<venue<<" "<<status<<endl;
+			string TaskDisplay = oss.str();
+			totalTask << TaskDisplay;
+	}
+		else if (taskType == "floating"){
+			string venue=temp.getVenue();
+			string status=temp.getStatus();
+			oss<< taskName<<" "<<venue<<" "<<status<<endl;
+			string TaskDisplay = oss.str();
+			totalTask << TaskDisplay;
+	}
+	}
+
+	return totalTask.str();
+}
+*/
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\History.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\LogicController.cpp
+	 */
+
+	vector<string> Logic = StorageController::returnTask();
+	for (unsigned int i = 0; i < Logic.size(); i++){
+		string TaskString = removeFirstWord(Logic[i]);
+		Task newTask(TaskString, "regain");
+		StorageDatabase::taskHistory.setVectorTextStorage(newTask);
+	}
+	
+}
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\LogicController.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\LogicController.cpp
+	 */
+
+string Logic::getFirstWord(string input)
+{
+	return input.substr(0, input.find(' '));
+}
+
+string Logic::removeFirstWord(string input)
+{
+	return input.substr(input.find_first_of(" ") + 1);
+}
+
+
+string Logic::help() {
+
+	cout << "Some examples:\n";
+
+	cout << "Add: add meeting -from 12:00 -to 14:00 25/12\n";
+	cout << "Display all: display or display all\n";
+	cout << "Display timed Tasks: display timed\n";
+	cout << "Display Deadline Tasks: display deadline\n";
+	cout << "Display Unfinished Tasks: display uncompleted\n";
+	cout << "Display Finished Tasks: display done\n";
+	cout << "Display Floating Tasks: display floating\n";
+	cout <<  "Show today task: show today"<<endl;
+	cout << "Show today tomorrow: show tomorrow"<<endl;
+	cout << "Show today now: show now"<<endl;
+	cout << "Show task on a paticular date: show 12/12 (dd/mm)"<<endl;
+	cout << "search task: search cs meeting\n";
+	cout << "mark task completed: done 1\n";
+	cout << "mark task uncompleted: uncomplete 1\n";
+	cout << "clear all tasks: clear all or clear\n";
+	cout << "clear timed tasks: clear timed\n";
+	cout << "clear done: clear done\n";
+	cout << "clear uncompleted tasks: clear uncompleted\n";
+	cout << "clear tasks continuously: clear 1-10\n";
+	cout << "Update: Update 1 -from 14:00 -to 15:00 23/12\n";
+	cout << "Search: search meeting\n";
+	cout << "Delete: delete 1\n";
+	
+	cout << "Undo: undo\n";
+	cout << "Redo: redo\n";
+	cout << "Exit: exit\n";
+
+	return "";
+}
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\LogicController.cpp
+
+
+
+
+

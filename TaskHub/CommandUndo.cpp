@@ -21,7 +21,7 @@ undoChange::~undoChange () {
 }
 
 string undoChange::undo() {
-
+	//@author A0115365J-reused
 	vector<Task> temporary = StorageDatabase::taskHistory.getVectorTextStorage();
 
 	if (StorageDatabase::taskHistory.getLastCommandType() == COMMAND_TYPE_ADD) {

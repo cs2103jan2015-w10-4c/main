@@ -20,7 +20,7 @@ CommandSearch::~CommandSearch () {
 }
 
 string CommandSearch::searchMessage (string input) {
-
+	
 	if (StorageDatabase::taskHistory.getVectorTextStorage().empty()){
 		sprintf_s(Logic::messageDisplayed,MESSAGE_EMPTY_FILE.c_str());
 		return Logic::messageDisplayed;
@@ -32,7 +32,7 @@ string CommandSearch::searchMessage (string input) {
 
 		transform(input.begin(),input.end(),input.begin(),:: tolower);
 
-		for (unsigned int i = 0; i < temp.size(); i++){
+		for (unsigned int i = 0; i < temp.size(); i++){//@author A0115365J-reused
 			string _Taskname = (temp[i]).getTaskName();
 			transform(_Taskname.begin(),_Taskname.end(),_Taskname.begin(),:: tolower);
 			description.push_back(_Taskname);
@@ -40,14 +40,14 @@ string CommandSearch::searchMessage (string input) {
 
 		for (unsigned int j = 0; j < description.size(); j++){
 			size_t found= description[j].find(input);	
-			if (found != string::npos){
+			if (found != string::npos){//@author A0115365J-reused
 					ostringstream oss;
 					oss << j + 1 << "." << temp[j].ToString() << endl;
 					string TaskDisplay = oss.str();
 					output.push_back(TaskDisplay);
 				}
 			}
-		
+		//@author A0115365J-reused
 		if (output.empty()) {
 			sprintf_s(Logic::messageDisplayed, MESSAGE_CANNOT_FIND.c_str());
 			return Logic::messageDisplayed;
