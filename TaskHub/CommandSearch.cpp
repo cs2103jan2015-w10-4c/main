@@ -18,7 +18,7 @@ CommandSearch::CommandSearch () {
 CommandSearch::~CommandSearch () {
 
 }
-
+//@author A0115365J-reused
 string CommandSearch::searchMessage (string input) {
 	
 	if (StorageDatabase::taskHistory.getVectorTextStorage().empty()){

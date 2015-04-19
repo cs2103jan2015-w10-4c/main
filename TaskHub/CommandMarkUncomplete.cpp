@@ -14,6 +14,7 @@ markingMessageUncomplete::~markingMessageUncomplete () {
 
 }
 
+//@author A0115365J-reused
 string markingMessageUncomplete::markMessageUncompleted(string input) {
 
 	unsigned int index;

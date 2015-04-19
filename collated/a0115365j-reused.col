@@ -29,6 +29,19 @@
 	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandAutoSort.cpp
 	 */
 
+
+bool CommandAutoSort::compareCriteria(Task firstTask, Task secondTask) {
+
+	//uncompleted tasks sorted after done / undo tasks
+	if((firstTask.getStatus() == STATUS_UNCOMPLETED) && (secondTask.getStatus() != STATUS_UNCOMPLETED)){                          
+		return false;
+	} else if ((firstTask.getStatus() != STATUS_UNCOMPLETED) && (secondTask.getStatus() == STATUS_UNCOMPLETED)){
+		return true;
+	} else if ((firstTask.getStatus() == STATUS_UNCOMPLETED) && (secondTask.getStatus()) == STATUS_UNCOMPLETED){
+		return false;
+	} else if((firstTask.getStatus() != STATUS_UNCOMPLETED) && (secondTask.getStatus() != STATUS_UNCOMPLETED)){
+	
+	
 	//done tasks sorted after undone tasks
 	if((firstTask.getStatus() == STATUS_DONE) && (secondTask.getStatus() != STATUS_DONE)){                          
 		return false;
@@ -362,6 +375,42 @@ string CommandInterpreter::removeFirstWord(string userCommand) {
 
 
 	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkUncomplete.cpp
+	 */
+
+string markingMessageUncomplete::markMessageUncompleted(string input) {
+
+	unsigned int index;
+	istringstream in(input);
+	in >> index;
+	
+	if (index > 0 && index <= StorageDatabase::taskHistory.getVectorTextStorage().size()) {
+		StorageDatabase::taskHistory.setLastCommandType(MESSAGE_COMMAND_TYPE);
+		StorageDatabase::taskHistory.setLastChangedTaskIndex (index);
+
+		vector<Task> temporary=StorageDatabase::taskHistory.getVectorTextStorage();
+		temporary[index - 1].markUncompleted();
+		StorageDatabase::taskHistory.setVectorTextStorage(temporary);
+		Task taskMarked = temporary[index - 1];
+		
+		sprintf_s(Logic::messageDisplayed,MESSAGE_MARK_UNCOMPLETE.c_str(),taskMarked.ToString().c_str());
+
+	} else {
+		sprintf_s(Logic::messageDisplayed,MESSAGE_INVALID_INDEX.c_str());
+	}
+
+	return Logic::messageDisplayed;
+
+}
+
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandMarkUncomplete.cpp
+
+
+
+
+
+	/**
 	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRedo.cpp
 	 */
 
@@ -411,6 +460,29 @@ string CommandInterpreter::removeFirstWord(string userCommand) {
 }
 
 	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandRedo.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.cpp
+	 */
+
+string CommandSearch::searchMessage (string input) {
+	
+	if (StorageDatabase::taskHistory.getVectorTextStorage().empty()){
+		sprintf_s(Logic::messageDisplayed,MESSAGE_EMPTY_FILE.c_str());
+		return Logic::messageDisplayed;
+	}
+	else{
+		vector<string> output;
+		vector<Task> temp = StorageDatabase::taskHistory.getVectorTextStorage();
+		vector<string> description;
+
+		transform(input.begin(),input.end(),input.begin(),:: tolower);
+
+	// End of segment: C:\Users\a\Desktop\CS2103\Repo\TaskHub\CommandSearch.cpp
 
 
 
